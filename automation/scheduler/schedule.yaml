@@ -158,12 +158,15 @@ jobs:
     daily_at: ["07:00"]
     retry_failures: 2
 
-  # Private prospect board (NHL Central Scouting rankings) for Commissioner Desk.
-  # Posts only when the rankings change.
-  - id: prospect-board
-    workflow: league-prospect-board.yml
-    daily_at: ["09:30"]
-    retry_failures: 2
+  # Private prospect board (MLB's ranked draft prospects) for Commissioner Desk.
+  # Posts only when the rankings change. SWITCHED OFF until MLB publishes the
+  # 2027 draft prospect list (it was empty on 2026-10-15): then remove the #
+  # from the four lines below and from the prospect-board entry in
+  # automation/health/health_config.yaml. Manual runs work meanwhile.
+  # - id: prospect-board
+  #   workflow: league-prospect-board.yml
+  #   daily_at: ["09:30"]
+  #   retry_failures: 2
 
   # Re-enables workflows GitHub switched off for inactivity and warns before
   # that can happen. Also started daily by a second cron-job.org job.

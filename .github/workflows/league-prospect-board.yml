@@ -1,9 +1,10 @@
 name: DBL Prospect Board
 run-name: DBL Prospect Board — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
-# Private prospect board (NHL Central Scouting rankings) for Commissioner Desk.
-# Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler starts
-# this workflow with mode=live. Posts go to the Commissioner Desk channel.
+# Private prospect board (MLB's ranked draft prospects) for Commissioner Desk.
+# Timing lives in automation/scheduler/schedule.yaml, where the job is switched
+# off until MLB publishes the next draft prospect list (empty on 2026-10-15);
+# manual runs work at any time. Posts go to the Commissioner Desk channel.
 
 on:
   workflow_dispatch:

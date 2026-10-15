@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline checks for the prospect board."""
+"""Offline checks for the prospect board (MLB draft prospects)."""
 
 from __future__ import annotations
 
@@ -16,7 +16,11 @@ sys.path.insert(0, str(HERE.parent))
 sys.path.insert(0, str(HERE))
 
 import prospects  # noqa: E402
+from core import mlb_people as mp  # noqa: E402
 from core.league import load_league  # noqa: E402
+
+FIXTURES = HERE.parent / "tests" / "fixtures"
+TODAY = date(2027, 3, 3)
 
 
 def expected_mentions() -> dict:
@@ -24,80 +28,82 @@ def expected_mentions() -> dict:
     ping = str((load_league().get("commissioner_desk") or {}).get("ping_user_id") or "").strip()
     return {"users": [ping]} if ping else {"parse": []}
 
-import minors  # noqa: E402
 
-minors.MIN_GAP = 0
-TODAY = date(2026, 10, 3)
-
-
-def player(i, cid, mid=None, final=None):
-    return {"firstName": f"First{cid}{i}", "lastName": f"Lastname{cid}{i}", "positionCode": "G" if cid > 2 else "C",
-            "lastAmateurClub": "SOME LONGER CLUB NAME", "lastAmateurLeague": "NTDP - USHL", "birthDate": "2008-03-09",
-            "midtermRank": mid if mid is not None else i, "finalRank": final if final is not None else i}
-
-
-def lists(shift=0):
-    return {cid: [player(i, cid, final=i + (shift if i == 7 and cid == 1 else 0)) for i in range(1, 60)] for cid in (1, 2, 3, 4)}
-
-
-class FakeResponse:
-    def __init__(self, data, status=200):
-        self._d, self.status_code = data, status
-
-    def json(self):
-        return self._d
-
-    def raise_for_status(self):
-        pass
+def prospect(i, rank=None, drafted=False):
+    """One /draft/prospects entry in MLB's shape (the 2026 list, checked live 2026-10-15). SYNTHETIC players."""
+    row = {"bisPlayerId": 1000 + i, "pickRound": "1" if drafted else None, "pickNumber": i if drafted else None,
+           "isDrafted": drafted, "isPass": False, "year": "2027",
+           "person": {"id": 900000 + i, "fullName": f"Prospect Number{i}", "birthDate": "2008-03-09",
+                      "primaryPosition": {"abbreviation": "SS" if i % 2 else "P"}},
+           "school": {"name": "Some Long High School Name", "schoolClass": "HS SR", "state": "TX", "country": "USA"},
+           "draftType": {"code": "JR"}}
+    if rank is not None:
+        row["rank"] = rank
+    if drafted:
+        row["team"] = {"id": 134, "name": "Pittsburgh Pirates"}
+    return row
 
 
-class FakeSession:
-    def __init__(self, data):
-        self.headers = {}
-        self.data = data
-
-    def get(self, url, params=None, timeout=None):
-        if url.endswith("/rankings/now"):
-            return FakeResponse({"draftYear": 2026, "categoryId": 1, "rankings": self.data[1]})
-        cid = int(url.rsplit("/", 1)[1])
-        return FakeResponse({"rankings": self.data[cid]})
+def class_list(shift=0, unranked=20):
+    """Ranked prospects 1 to 59 (number 7 shifted by ``shift`` places) plus unranked ones."""
+    ranked = [prospect(i, rank=i + (shift if i == 7 else 0)) for i in range(1, 60)]
+    return ranked + [prospect(100 + i) for i in range(unranked)]
 
 
-TOP = {1: 20, 2: 10, 3: 5, 4: 3}
+class FakeFetch:
+    def __init__(self, lists: dict[int, list]):
+        self.lists = lists
+        self.urls = []
+
+    def __call__(self, url, params):
+        self.urls.append(url)
+        year = int(url.rstrip("/").rsplit("/", 1)[1])
+        return {"copyright": "", "totalSize": 0, "prospects": self.lists.get(year, [])}
+
+
+def api(lists):
+    return mp.MlbApi(FakeFetch(lists))
 
 
 class BoardTests(unittest.TestCase):
     def test_board_fits_one_discord_message_and_has_no_bullets(self):
-        board = {"year": 2026, "lists": lists()}
-        task = prospects.build_task(board, TOP, TODAY)
+        board = {"year": 2027, "prospects": class_list()}
+        task = prospects.build_task(board, 30, TODAY)
         text = "\n\n".join(task["items"])
         self.assertLess(len(text), 3800)
         self.assertNotIn("•", text)
-        self.assertIn("top 20", text)
-        self.assertIn("top 3", text)
-        self.assertIn("age 18", text)
+        self.assertIn("**Top 30**", text)
+        self.assertIn("1. Prospect Number1: SS, Some Long High School Name (HS SR), age 18", text)
+        self.assertIn("2027 MLB Draft", text)
 
     def test_unranked_players_are_skipped(self):
-        ps = [player(1, 1), {**player(2, 1), "midtermRank": None, "finalRank": None}]
-        self.assertEqual(len(prospects.ranked(ps)), 1)
+        self.assertEqual(len(prospects.ranked(class_list())), 59)
+        self.assertEqual(prospects.ranked([prospect(1), prospect(2, rank=0)]), [])
+
+    def test_drafted_players_show_the_pick(self):
+        line = prospects.describe(prospect(3, rank=3, drafted=True), TODAY)
+        self.assertIn("Pittsburgh Pirates, pick 3", line)
 
     def test_big_moves_are_reported(self):
-        old = prospects.snapshot({"year": 2026, "lists": lists()})
-        new_board = {"year": 2026, "lists": lists(shift=9)}
-        moves = prospects.movers(old, new_board, TOP)
-        self.assertEqual(len(moves), 1)
-        self.assertIn("moved down from 7 to 16", moves[0])
+        old = prospects.snapshot({"year": 2027, "prospects": class_list()})
+        moves = prospects.movers(old, {"year": 2027, "prospects": class_list(shift=9)}, 30)
+        self.assertEqual(moves, ["Prospect Number7 moved down from 7 to 16."])
 
     def test_small_moves_are_ignored(self):
-        old = prospects.snapshot({"year": 2026, "lists": lists()})
-        self.assertEqual(prospects.movers(old, {"year": 2026, "lists": lists(shift=3)}, TOP), [])
+        old = prospects.snapshot({"year": 2027, "prospects": class_list()})
+        self.assertEqual(prospects.movers(old, {"year": 2027, "prospects": class_list(shift=3)}, 30), [])
 
-    def test_config_reads_counts(self):
-        self.assertEqual(prospects.load_config(), {1: 20, 2: 10, 3: 5, 4: 3})
+    def test_config_and_draft_year(self):
+        self.assertEqual(prospects.load_config(), {"top": 30, "year": None})
+        self.assertEqual(prospects.draft_year(date(2026, 10, 15)), 2027)
+        self.assertEqual(prospects.draft_year(date(2027, 3, 3)), 2027)
+        self.assertEqual(prospects.draft_year(date(2027, 7, 31)), 2027)
+        self.assertEqual(prospects.draft_year(date(2027, 8, 1)), 2028)
+        self.assertEqual(prospects.draft_year(date(2027, 3, 3), 2029), 2029)
 
 
 class RunTests(unittest.TestCase):
-    def _run(self, data, saved=None, mode="live", ok=True):
+    def _run(self, lists, saved=None, mode="live", ok=True, today=TODAY):
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
         state = Path(tmp.name) / "prospects.json"
@@ -109,32 +115,50 @@ class RunTests(unittest.TestCase):
             posts.append(payload)
             return ok, "delivered" if ok else "boom"
 
-        with patch.object(prospects, "STATE_PATH", state), patch.object(prospects, "post_discord_webhook", fake_post):
-            c1 = prospects.run(mode, FakeSession(data), TODAY)
-            c2 = prospects.run(mode, FakeSession(data), TODAY)
+        with patch.object(prospects, "STATE_PATH", state), patch.object(prospects, "post_discord_webhook", fake_post), \
+                patch("builtins.print"):
+            c1 = prospects.run(mode, api(lists), today)
+            c2 = prospects.run(mode, api(lists), today)
         return c1, c2, posts, state
 
     def test_first_run_posts_board_once(self):
-        c1, c2, posts, state = self._run(lists())
+        c1, c2, posts, state = self._run({2027: class_list()})
         self.assertEqual((c1, c2, len(posts)), (0, 0, 1))
         self.assertEqual(posts[0]["allowed_mentions"], expected_mentions())
         self.assertIn("hash", json.loads(state.read_text()))
 
     def test_changed_rankings_post_again(self):
-        saved = prospects.snapshot({"year": 2026, "lists": lists()})
-        _, _, posts, _ = self._run(lists(shift=9), saved)
+        saved = prospects.snapshot({"year": 2027, "prospects": class_list()})
+        _, _, posts, _ = self._run({2027: class_list(shift=9)}, saved)
         self.assertEqual(len(posts), 1)
         self.assertIn("Biggest moves", posts[0]["embeds"][0]["description"])
 
     def test_failed_delivery_retries_without_saving(self):
-        c1, _, posts, state = self._run(lists(), ok=False)
+        c1, _, posts, state = self._run({2027: class_list()}, ok=False)
         self.assertEqual((c1, len(posts)), (1, 2))
         self.assertFalse(state.exists())
 
     def test_preview_posts_nothing(self):
-        _, _, posts, state = self._run(lists(), mode="preview")
+        _, _, posts, state = self._run({2027: class_list()}, mode="preview")
         self.assertEqual(posts, [])
         self.assertFalse(state.exists())
+
+    def test_empty_list_posts_and_saves_nothing(self):
+        # MLB's real answer for 2027 on October 14-15, 2026.
+        empty = json.loads((FIXTURES / "mlb_draft_prospects_2027.json").read_text(encoding="utf-8"))["prospects"]
+        c1, c2, posts, state = self._run({2027: empty}, today=date(2026, 10, 15))
+        self.assertEqual((c1, c2, posts), (0, 0, []))
+        self.assertFalse(state.exists())
+
+    def test_a_list_without_ranks_is_treated_as_not_published(self):
+        _, _, posts, state = self._run({2027: [prospect(i) for i in range(1, 50)]})
+        self.assertEqual(posts, [])
+        self.assertFalse(state.exists())
+
+    def test_test_post_waits_for_a_ranked_list(self):
+        with patch.object(prospects, "post_discord_webhook") as post, patch("builtins.print"):
+            self.assertEqual(prospects.test_post(api({2027: []}), date(2026, 10, 15)), 0)
+        post.assert_not_called()
 
 
 if __name__ == "__main__":

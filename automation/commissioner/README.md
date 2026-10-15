@@ -80,6 +80,22 @@ run only saves a baseline. `preview` mode also prints any players it could not
 match to an MLB player (a name shared by two players on no clear team, or an
 amateur MLB has no record of yet).
 
+## Prospect board
+
+`prospects.py` (workflow DBL Prospect Board) posts MLB's ranked prospects for
+the next MLB Draft here: the top 30 (`prospects.yaml`), with position, school,
+age and, after the draft, the club and pick. It posts again only when the
+rankings change (a new class, or a player moving five or more places). The
+source is MLB's draft prospect list
+(`https://statsapi.mlb.com/api/v1/draft/prospects/{year}`); until July the
+board shows that year's class, from August the next year's.
+
+MLB had not published the 2027 list on 2026-10-15 (the answer was an empty
+list). Until it does, a run says so and posts nothing, and the scheduled job is
+switched off: in `automation/scheduler/schedule.yaml` and
+`automation/health/health_config.yaml` the `prospect-board` lines are commented
+out. Remove the `#` from both once a `preview` run shows a ranked list.
+
 ## One-time setup
 
 1. In Discord create a private channel visible only to you, for example

@@ -111,11 +111,13 @@ workflows:
     # Once a day at 07:00.
     max_age_minutes: 1700
 
-  - id: prospect-board
-    name: "DBL Prospect Board"
-    file: "league-prospect-board.yml"
-    # Once a day at 09:30.
-    max_age_minutes: 1700
+  # Prospect Board: switched off in automation/scheduler/schedule.yaml until MLB
+  # publishes the next draft prospect list. Turn this back on with the job.
+  # - id: prospect-board
+  #   name: "DBL Prospect Board"
+  #   file: "league-prospect-board.yml"
+  #   # Once a day at 09:30.
+  #   max_age_minutes: 1700
 
   - id: dormancy-guard
     name: "DBL Dormancy Guard"
