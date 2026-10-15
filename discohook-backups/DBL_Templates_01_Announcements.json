@@ -115,7 +115,7 @@
               },
               {
                 "name": "KEY REMINDERS",
-                "value": "`[LINEUP / FAAB / GOALIE START / OTHER REMINDERS]`",
+                "value": "`[LINEUP / FAAB / PITCHER START / OTHER REMINDERS]`",
                 "inline": false
               }
             ],
@@ -131,7 +131,7 @@
         "embeds": [
           {
             "title": "DBL SEASON COMPLETE",
-            "description": "`[SEASON, for example 2027–28]` is officially in the books.",
+            "description": "`[SEASON, for example 2027]` is officially in the books.",
             "color": 13012757,
             "footer": {
               "text": "DBL RECORDS DEPARTMENT"

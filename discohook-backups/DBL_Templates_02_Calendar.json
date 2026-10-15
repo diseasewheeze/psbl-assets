@@ -70,7 +70,7 @@
             },
             "fields": [
               {
-                "name": "NHL SCHEDULE RELEASED",
+                "name": "MLB SCHEDULE RELEASED",
                 "value": "`[DATE]`",
                 "inline": false
               },
@@ -81,7 +81,7 @@
               },
               {
                 "name": "DRAFT",
-                "value": "`[TIMESTAMP]` • 14 to 21 days after the NHL Entry Draft",
+                "value": "`[TIMESTAMP]` • between January 20 and February 10",
                 "inline": false
               },
               {
@@ -130,12 +130,12 @@
               },
               {
                 "name": "REASON",
-                "value": "`[NHL SCHEDULE CHANGE / PLATFORM LIMITATION / OTHER]`",
+                "value": "`[MLB SCHEDULE CHANGE / PLATFORM LIMITATION / OTHER]`",
                 "inline": false
               },
               {
                 "name": "NOTICE",
-                "value": "Changes get at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the NHL schedule forces it.",
+                "value": "Changes get at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the MLB schedule forces it.",
                 "inline": false
               }
             ],

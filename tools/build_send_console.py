@@ -30,16 +30,17 @@ CATEGORIES = [
     ("league-competition", "League Competition"), ("commissioners-office", "Commissioner's Office"),
     ("draft-center", "Draft Center"), ("franchise-hq", "Franchise HQ"),
 ]
-CONSTITUTION_LABELS = {
-    "00_quick_reference_and_article_i": "Quick Reference, Financial Allocation and Article I",
-    "01_articles_ii_to_iii": "Articles II to III",
-    "02_articles_iv_to_v": "Articles IV to V",
-    "03_articles_vi_to_x": "Articles VI to X",
-    "04_articles_xi_to_xiii": "Articles XI to XIII",
-    "05_articles_xiv_to_xvi": "Articles XIV to XVI",
-    "06_articles_xvii_to_xix": "Articles XVII to XIX",
-    "07_articles_xx": "Article XX",
-}
+def constitution_label(stem: str) -> str:
+    """'03_articles_vi_to_ix' -> 'Articles VI to IX' (labels follow whatever the builder packed)."""
+    body = stem.split("_", 1)[1]
+    if body.startswith("quick_reference_and_article_"):
+        return "Quick Reference, Financial Allocation and Article " + body.rsplit("_", 1)[1].upper()
+    words = body.split("_")
+    if words[0] == "articles":
+        return "Articles " + " ".join(w.upper() if w != "to" else "to" for w in words[1:])
+    return "Article " + words[-1].upper()
+
+
 BUNDLES = [
     ("01_Announcements", "announcements", "Standard notice, action required, urgent deadline, season opening, season closing, Commissioner correction"),
     ("02_Calendar", "league-calendar", "Calendar event, deadline reminder, calendar published, date change, Winter Meetings, calendar sync"),
@@ -169,7 +170,7 @@ def build() -> str:
         if k.startswith("constitution:"):
             stem = k.split(":", 1)[1].replace(".json", "")
             idx = stem[:2]
-            lo_rows.append(row(f"constitution-{idx}", "constitution", f"Message {int(idx) + 1} of 8: {CONSTITUTION_LABELS[stem]}", v, "Open in Discohook", rel=f"constitution/{stem}.json"))
+            lo_rows.append(row(f"constitution-{idx}", "constitution", f"Message {int(idx) + 1} of 8: {constitution_label(stem)}", v, "Open in Discohook", rel=f"constitution/{stem}.json"))
     lo_rows.append(row("scoring-explained", "constitution", "How DBL scoring works: the reasoning behind each value. A separate post with its own banner; send it after the Constitution, then pin it.", LINKS["scoring"], rel="league-office/16_scoring_explained.json"))
     for rel, v in lo_intro.items():
         if rel == const_intro:

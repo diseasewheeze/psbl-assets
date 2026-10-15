@@ -9,7 +9,7 @@
       },
       "fields": [
         {
-          "name": "NHL SCHEDULE RELEASED",
+          "name": "MLB SCHEDULE RELEASED",
           "value": "`[DATE]`",
           "inline": false
         },
@@ -20,7 +20,7 @@
         },
         {
           "name": "DRAFT",
-          "value": "`[TIMESTAMP]` • 14 to 21 days after the NHL Entry Draft",
+          "value": "`[TIMESTAMP]` • between January 20 and February 10",
           "inline": false
         },
         {

@@ -50,7 +50,7 @@ def tmpl(path: str, title: str, desc: str, footer: str, fields: list[tuple[str, 
 
 
 # ---------------------------------------------------------------- announcements
-tmpl("league-office/24_season_closing.json", "DBL SEASON COMPLETE", "`[SEASON, for example 2027–28]` is officially in the books.", "DBL RECORDS DEPARTMENT",
+tmpl("league-office/24_season_closing.json", "DBL SEASON COMPLETE", "`[SEASON, for example 2027]` is officially in the books.", "DBL RECORDS DEPARTMENT",
      [("CHAMPION", "\U0001F3C6 `[FRANCHISE]`"), ("RUNNER-UP", "`[FRANCHISE]`"), ("THIRD PLACE", "`[FRANCHISE]`"),
       ("PRESIDENTS' TROPHY", "\U0001F947 `[FRANCHISE]`"), ("CONSOLATION CHAMPION", "`[FRANCHISE]` — earns the $50 FAAB bonus next season"),
       ("DYNASTY POT", "`[BALANCE]` • `[LEADING FRANCHISE AND CHAMPIONSHIP COUNT, OR NONE]`"),
@@ -61,15 +61,15 @@ tmpl("league-office/13_clerical_correction.json", "COMMISSIONER CORRECTION", "A 
 
 # --------------------------------------------------------------------- calendar
 tmpl("league-office/32_calendar_published.json", "LEAGUE CALENDAR PUBLISHED", "The League Calendar for **Season `[YEAR]`** is live. Every date comes from the formulas in Article V of the Constitution.", "DBL LEAGUE CALENDAR",
-     [("NHL SCHEDULE RELEASED", "`[DATE]`"), ("DUES DEADLINE", "**`[TIMESTAMP]`** (before the draft)"),
-      ("DRAFT", "`[TIMESTAMP]` • 14 to 21 days after the NHL Entry Draft"),
+     [("MLB SCHEDULE RELEASED", "`[DATE]`"), ("DUES DEADLINE", "**`[TIMESTAMP]`** (before the draft)"),
+      ("DRAFT", "`[TIMESTAMP]` • between January 20 and February 10"),
       ("TRADE DEADLINE", "`[TIMESTAMP]` • Sunday 11:59 PM ET, end of Week 20"),
       ("PLAYOFFS", "Quarterfinals `[DATE STAMP]` • Semifinals `[DATE STAMP]` • Championship `[DATE STAMP]` to `[DATE STAMP]`"),
       ("IF A DATE LOOKS WRONG", "The formula in the Constitution controls. Tell the Commissioner.")])
 tmpl("league-office/33_calendar_date_change.json", "CALENDAR DATE CHANGE", "`[EVENT]` has been updated.", "DBL LEAGUE CALENDAR",
      [("PREVIOUS DATE", "`[OLD TIMESTAMP]`"), ("NEW DATE", "**`[NEW TIMESTAMP]`**"),
-      ("REASON", "`[NHL SCHEDULE CHANGE / PLATFORM LIMITATION / OTHER]`"),
-      ("NOTICE", "Changes get at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the NHL schedule forces it.")], ALERT)
+      ("REASON", "`[MLB SCHEDULE CHANGE / PLATFORM LIMITATION / OTHER]`"),
+      ("NOTICE", "Changes get at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the MLB schedule forces it.")], ALERT)
 
 # The Sesh reminder steps are part of the calendar intro (build_channel_intros.py).
 

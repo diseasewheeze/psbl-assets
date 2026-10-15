@@ -11,7 +11,7 @@
     },
     {
       "title": "WELCOME TO THE DYNASTY BASEBALL LEAGUE",
-      "description": "**DBL** is a 12-franchise dynasty fantasy hockey league built around long-term roster construction, prospect development, an active trade market, daily competition, and permanent league history.\n\n**Fantrax runs the game. Discord runs the league.**",
+      "description": "**DBL** is a 12-franchise dynasty fantasy baseball league built around long-term roster construction, prospect development, an active trade market, daily competition, and permanent league history.\n\n**Fantrax runs the game. Discord runs the league.**",
       "color": 16758812,
       "fields": [
         {
@@ -32,12 +32,12 @@
       "color": 16758812,
       "fields": [
         {
-          "name": "FANTRAX — AUTHORITATIVE GAME RECORD",
+          "name": "FANTRAX — THE GAME RECORD",
           "value": "Rosters • Lineups • Scoring • Adds/Drops • FAAB • Trades • Standings • Playoff Results\n\nIf a gameplay transaction or result exists in Fantrax, Fantrax is the authoritative record.",
           "inline": false
         },
         {
-          "name": "DISCORD — THE CLUBHOUSE + FRONT OFFICE",
+          "name": "DISCORD — THE CLUBHOUSE",
           "value": "Announcements • Voting • Trade Market • Scouting • League Discussion • Records • Draft-Day Communication • Commissioner Support",
           "inline": false
         },
@@ -60,7 +60,7 @@
         },
         {
           "name": "📰 THE WIRE",
-          "value": "Breaking NHL news, injuries, transactions, prospects and league-wide news discussion.",
+          "value": "Breaking MLB news, injuries, transactions, prospects and league-wide news discussion.",
           "inline": false
         },
         {
@@ -75,7 +75,7 @@
         },
         {
           "name": "🌱 SCOUTING DEPARTMENT",
-          "value": "One prospect forum covering college, juniors, Europe, the AHL, the NHL Draft and the DBL draft, sorted by tags.",
+          "value": "One prospect forum covering the minors, college, international signings, the MLB Draft and the DBL draft, sorted by tags.",
           "inline": false
         },
         {
@@ -89,7 +89,7 @@
           "inline": false
         },
         {
-          "name": "🧑🏻‍⚖️ COMMISSIONER'S OFFICE",
+          "name": "⚖️ COMMISSIONER'S OFFICE",
           "value": "Private tickets, public rules questions and league suggestions.",
           "inline": false
         },
@@ -99,7 +99,7 @@
           "inline": false
         },
         {
-          "name": "🏒 FRANCHISE HQ",
+          "name": "⚾ FRANCHISE HQ",
           "value": "The franchise directory, franchise news and roster showcases.",
           "inline": false
         }
@@ -111,7 +111,7 @@
       "color": 16758812,
       "fields": [
         {
-          "name": "🏒 FRANCHISE OWNER",
+          "name": "⚾ FRANCHISE OWNER",
           "value": "Primary owner role. Full league participation and the franchise's formal league vote.",
           "inline": false
         },
@@ -139,7 +139,7 @@
     },
     {
       "title": "KEEP OFFICIAL BUSINESS OFFICIAL",
-      "description": "The DBL should feel like a hockey league, not paperwork. The easiest way to keep it that way is to put official actions in the places designed for them.",
+      "description": "The DBL should feel like a baseball league, not paperwork. The easiest way to keep it that way is to put official actions in the places designed for them.",
       "color": 16758812,
       "fields": [
         {
@@ -171,7 +171,7 @@
     },
     {
       "title": "YOU'RE CLEARED FOR THE ROOM",
-      "description": "Before jumping in, confirm your **Franchise Owner** or **Co-Owner** role and make sure you can see the league categories you need.\n\nThen review the constitution, check the league calendar, and head to **💬│gm-lounge**.\n\n**Welcome to the DBL. Grab a beer. Set your lineup. Make bad trades confidently.**",
+      "description": "Before jumping in, confirm your **Franchise Owner** or **Co-Owner** role and make sure you can see the league categories you need.\n\nThen review the constitution, check the league calendar, and head to **💬│gm-lounge**.\n\n**Welcome to the DBL. Grab a hot dog. Set your lineup. Make bad trades confidently.**",
       "color": 16758812,
       "footer": {
         "text": "DYNASTY BASEBALL LEAGUE • EST. 2026"
