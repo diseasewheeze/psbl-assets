@@ -594,7 +594,7 @@ def discord_payload(
             "Controlled webhook test for the private DBL automation-health feed. "
             "No health state is changed by this test."
         )
-        color = int(str(settings.get("test_color", "0xFFB81C")), 0)
+        color = int(str(settings.get("test_color", "0x0C2340")), 0)
         fields = [
             {
                 "name": "Status",
