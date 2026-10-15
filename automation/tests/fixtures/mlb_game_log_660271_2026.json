@@ -1,0 +1,184 @@
+{
+ "_note": "GET /people/660271/stats?stats=gameLog&group=hitting,pitching&season=2026&gameType=R. Shape checked live 2026-10-15 (two stats entries, one per group; date, gameType, game.gamePk, team, opponent, stat). The game lines themselves are SYNTHETIC; one spring-training line (gameType S) checks that only regular-season games count.",
+ "stats": [
+  {
+   "type": {
+    "displayName": "gameLog"
+   },
+   "group": {
+    "displayName": "pitching"
+   },
+   "exemptions": [],
+   "splits": [
+    {
+     "season": "2026",
+     "stat": {
+      "outs": 18,
+      "inningsPitched": "6.0",
+      "hits": 4,
+      "earnedRuns": 1,
+      "baseOnBalls": 2,
+      "hitBatsmen": 0,
+      "strikeOuts": 6,
+      "wins": 1,
+      "losses": 0,
+      "saves": 0,
+      "holds": 0,
+      "atBats": 22
+     },
+     "team": {
+      "id": 119,
+      "name": "Los Angeles Dodgers"
+     },
+     "player": {},
+     "league": {},
+     "sport": {
+      "id": 1,
+      "link": "/api/v1/sports/1",
+      "abbreviation": "MLB"
+     },
+     "opponent": {
+      "id": 135,
+      "name": "San Diego Padres"
+     },
+     "date": "2026-03-31",
+     "gameType": "R",
+     "isHome": false,
+     "isWin": false,
+     "positionsPlayed": [],
+     "game": {
+      "gamePk": 823969,
+      "gameNumber": 1
+     }
+    }
+   ]
+  },
+  {
+   "type": {
+    "displayName": "gameLog"
+   },
+   "group": {
+    "displayName": "hitting"
+   },
+   "exemptions": [],
+   "splits": [
+    {
+     "season": "2026",
+     "stat": {
+      "hits": 3,
+      "homeRuns": 3,
+      "runs": 3,
+      "rbi": 6,
+      "atBats": 4
+     },
+     "team": {
+      "id": 119,
+      "name": "Los Angeles Dodgers"
+     },
+     "player": {},
+     "league": {},
+     "sport": {
+      "id": 1,
+      "link": "/api/v1/sports/1",
+      "abbreviation": "MLB"
+     },
+     "opponent": {
+      "id": 158,
+      "name": "Milwaukee Brewers"
+     },
+     "date": "2026-03-20",
+     "gameType": "S",
+     "isHome": false,
+     "isWin": false,
+     "positionsPlayed": [],
+     "game": {
+      "gamePk": 800001,
+      "gameNumber": 1
+     }
+    },
+    {
+     "season": "2026",
+     "stat": {
+      "hits": 1,
+      "doubles": 0,
+      "triples": 0,
+      "homeRuns": 0,
+      "runs": 0,
+      "rbi": 0,
+      "baseOnBalls": 1,
+      "hitByPitch": 0,
+      "stolenBases": 0,
+      "caughtStealing": 0,
+      "strikeOuts": 1,
+      "atBats": 3
+     },
+     "team": {
+      "id": 119,
+      "name": "Los Angeles Dodgers"
+     },
+     "player": {},
+     "league": {},
+     "sport": {
+      "id": 1,
+      "link": "/api/v1/sports/1",
+      "abbreviation": "MLB"
+     },
+     "opponent": {
+      "id": 144,
+      "name": "Atlanta Braves"
+     },
+     "date": "2026-03-26",
+     "gameType": "R",
+     "isHome": false,
+     "isWin": false,
+     "positionsPlayed": [],
+     "game": {
+      "gamePk": 823974,
+      "gameNumber": 1
+     }
+    },
+    {
+     "season": "2026",
+     "stat": {
+      "hits": 2,
+      "doubles": 1,
+      "triples": 0,
+      "homeRuns": 1,
+      "runs": 2,
+      "rbi": 3,
+      "baseOnBalls": 0,
+      "hitByPitch": 0,
+      "stolenBases": 1,
+      "caughtStealing": 0,
+      "strikeOuts": 2,
+      "atBats": 4
+     },
+     "team": {
+      "id": 119,
+      "name": "Los Angeles Dodgers"
+     },
+     "player": {},
+     "league": {},
+     "sport": {
+      "id": 1,
+      "link": "/api/v1/sports/1",
+      "abbreviation": "MLB"
+     },
+     "opponent": {
+      "id": 135,
+      "name": "San Diego Padres"
+     },
+     "date": "2026-03-31",
+     "gameType": "R",
+     "isHome": false,
+     "isWin": false,
+     "positionsPlayed": [],
+     "game": {
+      "gamePk": 823969,
+      "gameNumber": 1
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,479 @@
+{
+ "_note": "Modelled on GET /transactions?sportId=1&startDate=2026-07-28&endDate=2026-07-29, read live on 2026-10-15: transaction ids, type codes, MLB clubs and descriptions as returned (Jesus Sanchez's rehab description follows the Bassitt record's wording; MLB listed his move four times under different ids). Some person ids and minor-league team ids are placeholders. The CLW record is SYNTHETIC: no claim happened that day.",
+ "copyright": "",
+ "transactions": [
+  {
+   "id": 932154,
+   "person": {
+    "id": 608701,
+    "fullName": "Rob Refsnyder",
+    "link": "/api/v1/people/608701"
+   },
+   "toTeam": {
+    "id": 136,
+    "name": "Seattle Mariners",
+    "link": "/api/v1/teams/136"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SC",
+   "typeDesc": "Status Change",
+   "description": "Seattle Mariners activated DH Rob Refsnyder from the 10-day injured list."
+  },
+  {
+   "id": 933293,
+   "person": {
+    "id": 681351,
+    "fullName": "Logan O'Hoppe",
+    "link": "/api/v1/people/681351"
+   },
+   "toTeam": {
+    "id": 108,
+    "name": "Los Angeles Angels",
+    "link": "/api/v1/teams/108"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SC",
+   "typeDesc": "Status Change",
+   "description": "C Logan O'Hoppe roster status changed by Los Angeles Angels."
+  },
+  {
+   "id": 932040,
+   "person": {
+    "id": 694360,
+    "fullName": "Beck Way",
+    "link": "/api/v1/people/694360"
+   },
+   "toTeam": {
+    "id": 118,
+    "name": "Kansas City Royals",
+    "link": "/api/v1/teams/118"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SC",
+   "typeDesc": "Status Change",
+   "description": "Kansas City Royals placed RHP Beck Way on the 15-day injured list. Low back spasms/tightness."
+  },
+  {
+   "id": 931963,
+   "person": {
+    "id": 663485,
+    "fullName": "Cole Sands",
+    "link": "/api/v1/people/663485"
+   },
+   "toTeam": {
+    "id": 142,
+    "name": "Minnesota Twins",
+    "link": "/api/v1/teams/142"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-27",
+   "resolutionDate": "2026-07-27",
+   "typeCode": "SC",
+   "typeDesc": "Status Change",
+   "description": "Minnesota Twins placed RHP Cole Sands on the 15-day injured list retroactive to July 27, 2026. Right elbow strain."
+  },
+  {
+   "id": 933239,
+   "person": {
+    "id": 621439,
+    "fullName": "Byron Buxton",
+    "link": "/api/v1/people/621439"
+   },
+   "toTeam": {
+    "id": 142,
+    "name": "Minnesota Twins",
+    "link": "/api/v1/teams/142"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SC",
+   "typeDesc": "Status Change",
+   "description": "Minnesota Twins placed CF Byron Buxton on the 10-day injured list. Right hip impingement."
+  },
+  {
+   "id": 933277,
+   "person": {
+    "id": 643376,
+    "fullName": "Danny Jansen",
+    "link": "/api/v1/people/643376"
+   },
+   "toTeam": {
+    "id": 140,
+    "name": "Texas Rangers",
+    "link": "/api/v1/teams/140"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SC",
+   "typeDesc": "Status Change",
+   "description": "Texas Rangers transferred C Danny Jansen from the 10-day injured list to the 60-day injured list. Right forearm strain."
+  },
+  {
+   "id": 933103,
+   "person": {
+    "id": 672578,
+    "fullName": "Jose Franco",
+    "link": "/api/v1/people/672578"
+   },
+   "toTeam": {
+    "id": 113,
+    "name": "Cincinnati Reds",
+    "link": "/api/v1/teams/113"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SC",
+   "typeDesc": "Status Change",
+   "description": "Cincinnati Reds activated RHP Jose Franco."
+  },
+  {
+   "id": 932147,
+   "person": {
+    "id": 605135,
+    "fullName": "Chris Bassitt",
+    "link": "/api/v1/people/605135"
+   },
+   "toTeam": {
+    "id": 568,
+    "name": "Norfolk Tides",
+    "link": "/api/v1/teams/568"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "ASG",
+   "typeDesc": "Assigned",
+   "description": "Baltimore Orioles sent RHP Chris Bassitt on a rehab assignment to Norfolk Tides.",
+   "fromTeam": {
+    "id": 110,
+    "name": "Baltimore Orioles",
+    "link": "/api/v1/teams/110"
+   }
+  },
+  {
+   "id": 931981,
+   "person": {
+    "id": 660821,
+    "fullName": "Jesús Sánchez",
+    "link": "/api/v1/people/660821"
+   },
+   "toTeam": {
+    "id": 422,
+    "name": "Buffalo Bisons",
+    "link": "/api/v1/teams/422"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "ASG",
+   "typeDesc": "Assigned",
+   "description": "Toronto Blue Jays sent RF Jesús Sánchez on a rehab assignment to Buffalo Bisons.",
+   "fromTeam": {
+    "id": 141,
+    "name": "Toronto Blue Jays",
+    "link": "/api/v1/teams/141"
+   }
+  },
+  {
+   "id": 931989,
+   "person": {
+    "id": 660821,
+    "fullName": "Jesús Sánchez",
+    "link": "/api/v1/people/660821"
+   },
+   "toTeam": {
+    "id": 422,
+    "name": "Buffalo Bisons",
+    "link": "/api/v1/teams/422"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "ASG",
+   "typeDesc": "Assigned",
+   "description": "Toronto Blue Jays sent RF Jesús Sánchez on a rehab assignment to Buffalo Bisons.",
+   "fromTeam": {
+    "id": 141,
+    "name": "Toronto Blue Jays",
+    "link": "/api/v1/teams/141"
+   }
+  },
+  {
+   "id": 933275,
+   "person": {
+    "id": 681351,
+    "fullName": "Logan O'Hoppe",
+    "link": "/api/v1/people/681351"
+   },
+   "toTeam": {
+    "id": 140,
+    "name": "Texas Rangers",
+    "link": "/api/v1/teams/140"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "TR",
+   "typeDesc": "Trade",
+   "description": "Los Angeles Angels traded C Logan O'Hoppe and RHP Chase Silseth to Texas Rangers for SS Angel Arredondo.",
+   "fromTeam": {
+    "id": 108,
+    "name": "Los Angeles Angels",
+    "link": "/api/v1/teams/108"
+   }
+  },
+  {
+   "id": 933275,
+   "person": {
+    "id": 681293,
+    "fullName": "Chase Silseth",
+    "link": "/api/v1/people/681293"
+   },
+   "toTeam": {
+    "id": 140,
+    "name": "Texas Rangers",
+    "link": "/api/v1/teams/140"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "TR",
+   "typeDesc": "Trade",
+   "description": "Los Angeles Angels traded C Logan O'Hoppe and RHP Chase Silseth to Texas Rangers for SS Angel Arredondo.",
+   "fromTeam": {
+    "id": 108,
+    "name": "Los Angeles Angels",
+    "link": "/api/v1/teams/108"
+   }
+  },
+  {
+   "id": 933275,
+   "person": {
+    "id": 806054,
+    "fullName": "Angel Arredondo",
+    "link": "/api/v1/people/806054"
+   },
+   "toTeam": {
+    "id": 108,
+    "name": "Los Angeles Angels",
+    "link": "/api/v1/teams/108"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "TR",
+   "typeDesc": "Trade",
+   "description": "Los Angeles Angels traded C Logan O'Hoppe and RHP Chase Silseth to Texas Rangers for SS Angel Arredondo.",
+   "fromTeam": {
+    "id": 140,
+    "name": "Texas Rangers",
+    "link": "/api/v1/teams/140"
+   }
+  },
+  {
+   "id": 931985,
+   "person": {
+    "id": 669221,
+    "fullName": "Jake Rogers",
+    "link": "/api/v1/people/669221"
+   },
+   "toTeam": {
+    "id": 116,
+    "name": "Detroit Tigers",
+    "link": "/api/v1/teams/116"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "DES",
+   "typeDesc": "Designated for Assignment",
+   "description": "Detroit Tigers designated C Jake Rogers for assignment."
+  },
+  {
+   "id": 932243,
+   "person": {
+    "id": 676929,
+    "fullName": "Peter Strzelecki",
+    "link": "/api/v1/people/676929"
+   },
+   "toTeam": {
+    "id": 138,
+    "name": "St. Louis Cardinals",
+    "link": "/api/v1/teams/138"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SE",
+   "typeDesc": "Selected",
+   "description": "St. Louis Cardinals selected the contract of RHP Peter Strzelecki from Palm Beach Cardinals.",
+   "fromTeam": {
+    "id": 279,
+    "name": "Palm Beach Cardinals",
+    "link": "/api/v1/teams/279"
+   }
+  },
+  {
+   "id": 932203,
+   "person": {
+    "id": 678859,
+    "fullName": "Johnathan Rodríguez",
+    "link": "/api/v1/people/678859"
+   },
+   "toTeam": {
+    "id": 484,
+    "name": "Indianapolis Indians",
+    "link": "/api/v1/teams/484"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "OPT",
+   "typeDesc": "Optioned",
+   "description": "Pittsburgh Pirates optioned RF Johnathan Rodríguez to Indianapolis Indians.",
+   "fromTeam": {
+    "id": 134,
+    "name": "Pittsburgh Pirates",
+    "link": "/api/v1/teams/134"
+   }
+  },
+  {
+   "id": 932068,
+   "person": {
+    "id": 672578,
+    "fullName": "Jose Franco",
+    "link": "/api/v1/people/672578"
+   },
+   "toTeam": {
+    "id": 113,
+    "name": "Cincinnati Reds",
+    "link": "/api/v1/teams/113"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "CU",
+   "typeDesc": "Recalled",
+   "description": "Cincinnati Reds recalled RHP Jose Franco from Louisville Bats.",
+   "fromTeam": {
+    "id": 416,
+    "name": "Louisville Bats",
+    "link": "/api/v1/teams/416"
+   }
+  },
+  {
+   "id": 933242,
+   "person": {
+    "id": 642336,
+    "fullName": "Dennis Santana",
+    "link": "/api/v1/people/642336"
+   },
+   "toTeam": {
+    "id": 134,
+    "name": "Pittsburgh Pirates",
+    "link": "/api/v1/teams/134"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "REL",
+   "typeDesc": "Released",
+   "description": "Pittsburgh Pirates released RHP Dennis Santana."
+  },
+  {
+   "id": 932202,
+   "person": {
+    "id": 676609,
+    "fullName": "Braden Shewmake",
+    "link": "/api/v1/people/676609"
+   },
+   "toTeam": {
+    "id": 556,
+    "name": "Nashville Sounds",
+    "link": "/api/v1/teams/556"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "OUT",
+   "typeDesc": "Outrighted",
+   "description": "Milwaukee Brewers sent SS Braden Shewmake outright to Nashville Sounds.",
+   "fromTeam": {
+    "id": 158,
+    "name": "Milwaukee Brewers",
+    "link": "/api/v1/teams/158"
+   }
+  },
+  {
+   "id": 932367,
+   "person": {
+    "id": 842382,
+    "fullName": "Grant Hill",
+    "link": "/api/v1/people/842382"
+   },
+   "toTeam": {
+    "id": 158,
+    "name": "Milwaukee Brewers",
+    "link": "/api/v1/teams/158"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SGN",
+   "typeDesc": "Signed",
+   "description": "Milwaukee Brewers signed RHP Grant Hill."
+  },
+  {
+   "id": 932396,
+   "person": {
+    "id": 837909,
+    "fullName": "Brandon Jaenke",
+    "link": "/api/v1/people/837909"
+   },
+   "toTeam": {
+    "id": 140,
+    "name": "Texas Rangers",
+    "link": "/api/v1/teams/140"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "SFA",
+   "typeDesc": "Signed as Free Agent",
+   "description": "Texas Rangers signed free agent RHP Brandon Jaenke to a minor league contract."
+  },
+  {
+   "id": 990001,
+   "person": {
+    "id": 990001,
+    "fullName": "Sample Claim",
+    "link": "/api/v1/people/990001"
+   },
+   "toTeam": {
+    "id": 120,
+    "name": "Washington Nationals",
+    "link": "/api/v1/teams/120"
+   },
+   "date": "2026-07-28",
+   "effectiveDate": "2026-07-28",
+   "resolutionDate": "2026-07-28",
+   "typeCode": "CLW",
+   "typeDesc": "Claimed Off Waivers",
+   "description": "Washington Nationals claimed LHP Sample Claim off waivers from New York Mets.",
+   "fromTeam": {
+    "id": 121,
+    "name": "New York Mets",
+    "link": "/api/v1/teams/121"
+   }
+  }
+ ]
+}

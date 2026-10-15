@@ -1,0 +1,181 @@
+{
+ "_note": "GET /people?personIds=665742,804606&hydrate=stats(group=[hitting,pitching],type=[yearByYear]). Shape, seasons, teams, games, at-bats and home runs from live responses on 2026-10-15 (Soto's 2022 has a Nationals row, a Padres row and a combined row with numTeams 2 and no team). The other counting stats are SYNTHETIC, filled in for scoring tests.",
+ "people": [
+  {
+   "id": 665742,
+   "fullName": "Juan Soto",
+   "primaryPosition": {
+    "abbreviation": "LF"
+   },
+   "stats": [
+    {
+     "type": {
+      "displayName": "yearByYear"
+     },
+     "group": {
+      "displayName": "hitting"
+     },
+     "splits": [
+      {
+       "season": "2021",
+       "stat": {
+        "gamesPlayed": 151,
+        "atBats": 502,
+        "hits": 157,
+        "doubles": 20,
+        "triples": 2,
+        "homeRuns": 29,
+        "runs": 111,
+        "rbi": 95,
+        "baseOnBalls": 145,
+        "hitByPitch": 2,
+        "stolenBases": 9,
+        "caughtStealing": 7,
+        "strikeOuts": 93
+       },
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R",
+       "team": {
+        "id": 120,
+        "name": "Washington Nationals"
+       }
+      },
+      {
+       "season": "2022",
+       "stat": {
+        "gamesPlayed": 101,
+        "atBats": 342,
+        "hits": 84,
+        "doubles": 17,
+        "triples": 1,
+        "homeRuns": 21,
+        "runs": 62,
+        "rbi": 46,
+        "baseOnBalls": 91,
+        "hitByPitch": 1,
+        "stolenBases": 6,
+        "caughtStealing": 2,
+        "strikeOuts": 62
+       },
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R",
+       "team": {
+        "id": 120,
+        "name": "Washington Nationals"
+       }
+      },
+      {
+       "season": "2022",
+       "stat": {
+        "gamesPlayed": 52,
+        "atBats": 182,
+        "hits": 43,
+        "doubles": 8,
+        "triples": 1,
+        "homeRuns": 6,
+        "runs": 31,
+        "rbi": 16,
+        "baseOnBalls": 44,
+        "hitByPitch": 0,
+        "stolenBases": 0,
+        "caughtStealing": 0,
+        "strikeOuts": 34
+       },
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R",
+       "team": {
+        "id": 135,
+        "name": "San Diego Padres"
+       }
+      },
+      {
+       "season": "2022",
+       "stat": {
+        "gamesPlayed": 153,
+        "atBats": 524,
+        "hits": 127,
+        "doubles": 25,
+        "triples": 2,
+        "homeRuns": 27,
+        "runs": 93,
+        "rbi": 62,
+        "baseOnBalls": 135,
+        "hitByPitch": 1,
+        "stolenBases": 6,
+        "caughtStealing": 2,
+        "strikeOuts": 96,
+        "avg": ".242"
+       },
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R",
+       "numTeams": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 804606,
+   "fullName": "Konnor Griffin",
+   "primaryPosition": {
+    "abbreviation": "SS"
+   },
+   "stats": [
+    {
+     "type": {
+      "displayName": "yearByYear"
+     },
+     "group": {
+      "displayName": "hitting"
+     },
+     "splits": [
+      {
+       "season": "2026",
+       "stat": {
+        "gamesPlayed": 80,
+        "atBats": 312,
+        "hits": 80,
+        "doubles": 15,
+        "triples": 3,
+        "homeRuns": 10,
+        "runs": 45,
+        "rbi": 40,
+        "baseOnBalls": 25,
+        "hitByPitch": 4,
+        "stolenBases": 20,
+        "caughtStealing": 5,
+        "strikeOuts": 90
+       },
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R",
+       "team": {
+        "id": 134,
+        "name": "Pittsburgh Pirates"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

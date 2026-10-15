@@ -1,0 +1,71 @@
+{
+ "_note": "GET /people/search?names=will%20smith&sportIds=1,11,12,13,14,16&hydrate=currentTeam, live 2026-10-15 (ids, positions, debut dates, active flags and teams as returned; other fields trimmed).",
+ "people": [
+  {
+   "id": 669257,
+   "fullName": "Will Smith",
+   "firstName": "William",
+   "lastName": "Smith",
+   "useName": "Will",
+   "active": true,
+   "birthDate": "1995-03-28",
+   "mlbDebutDate": "2019-05-28",
+   "primaryPosition": {
+    "abbreviation": "C"
+   },
+   "currentTeam": {
+    "id": 119,
+    "name": "Los Angeles Dodgers"
+   }
+  },
+  {
+   "id": 519293,
+   "fullName": "Will Smith",
+   "firstName": "William",
+   "lastName": "Smith",
+   "useName": "Will",
+   "active": false,
+   "birthDate": "1989-07-10",
+   "mlbDebutDate": "2012-05-23",
+   "primaryPosition": {
+    "abbreviation": "P"
+   },
+   "currentTeam": {
+    "id": 118,
+    "name": "Kansas City Royals"
+   }
+  },
+  {
+   "id": 446920,
+   "fullName": "Will Smith",
+   "firstName": "William",
+   "lastName": "Smith",
+   "useName": "Will",
+   "active": false,
+   "primaryPosition": {
+    "abbreviation": "OF"
+   },
+   "currentTeam": {
+    "id": 238,
+    "name": "Oklahoma RedHawks",
+    "parentOrgId": 140
+   }
+  },
+  {
+   "id": 445230,
+   "fullName": "Will Smith",
+   "firstName": "William",
+   "lastName": "Smith",
+   "useName": "Will",
+   "active": false,
+   "primaryPosition": {
+    "abbreviation": "OF"
+   },
+   "currentTeam": {
+    "id": 535,
+    "name": "Sarasota Red Sox",
+    "parentOrgId": 111
+   }
+  }
+ ]
+}

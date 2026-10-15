@@ -1,0 +1,70 @@
+{
+ "_note": "GET /teams/118/roster?rosterType=40Man, shape checked live 2026-10-15 (Alec Marsh D60 with a note, Alex Lange A). The other two rows are SYNTHETIC examples of D15 and RM.",
+ "copyright": "",
+ "teamId": 118,
+ "rosterType": "40Man",
+ "link": "/api/v1/teams/118/roster",
+ "roster": [
+  {
+   "person": {
+    "id": 679525,
+    "fullName": "Alec Marsh"
+   },
+   "jerseyNumber": "48",
+   "position": {
+    "code": "1",
+    "abbreviation": "P"
+   },
+   "note": "Right shoulder impingement",
+   "status": {
+    "code": "D60",
+    "description": "Injured 60-Day"
+   },
+   "parentTeamId": 118
+  },
+  {
+   "person": {
+    "id": 656638,
+    "fullName": "Alex Lange"
+   },
+   "jerseyNumber": "56",
+   "position": {
+    "code": "1",
+    "abbreviation": "P"
+   },
+   "status": {
+    "code": "A",
+    "description": "Active"
+   },
+   "parentTeamId": 118
+  },
+  {
+   "person": {
+    "id": 900001,
+    "fullName": "Sample Fifteen"
+   },
+   "position": {
+    "abbreviation": "CF"
+   },
+   "status": {
+    "code": "D15",
+    "description": "Injured 15-Day"
+   },
+   "parentTeamId": 118
+  },
+  {
+   "person": {
+    "id": 900002,
+    "fullName": "Sample Optioned"
+   },
+   "position": {
+    "abbreviation": "C"
+   },
+   "status": {
+    "code": "RM",
+    "description": "Reassigned to Minors"
+   },
+   "parentTeamId": 118
+  }
+ ]
+}

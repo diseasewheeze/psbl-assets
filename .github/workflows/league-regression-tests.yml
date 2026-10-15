@@ -98,6 +98,9 @@ jobs:
       - name: Test the Fantrax client
         run: python automation/tests/test_fantrax_client.py
 
+      - name: Test the MLB player client (search, career totals, game logs, rosters, transactions)
+        run: python automation/tests/test_mlb_people.py
+
       - name: Test Lineup Alerts
         env:
           PYTHONPATH: automation:automation/lineup

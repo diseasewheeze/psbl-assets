@@ -1,0 +1,212 @@
+{
+ "_note": "GET /people?personIds=677951,660271,804606,822298&hydrate=currentTeam,stats(group=[hitting,pitching],type=[career]). Shape and the numbers shown were read from live responses on 2026-10-15 (Witt 3049 AB; Ohtani hitting 4253 AB, pitching 2222 at-bats faced and 1843 outs, 614.1 IP; Griffin 312 AB; Reddemann no stats key). Other stat fields trimmed.",
+ "people": [
+  {
+   "id": 677951,
+   "fullName": "Bobby Witt Jr.",
+   "firstName": "Robert",
+   "lastName": "Witt",
+   "useName": "Bobby",
+   "birthDate": "2000-06-14",
+   "active": true,
+   "mlbDebutDate": "2022-04-07",
+   "primaryPosition": {
+    "code": "6",
+    "name": "Shortstop",
+    "type": "Infielder",
+    "abbreviation": "SS"
+   },
+   "currentTeam": {
+    "id": 118,
+    "name": "Kansas City Royals",
+    "link": "/api/v1/teams/118"
+   },
+   "stats": [
+    {
+     "type": {
+      "displayName": "career"
+     },
+     "group": {
+      "displayName": "hitting"
+     },
+     "exemptions": [],
+     "splits": [
+      {
+       "stat": {
+        "gamesPlayed": 769,
+        "atBats": 3049,
+        "plateAppearances": 3354,
+        "hits": 879,
+        "homeRuns": 123,
+        "avg": ".288"
+       },
+       "player": {},
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R",
+       "team": {
+        "id": 118,
+        "name": "Kansas City Royals"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 660271,
+   "fullName": "Shohei Ohtani",
+   "firstName": "Shohei",
+   "lastName": "Ohtani",
+   "useName": "Shohei",
+   "birthDate": "1994-07-05",
+   "active": true,
+   "mlbDebutDate": "2018-03-29",
+   "primaryPosition": {
+    "code": "Y",
+    "name": "Two-Way Player",
+    "type": "Two-Way Player",
+    "abbreviation": "TWP"
+   },
+   "currentTeam": {
+    "id": 119,
+    "name": "Los Angeles Dodgers",
+    "link": "/api/v1/teams/119"
+   },
+   "stats": [
+    {
+     "type": {
+      "displayName": "career"
+     },
+     "group": {
+      "displayName": "pitching"
+     },
+     "exemptions": [],
+     "splits": [
+      {
+       "stat": {
+        "gamesPlayed": 114,
+        "gamesStarted": 114,
+        "atBats": 2222,
+        "outs": 1843,
+        "inningsPitched": "614.1",
+        "battersFaced": 2479,
+        "strikeOuts": 765,
+        "hits": 443
+       },
+       "player": {},
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R"
+      }
+     ]
+    },
+    {
+     "type": {
+      "displayName": "career"
+     },
+     "group": {
+      "displayName": "hitting"
+     },
+     "exemptions": [],
+     "splits": [
+      {
+       "stat": {
+        "gamesPlayed": 1172,
+        "atBats": 4253,
+        "plateAppearances": 4947,
+        "strikeOuts": 1256,
+        "hits": 1194
+       },
+       "player": {},
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 804606,
+   "fullName": "Konnor Griffin",
+   "firstName": "Konnor",
+   "lastName": "Griffin",
+   "useName": "Konnor",
+   "birthDate": "2006-04-24",
+   "active": true,
+   "mlbDebutDate": "2026-04-03",
+   "primaryPosition": {
+    "code": "6",
+    "name": "Shortstop",
+    "type": "Infielder",
+    "abbreviation": "SS"
+   },
+   "currentTeam": {
+    "id": 134,
+    "name": "Pittsburgh Pirates",
+    "link": "/api/v1/teams/134"
+   },
+   "stats": [
+    {
+     "type": {
+      "displayName": "career"
+     },
+     "group": {
+      "displayName": "hitting"
+     },
+     "exemptions": [],
+     "splits": [
+      {
+       "stat": {
+        "gamesPlayed": 80,
+        "atBats": 312
+       },
+       "player": {},
+       "sport": {
+        "id": 1,
+        "link": "/api/v1/sports/1",
+        "abbreviation": "MLB"
+       },
+       "gameType": "R",
+       "team": {
+        "id": 134,
+        "name": "Pittsburgh Pirates"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": 822298,
+   "fullName": "Logan Reddemann",
+   "firstName": "Logan",
+   "lastName": "Reddemann",
+   "useName": "Logan",
+   "birthDate": "2005-04-08",
+   "active": true,
+   "primaryPosition": {
+    "code": "1",
+    "name": "Pitcher",
+    "type": "Pitcher",
+    "abbreviation": "P"
+   },
+   "currentTeam": {
+    "id": 1994,
+    "name": "ACL Rockies",
+    "link": "/api/v1/teams/1994",
+    "parentOrgId": 115
+   }
+  }
+ ]
+}
