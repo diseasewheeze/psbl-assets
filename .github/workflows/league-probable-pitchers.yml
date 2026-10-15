@@ -1,10 +1,10 @@
-name: DBL Starting Goalies
-run-name: DBL Starting Goalies — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: DBL Probable Pitchers
+run-name: DBL Probable Pitchers — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
-# One "Starting Goalies" message per game day in 🏒│game-day, edited silently as
-# Daily Faceoff's reports firm up until the last game starts. Timing lives in
-# automation/scheduler/schedule.yaml (several checks a day, regular season and
-# playoffs). Code: automation/goalies/starters.py.
+# One "Probable Pitchers" message per game day in ⚾│game-day, edited silently
+# when MLB changes an announced starter, until the last game starts. Timing
+# lives in automation/scheduler/schedule.yaml (several checks a day, regular
+# season and playoffs). Code: automation/pitchers/probables.py.
 
 on:
   workflow_dispatch:
@@ -20,11 +20,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-starting-goalies
+  group: dbl-probable-pitchers
   cancel-in-progress: false
 
 jobs:
-  starters:
+  probables:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 1
 
       - name: Restore saved state
-        run: bash automation/tools/state_branch.sh restore "automation/goalies/state/starting_goalies.json"
+        run: bash automation/tools/state_branch.sh restore "automation/pitchers/state/probable_pitchers.json"
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -48,15 +48,15 @@ jobs:
       - name: Install dependencies
         run: pip install -r automation/common-requirements.txt
 
-      - name: Run Starting Goalies
+      - name: Run Probable Pitchers
         env:
           LEAGUE_WEBHOOK_GAME_DAY: ${{ secrets.LEAGUE_WEBHOOK_GAME_DAY }}
-        run: python automation/goalies/starters.py --mode "$MODE"
+        run: python automation/pitchers/probables.py --mode "$MODE"
 
       - name: Save state to the automation-state branch
         if: ${{ !cancelled() && env.MODE == 'live' }}
         run: |
           bash automation/tools/state_branch.sh save \
-            "chore(goalies): save starting goalies state" \
+            "chore(pitchers): save probable pitchers state" \
             "DBL Fantrax Automation" \
-            "automation/goalies/state/starting_goalies.json"
+            "automation/pitchers/state/probable_pitchers.json"

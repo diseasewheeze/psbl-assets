@@ -52,11 +52,11 @@ workflows:
     # Once a day at 15:00 during the regular season and playoffs.
     max_age_minutes: 1700
 
-  - id: starting-goalies
-    name: "DBL Starting Goalies"
-    file: "league-starting-goalies.yml"
-    # Several checks a day from 11:30 to 21:15 during the regular season and
-    # playoffs; the longest gap is overnight (about 14 hours).
+  - id: probable-pitchers
+    name: "DBL Probable Pitchers"
+    file: "league-probable-pitchers.yml"
+    # Several checks a day from 09:15 to 21:30 during the regular season and
+    # playoffs; the longest gap is overnight (about 12 hours).
     max_age_minutes: 1000
 
   - id: morning-skate

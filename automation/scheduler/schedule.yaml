@@ -86,20 +86,23 @@ jobs:
     when: draft-window
 
   # Lineup Alerts: opted-in owners (league.yaml owners) get one message when
-  # a starter has no NHL game today and an eligible bench player does. 15:00
-  # leaves time before the evening games; at most one alert per team per day.
+  # a hitter has no MLB game today, or an active SP is not today's probable
+  # starter, while an eligible bench player plays. 15:00 leaves time before
+  # the evening games; at most one alert per team per day.
   - id: lineup-alerts
     workflow: league-lineup-alerts.yml
     daily_at: ["15:00"]
     retry_failures: 2
     phases: [regular, playoffs]
 
-  # Starting Goalies: one 🏒│game-day message per game day, edited silently as
-  # Daily Faceoff's reports firm up. The first check posts it; later checks
-  # edit it only when something changed; nothing runs after the last puck drop.
-  - id: starting-goalies
-    workflow: league-starting-goalies.yml
-    daily_at: ["11:30", "13:30", "15:30", "17:00", "18:00", "18:40", "20:00", "21:15"]
+  # Probable Pitchers: one ⚾│game-day message per game day listing every
+  # game's announced starters, edited silently when MLB changes one (a
+  # scratch, a postponement). The first check after 09:00 posts it; later
+  # checks edit it only when something changed; nothing runs after the last
+  # first pitch (West Coast games start around 22:10).
+  - id: probable-pitchers
+    workflow: league-probable-pitchers.yml
+    daily_at: ["09:15", "11:45", "15:30", "18:15", "21:30"]
     phases: [regular, playoffs]
 
   # Morning Skate: last night's NHL scores, the DBL Goal Reel and a few

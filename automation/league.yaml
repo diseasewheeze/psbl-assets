@@ -163,16 +163,17 @@ lineup_alerts:
   webhook: LEAGUE_WEBHOOK_LINEUP_ALERTS
 
 # ---------------------------------------------------------------------------
-# Starting Goalies (automation/goalies/)
+# Probable Pitchers (automation/pitchers/)
 #
-# One message per game day in 🏒│game-day listing tonight's expected starters
-# (Daily Faceoff), edited silently until the last game starts. Goalies on a
-# DBL roster show their DBL team. Nobody is pinged.
-# webhook:   GitHub Actions secret holding the 🏒│game-day webhook URL.
-# post_from: earliest local time the day's message is posted.
-starting_goalies:
+# One message per game day in ⚾│game-day listing every MLB game's probable
+# starters as MLB announces them, edited silently until the last game starts.
+# Starters on a DBL roster show their DBL team. Nobody is pinged.
+# webhook:   GitHub Actions secret holding the ⚾│game-day webhook URL.
+# post_from: earliest local time the day's message is posted. The scheduler
+#            checks from 09:15 (automation/scheduler/schedule.yaml).
+probable_pitchers:
   webhook: LEAGUE_WEBHOOK_GAME_DAY
-  post_from: "11:00"
+  post_from: "09:00"
 
 # ---------------------------------------------------------------------------
 # Morning Skate (automation/media/)
