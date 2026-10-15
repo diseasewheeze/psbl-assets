@@ -132,8 +132,9 @@ competition:
 # Owners listed here are mentioned:
 #   - by the Wire, when a player on their DBL roster shows up in the Injury
 #     Report (wire_pings below), and
-#   - by Lineup Alerts, when a starter has no NHL game today while an
-#     eligible bench player does (lineup_alerts below).
+#   - by Lineup Alerts, when a hitter in the lineup has no MLB game today, or
+#     a starting pitcher in it is not today's probable starter, while an
+#     eligible bench player plays (lineup_alerts below).
 # Only owners listed here are ever pinged, and only about their own team.
 #
 # Key: the DBL team's Fantrax team name (or Fantrax team ID).
@@ -153,8 +154,9 @@ wire_pings:
 # Lineup Alerts (automation/lineup/)
 #
 # Once a day (about 3:00 PM ET, regular season and playoffs) each owner listed
-# under `owners` gets one short message, with a mention, when a player in
-# today's ACTIVE lineup has no NHL game while an eligible RESERVE player does.
+# under `owners` gets one short message, with a mention, when a hitter in
+# today's ACTIVE lineup has no MLB game while an eligible RESERVE player plays,
+# or an ACTIVE SP is not today's probable starter while a RESERVE SP is.
 # Owners not listed under `owners` are never checked or pinged.
 # webhook: GitHub Actions secret holding the 🔔│lineup-alerts webhook URL.
 lineup_alerts:
