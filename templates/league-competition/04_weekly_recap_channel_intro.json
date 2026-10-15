@@ -1,0 +1,51 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/league-competition/dbl-competition-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL WEEKLY RECAP",
+      "description": "The results of every completed matchup, posted after each fantasy week ends, normally on Monday morning.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL COMPETITION DESK"
+      },
+      "fields": [
+        {
+          "name": "POSTED HERE",
+          "value": "Completed matchup results for the week • Weekly Awards (the three stars, tough luck, lucky win, closest game, biggest blowout) • Power Rankings • All-play records",
+          "inline": false
+        },
+        {
+          "name": "POWER RANKINGS",
+          "value": "Results only: 50% season points, 30% points over the last three Weeks, 20% all-play record. All-play is each team's record if it had played every other team every Week.",
+          "inline": false
+        },
+        {
+          "name": "MONTHLY AWARDS",
+          "value": "Manager of the Month and the other Monthly Awards after each month, plus a post whenever a franchise claims a Season bounty. Recognition only: a role and a mention, never FAAB or picks.",
+          "inline": false
+        },
+        {
+          "name": "OFFICIAL RESULTS",
+          "value": "Results are pulled directly from Fantrax. Questions about a score go to the Commissioner's Office.",
+          "inline": false
+        },
+        {
+          "name": "DISCUSSION",
+          "value": "Owners can react here but not post. Talk about it in **💬│gm-lounge** or **😂│chirps-and-memes**.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

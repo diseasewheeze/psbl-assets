@@ -1,0 +1,32 @@
+name: DBL Fantrax Probe
+run-name: DBL Fantrax Probe
+
+on:
+  workflow_dispatch:
+    inputs:
+      period:
+        description: "Scoring period for the period roster call"
+        required: true
+        default: "1"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -r automation/common-requirements.txt
+      - name: Probe read-only Fantrax endpoints
+        env:
+          PERIOD: ${{ inputs.period }}
+        run: python tools/fantrax_probe.py --out fantrax-probe --period "$PERIOD"
+      - uses: actions/upload-artifact@v6
+        with:
+          name: fantrax-probe
+          path: fantrax-probe/

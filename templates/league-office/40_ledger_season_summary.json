@@ -1,0 +1,42 @@
+{
+  "embeds": [
+    {
+      "title": "SEASON LEDGER",
+      "description": "`[SEASON]` • Published within 30 days after the DBL Championship.",
+      "color": 13012757,
+      "footer": {
+        "text": "DBL LEAGUE LEDGER"
+      },
+      "fields": [
+        {
+          "name": "DUES RECEIVED",
+          "value": "`$[AMOUNT]` from `[12 / X]` franchises",
+          "inline": false
+        },
+        {
+          "name": "PRIZES PAID",
+          "value": "`$[AMOUNT]`",
+          "inline": false
+        },
+        {
+          "name": "OPERATING RESERVE",
+          "value": "Spent `$[AMOUNT]` on `[FANTRAX PREMIUM / OTHER]` • Unused `$[AMOUNT]` added to the Dynasty Pot",
+          "inline": false
+        },
+        {
+          "name": "LEAGUE SERVICES",
+          "value": "`$[AMOUNT]`",
+          "inline": false
+        },
+        {
+          "name": "DYNASTY POT",
+          "value": "`$[BALANCE]`",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/general-managers/dbl-general-managers-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL GAME DAY",
+      "description": "Live reaction for NHL game nights and DBL matchups.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL GENERAL MANAGERS"
+      },
+      "fields": [
+        {
+          "name": "USE THIS ROOM FOR",
+          "value": "Live game chat • Matchup swings • Goalie-start watching • Late-night lineup panic",
+          "inline": false
+        },
+        {
+          "name": "STARTING GOALIES",
+          "value": "Each game day from late morning, one message lists tonight's expected starters (Confirmed, Likely or Unconfirmed) and tags goalies on DBL rosters. It updates quietly until the last game starts.",
+          "inline": false
+        },
+        {
+          "name": "PICK'EM",
+          "value": "From Season 2027 the DBL League Bot posts each Week's matchups here. Pick the winners before the Week starts; a season leaderboard keeps score.",
+          "inline": false
+        },
+        {
+          "name": "KEEP IT READABLE",
+          "value": "Spoiler courtesy goes a long way. Use **💬│news-desk** for deeper discussion of a story.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

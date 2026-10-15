@@ -1,0 +1,41 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/trade-center/dbl-trade-center-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL COMPLETED TRADES",
+      "description": "The public record of trades that have been processed.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL TRADE CENTER"
+      },
+      "fields": [
+        {
+          "name": "POSTED HERE",
+          "value": "Completed trades only: the franchises involved and every player, pick and FAAB amount that moved.",
+          "inline": false
+        },
+        {
+          "name": "BEFORE YOU POST",
+          "value": "Post after Fantrax has processed the trade. A future 1st- or 2nd-round pick trade needs the seller's prepayment confirmed in **💰│league-ledger** first, or the Commissioner reverses it (Article XII).",
+          "inline": false
+        },
+        {
+          "name": "OFFICIAL RECORD",
+          "value": "A trade is official only when it is processed in Fantrax. Posts here don't bind anyone.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "embeds": [
+    {
+      "title": "DEADLINE NOTICE",
+      "description": "`[URGENT NOTICE]`",
+      "color": 10697266,
+      "footer": {
+        "text": "DBL LEAGUE OFFICE • DEADLINE"
+      },
+      "fields": [
+        {
+          "name": "DEADLINE",
+          "value": "**`[TIMESTAMP]`**",
+          "inline": false
+        },
+        {
+          "name": "REQUIRED ACTION",
+          "value": "`[ACTION]`",
+          "inline": false
+        },
+        {
+          "name": "CONSEQUENCE / NEXT STEP",
+          "value": "`[WHAT HAPPENS AFTER DEADLINE]`",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

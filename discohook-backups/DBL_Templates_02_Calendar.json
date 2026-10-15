@@ -1,0 +1,223 @@
+{
+  "messages": [
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "CALENDAR EVENT",
+            "description": "**`[EVENT NAME]`**",
+            "color": 16758812,
+            "footer": {
+              "text": "DBL LEAGUE CALENDAR"
+            },
+            "fields": [
+              {
+                "name": "WHEN",
+                "value": "`[TIMESTAMP]` (or `[DATE STAMP]` for an all-day event)",
+                "inline": false
+              },
+              {
+                "name": "DETAILS",
+                "value": "`[EVENT DETAILS]`",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "DEADLINE REMINDER",
+            "description": "`[DEADLINE NAME]`",
+            "color": 10697266,
+            "footer": {
+              "text": "DBL LEAGUE CALENDAR"
+            },
+            "fields": [
+              {
+                "name": "DEADLINE",
+                "value": "**`[TIMESTAMP]`**",
+                "inline": false
+              },
+              {
+                "name": "REQUIRED",
+                "value": "`[WHAT MUST BE COMPLETED]`",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "LEAGUE CALENDAR PUBLISHED",
+            "description": "The League Calendar for **Season `[YEAR]`** is live. Every date comes from the formulas in Article V of the Constitution.",
+            "color": 16758812,
+            "footer": {
+              "text": "DBL LEAGUE CALENDAR"
+            },
+            "fields": [
+              {
+                "name": "NHL SCHEDULE RELEASED",
+                "value": "`[DATE]`",
+                "inline": false
+              },
+              {
+                "name": "DUES DEADLINE",
+                "value": "**`[TIMESTAMP]`** (before the draft)",
+                "inline": false
+              },
+              {
+                "name": "DRAFT",
+                "value": "`[TIMESTAMP]` • 14 to 21 days after the NHL Entry Draft",
+                "inline": false
+              },
+              {
+                "name": "TRADE DEADLINE",
+                "value": "`[TIMESTAMP]` • Sunday 11:59 PM ET, end of Week 20",
+                "inline": false
+              },
+              {
+                "name": "PLAYOFFS",
+                "value": "Quarterfinals `[DATE STAMP]` • Semifinals `[DATE STAMP]` • Championship `[DATE STAMP]` to `[DATE STAMP]`",
+                "inline": false
+              },
+              {
+                "name": "IF A DATE LOOKS WRONG",
+                "value": "The formula in the Constitution controls. Tell the Commissioner.",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "CALENDAR DATE CHANGE",
+            "description": "`[EVENT]` has been updated.",
+            "color": 10697266,
+            "footer": {
+              "text": "DBL LEAGUE CALENDAR"
+            },
+            "fields": [
+              {
+                "name": "PREVIOUS DATE",
+                "value": "`[OLD TIMESTAMP]`",
+                "inline": false
+              },
+              {
+                "name": "NEW DATE",
+                "value": "**`[NEW TIMESTAMP]`**",
+                "inline": false
+              },
+              {
+                "name": "REASON",
+                "value": "`[NHL SCHEDULE CHANGE / PLATFORM LIMITATION / OTHER]`",
+                "inline": false
+              },
+              {
+                "name": "NOTICE",
+                "value": "Changes get at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the NHL schedule forces it.",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "DBL WINTER MEETINGS",
+            "description": "The yearly owners' meeting, held in the Offseason before the amendment window opens.",
+            "color": 16758812,
+            "footer": {
+              "text": "DBL LEAGUE CALENDAR"
+            },
+            "fields": [
+              {
+                "name": "WHEN",
+                "value": "**`[TIMESTAMP]`** • RSVP on the Sesh event in **📅│league-calendar**",
+                "inline": false
+              },
+              {
+                "name": "WHERE",
+                "value": "`[VOICE CHANNEL]`",
+                "inline": false
+              },
+              {
+                "name": "AGENDA",
+                "value": "Season review • Ideas from **💡│league-suggestions** that could become amendment proposals (Article XX) • Draft and calendar dates • Open floor",
+                "inline": false
+              },
+              {
+                "name": "CAN'T MAKE IT",
+                "value": "Notes are posted in **💬│gm-lounge** afterward. Nothing is decided at the meeting itself: rule changes still go through a written proposal and a vote.",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "ADD THE LEAGUE CALENDAR TO YOUR PHONE",
+            "description": "Every DBL date can live in the calendar you already use.",
+            "color": 16758812,
+            "footer": {
+              "text": "DBL LEAGUE CALENDAR"
+            },
+            "fields": [
+              {
+                "name": "HOW",
+                "value": "Type `/link` in any channel. Sesh replies privately with a calendar feed link.",
+                "inline": false
+              },
+              {
+                "name": "THEN",
+                "value": "Add that link to Google Calendar (Other calendars → From URL), Apple Calendar (File → New Calendar Subscription) or Outlook (Add calendar → From internet).",
+                "inline": false
+              },
+              {
+                "name": "WHAT YOU GET",
+                "value": "Draft night, deadlines and owners' meetings appear on your phone and update on their own when a date changes.",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

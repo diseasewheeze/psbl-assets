@@ -1,0 +1,76 @@
+{
+  "01_logos": [
+    "dbl-wordmark-white-transparent.png",
+    "dbl-wordmark-black-transparent.png",
+    "dbl-wordmark-textured-cream.png",
+    "dbl-wordmark-on-charcoal-1920x1080.png",
+    "dbl-wordmark-on-black-1920x1080.png",
+    "dbl-wordmark-on-white-1920x1080.png",
+    "dbl-b-mark-transparent-1024.png",
+    "dbl-b-icon-black-1024.png",
+    "dbl-b-icon-charcoal-1024.png",
+    "dbl-b-icon-cream-1024.png",
+    "dbl-b-icon-gold-1024.png"
+  ],
+  "02_avatars_icons": [
+    "dbl-server-icon-1024.png",
+    "dbl-webhook-avatar-512.png",
+    "dbl-bot-avatar-round-512.png",
+    "dbl-profile-picture-400.png",
+    "dbl-emoji-b-128.png",
+    "dbl-emoji-b-64.png",
+    "dbl-favicon-256.png"
+  ],
+  "03_server_social_banners": [
+    "dbl-server-banner-960x540.png",
+    "dbl-server-banner-1920x1080.png",
+    "dbl-invite-splash-1920x1080.png",
+    "dbl-github-social-preview-1280x640.png",
+    "dbl-x-header-1500x500.png",
+    "dbl-bot-profile-banner-1360x480.png",
+    "dbl-event-cover-800x320.png"
+  ],
+  "04_channel_headers": [
+    "dbl-welcome-header-1600x533.png",
+    "dbl-constitution-header-1600x533.png",
+    "dbl-announcements-header-1600x533.png",
+    "dbl-calendar-header-1600x533.png",
+    "dbl-ledger-header-1600x533.png",
+    "dbl-voting-header-1600x533.png",
+    "dbl-draft-center-header-1600x533.png",
+    "dbl-the-wire-header-1600x533.png",
+    "dbl-general-managers-header-1600x533.png",
+    "dbl-trade-center-header-1600x533.png",
+    "dbl-scouting-header-1600x533.png",
+    "dbl-waiver-wire-header-1600x533.png",
+    "dbl-competition-header-1600x533.png",
+    "dbl-commissioners-office-header-1600x533.png",
+    "dbl-franchise-hq-header-1600x533.png",
+    "dbl-champions-header-1600x533.png",
+    "dbl-records-header-1600x533.png",
+    "dbl-generic-header-1600x533.png"
+  ],
+  "05_dividers": [
+    "dbl-footer-divider-1600x180.png",
+    "dbl-thin-rule-1600x40.png",
+    "dbl-gold-bar-1600x24.png"
+  ],
+  "06_seals_stamps": [
+    "dbl-official-seal-dark-1024.png",
+    "dbl-official-seal-cream-1024.png",
+    "dbl-official-seal-256.png",
+    "dbl-stamp-official.png",
+    "dbl-stamp-approved.png",
+    "dbl-stamp-denied.png",
+    "dbl-stamp-pending.png",
+    "dbl-stamp-final.png",
+    "dbl-stamp-amended.png",
+    "dbl-stamp-vote-passed.png",
+    "dbl-stamp-vote-failed.png",
+    "dbl-stamp-commissioner-ruling.png",
+    "dbl-stamp-champions.png",
+    "dbl-stamp-paid-in-full.png",
+    "dbl-stamp-dues-outstanding.png",
+    "dbl-stamp-urgent-deadline.png"
+  ]
+}

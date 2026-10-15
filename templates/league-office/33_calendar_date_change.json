@@ -1,0 +1,37 @@
+{
+  "embeds": [
+    {
+      "title": "CALENDAR DATE CHANGE",
+      "description": "`[EVENT]` has been updated.",
+      "color": 10697266,
+      "footer": {
+        "text": "DBL LEAGUE CALENDAR"
+      },
+      "fields": [
+        {
+          "name": "PREVIOUS DATE",
+          "value": "`[OLD TIMESTAMP]`",
+          "inline": false
+        },
+        {
+          "name": "NEW DATE",
+          "value": "**`[NEW TIMESTAMP]`**",
+          "inline": false
+        },
+        {
+          "name": "REASON",
+          "value": "`[NHL SCHEDULE CHANGE / PLATFORM LIMITATION / OTHER]`",
+          "inline": false
+        },
+        {
+          "name": "NOTICE",
+          "value": "Changes get at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the NHL schedule forces it.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

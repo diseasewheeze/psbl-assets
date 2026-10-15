@@ -1,0 +1,200 @@
+name: DBL Automation Regression Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'automation/**/*.py'
+      - 'automation/league-office/events.yaml'
+      - 'automation/commissioner/tasks.yaml'
+      - 'automation/tools/*.sh'
+      - 'automation/league.yaml'
+      - 'automation/playoff_pool/entries.yaml'
+      - 'automation/scheduler/schedule.yaml'
+      - 'automation/tests/fixtures/**'
+      - 'automation/history/history.yaml'
+      - 'automation/history/requirements.txt'
+      - 'tools/build_site.py'
+      - 'tools/build_constitution.py'
+      - 'tools/constitution_source.py'
+      - 'constitution/CHANGELOG.md'
+      - 'bot/**'
+      - '.github/workflows/*.yml'
+  pull_request:
+    paths:
+      - 'automation/**/*.py'
+      - 'automation/league-office/events.yaml'
+      - 'automation/commissioner/tasks.yaml'
+      - 'automation/tools/*.sh'
+      - 'automation/league.yaml'
+      - 'automation/playoff_pool/entries.yaml'
+      - 'automation/scheduler/schedule.yaml'
+      - 'automation/tests/fixtures/**'
+      - 'automation/history/history.yaml'
+      - 'automation/history/requirements.txt'
+      - 'tools/build_site.py'
+      - 'tools/build_constitution.py'
+      - 'tools/constitution_source.py'
+      - 'constitution/CHANGELOG.md'
+      - 'bot/**'
+      - '.github/workflows/*.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dbl-regression-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            automation/common-requirements.txt
+            automation/wire/requirements.txt
+            automation/history/requirements.txt
+            bot/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          pip install -r automation/common-requirements.txt
+          pip install -r automation/wire/requirements.txt
+          pip install -r automation/history/requirements.txt
+          pip install -r bot/requirements.txt
+
+      - name: Compile all automation modules
+        run: python -m compileall -q automation
+
+      - name: Test the scheduler
+        run: python automation/scheduler/test_scheduler.py
+
+      - name: Test season calendar, weekly report, live scoreboard and playoffs
+        run: python automation/tests/test_competition.py
+
+      - name: Test goalie starts, all-play, power rankings, weekly awards and the NHL games grid
+        env:
+          PYTHONPATH: automation:automation/competition
+        run: python automation/tests/test_competition_additions.py
+
+      - name: Test the Luck Index, schedule edge, Monthly Awards and bounties
+        env:
+          PYTHONPATH: automation:automation/competition
+        run: python automation/tests/test_competition_extras.py
+
+      - name: Test the Fantrax client
+        run: python automation/tests/test_fantrax_client.py
+
+      - name: Test Lineup Alerts
+        env:
+          PYTHONPATH: automation:automation/lineup
+        run: python automation/lineup/test_alerts.py
+
+      - name: Test Starting Goalies
+        env:
+          PYTHONPATH: automation:automation/goalies
+        run: python automation/goalies/test_starters.py
+
+      - name: Test Morning Skate
+        env:
+          PYTHONPATH: automation:automation/media
+        run: python automation/media/test_morning.py
+
+      - name: Test The Wire
+        run: python automation/wire/test_wire.py
+
+      - name: Test health-monitor run filtering
+        env:
+          PYTHONPATH: automation:automation/health
+        run: python automation/health/test_health.py
+
+      - name: Test shared Discord delivery
+        env:
+          PYTHONPATH: automation
+        run: python automation/test_discord_webhook.py
+
+      - name: Test League Office timing
+        env:
+          PYTHONPATH: automation:automation/league-office
+        run: python automation/league-office/test_league_ops.py
+
+      - name: Test Draft Center
+        run: python automation/draft/test_center.py
+
+      - name: Test playoff bracket logic
+        env:
+          PYTHONPATH: automation:automation/playoffs
+        run: python automation/playoffs/test_playoff.py
+
+      - name: Test the Playoff Pool (boxes, scoring, tiebreaks, entries, posts, the job)
+        env:
+          PYTHONPATH: automation
+        run: python automation/playoff_pool/test_pool.py
+
+      - name: Test Commissioner Desk reminders
+        env:
+          PYTHONPATH: automation:automation/commissioner
+        run: python automation/commissioner/test_desk.py
+
+      - name: Test pick-trade alert
+        env:
+          PYTHONPATH: automation:automation/commissioner
+        run: python automation/commissioner/test_picktrades.py
+
+      - name: Test the Trade Desk (trade detection, report card poll, revisits, deadline-day tracker)
+        env:
+          PYTHONPATH: automation:automation/trades
+        run: python automation/trades/test_tradedesk.py
+
+      - name: Test minor-eligibility watch
+        env:
+          PYTHONPATH: automation:automation/commissioner
+        run: python automation/commissioner/test_minors.py
+
+      - name: Test prospect board
+        env:
+          PYTHONPATH: automation:automation/commissioner
+        run: python automation/commissioner/test_prospects.py
+
+      - name: Test season rollover tool
+        env:
+          PYTHONPATH: automation
+        run: python automation/rollover/test_rollover.py
+
+      - name: Test dormancy guard
+        env:
+          PYTHONPATH: automation:automation/health:automation/commissioner
+        run: python automation/health/test_dormancy.py
+
+      - name: Test the league archive (snapshots, inferred transactions, results, drafts)
+        run: python automation/history/test_archive.py
+
+      - name: Test league history (history.yaml, Dynasty Pot, trade trees, rivalries, retrospectives, graphics, posts)
+        run: python automation/history/test_history.py
+
+      - name: Test the history website and the Constitution changelog
+        run: python automation/history/test_site.py
+
+      - name: Test the league bot's votes (rules, storage, embeds, Discord commands)
+        run: python bot/tests/test_bot.py
+
+      - name: Test the league bot's league tools (rule, deadlines, minor, myteam, tradecheck, Pick'em)
+        run: python bot/tests/test_league_features.py
+
+      - name: Test the league bot's Playoff Pool commands (boxes, picks, export)
+        run: python bot/tests/test_pool.py
+      - name: Test the league bot's DBL Bucks and Awards Ballot
+        run: python bot/tests/test_book_awards.py

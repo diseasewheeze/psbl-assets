@@ -1,0 +1,204 @@
+{
+  "messages": [
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "DBL AWARDS NIGHT",
+            "description": "Season `[YEAR]` ballots are open in **🗳️│league-voting**. Owners choose the winners.",
+            "color": 13012757,
+            "footer": {
+              "text": "DBL RECORDS DEPARTMENT"
+            },
+            "fields": [
+              {
+                "name": "THE AWARDS",
+                "value": "**GM of the Year** • **Trade of the Year** • **Waiver Steal of the Year** • **Comeback Franchise** • **Bust of the Year** (all in good fun)",
+                "inline": false
+              },
+              {
+                "name": "HOW TO VOTE",
+                "value": "Press **Fill out my ballot** on the League Bot's post in **🗳️│league-voting**: a 1st, 2nd and 3rd choice for each award, worth 5, 3 and 1 points. One ballot per franchise, cast by the Franchise Owner. Change it any time until **`[TIMESTAMP]`**.",
+                "inline": false
+              },
+              {
+                "name": "NO SELF-VOTES",
+                "value": "Your own franchise, your own pickups and trades you were part of aren't on your ballot. Bust of the Year is the exception.",
+                "inline": false
+              },
+              {
+                "name": "RESULTS",
+                "value": "Most points wins; a tie goes to the most first-place votes, then the award is shared. Winners are announced in **🏆│hall-of-champions** and kept in the league records.",
+                "inline": false
+              },
+              {
+                "name": "JUST FOR FUN",
+                "value": "Awards carry no money and change nothing in the standings or the draft.",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "DBL AWARDS NIGHT: THE WINNERS",
+            "description": "Season `[YEAR]`, as voted by the owners: `[N]` of `[N]` franchises returned a ballot. 5 points for a first-place vote, 3 for second, 1 for third.",
+            "color": 13012757,
+            "footer": {
+              "text": "DBL RECORDS DEPARTMENT"
+            },
+            "fields": [
+              {
+                "name": "GM OF THE YEAR",
+                "value": "**`[FRANCHISE]`** • `[POINTS]` points, `[N]` first-place votes",
+                "inline": false
+              },
+              {
+                "name": "TRADE OF THE YEAR",
+                "value": "**`[TRADE]`** • `[POINTS]` points, `[N]` first-place votes",
+                "inline": false
+              },
+              {
+                "name": "WAIVER STEAL OF THE YEAR",
+                "value": "**`[PLAYER, FRANCHISE]`** • `[POINTS]` points, `[N]` first-place votes",
+                "inline": false
+              },
+              {
+                "name": "COMEBACK FRANCHISE",
+                "value": "**`[FRANCHISE]`** • `[POINTS]` points, `[N]` first-place votes",
+                "inline": false
+              },
+              {
+                "name": "BUST OF THE YEAR",
+                "value": "**`[NOMINEE]`** • `[POINTS]` points, `[N]` first-place votes",
+                "inline": false
+              },
+              {
+                "name": "JUST FOR FUN",
+                "value": "Awards carry no money and change nothing in the standings or the draft.",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "NEW TRADITION? THE WOODEN SPOON",
+            "description": "A just-for-fun tradition for the last-place team. Owners decide whether we do it.",
+            "color": 16758812,
+            "footer": {
+              "text": "DBL LEAGUE OFFICE • DISCUSSION"
+            },
+            "fields": [
+              {
+                "name": "THE IDEA",
+                "value": "The franchise that finishes last in the regular season holds the **Wooden Spoon** role for the Offseason and writes a short preview of the next Season, posted before Week 1.",
+                "inline": false
+              },
+              {
+                "name": "WHAT IT ISN'T",
+                "value": "No money and no rule change. Draft order still comes from Potential Points (14.5), so the Spoon can't be chased.",
+                "inline": false
+              },
+              {
+                "name": "HAVE YOUR SAY",
+                "value": "React 👍🏻 or 👎🏻 by **`[TIMESTAMP]`**, or reply in **💬│gm-lounge**. It starts only if owners want it.",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "THE WOODEN SPOON",
+            "description": "**`[FRANCHISE]`** finishes last in Season `[YEAR]` and takes home the Spoon.",
+            "color": 13012757,
+            "footer": {
+              "text": "DBL RECORDS DEPARTMENT"
+            },
+            "fields": [
+              {
+                "name": "THE TRADITION",
+                "value": "`[OWNER]` holds the Wooden Spoon role for the Offseason and writes the Season `[NEXT YEAR]` preview, posted before Week 1.",
+                "inline": false
+              },
+              {
+                "name": "NO PENALTY",
+                "value": "Draft order is unaffected: it comes from Potential Points (14.5).",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "embeds": [
+          {
+            "title": "MEET THE DBL LEAGUE BOT",
+            "description": "League tools, right in Discord. Every command reads Fantrax and the Constitution; nothing here changes Fantrax.",
+            "color": 16758812,
+            "footer": {
+              "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
+            },
+            "fields": [
+              {
+                "name": "YOUR TEAM",
+                "value": "`/myteam` shows your roster counts, picks you own, how far your dues are paid and this Week's matchup. Only you see it.",
+                "inline": false
+              },
+              {
+                "name": "RULES",
+                "value": "`/rule 12.4` or `/rule prepayment` shows the Constitution's text. `/deadlines` lists the next dates.",
+                "inline": false
+              },
+              {
+                "name": "PLAYERS AND TRADES",
+                "value": "`/minor` checks a player's minors eligibility. `/tradecheck` checks a trade against the rules (picks, prepayment, roster limits, the deadline). It never grades a trade.",
+                "inline": false
+              },
+              {
+                "name": "PICK'EM",
+                "value": "Each Week the bot posts the matchups in **🏒│game-day**. Make your picks before the Week starts; a season leaderboard keeps score.",
+                "inline": false
+              },
+              {
+                "name": "VOTING",
+                "value": "Proposals and official votes run through the bot in **🗳️│league-voting**, one vote per franchise (Article XX).",
+                "inline": false
+              }
+            ],
+            "image": {
+              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

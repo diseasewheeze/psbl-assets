@@ -1,0 +1,118 @@
+name: DBL Build Discord Assets
+
+on:
+  workflow_dispatch:
+  push:
+    # Only main: this job commits its output to main, so a run on a feature
+    # branch would carry that branch's unreviewed commits onto main.
+    branches: [main]
+    paths:
+      - 'tools/build_discord_assets.py'
+      - 'tools/pixel_kit.py'
+      - 'tools/discohook_format.py'
+      - 'tools/discord_channels.py'
+      - 'tools/normalize_discohook_templates.py'
+      - 'brand/fonts/**'
+      - '.github/workflows/league-build-discord-assets.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dbl-build-discord-assets
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install Pillow
+        run: python -m pip install --upgrade pillow
+
+      - name: Build frozen Discohook assets
+        run: python tools/build_discord_assets.py
+
+      - name: Normalize all Discohook JSON templates
+        run: python tools/normalize_discohook_templates.py
+
+      - name: Verify required assets and frozen format
+        shell: bash
+        run: |
+          test -s discord/webhooks/welcome/dbl-welcome-banner.png
+          test -s discord/webhooks/league-office/dbl-constitution-header.png
+          test -s discord/webhooks/league-office/dbl-announcements-header.png
+          test -s discord/webhooks/league-office/dbl-calendar-header.png
+          test -s discord/webhooks/league-office/dbl-ledger-header.png
+          test -s discord/webhooks/league-office/dbl-voting-header.png
+          test -s discord/webhooks/draft-center/dbl-draft-center-header.png
+          test -s discord/webhooks/shared/dbl-generic-header-1600x420.png
+          test -s discord/webhooks/shared/dbl-footer-divider-1600x90.png
+          test -s discord/webhooks/shared/dbl-banner-wordmark.png
+
+          python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+          import json
+
+          root = Path('.')
+          footer = root / 'discord/webhooks/shared/dbl-footer-divider-1600x90.png'
+          im = Image.open(footer)
+          assert im.mode == 'RGBA', f'footer mode must be RGBA, got {im.mode}'
+          alpha = im.getchannel('A')
+          assert alpha.getextrema()[0] == 0, 'footer background is not transparent'
+
+          footer_url = 'https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1'
+          files = sorted((root / 'templates').rglob('*.json'))
+          assert files, 'no Discohook JSON templates found'
+          # Messages sent back to back (the 📜│constitution channel): only the last
+          # one carries the footer (SEQUENCES in tools/discohook_format.py).
+          constitution = sorted((root / 'templates' / 'constitution').glob('*.json'))
+          continuing = {root / 'templates' / 'league-office' / '01_constitution_channel_intro.json', *constitution[:-1]}
+          for path in files:
+              if path in continuing:
+                  continue
+              data = json.loads(path.read_text(encoding='utf-8'))
+              embeds = data.get('embeds') or []
+              assert embeds, f'{path}: no embeds'
+              assert any((e.get('image') or {}).get('url') == footer_url for e in embeds), f'{path}: frozen footer missing'
+          print(f'FROZEN FORMAT VERIFIED: {len(files)} Discohook templates; transparent cache-busted footer confirmed.')
+          PY
+
+      - name: Publish frozen Phase 2C.6 package
+        shell: bash
+        run: |
+          if git diff --quiet -- \
+            DBL_URL_MAP.txt \
+            discord/webhooks \
+            templates; then
+            echo 'No Discohook asset/template changes to publish.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add DBL_URL_MAP.txt discord/webhooks templates
+          git commit -m 'assets(discord): publish frozen Phase 2C.6 Discohook format'
+
+          for attempt in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Publish attempt ${attempt} failed; retrying..."
+            sleep $((attempt * 3))
+          done
+
+          echo 'Unable to publish generated Discord assets/templates after retries.' >&2
+          exit 1

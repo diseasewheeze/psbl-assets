@@ -1,0 +1,46 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/league-office/dbl-ledger-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL LEAGUE LEDGER",
+      "description": "Public league-level accounting for dues, league expenses, prizes and the Dynasty Pot.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL LEAGUE OFFICE"
+      },
+      "fields": [
+        {
+          "name": "POSTED HERE",
+          "value": "Payment confirmations • Dues status • Future-season prepayments • Prize payouts • Dynasty Pot balance • The Season Ledger",
+          "inline": false
+        },
+        {
+          "name": "A PAYMENT COUNTS WHEN",
+          "value": "The Commissioner has confirmed it and recorded it here (Article III). A future 1st- or 2nd-round pick trade made before the required prepayment is confirmed here is reversed (Article XII).",
+          "inline": false
+        },
+        {
+          "name": "SEASON LEDGER",
+          "value": "Within 30 days after the DBL Championship concludes, the Commissioner posts dues received, prizes paid, operating reserve spending, the League Services Allocation and the Dynasty Pot balance.",
+          "inline": false
+        },
+        {
+          "name": "PRIVACY",
+          "value": "Do **not** post payment credentials, account numbers, login details or sensitive personal financial information.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

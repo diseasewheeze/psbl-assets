@@ -1,0 +1,41 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/the-wire/dbl-the-wire-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL NHL TRANSACTIONS",
+      "description": "Real-NHL roster moves. These are not DBL transactions. Stories are posted by automation as a headline, a source name and a direct link. Full articles are never copied; open the link to read the source.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL NEWS DESK"
+      },
+      "fields": [
+        {
+          "name": "POSTED HERE",
+          "value": "Trades • Signings and extensions • Waivers and claims • Recalls and call-ups • Assignments and loans",
+          "inline": false
+        },
+        {
+          "name": "DBL TRANSACTIONS",
+          "value": "Moves inside your DBL franchise happen in Fantrax, and Fantrax is the official record. League trade talk belongs in the Trade Center.",
+          "inline": false
+        },
+        {
+          "name": "ROUTINE MOVES",
+          "value": "Routine moves post here. Major trades and major news may appear in **🚨│breaking-news** instead.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+# League-wide settings shared by every DBL automation.
+#
+# When the real 2027-28 league is created on Fantrax, change league_id and
+# season_label here. Everything else (week dates, playoff weeks, number of
+# playoff teams, the season calendar) is read from Fantrax automatically.
+
+league_id: w02cjakmmumb3lur
+season_label: "2026-27 TEST"
+timezone: America/New_York
+
+# DBL gold accent used by Competition Desk posts.
+color: 0xFFB81C
+
+competition:
+  # The weekly report goes out at or after this local time on the morning a
+  # fantasy week ends (normally Monday).
+  report_time: "08:00"
+
+  # Playoff race posts begin with this week's report and run through the
+  # last regular-season week.
+  playoff_race_start_week: 16
+
+  # Teams just below the playoff line shown in the playoff race.
+  bubble_depth: 3
+
+  # Credited goalie starts per calendar week (Constitution 9.2). The live
+  # scoreboard shows "Goalie starts: X of Y" with Y = this x the period's
+  # calendar weeks, so a two-week period such as the Championship gets 8 (9.3).
+  goalie_starts_per_week: 4
+
+  # Weekly NHL games grid (posted after the matchup preview): a night is
+  # "light" when this many teams or fewer play, and "heavy" when at least
+  # heavy_night_min_teams play.
+  light_night_max_teams: 8
+  heavy_night_min_teams: 20
+
+  # The Wooden Spoon (league tradition, no money, no rule change): when the
+  # final regular-season standings are posted, the last-place franchise gets
+  # the Wooden Spoon post in 📰│weekly-recap (its owner is mentioned if listed
+  # under owners). Set false to stop it.
+  wooden_spoon: true
+
+  # Monthly Awards in 📰│weekly-recap (Manager of the Month, Best Record,
+  # Biggest Single Week, Hard Luck), from Fantrax matchup scores. A week counts
+  # for the month its last night (Sunday, Constitution 5.8) falls in; a
+  # month's awards go out the morning the first week of the next month is
+  # reported, and the season's last month
+  # with the final regular-season week. The Manager of the Month holds the
+  # "📅 Manager of the Month" Discord role until the next award (the
+  # Commissioner moves the role by hand). Set false to stop it.
+  monthly_awards: true
+
+  # Season bounties: one-time goals announced in 📰│weekly-recap when first
+  # reached. Each is claimed once per Season. Rewards are recognition only
+  # (a Discord role, a mention); FAAB, picks, the draft, dues or money are
+  # rejected. The Commissioner gives the role by hand.
+  #
+  #   id           unique key kept in the saved state; do not rename mid-season
+  #   title        short name shown in Discord
+  #   description  one line on what it takes
+  #   type         team_season_points  first franchise to reach `threshold` season points
+  #                team_week_points    first single week of at least `threshold` points
+  #                                    (periods longer than one calendar week do not count)
+  #                team_win_streak     first to `threshold` head-to-head wins in a row
+  #                                    (a tie ends a streak)
+  #                player_hat_trick    first NHL regular-season game in which a player on a
+  #                                    DBL roster scores `threshold` goals (3 = hat trick;
+  #                                    shootout goals do not count); checked the morning after
+  #   threshold    the number to reach
+  #   reward       optional; default "🎯 Bounty Hunter role for the Season"
+  #
+  # Default thresholds come from the scoring values (Article VIII): 18 skater
+  # slots filled on most nights from a 26-player roster is about 65 skater
+  # games a week at roughly 3.7 points (rostered skaters are above the ~3.2
+  # league average), plus 4 goalie starts at about 5 points, so a typical team
+  # week is about 250 to 300 points (week to week about +/-40) and a season
+  # about 5,800 to 6,500. Simulated over many seasons at that level:
+  #   375 in a week    claimed in ~90% of seasons, typically around Week 6
+  #   6 straight wins  claimed in ~95% of seasons, typically around Week 8
+  #   6,000 points     the front-runner gets there around Week 20
+  #   hat trick        usually within the first week or two
+  # If real scoring runs higher (300+ a week), 375 goes early; raise it to 400.
+  bounties:
+    - id: first-hat-trick
+      title: "First Hat Trick"
+      description: "First DBL-rostered player to score three goals in an NHL regular-season game."
+      type: player_hat_trick
+      threshold: 3
+      reward: "🎯 Bounty Hunter role for the Season"
+    - id: big-week-375
+      title: "The 375 Club"
+      description: "First franchise to score 375 points in a single week."
+      type: team_week_points
+      threshold: 375
+      reward: "🎯 Bounty Hunter role for the Season"
+    - id: hot-streak-6
+      title: "Six Straight"
+      description: "First franchise to win six head-to-head matchups in a row."
+      type: team_win_streak
+      threshold: 6
+      reward: "🎯 Bounty Hunter role for the Season"
+    - id: season-6000
+      title: "Six Thousand"
+      description: "First franchise to reach 6,000 season points."
+      type: team_season_points
+      threshold: 6000
+      reward: "🎯 Bounty Hunter role for the Season"
+
+  # GitHub Actions secret holding each channel's Discord webhook URL.
+  # awards, rankings, monthly (Monthly Awards) and bounties go to
+  # 📰│weekly-recap with the recap; games (the NHL games grid) goes to the
+  # scoreboard channel with the matchup preview.
+  webhooks:
+    recap: LEAGUE_WEBHOOK_WEEKLY_RECAP
+    awards: LEAGUE_WEBHOOK_WEEKLY_RECAP
+    rankings: LEAGUE_WEBHOOK_WEEKLY_RECAP
+    monthly: LEAGUE_WEBHOOK_WEEKLY_RECAP
+    bounties: LEAGUE_WEBHOOK_WEEKLY_RECAP
+    standings: LEAGUE_WEBHOOK_STANDINGS
+    playoff_race: LEAGUE_WEBHOOK_PLAYOFF_RACE
+    preview: LEAGUE_WEBHOOK_SCOREBOARD
+    games: LEAGUE_WEBHOOK_SCOREBOARD
+    scoreboard: LEAGUE_WEBHOOK_SCOREBOARD
+    playoffs: LEAGUE_WEBHOOK_PLAYOFFS
+    spoon: LEAGUE_WEBHOOK_WEEKLY_RECAP
+
+# ---------------------------------------------------------------------------
+# Owner pings (opt-in)
+#
+# Owners listed here are mentioned:
+#   - by the Wire, when a player on their DBL roster shows up in the Injury
+#     Report (wire_pings below), and
+#   - by Lineup Alerts, when a starter has no NHL game today while an
+#     eligible bench player does (lineup_alerts below).
+# Only owners listed here are ever pinged, and only about their own team.
+#
+# Key: the DBL team's Fantrax team name (or Fantrax team ID).
+# Value: the owner's Discord user ID, in quotes. In Discord: User Settings ->
+#        Advanced -> turn on Developer Mode, then right-click the member ->
+#        Copy User ID.
+#
+# Example:
+#   owners:
+#     "Test 4": "123456789012345678"
+owners: {}
+
+wire_pings:
+  injuries: true
+
+# ---------------------------------------------------------------------------
+# Lineup Alerts (automation/lineup/)
+#
+# Once a day (about 3:00 PM ET, regular season and playoffs) each owner listed
+# under `owners` gets one short message, with a mention, when a player in
+# today's ACTIVE lineup has no NHL game while an eligible RESERVE player does.
+# Owners not listed under `owners` are never checked or pinged.
+# webhook: GitHub Actions secret holding the 🔔│lineup-alerts webhook URL.
+lineup_alerts:
+  webhook: LEAGUE_WEBHOOK_LINEUP_ALERTS
+
+# ---------------------------------------------------------------------------
+# Starting Goalies (automation/goalies/)
+#
+# One message per game day in 🏒│game-day listing tonight's expected starters
+# (Daily Faceoff), edited silently until the last game starts. Goalies on a
+# DBL roster show their DBL team. Nobody is pinged.
+# webhook:   GitHub Actions secret holding the 🏒│game-day webhook URL.
+# post_from: earliest local time the day's message is posted.
+starting_goalies:
+  webhook: LEAGUE_WEBHOOK_GAME_DAY
+  post_from: "11:00"
+
+# ---------------------------------------------------------------------------
+# Morning Skate (automation/media/)
+#
+# Every morning after a night with NHL games (regular season and playoffs),
+# 📸│media gets last night's scores with NHL.com recap and condensed-game
+# links, the DBL Goal Reel (goals and assists by players on DBL rosters,
+# with clip links; left out when nobody scored) and a few YouTube highlight
+# videos. Links only, nothing is re-uploaded. Nobody is pinged.
+# enabled:           false stops the scheduled posts (manual preview/test
+#                    runs still work).
+# webhook:           GitHub Actions secret holding the 📸│media webhook URL
+#                    (the same one the Wire's podcast posts use).
+# post_time:         earliest local time the morning post goes out. The
+#                    scheduler starts the job at 08:30
+#                    (automation/scheduler/schedule.yaml); keep them in step.
+# max_youtube:       how many YouTube highlight videos to post (0 to 10). The
+#                    games with the most DBL goals + assists go first, then
+#                    overtime/shootout games, then the highest-scoring games.
+# include_goal_reel: false leaves out the Goal Reel (no Fantrax roster read).
+morning_skate:
+  enabled: true
+  webhook: LEAGUE_WEBHOOK_MEDIA
+  post_time: "08:30"
+  max_youtube: 3
+  include_goal_reel: true
+
+# Playoff Pool (automation/playoff_pool/)
+#
+# A free NHL playoff box pool for the owners in 🏒│game-day during the NHL
+# playoffs. Just for fun: no money and no effect on the fantasy league. The
+# winner gets the Pool Shark role for next season and a line in the league
+# history. Entries: automation/playoff_pool/entries.yaml.
+# webhook:          GitHub Actions secret holding the 🏒│game-day webhook URL.
+# players_per_box:  skaters in each of boxes 1-9 (2 to 10).
+# min_games:        regular-season games a skater needs to be boxed.
+# dark_horse_gap:   skaters skipped after box 8 before box 9 (Dark Horses).
+# standings_time:   earliest local time the daily standings are posted.
+# entries_via:      dm = owners DM their picks to the Commissioner;
+#                   bot = owners use /pool pick (once the League Bot is live).
+playoff_pool:
+  webhook: LEAGUE_WEBHOOK_GAME_DAY
+  players_per_box: 8
+  min_games: 20
+  dark_horse_gap: 8
+  standings_time: "07:30"
+  entries_via: dm
+
+# ---------------------------------------------------------------------------
+# Commissioner Desk (private reminders for the commissioner's manual work)
+#
+# webhook:      GitHub Actions secret holding the private channel's webhook URL.
+# ping_user_id: optional. Your Discord user ID, in quotes, to get an @mention
+#               with each reminder. Leave "" for a silent post.
+commissioner_desk:
+  webhook: LEAGUE_WEBHOOK_COMMISSIONER_DESK
+  ping_user_id: "1059135310132424814"
+
+# ---------------------------------------------------------------------------
+# Trade Desk (automation/trades/)
+#
+# Every trade Fantrax processes gets a report card in 💬│trade-discussion with
+# a "Who won the trade?" poll (just for fun; it never affects the trade,
+# Article XI), and a revisit 6 and 12 months later. On trade-deadline day the
+# DBL DEADLINE DAY TRADE CENTER tracker in 📢│announcements counts down to the deadline.
+# webhooks:   GitHub Actions secrets holding each channel's webhook URL. A
+#             missing secret skips that post without failing the run.
+# poll_hours: how long the poll stays open.
+trade_desk:
+  webhooks:
+    discussion: LEAGUE_WEBHOOK_TRADE_DISCUSSION
+    announcements: LEAGUE_WEBHOOK_LEAGUE_ANNOUNCEMENTS
+  poll_hours: 72
+
+# ---------------------------------------------------------------------------
+# Draft Center (automation/draft/)
+#
+# Countdown, draft-order reveal and round-by-round recap in Discord, plus a
+# private Commissioner Desk alert when a pick clock runs out or a pick is
+# skipped. No on-the-clock or per-pick posts: Fantrax sends those.
+# The draft date, order, rounds and picks come from Fantrax. Fantrax does not
+# publish the pick clock, so it is set here from the Constitution.
+draft_center:
+  webhooks:
+    announcements: LEAGUE_WEBHOOK_DRAFT_ANNOUNCEMENTS
+    results: LEAGUE_WEBHOOK_DRAFT_RESULTS
+  # Countdown posts before the Fantrax draft date. The first one sent is the
+  # full announcement (Art. 5.9: announce at least 30 days ahead).
+  countdown: ["30d", "7d", "1d", "1h", "start"]
+  # When the official draft order is posted, before the draft date.
+  order_reveal: "7d"
+  # Nightly pick-clock pause, Eastern time (Art. 13.4, 14.3).
+  pause: ["00:00", "08:00"]
+  drafts:
+    startup:
+      pick_clock_hours: 4   # Art. 13.1
+    annual:
+      pick_clock_hours: 8   # Art. 14.3
+  # TEST ONLY: pick clock in minutes for a fast test draft. Set back to null
+  # before the real startup draft.
+  test_pick_clock_minutes: null
+
+# ---------------------------------------------------------------------------
+# League history (automation/history/)
+#
+# rivals: declared rivalries, as pairs. Each side may be a franchise key from
+#         automation/history/history.yaml, a Fantrax team ID or a team name.
+#         Every franchise also has an "earned" rival worked out from the
+#         archive: the opponent it has played most (closest record breaks ties).
+#
+# Example:
+#   rivals:
+#     - ["rink-rats", "north-stars"]
+#     - ["Test 4", "Test 7"]
+rivals: []
+
+# ---------------------------------------------------------------------------
+# League history website (tools/build_site.py, workflow DBL History Site)
+#
+# A standalone site on Cloudflare Pages. Nothing on it points to GitHub.
+# url:                the site's own address once the domain is connected,
+#                     e.g. "https://dbl-history.pages.dev" (no trailing slash). Used
+#                     for search engines and link previews; leave "" until then.
+# cloudflare_project: the Cloudflare Pages project name. Its free address is
+#                     https://<project>.pages.dev until the domain is added.
+history_site:
+  url: ""
+  cloudflare_project: dbl-history
+
+history:
+  # GitHub Actions secret holding each channel's Discord webhook URL.
+  # Draft retrospectives post to draft_center.webhooks.results above.
+  webhooks:
+    dynasty_pot: LEAGUE_WEBHOOK_LEAGUE_LEDGER
+    franchise_directory: LEAGUE_WEBHOOK_FRANCHISE_DIRECTORY

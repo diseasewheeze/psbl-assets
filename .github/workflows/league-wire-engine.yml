@@ -1,0 +1,87 @@
+name: DBL Wire Engine
+run-name: DBL Wire Engine — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+
+on:
+  # Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler
+  # starts this workflow with mode=live every 15 minutes.
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Run mode. Manual runs default to shadow for safe testing.'
+        required: true
+        default: shadow
+        type: choice
+        options:
+          - shadow
+          - live
+      reset_state:
+        description: 'Reset dedupe state before this run (use only for testing/calibration).'
+        required: false
+        default: false
+        type: boolean
+      include_discovery:
+        description: 'Also fetch discovery/corroboration sources for this manual run.'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: dbl-wire-engine
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      WIRE_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+      RESET_STATE: ${{ github.event_name == 'workflow_dispatch' && inputs.reset_state || false }}
+      INCLUDE_DISCOVERY: ${{ github.event_name == 'workflow_dispatch' && inputs.include_discovery || false }}
+      LEAGUE_WEBHOOK_BREAKING_NEWS: ${{ secrets.LEAGUE_WEBHOOK_BREAKING_NEWS }}
+      LEAGUE_WEBHOOK_NHL_NEWS: ${{ secrets.LEAGUE_WEBHOOK_NHL_NEWS }}
+      LEAGUE_WEBHOOK_INJURY_REPORT: ${{ secrets.LEAGUE_WEBHOOK_INJURY_REPORT }}
+      LEAGUE_WEBHOOK_PROSPECT_WIRE: ${{ secrets.LEAGUE_WEBHOOK_PROSPECT_WIRE }}
+      LEAGUE_WEBHOOK_MEDIA: ${{ secrets.LEAGUE_WEBHOOK_MEDIA }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Restore saved state
+        run: bash automation/tools/state_branch.sh restore "automation/wire/state/${WIRE_MODE}.json"
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: automation/wire/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r automation/wire/requirements.txt
+
+      - name: Run DBL Wire engine
+        shell: bash
+        run: |
+          ARGS=(--mode "$WIRE_MODE")
+          if [ "$RESET_STATE" = "true" ]; then
+            ARGS+=(--reset-state)
+          fi
+          if [ "$INCLUDE_DISCOVERY" = "true" ]; then
+            ARGS+=(--include-discovery)
+          fi
+          python automation/wire/engine.py "${ARGS[@]}"
+
+      # Saved even if one post failed, so posts that did go out are never repeated.
+      - name: Save state to the automation-state branch
+        if: ${{ !cancelled() }}
+        run: |
+          bash automation/tools/state_branch.sh save \
+            "chore(wire): save ${WIRE_MODE} dedupe state" \
+            "DBL Wire Automation" \
+            "automation/wire/state/${WIRE_MODE}.json"

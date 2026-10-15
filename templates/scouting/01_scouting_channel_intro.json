@@ -1,0 +1,51 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/scouting/dbl-scouting-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL SCOUTING",
+      "description": "One forum for every prospect: college, juniors, Europe, the AHL, the NHL Draft and the DBL draft.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL SCOUTING DEPARTMENT"
+      },
+      "fields": [
+        {
+          "name": "HOW IT WORKS",
+          "value": "Make one post per player or topic, and search before you post so each prospect keeps one thread. Add tags for the league, the player's status and position.",
+          "inline": false
+        },
+        {
+          "name": "TAGS",
+          "value": "**League:** NCAA • CHL • AHL • EUROPE/INTL • NHL DRAFT\n**Status:** TOP PROSPECT • SLEEPER • RISER • FALLER • NHL READY • LONG SHOT\n**Position:** FORWARD • DEFENSE • GOALIE\n**DBL draft:** DBL DRAFT • RANKINGS • MOCK DRAFT",
+          "inline": false
+        },
+        {
+          "name": "MINOR-LEAGUE RULES",
+          "value": "Minor-league spots are for players 25 or younger on NHL opening day (per Fantrax's age calculation) with 100 or fewer career NHL games (50 for goalies). Details are in Article VII.",
+          "inline": false
+        },
+        {
+          "name": "THE DBL DRAFT",
+          "value": "5 rounds, linear order, starting 14 to 21 days after the NHL Entry Draft; the first Annual Draft is in 2028. The pool is any unowned player who qualifies for a minor-league spot, not just the NHL Draft class (Article XIV). Official draft notices are in the Draft Center.",
+          "inline": false
+        },
+        {
+          "name": "NEWS FEED",
+          "value": "Automated prospect news appears in **🌱│prospect-wire**. Come here to talk about what it means.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

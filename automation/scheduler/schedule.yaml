@@ -1,0 +1,188 @@
+# DBL Scheduler: the single source of truth for when each automation runs.
+#
+# The scheduler workflow is started every 15 minutes by an external timer
+# (cron-job.org), with GitHub's own cron as a backup. On every start it checks
+# each job below and starts the ones that are due, in live mode.
+#
+# Timing:
+#   every_minutes: start the job when its last live run is at least this old.
+#   daily_at:      start the job once after each listed local time. If the
+#                  scheduler was late or down, the job runs at the next check
+#                  instead of being skipped.
+#   retry_failures: for daily jobs, re-run at the next check if the run
+#                  failed, up to this many extra attempts.
+#
+# Season calendar:
+#   when:   an extra condition. league-office-events = only while an enabled
+#           League Office event has a reminder window open. draft-window =
+#           from 31 days before the Fantrax draft date until a day after the
+#           draft finishes. trade-deadline-day = from midnight on trade-deadline
+#           day (Sunday of the deadline Week) until an hour after the deadline.
+#   faster: run more often while a condition holds, e.g.
+#           faster: {when: trade-deadline-day, every_minutes: 15}
+#           on a job that otherwise runs every_minutes: 30.
+#           draft finishes. nhl-playoffs = from 5 days before the NHL regular
+#           season's last day until 2 days after the NHL's last scheduled
+#           playoff date (NHL schedule data; see automation/core/nhl_playoffs.py).
+#   phases: only run during these parts of the Fantrax season:
+#           preseason, regular, playoffs, offseason.
+#           The current phase comes from Fantrax's own week dates.
+#           Jobs without phases run all year.
+#
+# Manual runs from the Actions tab ignore all of this, so any feature can be
+# tested at any time.
+#
+# Times are America/New_York wall-clock times, so they stay fixed across
+# daylight saving changes.
+
+timezone: America/New_York
+
+# Allow a job to start a few minutes early relative to every_minutes. Without
+# this, small timer jitter would push a 15-minute job to every 30 minutes.
+interval_tolerance_minutes: 5
+
+jobs:
+  # All year: dynasty news matters in the offseason too.
+  - id: wire-engine
+    workflow: league-wire-engine.yml
+    every_minutes: 15
+
+  # Deadline and event reminders. Runs only while an enabled event in
+  # automation/league-office/events.yaml has a reminder window open.
+  - id: league-office
+    workflow: league-office.yml
+    every_minutes: 30
+    when: league-office-events
+
+  - id: automation-health
+    workflow: league-automation-health.yml
+    every_minutes: 60
+
+  # Weekly report: recap (with all-play), weekly awards, power rankings (with
+  # Luck), Monthly Awards, bounty claims, standings, playoff race (from week
+  # 16), matchup preview (with projected games) and NHL games grid.
+  # The 08:00 check posts the report the morning a fantasy week ends; the
+  # 20:00 check only posts anything Fantrax was not ready for in the morning.
+  # Each check also reads the NHL scores of finished nights not checked yet,
+  # for the hat-trick bounty while it is unclaimed.
+  - id: competition-desk
+    workflow: league-competition-desk.yml
+    daily_at: ["08:00", "20:00"]
+    retry_failures: 3
+    phases: [preseason, regular, playoffs]
+
+  # One live-updating scoreboard message per week. Edits are silent, so an
+  # hourly refresh keeps it current without notifying anyone.
+  - id: scoreboard
+    workflow: league-fantrax-scoreboard.yml
+    every_minutes: 60
+    phases: [regular, playoffs]
+
+  # Draft Center: countdown, draft-order reveal, round-by-round recap and a
+  # private alert when a pick clock runs out. Runs only near a Fantrax draft.
+  - id: draft-center
+    workflow: league-draft-center.yml
+    every_minutes: 15
+    when: draft-window
+
+  # Lineup Alerts: opted-in owners (league.yaml owners) get one message when
+  # a starter has no NHL game today and an eligible bench player does. 15:00
+  # leaves time before the evening games; at most one alert per team per day.
+  - id: lineup-alerts
+    workflow: league-lineup-alerts.yml
+    daily_at: ["15:00"]
+    retry_failures: 2
+    phases: [regular, playoffs]
+
+  # Starting Goalies: one 🏒│game-day message per game day, edited silently as
+  # Daily Faceoff's reports firm up. The first check posts it; later checks
+  # edit it only when something changed; nothing runs after the last puck drop.
+  - id: starting-goalies
+    workflow: league-starting-goalies.yml
+    daily_at: ["11:30", "13:30", "15:30", "17:00", "18:00", "18:40", "20:00", "21:15"]
+    phases: [regular, playoffs]
+
+  # Morning Skate: last night's NHL scores, the DBL Goal Reel and a few
+  # YouTube highlights in 📸│media, once per NHL date. All year, so the NHL
+  # playoffs are covered after the DBL season ends; nights without NHL games
+  # post nothing. A failed post is retried at the next check.
+  - id: morning-skate
+    workflow: league-morning-skate.yml
+    daily_at: ["08:30"]
+    retry_failures: 3
+  # Playoff Pool (just for fun, no money): a free NHL playoff box pool in
+  # 🏒│game-day. Posts the boxes once the NHL playoff field is set, standings
+  # each morning after the first puck drop, and a final post naming the Pool
+  # Shark. The NHL playoffs fall in the DBL Offseason, so no phases: only
+  # the NHL's own dates gate it. The 19:45 check posts the boxes the same day
+  # if the field was set during the day, and retries a failed morning post.
+  - id: playoff-pool
+    workflow: league-playoff-pool.yml
+    daily_at: ["07:45", "19:45"]
+    retry_failures: 2
+    when: nhl-playoffs
+
+  # Live bracket; saves seeds automatically after the final regular week.
+  - id: playoffs
+    workflow: league-fantrax-playoffs.yml
+    every_minutes: 60
+    phases: [playoffs]
+
+  # Private commissioner reminders. The hourly run only checks the Fantrax
+  # calendar (automation/commissioner/tasks.yaml) and posts what is due.
+  - id: commissioner-desk
+    workflow: league-commissioner-desk.yml
+    every_minutes: 60
+
+  # Private alert when a draft pick changes owner (Article XII prepayment check).
+  - id: pick-trades
+    workflow: league-pick-trades.yml
+    every_minutes: 15
+
+  # Trade Desk: a report card with a "Who won the trade?" poll in
+  # 💬│trade-discussion for every trade, revisits 6 and 12 months later, and the
+  # DBL Deadline Day Trade Center tracker in 📢│announcements. All year: trades
+  # happen in the offseason too. Every 30 minutes, and every 15 minutes on
+  # trade-deadline day (midnight until an hour after the 11:59 PM ET deadline).
+  - id: trade-desk
+    workflow: league-trade-desk.yml
+    every_minutes: 30
+    faster:
+      when: trade-deadline-day
+      every_minutes: 15
+
+  # Private alert when a rostered player stops being minor-eligible
+  # (Article VII). Reads NHL birth dates and career games once a day.
+  - id: minor-eligibility
+    workflow: league-minor-eligibility.yml
+    daily_at: ["07:00"]
+    retry_failures: 2
+
+  # Private prospect board (NHL Central Scouting rankings) for Commissioner Desk.
+  # Posts only when the rankings change.
+  - id: prospect-board
+    workflow: league-prospect-board.yml
+    daily_at: ["09:30"]
+    retry_failures: 2
+
+  # Re-enables workflows GitHub switched off for inactivity and warns before
+  # that can happen. Also started daily by a second cron-job.org job.
+  - id: dormancy-guard
+    workflow: league-dormancy-guard.yml
+    daily_at: ["06:15"]
+    retry_failures: 2
+
+  # League archive: a daily snapshot of rosters, pick ownership, final weekly
+  # scores, final standings and draft results that builds the league history
+  # (automation/history/). All year: offseason trades and drafts count too.
+  - id: archive
+    workflow: league-archive.yml
+    daily_at: ["05:30"]
+    retry_failures: 2
+
+  # History website, rebuilt from the archive and published to Cloudflare Pages
+  # every morning after the archive's 05:30 run.
+  - id: history-site
+    workflow: league-history-site.yml
+    daily_at: ["06:15"]
+    retry_failures: 2

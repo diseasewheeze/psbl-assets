@@ -1,0 +1,81 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/league-office/dbl-calendar-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL LEAGUE CALENDAR",
+      "description": "Official dates and deadlines for the current DBL season.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL LEAGUE CALENDAR"
+      },
+      "fields": [
+        {
+          "name": "TRACKED HERE",
+          "value": "Draft dates • Dues deadline • Trade deadline and reopening • Roster deadlines • Playoff weeks • Offseason milestones",
+          "inline": false
+        },
+        {
+          "name": "HOW DATES ARE SET",
+          "value": "The Constitution gives each date as a formula, such as \"end of Week 20\" or \"14 to 21 days after the NHL Entry Draft\". The calendar turns those formulas into exact dates. If the two ever disagree, the formula wins (Article V).",
+          "inline": false
+        },
+        {
+          "name": "CHANGES",
+          "value": "A published date changes only when the NHL schedule, a platform limitation or events outside the league's control require it, with at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the NHL schedule forces it.",
+          "inline": false
+        },
+        {
+          "name": "TIME STANDARD",
+          "value": "Unless a post states otherwise, all times are **Eastern Time**.",
+          "inline": false
+        },
+        {
+          "name": "**━━━━━━━━ GET EVENT REMINDERS FROM SESH ━━━━━━━━**",
+          "value": "League events on this calendar run through **Sesh**. Sesh reminds you by direct message, so it only works if Discord lets Sesh message you. One-time setup, about a minute.",
+          "inline": false
+        },
+        {
+          "name": "1. ALLOW DMS FROM THIS SERVER",
+          "value": "**Desktop:** click the server name at the top left, choose **Privacy Settings**, and turn on **Direct Messages**.\n**Phone:** tap your profile picture, then the gear, then **Messaging Permissions** (older apps: **Content & Social** or **Privacy & Safety**). Under server settings, pick this server and turn on **Direct messages**.",
+          "inline": false
+        },
+        {
+          "name": "2. RSVP TO THE EVENT",
+          "value": "Press **Attending** (or your answer) on the event post in this channel. Sesh sends you a confirmation DM right away.",
+          "inline": false
+        },
+        {
+          "name": "3. PICK YOUR REMINDER",
+          "value": "In that DM, choose when Sesh should remind you. Reminders are set one event at a time.",
+          "inline": false
+        },
+        {
+          "name": "ADD THE CALENDAR TO YOUR PHONE",
+          "value": "Type `/link` in any channel. Sesh replies privately with a calendar feed. Add it to Google, Apple or Outlook Calendar and every league date shows up there, updated automatically.",
+          "inline": false
+        },
+        {
+          "name": "NO DM FROM SESH?",
+          "value": "Look in **Message Requests** (and its **Spam** tab) at the top of your DM list and accept Sesh. Still nothing? Send Sesh the command `/settings` in a DM, or open **sesh.fyi/dashboard**, click your name, then **Preferences**, and turn on **Event RSVP Confirmation DMs**. Sesh also needs you to stay in this server and not block it.",
+          "inline": false
+        },
+        {
+          "name": "TO STOP",
+          "value": "Change your RSVP or the reminder in the Sesh DM. Turning off Event RSVP Confirmation DMs stops every Sesh reminder.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

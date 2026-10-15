@@ -1,0 +1,94 @@
+name: DBL League Office Automation
+run-name: DBL League Office Automation — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+
+on:
+  # Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler
+  # starts this workflow with mode=live when it is due.
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: true
+        default: dry-run
+        type: choice
+        options: [dry-run, live, test]
+      channel:
+        description: "Only used for test mode"
+        required: true
+        default: choose-channel
+        type: choice
+        options: [choose-channel, league-calendar, league-announcements, commissioner-desk]
+      reset_state:
+        description: "Clear League Office delivery state before this run"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dbl-league-office
+  cancel-in-progress: false
+
+jobs:
+  league-office:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      INPUT_MODE: ${{ inputs.mode }}
+      INPUT_CHANNEL: ${{ inputs.channel }}
+      INPUT_RESET_STATE: ${{ inputs.reset_state }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Restore saved state
+        run: bash automation/tools/state_branch.sh restore "automation/league-office/state/league_ops.json"
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: automation/common-requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r automation/common-requirements.txt
+
+      - name: Run League Office automation
+        env:
+          LEAGUE_WEBHOOK_LEAGUE_CALENDAR: ${{ secrets.LEAGUE_WEBHOOK_LEAGUE_CALENDAR }}
+          LEAGUE_WEBHOOK_LEAGUE_ANNOUNCEMENTS: ${{ secrets.LEAGUE_WEBHOOK_LEAGUE_ANNOUNCEMENTS }}
+          LEAGUE_WEBHOOK_COMMISSIONER_DESK: ${{ secrets.LEAGUE_WEBHOOK_COMMISSIONER_DESK }}
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            python automation/league-office/league_ops.py --mode live
+            exit $?
+          fi
+
+          if [[ "$INPUT_MODE" == "test" ]]; then
+            if [[ "$INPUT_CHANNEL" == "choose-channel" ]]; then
+              echo "ERROR: choose a channel for test mode."
+              exit 1
+            fi
+            python automation/league-office/league_ops.py --mode test --channel "$INPUT_CHANNEL"
+          else
+            ARGS=(--mode "$INPUT_MODE")
+            if [[ "$INPUT_RESET_STATE" == "true" ]]; then
+              ARGS+=(--reset-state)
+            fi
+            python automation/league-office/league_ops.py "${ARGS[@]}"
+          fi
+
+      # Saved even if one post failed, so posts that did go out are never repeated.
+      - name: Save state to the automation-state branch
+        if: ${{ (github.event_name == 'schedule' || inputs.mode == 'live') && !cancelled() }}
+        run: |
+          bash automation/tools/state_branch.sh save \
+            "chore(league-office): save reminder state" \
+            "DBL League Office Automation" \
+            "automation/league-office/state/league_ops.json"

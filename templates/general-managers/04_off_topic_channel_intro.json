@@ -1,0 +1,36 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/general-managers/dbl-general-managers-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL OFF TOPIC",
+      "description": "Everything that isn't hockey or league business.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL GENERAL MANAGERS"
+      },
+      "fields": [
+        {
+          "name": "USE THIS ROOM FOR",
+          "value": "Other sports • Food and drink • Movies, games and music • Life outside the league",
+          "inline": false
+        },
+        {
+          "name": "HOUSE RULES",
+          "value": "Server-wide conduct rules still apply. Keep it friendly.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

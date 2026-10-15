@@ -1,0 +1,47 @@
+{
+  "embeds": [
+    {
+      "title": "LEAGUE CALENDAR PUBLISHED",
+      "description": "The League Calendar for **Season `[YEAR]`** is live. Every date comes from the formulas in Article V of the Constitution.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL LEAGUE CALENDAR"
+      },
+      "fields": [
+        {
+          "name": "NHL SCHEDULE RELEASED",
+          "value": "`[DATE]`",
+          "inline": false
+        },
+        {
+          "name": "DUES DEADLINE",
+          "value": "**`[TIMESTAMP]`** (before the draft)",
+          "inline": false
+        },
+        {
+          "name": "DRAFT",
+          "value": "`[TIMESTAMP]` • 14 to 21 days after the NHL Entry Draft",
+          "inline": false
+        },
+        {
+          "name": "TRADE DEADLINE",
+          "value": "`[TIMESTAMP]` • Sunday 11:59 PM ET, end of Week 20",
+          "inline": false
+        },
+        {
+          "name": "PLAYOFFS",
+          "value": "Quarterfinals `[DATE STAMP]` • Semifinals `[DATE STAMP]` • Championship `[DATE STAMP]` to `[DATE STAMP]`",
+          "inline": false
+        },
+        {
+          "name": "IF A DATE LOOKS WRONG",
+          "value": "The formula in the Constitution controls. Tell the Commissioner.",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

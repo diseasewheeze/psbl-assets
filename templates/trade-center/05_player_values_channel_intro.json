@@ -1,0 +1,36 @@
+{
+  "embeds": [
+    {
+      "color": 2829617,
+      "footer": {
+        "text": "​"
+      },
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/trade-center/dbl-trade-center-header.png?v=8bit-1"
+      }
+    },
+    {
+      "title": "DBL PLAYER VALUES",
+      "description": "Dynasty values, rankings and trade-value discussion.",
+      "color": 16758812,
+      "footer": {
+        "text": "DBL TRADE CENTER"
+      },
+      "fields": [
+        {
+          "name": "USE THIS ROOM FOR",
+          "value": "Dynasty rankings • Value charts • Pick values • Risers and fallers",
+          "inline": false
+        },
+        {
+          "name": "REMEMBER",
+          "value": "Values are opinions. A trade isn't reversible just because someone believes one side received more value (Article XI).",
+          "inline": false
+        }
+      ],
+      "image": {
+        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+      }
+    }
+  ]
+}

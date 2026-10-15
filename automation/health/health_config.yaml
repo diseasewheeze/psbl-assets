@@ -1,0 +1,136 @@
+settings:
+  webhook_secret: LEAGUE_WEBHOOK_AUTOMATION_HEALTH
+  username: "DBL Systems Desk"
+  alert_color: 0xC73E3A
+  recovery_color: 0x2E7D32
+  test_color: 0xFFB81C
+  wire_persistent_source_runs: 3
+  # A one-off flood-guard event can simply be a legitimate burst of news.
+  # Alert only if the Wire hits the guard in consecutive scheduled runs.
+  wire_rate_guard_consecutive_runs: 2
+  # Newly created scheduled workflows can take time to receive their first
+  # GitHub schedule event. Do not treat that startup window as an outage.
+  no_run_grace_minutes: 1440
+
+workflows:
+  # The scheduler starts every other workflow. If it goes stale, the external
+  # timer (cron-job.org) has probably stopped and only GitHub's late backup
+  # cron is running. See automation/scheduler/README.md.
+  - id: scheduler
+    name: "DBL Scheduler"
+    file: "league-scheduler.yml"
+    max_age_minutes: 45
+
+  - id: wire-engine
+    name: "DBL Wire Engine"
+    file: "league-wire-engine.yml"
+    # The scheduler starts the Wire every 15 minutes; alert after several
+    # missed starts, not after a single delayed one.
+    max_age_minutes: 60
+    inspect_wire_logs: true
+
+  - id: league-office
+    name: "DBL League Office Automation"
+    file: "league-office.yml"
+    max_age_minutes: 180
+
+  - id: competition-desk
+    name: "DBL Competition Desk"
+    file: "league-competition-desk.yml"
+    # Checks at 08:00 and 20:00 during the season.
+    max_age_minutes: 900
+
+  - id: scoreboard
+    name: "DBL Fantrax Scoreboard"
+    file: "league-fantrax-scoreboard.yml"
+    # Hourly during the regular season and playoffs.
+    max_age_minutes: 180
+
+  - id: lineup-alerts
+    name: "DBL Lineup Alerts"
+    file: "league-lineup-alerts.yml"
+    # Once a day at 15:00 during the regular season and playoffs.
+    max_age_minutes: 1700
+
+  - id: starting-goalies
+    name: "DBL Starting Goalies"
+    file: "league-starting-goalies.yml"
+    # Several checks a day from 11:30 to 21:15 during the regular season and
+    # playoffs; the longest gap is overnight (about 14 hours).
+    max_age_minutes: 1000
+
+  - id: morning-skate
+    name: "DBL Morning Skate"
+    file: "league-morning-skate.yml"
+    # Once a day at 08:30, all year (it simply posts nothing on nights
+    # without NHL games).
+    max_age_minutes: 1700
+
+  - id: playoffs
+    name: "DBL Fantrax Playoffs"
+    file: "league-fantrax-playoffs.yml"
+    # Hourly during the playoff weeks only.
+    max_age_minutes: 180
+
+  - id: playoff-pool
+    name: "DBL Playoff Pool"
+    file: "league-playoff-pool.yml"
+    # 07:45 and 19:45, only inside the NHL playoff window (when: nhl-playoffs
+    # in schedule.yaml, from 5 days before the NHL regular season ends until
+    # 2 days after the last scheduled playoff date). The longest gap is 12 hours.
+    max_age_minutes: 900
+
+  - id: draft-center
+    name: "DBL Draft Center"
+    file: "league-draft-center.yml"
+    # Every 15 minutes, only from 31 days before a Fantrax draft until a day after it.
+    max_age_minutes: 60
+
+  - id: commissioner-desk
+    name: "DBL Commissioner Desk"
+    file: "league-commissioner-desk.yml"
+    # Hourly all year.
+    max_age_minutes: 180
+
+  - id: pick-trades
+    name: "DBL Pick Trades"
+    file: "league-pick-trades.yml"
+    # Every 15 minutes all year; alert after several missed runs.
+    max_age_minutes: 90
+
+  - id: trade-desk
+    name: "DBL Trade Desk"
+    file: "league-trade-desk.yml"
+    # Every 30 minutes all year (every 15 on trade-deadline day); alert after
+    # several missed runs.
+    max_age_minutes: 120
+
+  - id: minor-eligibility
+    name: "DBL Minor Eligibility"
+    file: "league-minor-eligibility.yml"
+    # Once a day at 07:00.
+    max_age_minutes: 1700
+
+  - id: prospect-board
+    name: "DBL Prospect Board"
+    file: "league-prospect-board.yml"
+    # Once a day at 09:30.
+    max_age_minutes: 1700
+
+  - id: dormancy-guard
+    name: "DBL Dormancy Guard"
+    file: "league-dormancy-guard.yml"
+    # Once a day at 06:15.
+    max_age_minutes: 1700
+
+  - id: archive
+    name: "DBL League Archive"
+    file: "league-archive.yml"
+    # Once a day at 05:30.
+    max_age_minutes: 1700
+
+  - id: history-site
+    name: "DBL History Site"
+    file: "league-history-site.yml"
+    # Once a day at 06:15.
+    max_age_minutes: 1700

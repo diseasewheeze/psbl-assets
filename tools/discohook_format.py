@@ -1,0 +1,322 @@
+"""Shared DBL Discohook message format (one place for the rules).
+
+Every send is ONE Discord message:
+- The channel's header banner embed (if it has one), then ONE text embed.
+  When a message has several text sections, they merge into that one embed:
+  each extra section's title becomes a bold divider field
+  ("**━━━ TITLE ━━━**") whose value is the section's text, followed
+  by the section's own fields.
+- The header banner embed is charcoal, shows the header image and keeps an
+  invisible footer ("\u200b"); without it Discohook rejects it as empty.
+- Every screen (discord_layout.py): no inline fields, dividers and field
+  names fit a phone, titles fit desktop with the member list and a tablet.
+  Messages already posted in Discord (posted_messages.py) are left as posted.
+- Only the final embed carries real footer text plus the shared gold
+  footer-divider image. No other embed has footer text or the divider.
+- When several messages are sent back to back as one sequence (SEQUENCES),
+  only the sequence's LAST message has the footer text and divider. The
+  messages before it have neither, so they read as one continuous post.
+- Discord limits: 25 fields per embed, 256 per field name, 1,024 per field
+  value, 4,096 per description, 10 embeds and 6,000 counted characters per
+  message. Content that would break a limit is an error, never split.
+- Channels are written with their full server name ("**🏒│game-day**").
+  A short reference (**game-day**, #game-day, "the game-day channel") is
+  rewritten by discord_channels.restyle() and reported if one is left.
+- MULTI_SECTION_EXCEPTIONS lists the messages whose sections do not fit one
+  embed. They keep one embed per section until the Commissioner decides how
+  to reshape them; the footer rules still apply.
+
+Used by normalize_discohook_templates.py (enforces and verifies every template),
+build_channel_intros.py, build_news_templates.py and build_constitution.py.
+The packaging workflow (.github/workflows/league-package-discohook-json.yml)
+checks the same rules independently.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import discord_channels as channels
+import discord_layout as layout
+import posted_messages as posted
+
+BASE = "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/"
+FOOTER_BASE_URL = BASE + "shared/dbl-footer-divider-1600x90.png"
+# Cache-busting version for the hosted artwork. Discord caches images by URL, so bump
+# ASSET_VERSION whenever tools/build_discord_assets.py changes the art, then run
+# tools/normalize_discohook_templates.py.
+ASSET_VERSION = "8bit-1"
+FOOTER_URL = FOOTER_BASE_URL + "?v=" + ASSET_VERSION
+HEADER_VERSION = "?v=" + ASSET_VERSION
+HEADER_COLOR = int("2B2D31", 16)
+ZWSP = "\u200b"
+MAX_EMBEDS = 10
+MAX_CHARS = 6000
+MAX_FIELDS = 25
+MAX_FIELD_NAME = 256
+MAX_FIELD_VALUE = 1024
+MAX_DESC = 4096
+
+# Messages that cannot become one text embed without splitting content.
+# Paths are relative to templates/; a trailing "/" matches a whole folder.
+MULTI_SECTION_EXCEPTIONS = {
+    "welcome/01_welcome.json": "merging the six sections needs 30 fields (limit 25)",
+    "constitution/": "several articles are longer than one field can hold (1,024 characters)",
+}
+
+
+class DoesNotFit(ValueError):
+    """Merging the sections would break a Discord limit."""
+
+
+# Messages sent back to back, in this order, into one channel. Only the last one
+# has footer text and the divider. Paths are relative to templates/; a trailing
+# "/" stands for every template in that folder, in file-name order.
+SEQUENCES = {
+    "constitution": ["league-office/01_constitution_channel_intro.json", "constitution/"],
+}
+TEMPLATES = Path(__file__).resolve().parents[1] / "templates"
+
+
+def sequence(name: str, templates: Path = TEMPLATES) -> list[str]:
+    """The template paths of a sequence, in send order."""
+    out: list[str] = []
+    for part in SEQUENCES[name]:
+        if part.endswith("/"):
+            out += sorted(p.relative_to(templates).as_posix() for p in (templates / part).glob("*.json"))
+        else:
+            out.append(part)
+    return out
+
+
+def continues(rel: str | None, templates: Path = TEMPLATES) -> bool:
+    """True when another message of the same sequence follows this one (so it gets no footer)."""
+    if not rel:
+        return False
+    for name in SEQUENCES:
+        order = sequence(name, templates)
+        if rel in order:
+            return rel != order[-1]
+    return False
+
+
+def is_exception(rel: str | None) -> bool:
+    return bool(rel) and any(rel == k or (k.endswith("/") and rel.startswith(k)) for k in MULTI_SECTION_EXCEPTIONS)
+
+
+def divider_name(title: str) -> str:
+    # Three bars a side keeps a short title on one line even on a phone
+    # (discord_layout.py checks it); longer bars wrapped on narrow screens.
+    return f"**━━━ {title} ━━━**"
+
+# Each category folder has one header image. League Office has one header per channel.
+CATEGORY_HEADERS = {
+    "the-wire": "the-wire/dbl-the-wire-header.png",
+    "league-competition": "league-competition/dbl-competition-header.png",
+    "general-managers": "general-managers/dbl-general-managers-header.png",
+    "trade-center": "trade-center/dbl-trade-center-header.png",
+    "scouting": "scouting/dbl-scouting-header.png",
+    "waiver-wire": "waiver-wire/dbl-waiver-wire-header.png",
+    "commissioners-office": "commissioners-office/dbl-commissioners-office-header.png",
+    "franchise-hq": "franchise-hq/dbl-franchise-hq-header.png",
+    "draft-center": "draft-center/dbl-draft-center-header.png",
+}
+LEAGUE_OFFICE_HEADERS = {
+    "01_constitution_channel_intro.json": "league-office/dbl-constitution-header.png",
+    "02_announcements_channel_intro.json": "league-office/dbl-announcements-header.png",
+    "03_calendar_channel_intro.json": "league-office/dbl-calendar-header.png",
+    "04_ledger_channel_intro.json": "league-office/dbl-ledger-header.png",
+    "05_voting_channel_intro.json": "league-office/dbl-voting-header.png",
+    "06_hall_of_champions_channel_intro.json": "league-office/dbl-champions-header.png",
+    "07_league_records_channel_intro.json": "league-office/dbl-records-header.png",
+}
+GENERIC_HEADER = BASE + "shared/dbl-generic-header-1600x420.png" + HEADER_VERSION
+WELCOME = "welcome/01_welcome.json"
+WELCOME_HEADER = "welcome/dbl-welcome-banner.png"
+
+
+def header_url(rel: str) -> str | None:
+    """Header banner URL for a template path relative to templates/, or None."""
+    if rel == WELCOME:
+        return BASE + WELCOME_HEADER + HEADER_VERSION
+    if not rel.endswith("_channel_intro.json"):
+        return None
+    category, name = rel.split("/", 1)
+    image = LEAGUE_OFFICE_HEADERS[name] if category == "league-office" else CATEGORY_HEADERS[category]
+    return BASE + image + HEADER_VERSION
+
+
+def banner_embed(url: str) -> dict:
+    return {"color": HEADER_COLOR, "footer": {"text": ZWSP}, "image": {"url": url}}
+
+
+def is_banner(embed: dict) -> bool:
+    url = str(((embed or {}).get("image") or {}).get("url") or "")
+    return url.startswith(BASE) and ("-header.png" in url or "dbl-welcome-banner.png" in url
+                                     or "dbl-generic-header" in url)
+
+
+def is_divider(embed: dict) -> bool:
+    return str(((embed or {}).get("image") or {}).get("url") or "").startswith(FOOTER_BASE_URL)
+
+
+def footer_text(embed: dict) -> str:
+    return str(((embed or {}).get("footer") or {}).get("text") or "")
+
+
+def embed_chars(embed: dict) -> int:
+    total = len(embed.get("title") or "") + len(embed.get("description") or "")
+    total += len(footer_text(embed)) + len(((embed.get("author") or {}).get("name")) or "")
+    for f in embed.get("fields") or []:
+        total += len(f.get("name") or "") + len(f.get("value") or "")
+    return total
+
+
+def message_chars(embeds: list[dict]) -> int:
+    return sum(embed_chars(e) for e in embeds)
+
+
+def limit_problems(embed: dict) -> list[str]:
+    errs: list[str] = []
+    if len(embed.get("description") or "") > MAX_DESC:
+        errs.append(f"description is {len(embed['description'])} characters (limit {MAX_DESC})")
+    fields = embed.get("fields") or []
+    if len(fields) > MAX_FIELDS:
+        errs.append(f"{len(fields)} fields (limit {MAX_FIELDS})")
+    for f in fields:
+        if len(f.get("name") or "") > MAX_FIELD_NAME:
+            errs.append(f"field name '{f['name'][:40]}' is over {MAX_FIELD_NAME} characters")
+        if len(f.get("value") or "") > MAX_FIELD_VALUE:
+            errs.append(f"field '{(f.get('name') or '')[:50]}' is {len(f['value'])} characters (limit {MAX_FIELD_VALUE})")
+    return errs
+
+
+def merge_sections(texts: list[dict]) -> dict:
+    """Merge text embeds into one: later sections become divider fields."""
+    merged = dict(texts[0])
+    fields = list(merged.get("fields") or [])
+    for section in texts[1:]:
+        fields.append({"name": divider_name(section.get("title") or ""),
+                       "value": section.get("description") or ZWSP, "inline": False})
+        fields += section.get("fields") or []
+    merged["fields"] = fields
+    errs = limit_problems(merged)
+    if message_chars([merged]) > MAX_CHARS:
+        errs.append(f"{message_chars([merged])} characters (limit {MAX_CHARS})")
+    if errs:
+        raise DoesNotFit("; ".join(errs))
+    return merged
+
+
+def apply(embeds: list[dict], banner_url: str | None = None, rel: str | None = None,
+          cont: bool | None = None) -> list[dict]:
+    """Return the embeds in the DBL format. Text and order are kept.
+
+    The final embed's footer text is the last real footer text in the message,
+    so merging sections never loses the sign-off. Raises DoesNotFit when the
+    sections cannot share one embed, unless the message is a listed exception.
+    cont: the message is followed by another one of its sequence, so it gets no
+    footer text and no divider at all (None = look it up from rel).
+    """
+    if cont is None:
+        cont = continues(rel)
+    out = [channels.restyle_embed(e) for e in embeds]
+    if banner_url:
+        if out and is_banner(out[0]):
+            out[0] = banner_embed(banner_url)
+        else:
+            out.insert(0, banner_embed(banner_url))
+    sign_off = ""
+    for e in out:
+        text = footer_text(e)
+        if text and text != ZWSP:
+            sign_off = text
+    if not sign_off and not cont:
+        raise ValueError("message has no footer text to put on its final embed")
+    head = [out[0]] if out and is_banner(out[0]) else []
+    texts = [e for e in out[len(head):]
+             if not (is_divider(e) and e.keys() <= {"color", "footer", "image"}
+                     and footer_text(e) in ("", ZWSP))]
+    if not texts:
+        raise ValueError("message has no text embed")
+    if len(texts) > 1:
+        try:
+            texts = [merge_sections(texts)]
+        except DoesNotFit:
+            if not is_exception(rel):
+                raise
+    if not cont and (texts[-1].get("image") or {}).get("url") and not is_divider(texts[-1]):
+        # The final card shows its own image, so the divider needs an embed of its own.
+        texts.append({"color": HEADER_COLOR})
+    last = len(texts) - 1
+    for i, e in enumerate(texts):
+        if i < last or cont:
+            e.pop("footer", None)
+            if is_divider(e):
+                e.pop("image", None)
+        else:
+            # Assigning in place keeps an existing key where it already sits in the JSON.
+            e["footer"] = {"text": sign_off}
+            e["image"] = {"url": FOOTER_URL}
+    return head + texts
+
+
+def problems(embeds: list[dict], banner_url: str | None = None, rel: str | None = None,
+             cont: bool | None = None) -> list[str]:
+    """Every way these embeds break the format (empty list = compliant)."""
+    if cont is None:
+        cont = continues(rel)
+    errs: list[str] = []
+    if not isinstance(embeds, list) or not embeds:
+        return ["no embeds"]
+    if len(embeds) > MAX_EMBEDS:
+        errs.append(f"{len(embeds)} embeds (limit {MAX_EMBEDS})")
+    chars = message_chars(embeds)
+    if chars > MAX_CHARS:
+        errs.append(f"{chars} characters (limit {MAX_CHARS})")
+    for i, e in enumerate(embeds):
+        errs += [f"embed {i + 1}: {p}" for p in limit_problems(e)]
+        errs += [f"embed {i + 1}: {p}" for p in channels.embed_problems(e)]
+    head = 1 if is_banner(embeds[0]) else 0
+    if head and embeds[0] != {"color": HEADER_COLOR, "footer": {"text": ZWSP}, "image": embeds[0].get("image")}:
+        errs.append("header banner must be charcoal with the header image and the invisible footer only")
+    for i, e in enumerate(embeds[1:], 2):
+        if is_banner(e):
+            errs.append(f"embed {i} is a header banner; only the first embed may be")
+    texts = embeds[head:]
+    if len(texts) > 1 and not is_exception(rel):
+        errs.append(f"{len(texts)} text embeds; sections must merge into one text embed")
+    last = len(embeds) - 1
+    if cont:
+        for i in range(head, len(embeds)):
+            if "footer" in embeds[i]:
+                errs.append(f"embed {i + 1} has a footer; another message follows, so only the last message may")
+            if is_divider(embeds[i]):
+                errs.append(f"embed {i + 1} has the footer divider; another message follows, so only the last message may")
+        if banner_url and embeds[0] != banner_embed(banner_url):
+            errs.append("first embed is not this channel's header banner")
+        return errs + layout_problems(embeds, rel)
+    for i in range(head, last):
+        if "footer" in embeds[i]:
+            errs.append(f"embed {i + 1} has a footer; only the final embed may")
+        if is_divider(embeds[i]):
+            errs.append(f"embed {i + 1} has the footer divider; only the final embed may")
+    if not footer_text(embeds[last]) or footer_text(embeds[last]) == ZWSP:
+        errs.append("final embed has no footer text")
+    if (embeds[last].get("image") or {}).get("url") != FOOTER_URL:
+        errs.append("final embed does not use the footer divider image")
+    if banner_url and embeds[0] != banner_embed(banner_url):
+        errs.append("first embed is not this channel's header banner")
+    errs += layout_problems(embeds, rel)
+    return errs
+
+
+def layout_problems(embeds: list[dict], rel: str | None) -> list[str]:
+    """Phone/tablet layout errors (discord_layout.py) for a template not yet posted.
+
+    Messages already live in Discord (posted_messages.py) keep what was posted;
+    their layout is fixed the next time they are changed and resent anyway.
+    """
+    if not rel or posted.is_posted(rel):
+        return []
+    return layout.problems(embeds, rel)[0]
