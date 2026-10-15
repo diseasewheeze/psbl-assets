@@ -37,8 +37,8 @@ var DATA = {
     }
 };
 
-DBL.run("07 Playoff Bracket", function () {
-    var B = DBL, D = DATA, R = D.results;
+PSBL.run("07 Playoff Bracket", function () {
+    var B = PSBL, D = DATA, R = D.results;
     var folder = B.folder("Playoffs");
     function team(seed) { return D.seeds[seed - 1][0]; }
     function seedOf(name) { for (var i = 0; i < 6; i++) if (D.seeds[i][0] === name) return i + 1; return 0; }
@@ -88,7 +88,7 @@ DBL.run("07 Playoff Bracket", function () {
     B.background(c, "dots");
     var mark = B.image(c, "b-mark-8.png", 960, 300, { center: true });
     var eb = B.text(c, D.year + " POSTSEASON", { face: "silk", k: 6, color: "gold", x: 960, y: 470, align: "center" });
-    var tt = B.text(c, "THE DBL PLAYOFFS", { face: "jersey", k: 14, color: "cream", x: 960, y: 540, align: "center", maxW: 1700, shadow: "black" });
+    var tt = B.text(c, "THE PSBL PLAYOFFS", { face: "jersey", k: 14, color: "cream", x: 960, y: 540, align: "center", maxW: 1700, shadow: "black" });
     B.pop(mark, B.f(3));
     B.blinkIn(eb, B.f(9));
     B.pop(tt, B.f(15));
@@ -120,7 +120,7 @@ DBL.run("07 Playoff Bracket", function () {
     B.background(b, "dots");
     var stage = !R.quarterfinal3v6 || !R.quarterfinal4v5 ? "QUARTERFINALS" : !R.semifinal1 || !R.semifinal2 ? "SEMIFINALS" :
         !R.championship ? "CHAMPIONSHIP" : "FINAL";
-    var h = B.header(b, "THE DBL PLAYOFFS \u2022 " + D.year, stage === "FINAL" ? "CHAMPION: " + R.championship : "NOW: THE " + stage, 0, { x: 156, y: 60, k: 6 });
+    var h = B.header(b, "THE PSBL PLAYOFFS \u2022 " + D.year, stage === "FINAL" ? "CHAMPION: " + R.championship : "NOW: THE " + stage, 0, { x: 156, y: 60, k: 6 });
     var items = heads(b);
     function st(name, winner) { return !winner ? "seed" : winner === name ? "won" : "lost"; }
     items = items.concat(slot(b, 120, 330, 3, team(3), D.seeds[2][1], st(team(3), R.quarterfinal3v6)),

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL Scheduler: start each automation workflow in live mode when it is due.
+"""PSBL Scheduler: start each automation workflow in live mode when it is due.
 
 GitHub's built-in cron is best-effort and, for this repository, regularly runs
 hours late or skips runs entirely. This dispatcher replaces the individual
@@ -70,7 +70,7 @@ def parse_dt(value: Any) -> datetime | None:
 def is_live_run(run: dict[str, Any]) -> bool:
     """True for runs that did real live work (scheduled or dispatched live).
 
-    Every DBL workflow sets a run-name ending in "— <mode>", so live runs can
+    Every PSBL workflow sets a run-name ending in "— <mode>", so live runs can
     be told apart from manual preview/test runs without reading their logs.
     """
     if run.get("conclusion") in IGNORED_CONCLUSIONS:
@@ -166,7 +166,7 @@ class GitHub:
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
-            "User-Agent": "DBL-Scheduler/1.0",
+            "User-Agent": "PSBL-Scheduler/1.0",
         })
 
     def recent_runs(self, workflow: str, per_page: int = 40) -> list[dict[str, Any]]:
@@ -214,7 +214,7 @@ def main() -> int:
 
     phase, phase_text = current_phase(now)
     print(
-        f"DBL SCHEDULER now={now.astimezone(tz).strftime('%Y-%m-%d %H:%M %Z')} "
+        f"PSBL SCHEDULER now={now.astimezone(tz).strftime('%Y-%m-%d %H:%M %Z')} "
         f"season={phase_text} dry_run={args.dry_run} ref={ref}"
     )
     started = errors = retries = checked = 0

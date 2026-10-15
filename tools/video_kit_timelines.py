@@ -1,8 +1,8 @@
-"""FilmCraft timelines for the DBL Video Kit, written as OpenTimelineIO (.otio) files.
+"""FilmCraft timelines for the PSBL Video Kit, written as OpenTimelineIO (.otio) files.
 
 FilmCraft imports OTIO with File > Import: every timeline in a file becomes a sequence, with its
 tracks, clips, markers and track volumes, and media paths relative to the .otio file. Each
-sequence follows one script in the DBL Video Scripts doc: the real stings, wipes, music and
+sequence follows one script in the PSBL Video Scripts doc: the real stings, wipes, music and
 b-roll are already in place, placeholder slates mark what to drop in (camera, screen recording,
 an EffectCraft render), and a marker sits on every line of the script with the words in it.
 
@@ -25,11 +25,11 @@ TRACKS = [("V1", "Video", "PICTURE"), ("V2", "Video", "GRAPHICS"), ("V3", "Video
 
 # what each piece of real media is and how long it runs (seconds); None = a still
 MEDIA = {
-    "sting": ("Media/Stings/dbl-intro-sting.mp4", 3.0),
-    "outro": ("Media/Stings/dbl-outro.mp4", 5.0),
-    "wipe": ("Media/Transitions/dbl-pixel-wipe.mov", 20 / 30),
-    "bug": ("Media/Overlays/dbl-corner-bug.png", None),
-    "hype": ("Media/B-roll/DBL_Hype_Intro.mp4", 75.2),
+    "sting": ("Media/Stings/psbl-intro-sting.mp4", 3.0),
+    "outro": ("Media/Stings/psbl-outro.mp4", 5.0),
+    "wipe": ("Media/Transitions/psbl-pixel-wipe.mov", 20 / 30),
+    "bug": ("Media/Overlays/psbl-corner-bug.png", None),
+    "hype": ("Media/B-roll/PSBL_Hype_Intro.mp4", 75.2),
     "bed-hype-45s": ("../SoundCraft/Beds/bed-hype-45s.wav", 45.0),
     "bed-week-60s": ("../SoundCraft/Beds/bed-week-60s.wav", 60.0),
     "bed-tutorial-loop": ("../SoundCraft/Beds/bed-tutorial-loop.wav", 38.4),
@@ -279,7 +279,7 @@ def hype_trailer(S: Scripts):
     # Recruiting trailer: cut together from the league's hype intro, ready for a voice.
     q = Seq("Recruiting Trailer", 45)
     intro(q)
-    cuts = [(3.0, 4.0, 5.4, "Arena and crowd"), (8.4, 9.6, 5.6, "DBL logo"), (14.0, 24.0, 8.8, "20 active, 10 minors"),
+    cuts = [(3.0, 4.0, 5.4, "Arena and crowd"), (8.4, 9.6, 5.6, "PSBL logo"), (14.0, 24.0, 8.8, "20 active, 10 minors"),
             (22.8, 46.0, 4.4, "Unlimited trades"), (27.2, 50.4, 5.6, "Dynasty Pot coins"), (32.8, 56.0, 5.6, "Championship banners"),
             (38.4, 67.2, 6.6, "End card: claim your franchise")]
     for at, src, dur, name in cuts:
@@ -337,8 +337,8 @@ def hype_trailer(S: Scripts):
                      [(9, 5), (22, 15), (42, 3)],
                      [(3, 6, "render", "04 Franchise Cards", "Franchise Card - (each finalist)"),
                       (14, 8, "render", "07 Playoff Bracket", "Bracket - (year)"),
-                      (37, 5, "render", "09 Countdown", "Countdown - THE DBL CHAMPIONSHIP")], wipes=(14, 37)))
-    return "DBL Hype Trailer", seqs
+                      (37, 5, "render", "09 Countdown", "Countdown - THE PSBL CHAMPIONSHIP")], wipes=(14, 37)))
+    return "PSBL Hype Trailer", seqs
 
 
 def talking_head(S: Scripts):
@@ -391,7 +391,7 @@ def talking_head(S: Scripts):
     music(s, "bed-tutorial-loop", until=11, db=-20.0)
     voice_track(s)
     seqs.append(s)
-    return "DBL Talking Head", seqs
+    return "PSBL Talking Head", seqs
 
 
 HOWTOS = ["Moving a player to minors", "Setting your daily lineup", "Paying dues with Fantrax Treasurer",
@@ -448,7 +448,7 @@ def screen_tutorial(S: Scripts):
     say_markers(s, S.rows("Draft order draw", 0, 174))
     voice_track(s)
     seqs.append(s)
-    return "DBL Screen Tutorial", seqs
+    return "PSBL Screen Tutorial", seqs
 
 
 EXPLAINERS = [("The Constitution in 3 Minutes", "The Constitution in 3 minutes", "Constitution in 3 Minutes", 180),
@@ -468,7 +468,7 @@ def explainer(S: Scripts):
         music(s, "bed-tutorial-loop", db=-22.0)
         voice_track(s)
         seqs.append(s)
-    return "DBL Explainer", seqs
+    return "PSBL Explainer", seqs
 
 
 def week_in_60(S: Scripts):
@@ -478,7 +478,7 @@ def week_in_60(S: Scripts):
     say_markers(s, S.rows("Week in 60"))
     music(s, "bed-week-60s", db=-16.0)
     voice_track(s)
-    return "DBL Week in 60", [s]
+    return "PSBL Week in 60", [s]
 
 
 def monthly_awards(S: Scripts):
@@ -488,7 +488,7 @@ def monthly_awards(S: Scripts):
     say_markers(s, S.rows("Monthly awards"))
     music(s, "bed-week-60s", db=-16.0)
     voice_track(s)
-    return "DBL Monthly Awards", [s]
+    return "PSBL Monthly Awards", [s]
 
 
 def playoff_show(S: Scripts):
@@ -535,7 +535,7 @@ def playoff_show(S: Scripts):
     music(s, "bed-week-60s", until=30, db=-16.0)
     voice_track(s)
     seqs.append(s)
-    return "DBL Playoff Show", seqs
+    return "PSBL Playoff Show", seqs
 
 
 def season_in_review(S: Scripts):
@@ -571,7 +571,7 @@ def season_in_review(S: Scripts):
     s.loop("A2", 0, "bed-tutorial-loop", until=hype_from)
     s.media("A2", hype_from, "bed-hype-45s", dur=min(45.0, total - hype_from))
     voice_track(s)
-    return "DBL Season in Review", [s]
+    return "PSBL Season in Review", [s]
 
 
 def awards_night(S: Scripts):
@@ -596,7 +596,7 @@ def awards_night(S: Scripts):
     s.marker(t, "Season in Review", "Play the Season in Review.", "CYAN")
     seg_render(250, "Season in Review", "your finished Season in Review video")
     honors = [n.lstrip("• ") for n in notes if n.startswith("•")][:5]
-    labels = ["CONSOLATION CHAMPION", "PRESIDENTS' TROPHY", "THIRD PLACE", "RUNNER-UP", "DBL CHAMPION"]
+    labels = ["CONSOLATION CHAMPION", "PRESIDENTS' TROPHY", "THIRD PLACE", "RUNNER-UP", "PSBL CHAMPION"]
     for i, lab in enumerate(labels):
         seg_cam(12, f"2. HONORS: {lab}", honors[i] if i < len(honors) else "")
         seg_render(8, "10 Awards Night", f"Honor - {lab}")
@@ -621,7 +621,7 @@ def awards_night(S: Scripts):
     s.volumes["A2"] = -24.0
     s.loop("A2", 0, "bed-awards-loop")
     voice_track(s)
-    return "DBL Awards Night", [s]
+    return "PSBL Awards Night", [s]
 
 
 BUILDERS = [hype_trailer, talking_head, screen_tutorial, explainer, week_in_60, monthly_awards, playoff_show,

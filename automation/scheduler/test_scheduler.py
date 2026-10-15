@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression checks for the DBL Scheduler's due-time logic."""
+"""Offline regression checks for the PSBL Scheduler's due-time logic."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ def utc(text: str) -> datetime:
     return datetime.fromisoformat(text).replace(tzinfo=timezone.utc)
 
 
-def run(created: datetime, title: str = "DBL Job — live", event: str = "workflow_dispatch",
+def run(created: datetime, title: str = "PSBL Job — live", event: str = "workflow_dispatch",
         conclusion: str | None = "success") -> dict:
     return {
         "created_at": created.isoformat().replace("+00:00", "Z"),
@@ -45,7 +45,7 @@ class IntervalJobTests(unittest.TestCase):
         self.assertTrue(scheduler.decide(self.job, runs, self.now, ET, TOL).due)
 
     def test_manual_preview_run_does_not_count(self) -> None:
-        runs = [run(self.now - timedelta(minutes=2), title="DBL Wire Engine — shadow")]
+        runs = [run(self.now - timedelta(minutes=2), title="PSBL Wire Engine — shadow")]
         self.assertTrue(scheduler.decide(self.job, runs, self.now, ET, TOL).due)
 
     def test_cancelled_live_run_does_not_count(self) -> None:
@@ -62,7 +62,7 @@ class IntervalJobTests(unittest.TestCase):
         self.assertFalse(scheduler.decide(self.job, runs, self.now, ET, TOL).due)
 
     def test_legacy_cron_run_counts(self) -> None:
-        runs = [run(self.now - timedelta(minutes=3), title="DBL Wire Engine", event="schedule")]
+        runs = [run(self.now - timedelta(minutes=3), title="PSBL Wire Engine", event="schedule")]
         self.assertFalse(scheduler.decide(self.job, runs, self.now, ET, TOL).due)
 
 

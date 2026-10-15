@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL Competition Desk: the weekly report.
+"""PSBL Competition Desk: the weekly report.
 
 On the morning a fantasy week ends (normally Monday, at report_time in
 league.yaml), posts in order:
@@ -62,7 +62,7 @@ import bounties  # noqa: E402
 import edge  # noqa: E402
 import monthly  # noqa: E402
 import render  # noqa: E402
-import roster  # noqa: E402  (wire/roster.py: match MLB players to DBL rosters)
+import roster  # noqa: E402  (wire/roster.py: match MLB players to PSBL rosters)
 import weekly  # noqa: E402
 from core import mlb, season  # noqa: E402
 from core.fantrax import Fantrax, games_counted, schedule_for  # noqa: E402
@@ -286,7 +286,7 @@ class Desk:
         self.cfg = cfg
         self.comp = cfg.get("competition") or {}
         self.tz = timezone_of(cfg)
-        self.fx = fx or Fantrax(str(cfg["league_id"]), user_agent="DBL-Competition-Desk/2.0")
+        self.fx = fx or Fantrax(str(cfg["league_id"]), user_agent="PSBL-Competition-Desk/2.0")
         self.info = self.fx.league_info()
         self.rows = self.fx.standings()
         self.last_regular, self.first_playoff, self.playoff_cut = season.playoff_settings(self.info)
@@ -380,7 +380,7 @@ class Desk:
         """
         try:
             if self.rosters_empty():
-                self.notes.append("schedule edge left out: every DBL roster is empty")
+                self.notes.append("schedule edge left out: every PSBL roster is empty")
                 return None
             squads = edge.lineup_players(self.roster_data(), self.player_directory())
             if not squads:
@@ -590,7 +590,7 @@ def run(
     now = now or datetime.now(timezone.utc)
     desk = desk or Desk(load_league(), test=(mode == "test"))
     print(
-        f"DBL COMPETITION DESK mode={mode.upper()} "
+        f"PSBL COMPETITION DESK mode={mode.upper()} "
         f"now={now.astimezone(desk.tz).strftime('%a %Y-%m-%d %H:%M %Z')} "
         f"season={season.describe(desk.info, now)} counted_weeks={games_counted(desk.rows)}"
     )

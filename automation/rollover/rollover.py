@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL season rollover: check a new Fantrax league and prepare the automations for it.
+"""PSBL season rollover: check a new Fantrax league and prepare the automations for it.
 
 Everything season-specific is read from Fantrax, so a rollover is: create the
 new league on Fantrax, check it here, switch league.yaml to it, clear the saved
@@ -141,7 +141,7 @@ def run_check(league_id: str) -> int:
     cfg = load_league()
     tz = timezone_of(cfg)
     now = datetime.now(timezone.utc)
-    fx = Fantrax(league_id, user_agent="DBL-Rollover/1.0")
+    fx = Fantrax(league_id, user_agent="PSBL-Rollover/1.0")
     info = fx.league_info()
     standings = fx.standings()  # already normalized; normalizing twice zeroes the W-L-T counts
     print(f"Checking Fantrax league {league_id}: {info.get('leagueName')} (season {info.get('seasonYear')})")
@@ -171,7 +171,7 @@ def run_check(league_id: str) -> int:
 def run_reset() -> int:
     script = AUTOMATION / "tools" / "state_branch.sh"
     result = subprocess.run(
-        ["bash", str(script), "remove", "chore(rollover): clear previous season state", "DBL Fantrax Automation", *SEASON_STATE],
+        ["bash", str(script), "remove", "chore(rollover): clear previous season state", "PSBL Fantrax Automation", *SEASON_STATE],
         cwd=AUTOMATION.parent,
     )
     return result.returncode

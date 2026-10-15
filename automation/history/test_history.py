@@ -28,7 +28,7 @@ NAMES = {A: "Fantrax North", B: "Fantrax South", C: "Fantrax East", D: "Fantrax 
 HISTORY = {
     "franchises": {
         "north": {"name": "North Stars", "owner": "Avery", "founded": 2027, "colors": ["#1D4E89", "#F4EFE4"],
-                  "logo": "brand/primary/dbl-b-mark.png", "team_ids": [A]},
+                  "logo": "brand/primary/psbl-b-mark.png", "team_ids": [A]},
         "south": {"name": "South Shore", "owner": "Blake", "founded": 2027, "colors": ["#C8102E"], "team_ids": [B]},
         "east": {"name": "East Enders", "owner": "Casey", "founded": 2027, "team_ids": [C]},
         "west": {"name": "West Coast", "owner": "Drew", "founded": 2027, "team_ids": [D]},
@@ -311,14 +311,14 @@ class RetroTests(Fixture):
         r = self.report()
         text = retro.render_text(r)
         self.assertIn(f"Biggest Steal: {self.hist.player('p13')}, 2.03 (7th overall) by North Stars: "
-                      "300 DBL points in 100 MLB games", text)
+                      "300 PSBL points in 100 MLB games", text)
         self.assertIn("Not matched to an MLB player (1)", text)
         payload = retro.payload(r, self.league, test=True)
         embed = payload["embeds"][0]
-        self.assertTrue(embed["title"].startswith("[TEST] 2028 DBL Annual Draft"))
+        self.assertTrue(embed["title"].startswith("[TEST] 2028 PSBL Annual Draft"))
         self.assertEqual([f["name"] for f in embed["fields"]][:4],
                          ["BIGGEST STEAL", "BIGGEST MISS", "BEST UNDRAFTED PICKUP", "BEST DEVELOPMENT"])
-        self.assertEqual(embed["footer"]["text"], "DBL DRAFT CENTER • FANTRAX AND MLB DATA")
+        self.assertEqual(embed["footer"]["text"], "PSBL DRAFT CENTER • FANTRAX AND MLB DATA")
         self.assertEqual(payload["allowed_mentions"], {"parse": []})
         self.assertNotIn("━", json.dumps(payload))
 
@@ -422,7 +422,7 @@ class PostTests(Fixture):
         self.assertEqual([f["name"] for f in card["fields"]],
                          ["THIS SEASON ADDED", "CHAMPIONSHIP COUNTS THIS CYCLE", "CYCLE STARTED", "TO WIN"])
         self.assertIn("North Stars: 2", card["fields"][1]["value"])
-        self.assertEqual(message["embeds"][1]["footer"]["text"], "DBL LEAGUE LEDGER")
+        self.assertEqual(message["embeds"][1]["footer"]["text"], "PSBL LEAGUE LEDGER")
 
     def test_card_message(self) -> None:
         profile = profiles.franchise_profiles(self.hist)[0]

@@ -1,4 +1,4 @@
-"""Fantasy points a player has produced since a trade, scored the DBL way from MLB game logs.
+"""Fantasy points a player has produced since a trade, scored the PSBL way from MLB game logs.
 
 Scoring is the league's own, from automation/core/sport.py (Constitution
 Article VIII): every game's hitting line with sport.hitting_points and its
@@ -13,7 +13,7 @@ Data (read-only, MLB Stats API, through core/mlb_people.py):
       (checked against live responses on 2026-10-15).
 
 Only MLB regular-season games count (Fantrax scores no postseason games), and
-every game counts no matter which DBL team rosters the player afterwards.
+every game counts no matter which PSBL team rosters the player afterwards.
 Players are matched to MLB ids by name, narrowed by MLB team and by pitcher or
 hitter (mlb_people.find_person); an ambiguous name is left unmatched rather
 than guessed.
@@ -41,7 +41,7 @@ pitching_points = sport.pitching_points
 
 
 def line_points(line: mp.GameLine) -> float:
-    """DBL fantasy points for one game line (hitting or pitching)."""
+    """PSBL fantasy points for one game line (hitting or pitching)."""
     return pitching_points(line.stat) if line.group == "pitching" else hitting_points(line.stat)
 
 
@@ -52,7 +52,7 @@ def seasons_between(first: date, last: date) -> list[int]:
 
 @dataclass
 class Production:
-    """One player's DBL points from MLB games after the trade."""
+    """One player's PSBL points from MLB games after the trade."""
     mlb_id: int | None
     points: float = 0.0
     games: int = 0

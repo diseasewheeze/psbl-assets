@@ -40,7 +40,7 @@ class FakeFantrax:
         self.calls = 0
 
     def league_info(self) -> dict:
-        return {"leagueName": "DBL Test League"}
+        return {"leagueName": "PSBL Test League"}
 
     def rosters(self) -> dict:
         self.calls += 1
@@ -207,7 +207,7 @@ class RunTests(unittest.TestCase):
         self.assertEqual(fields["Your SP, not starting today"],
                          "SP — Arlo Finch (PHI): no game today\nSP — Reese Pollard (DET): Yuri Carver starts")
         self.assertEqual(fields["Bench SP, starting today"], f"SP — Vince Vance (TB, <t:{tor}:t>, at TOR)")
-        self.assertEqual(payload["username"], "DBL Competition Desk")
+        self.assertEqual(payload["username"], "PSBL Competition Desk")
         self.assertEqual(embed["color"], 0xBD3039)
         self.assertEqual(embed["footer"]["text"], "LINEUP ALERT • FANTRAX + MLB SCHEDULE DATA")
 

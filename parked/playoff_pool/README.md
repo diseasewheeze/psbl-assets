@@ -1,4 +1,4 @@
-# DBL Playoff Pool
+# PSBL Playoff Pool
 
 **Parked.** This is the old NHL playoff pool, kept for a possible MLB postseason version. It is not run, scheduled or tested: its workflow, scheduler job, Automation Health entry, regression test, `playoff_pool` settings in `automation/league.yaml` and League Bot `/pool` commands were removed when the league moved to baseball, and it still reads the NHL's API (the deleted `core/nhl.py` and `core/nhl_playoffs.py`). Everything below describes the NHL version.
 
@@ -30,7 +30,7 @@ pick position.
    until the **deadline: the first puck drop of the playoffs** (shown in the
    boxes post; if the NHL hasn't published it yet, the post is edited to show
    it once it has).
-3. **Scoring.** Every player scores **DBL points** (Constitution Article VIII)
+3. **Scoring.** Every player scores **PSBL points** (Constitution Article VIII)
    in every NHL playoff game, from the game's boxscore:
    - Skaters: goal 5, assist 2.95, shot on goal 0.55, block 0.35, hit 0.20,
      penalty minute -0.54
@@ -116,7 +116,7 @@ The final post names the Pool Shark. The Commissioner then:
 
 ### Preview and test
 
-Actions > **DBL Playoff Pool** > Run workflow:
+Actions > **PSBL Playoff Pool** > Run workflow:
 
 - `preview`: prints the boxes post (and standings, after the deadline) in the
   log. Nothing is posted or saved.

@@ -1,4 +1,4 @@
-"""DBL Bucks: a play-money sportsbook on other franchises' matchups.
+"""PSBL Bucks: a play-money sportsbook on other franchises' matchups.
 
 Just for fun. Bucks are not money, are never converted into anything and
 can't be traded: nothing here touches FAAB, draft picks, lineups, standings or
@@ -42,7 +42,7 @@ WEEKLY_BUCKS = 100
 AWAY, HOME = "away", "home"
 SIDES = (AWAY, HOME)
 WIN, LOSS, PUSH, VOID = "win", "loss", "push", "void"
-FOOTER = "DBL BUCKS • PLAY MONEY ONLY"
+FOOTER = "PSBL BUCKS • PLAY MONEY ONLY"
 RULES = ("Play money only: Bucks never affect FAAB, picks, lineups or standings, and they can't be traded or "
          "cashed in. Even money against the spread; a push returns the stake. Nobody bets on their own matchup.")
 HOW_LINES = ("Each team's average score over its last 3 final Weeks; the spread is the difference, rounded to the "
@@ -335,7 +335,7 @@ def signed(n: int) -> str:
 # ---------------------------------------------------------------- rendering
 def lines_embed(number: int, lines: list[Line], locks_at: datetime, label: str) -> dict[str, Any]:
     return E.card(
-        f"DBL BUCKS — WEEK {number} LINES",
+        f"PSBL BUCKS — WEEK {number} LINES",
         f"{label}. Every owner has **{WEEKLY_BUCKS} Bucks** to bet this Week with `/book bet`; unused Bucks don't "
         f"carry over. Bets lock when the Week starts: **{E.stamp(locks_at)}** ({E.stamp(locks_at, 'R')}).",
         [("LINES", "\n".join(line.text() for line in lines) or "No matchups"),
@@ -367,7 +367,7 @@ def settlement_embed(number: int, lines: list[Line], found: dict[str, Any], sett
                      board: list[Standing], label: str) -> dict[str, Any]:
     week = "\n".join(f"<@{r.user_id}> {signed(r.profit)} ({r.record})" for r in week_totals(settled)[:25])
     return E.card(
-        f"DBL BUCKS — WEEK {number} SETTLED",
+        f"PSBL BUCKS — WEEK {number} SETTLED",
         f"{label}. Wins pay even money, losses cost the stake, pushes are returned. {WEEKLY_BUCKS} fresh Bucks "
         "for everyone next Week.",
         [("AGAINST THE SPREAD", "\n".join(_result_line(line, found) for line in lines) or "No matchups"),
@@ -379,9 +379,9 @@ def settlement_embed(number: int, lines: list[Line], found: dict[str, Any], sett
 
 def leaderboard_embed(board: list[Standing], label: str, weeks_settled: int) -> dict[str, Any]:
     if not board:
-        return E.card("DBL BUCKS LEADERBOARD", f"{label}. No DBL Bucks Week has been settled yet.", [], FOOTER)
+        return E.card("PSBL BUCKS LEADERBOARD", f"{label}. No PSBL Bucks Week has been settled yet.", [], FOOTER)
     plural = "Week" if weeks_settled == 1 else "Weeks"
-    return E.card("DBL BUCKS LEADERBOARD",
+    return E.card("PSBL BUCKS LEADERBOARD",
                   f"{label} • {weeks_settled} {plural} settled. Season profit is every Week's net result added up; "
                   f"the leader after the regular season earns the Sharp role.\n\n{_board_lines(board, 25)}",
                   [], FOOTER)
@@ -391,7 +391,7 @@ def sharp_embed(role_name: str, leaders: list[int], board: list[Standing], label
     who = ", ".join(f"<@{uid}>" for uid in leaders) or "Nobody placed a bet this Season."
     top = board[0].profit if board else 0
     return E.card(
-        "DBL BUCKS — SEASON CHAMPION",
+        "PSBL BUCKS — SEASON CHAMPION",
         f"{label} regular season is in the books. {who} "
         f"{'finish' if len(leaders) > 1 else 'finishes'} on top with **{signed(top)} Bucks** and "
         f"{'share' if len(leaders) > 1 else 'earns'} the **{role_name}** role until next Season's leader takes it.",
@@ -411,7 +411,7 @@ def mybets_text(number: int, lines: list[Line], mine: dict[str, tuple[str, int]]
         state = "settled"
     else:
         state = f"locked {E.stamp(locks_at, 'R')}" if locked else f"locks {E.stamp(locks_at, 'R')}"
-    head = f"**Week {number} • DBL Bucks** • {staked(mine)} bet, {budget - staked(mine)} unused • {state}"
+    head = f"**Week {number} • PSBL Bucks** • {staked(mine)} bet, {budget - staked(mine)} unused • {state}"
     rows = []
     for key, (side, amount) in mine.items():
         line = by_key.get(key)

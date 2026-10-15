@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL Draft Center: countdown, draft-order reveal and recap, plus private timeout alerts.
+"""PSBL Draft Center: countdown, draft-order reveal and recap, plus private timeout alerts.
 
 Scope (decided Oct 2, 2026): Fantrax already notifies owners when they are on
 the clock and when picks are made, so the Draft Center never posts per-pick or
@@ -44,8 +44,8 @@ import desk  # noqa: E402  (Commissioner Desk private payloads)
 
 STATE_PATH = ROOT / "state" / "draft.json"
 FOOTER_DIVIDER = (
-    "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/"
-    "discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+    "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/"
+    "discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-1"
 )
 RESULTS_CHANNEL = "**📋│draft-results**"
 MAX_MESSAGE_CHARS = 5500  # under Discord's 6,000 total-embed-text limit
@@ -233,7 +233,7 @@ class Renderer:
     @property
     def name(self) -> str:
         year = (self.draft.date or datetime.now(timezone.utc)).astimezone(self.tz).year
-        return f"{year} DBL {self.spec['name']}"
+        return f"{year} PSBL {self.spec['name']}"
 
     def team(self, team_id: str) -> str:
         return self.teams.get(team_id, team_id or "Unknown team")
@@ -255,13 +255,13 @@ class Renderer:
             "title": ("[TEST] " if self.test else "") + title,
             "description": description,
             "color": color_value(self.league.get("color")),
-            "footer": {"text": "DBL DRAFT CENTER • FANTRAX READ-ONLY DATA"},
+            "footer": {"text": "PSBL DRAFT CENTER • FANTRAX READ-ONLY DATA"},
         }
         if fields:
             embed["fields"] = fields
         if divider:
             embed["image"] = {"url": FOOTER_DIVIDER}
-        return {"username": "DBL Draft Center", "avatar_url": AVATAR,
+        return {"username": "PSBL Draft Center", "avatar_url": AVATAR,
                 "allowed_mentions": {"parse": []}, "embeds": [embed]}
 
     def _when(self) -> str:
@@ -336,7 +336,7 @@ class Renderer:
             "title": ("[TEST] " if self.test else "") + f"{self.name} · Round {number}",
             "description": "\n".join(lines)[:4096],
             "color": color_value(self.league.get("color")),
-            "footer": {"text": "DBL DRAFT CENTER • OFFICIAL RESULTS ARE IN FANTRAX"},
+            "footer": {"text": "PSBL DRAFT CENTER • OFFICIAL RESULTS ARE IN FANTRAX"},
         }
 
     def round_messages(self, rounds: list[int]) -> list[tuple[list[int], dict[str, Any]]]:
@@ -359,7 +359,7 @@ class Renderer:
         return messages
 
     def _wrap(self, embeds: list[dict[str, Any]]) -> dict[str, Any]:
-        return {"username": "DBL Draft Center", "avatar_url": AVATAR,
+        return {"username": "PSBL Draft Center", "avatar_url": AVATAR,
                 "allowed_mentions": {"parse": []}, "embeds": embeds}
 
     def complete(self) -> dict[str, Any]:
@@ -411,7 +411,7 @@ def run(mode: str, item: str, force: bool) -> int:
     cfg = load_config(league)
     tz = timezone_of(league)
     now = datetime.now(timezone.utc)
-    fx = Fantrax(str(league["league_id"]), user_agent="DBL-Draft-Center/1.0")
+    fx = Fantrax(str(league["league_id"]), user_agent="PSBL-Draft-Center/1.0")
     info = fx.league_info()
     draft = dr.parse_results(fx.draft_results())
     try:
@@ -423,7 +423,7 @@ def run(mode: str, item: str, force: bool) -> int:
     state = load_json(STATE_PATH, {}) if mode == "live" else {}
     entry = _entry(state, draft.key) if mode == "live" else {}
     status = draft.status(now)
-    print(f"DBL DRAFT CENTER mode={mode.upper()} item={item} draft={draft.key} state={draft.state or '-'} "
+    print(f"PSBL DRAFT CENTER mode={mode.upper()} item={item} draft={draft.key} state={draft.state or '-'} "
           f"status={status} rounds={draft.rounds} picks_made={sum(p.made for p in draft.picks)}")
 
     if mode == "test":

@@ -10,10 +10,10 @@
 
 - `wire.py`: source collectors (RSS feeds and MLB's transaction log) and the headline classifier.
 - `engine.py`: source order, routing, persistent dedupe, shadow and live modes, flood guards and Discord delivery. The workflow's entry point.
-- `roster.py`: DBL roster tags (name, MLB team, pitcher or hitter) and opt-in owner pings.
+- `roster.py`: PSBL roster tags (name, MLB team, pitcher or hitter) and opt-in owner pings.
 - `sources.yaml`: the source registry.
 - `state/shadow.json`, `state/live.json`: dedupe state, kept on the `automation-state` branch.
-- `.github/workflows/league-wire-engine.yml`: started in live mode every 15 minutes by the DBL Scheduler.
+- `.github/workflows/league-wire-engine.yml`: started in live mode every 15 minutes by the PSBL Scheduler.
 - MLB reads go through `automation/core/mlb_people.py`.
 
 ## Live sources by channel
@@ -29,7 +29,7 @@ CBS Sports MLB stays discovery only: its feed mixes betting promos and other spo
 - MLB.com and MLB Trade Rumors headlines with injury words.
 
 ### 🔄│mlb-transactions
-- MLB Transactions only (`https://statsapi.mlb.com/api/v1/transactions?sportId=1`, today and yesterday). A trade is one post with every player in it. A minor-league contract or a plain draft-pick signing posts only when the player is on a DBL roster (`unrostered_skipped` in the summary otherwise).
+- MLB Transactions only (`https://statsapi.mlb.com/api/v1/transactions?sportId=1`, today and yesterday). A trade is one post with every player in it. A minor-league contract or a plain draft-pick signing posts only when the player is on a PSBL roster (`unrostered_skipped` in the summary otherwise).
 
 ### 🌱│prospect-wire
 - FanGraphs Prospects.
@@ -48,7 +48,7 @@ Sources are processed by trust tier, official first.
 
 ## Flood guards
 
-Individual posts per run are capped at **6 in total** and **3 per channel**. Stories over either limit are logged as `RATE-GUARD ROUNDUP` and combined into **one roundup post per channel** ("Injury Report — 7 more updates"), each line with its link, source and DBL roster tag. Nothing is silently dropped:
+Individual posts per run are capped at **6 in total** and **3 per channel**. Stories over either limit are logged as `RATE-GUARD ROUNDUP` and combined into **one roundup post per channel** ("Injury Report — 7 more updates"), each line with its link, source and PSBL roster tag. Nothing is silently dropped:
 
 - Roundup stories are remembered only after the roundup is delivered; a failed roundup (`ROUNDUP NOT POSTED`) is retried next run.
 - If a roundup would exceed Discord's embed size, the rest is counted as "+N more not shown" and logged as `RATE-GUARD SUPPRESSED`. Automation Health alerts if that happens in consecutive runs.
@@ -71,7 +71,7 @@ The first `--mode live` run on an empty state records everything and posts nothi
 ## Discord webhook secrets
 
 One Discord webhook per automated channel, stored under
-`GitHub → dbl-assets → Settings → Secrets and variables → Actions`:
+`GitHub → psbl-assets → Settings → Secrets and variables → Actions`:
 
 - `LEAGUE_WEBHOOK_BREAKING_NEWS`
 - `LEAGUE_WEBHOOK_MLB_NEWS`

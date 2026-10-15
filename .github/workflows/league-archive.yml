@@ -1,11 +1,11 @@
-name: DBL League Archive
-run-name: DBL League Archive — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL League Archive
+run-name: PSBL League Archive — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Daily snapshot that builds the league's permanent history: rosters, pick
 # ownership, inferred adds/drops/trades, final weekly scores, final standings
 # and draft results. Saved under archive/ on the automation-state branch.
 # Timing lives in automation/scheduler/schedule.yaml (daily around 05:30 ET,
-# all year); the DBL Scheduler starts this workflow with mode=live.
+# all year); the PSBL Scheduler starts this workflow with mode=live.
 # Code: automation/history/collect.py
 
 on:
@@ -22,7 +22,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-archive
+  group: psbl-archive
   cancel-in-progress: false
 
 jobs:
@@ -62,5 +62,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(history): save league archive" \
-            "DBL History Automation" \
+            "PSBL History Automation" \
             archive

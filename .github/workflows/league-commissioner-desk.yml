@@ -1,8 +1,8 @@
-name: DBL Commissioner Desk
-run-name: DBL Commissioner Desk — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Commissioner Desk
+run-name: PSBL Commissioner Desk — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Private reminders for the commissioner's manual season work. Timing lives in
-# automation/scheduler/schedule.yaml; the DBL Scheduler starts this workflow
+# automation/scheduler/schedule.yaml; the PSBL Scheduler starts this workflow
 # with mode=live every hour. Which reminders are due is decided by the Fantrax
 # calendar (automation/commissioner/tasks.yaml), not by this schedule.
 
@@ -25,7 +25,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-commissioner-desk
+  group: psbl-commissioner-desk
   cancel-in-progress: false
 
 jobs:
@@ -69,5 +69,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(commissioner): save reminder state" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/commissioner/state/commissioner.json"

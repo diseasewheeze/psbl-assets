@@ -2,7 +2,7 @@
 
 Run:  python static_a.py          -> writes static/<name>.png for all 22 and static_a_sheet.png
       python static_a.py name ... -> only those (sheet still covers all files that exist)
-Deterministic: no randomness. File names keep the dbl_ prefix.
+Deterministic: no randomness. File names keep the psbl_ prefix.
 """
 from __future__ import annotations
 
@@ -128,14 +128,14 @@ def chunky(c: Canvas, shape_fn, main, light, dark, depth=2):
 
 
 # --- 1. the league ball ----------------------------------------------------------------------
-def dbl_ball():
+def psbl_ball():
     c = Canvas()
     ball_into(c, 28, 2, 2)
     return recenter(c.outline())
 
 
 # --- 2. dinger: a ball launched toward the seats ---------------------------------------------
-def dbl_dinger():
+def psbl_dinger():
     c = Canvas()
     for (x0, y0, x1, y1, w, col) in ((15, 13, 2, 29, 3, "I"), (18, 16, 7, 30, 2, "L"), (12, 11, 1, 22, 2, "L"),
                                      (16, 14, 5, 26, 1, "W")):
@@ -147,7 +147,7 @@ def dbl_dinger():
 
 
 # --- 3. bat ------------------------------------------------------------------------------------
-def dbl_bat():
+def psbl_bat():
     c = Canvas()
     x0, y0, x1, y1 = 4.0, 28.0, 28.5, 3.5          # knob to barrel end
     L = math.hypot(x1 - x0, y1 - y0)
@@ -179,7 +179,7 @@ def dbl_bat():
 
 
 # --- 4. catcher's mask ---------------------------------------------------------------------------
-def dbl_catcher():
+def psbl_catcher():
     c = Canvas()
     rrect(c, 6, 1, 20, 26, 7, "n")                  # padded frame
     rrect(c, 9, 5, 14, 18, 4, "A")                   # the opening
@@ -197,7 +197,7 @@ def dbl_catcher():
 
 
 # --- 5. cleat ------------------------------------------------------------------------------------
-def dbl_cleat():
+def psbl_cleat():
     c = Canvas()
     c.poly([(3, 11), (9, 9), (15, 11), (21, 15), (27, 17), (30, 20), (30, 23), (3, 23)], "n")
     c.rect(4, 10, 6, 2, "A")                          # the opening
@@ -215,7 +215,7 @@ def dbl_cleat():
 
 
 # --- 6. batting helmet ----------------------------------------------------------------------------
-def dbl_helmet():
+def psbl_helmet():
     c = Canvas()
     fill_where(c, lambda X, Y: ((X - 17) / 12.5) ** 2 + ((Y - 16) / 12) ** 2 <= 1 and Y <= 21, "n")
     c.poly([(1, 19), (12, 16), (13, 21), (1, 23)], "n")              # brim
@@ -232,7 +232,7 @@ def dbl_helmet():
 
 
 # --- 7. jersey (from the back, inaugural-season number) ----------------------------------------
-def dbl_jersey():
+def psbl_jersey():
     c = Canvas()
     c.poly([(9, 2), (13, 1), (19, 1), (23, 2), (31, 8), (28, 15), (25, 13), (25, 30), (7, 30), (7, 13), (4, 15), (1, 8)], "n")
     c.rect(13, 1, 6, 2, "R")                                          # collar
@@ -257,7 +257,7 @@ def dbl_jersey():
 
 
 # --- 8. the diamond from above ----------------------------------------------------------------------
-def dbl_diamond():
+def psbl_diamond():
     c = Canvas()
     hx, hy = 15.5, 29.5                                               # home plate
     def fan(X, Y, r):
@@ -279,7 +279,7 @@ def dbl_diamond():
 
 
 # --- 9. umpire ---------------------------------------------------------------------------------------
-def dbl_umpire():
+def psbl_umpire():
     c = face(cy=17.5, r=12)
     fill_where(c, lambda X, Y: ((X - 16) / 12.5) ** 2 + ((Y - 10) / 7.5) ** 2 <= 1 and Y <= 10.5, "n")   # cap
     c.rect(3, 10, 26, 2, "n"); c.rect(3, 11, 26, 1, "A")              # short brim
@@ -294,7 +294,7 @@ def dbl_umpire():
 
 
 # --- 10. ejected: the umpire's thumb, heave-ho ---------------------------------------------------------
-def dbl_ejected():
+def psbl_ejected():
     c = Canvas()
     capsule(c, 27.5, 31, 19, 19, 4.2, "n")                            # sleeve
     capsule(c, 21.5, 23.5, 18.5, 19.5, 4.4, "W")                      # cuff
@@ -314,7 +314,7 @@ def dbl_ejected():
 
 
 # --- 11. pine tar --------------------------------------------------------------------------------------
-def dbl_pine_tar():
+def psbl_pine_tar():
     c = Canvas()
     c.rect(7, 10, 18, 20, "S")                                         # the tin
     c.rect(7, 10, 2, 20, "W"); c.rect(22, 10, 3, 20, "N")
@@ -331,7 +331,7 @@ def dbl_pine_tar():
 
 
 # --- 12. fielder's glove with a ball in the pocket --------------------------------------------------------
-def dbl_glove():
+def psbl_glove():
     c = Canvas()
     for (xa, ya, xb, yb) in ((13, 15, 12, 4), (17, 14, 17, 2), (21, 14, 22, 4), (25, 17, 27, 8)):
         capsule(c, xa, ya, xb, yb, 2.4, "O")                           # fingers
@@ -353,7 +353,7 @@ def dbl_glove():
 
 
 # --- 13. home plate ------------------------------------------------------------------------------------------
-def dbl_plate():
+def psbl_plate():
     c = Canvas()
     rrect(c, 1, 1, 30, 30, 5, "c")
     for x, y in ((5, 4), (26, 3), (8, 27), (24, 26), (14, 4), (19, 28), (3, 16), (28, 18)):
@@ -366,7 +366,7 @@ def dbl_plate():
 
 
 # --- 14. K: the strikeout -----------------------------------------------------------------------------------------
-def dbl_k():
+def psbl_k():
     c = Canvas()
 
     def shape(m):
@@ -378,7 +378,7 @@ def dbl_k():
 
 
 # --- 15. batting glove -------------------------------------------------------------------------------------------
-def dbl_mitt():
+def psbl_mitt():
     c = Canvas()
     for (xa, ya, xb, yb) in ((10.5, 14, 10, 4.5), (14.5, 13, 14.5, 2.5), (18.5, 13, 19, 3.5), (22.5, 14, 23.5, 6.5)):
         capsule(c, xa, ya, xb, yb, 1.9, "W")
@@ -405,7 +405,7 @@ def _silver_band(c, x0, x1, y0, y1):
     c.rect(x1 - 1, y0, 2, y1 - y0 + 1, "N")
 
 
-def dbl_cup():
+def psbl_cup():
     """The championship trophy: a two-handled silver cup with a red band on a navy base."""
     c = Canvas()
     for cx in (5.5, 26.5):                                            # handles
@@ -428,7 +428,7 @@ def dbl_cup():
     return recenter(c.outline())
 
 
-def dbl_banner():
+def psbl_banner():
     c = Canvas()
     c.poly([(6, 5), (26, 5), (26, 31), (16, 25), (6, 31)], "R")
     c.rect(6, 5, 1, 26, "r")
@@ -462,7 +462,7 @@ W.WWWWWS.W
     return recenter(c.outline())
 
 
-def dbl_beer():
+def psbl_beer():
     c = Canvas()
     c.rect(4, 9, 18, 21, "I")                    # glass
     c.rect(5, 10, 16, 17, "G")                   # beer
@@ -484,7 +484,7 @@ def dbl_beer():
     return recenter(c.outline())
 
 
-def dbl_bottle():
+def psbl_bottle():
     c = Canvas()
     rrect(c, 8, 11, 16, 20, 3, "L")
     c.rect(9, 17, 14, 12, "b")
@@ -528,7 +528,7 @@ def _shaker(u, v):
     return None
 
 
-def dbl_salty():
+def psbl_salty():
     import math
     big = Canvas(64, 64)
     th = math.radians(28)                                       # tipped over to shake out salt
@@ -549,7 +549,7 @@ def dbl_salty():
     return recenter(c.outline())
 
 
-def dbl_crown():
+def psbl_crown():
     c = Canvas()
     c.poly([(3, 21), (2.5, 8), (6.5, 15), (9.5, 6), (12.5, 14), (16, 3), (19.5, 14), (22.5, 6), (25.5, 15),
             (29.5, 8), (29, 21)], "G")
@@ -572,7 +572,7 @@ BLB
     return recenter(c.outline())
 
 
-def dbl_trash():
+def psbl_trash():
     c = Canvas()
     c.poly([(6, 15), (26, 15), (24, 31), (8, 31)], "S")              # can
     for x in (11, 15, 19, 23):
@@ -598,9 +598,9 @@ S..S
     return recenter(c.outline())
 
 
-EMOJI = [dbl_ball, dbl_dinger, dbl_bat, dbl_catcher, dbl_cleat, dbl_helmet, dbl_jersey, dbl_diamond,
-         dbl_cup, dbl_banner, dbl_beer, dbl_umpire, dbl_ejected, dbl_pine_tar, dbl_bottle,
-         dbl_mitt, dbl_glove, dbl_plate, dbl_k, dbl_salty, dbl_crown, dbl_trash]
+EMOJI = [psbl_ball, psbl_dinger, psbl_bat, psbl_catcher, psbl_cleat, psbl_helmet, psbl_jersey, psbl_diamond,
+         psbl_cup, psbl_banner, psbl_beer, psbl_umpire, psbl_ejected, psbl_pine_tar, psbl_bottle,
+         psbl_mitt, psbl_glove, psbl_plate, psbl_k, psbl_salty, psbl_crown, psbl_trash]
 
 
 def main(names=None):

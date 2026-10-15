@@ -1,4 +1,4 @@
-name: DBL Automation Regression Tests
+name: PSBL Automation Regression Tests
 
 on:
   workflow_dispatch:
@@ -46,7 +46,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: dbl-regression-${{ github.ref }}
+  group: psbl-regression-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -197,5 +197,5 @@ jobs:
       - name: Test the league bot's league tools (rule, deadlines, minor, myteam, tradecheck, Pick'em)
         run: python bot/tests/test_league_features.py
 
-      - name: Test the league bot's DBL Bucks and Awards Ballot
+      - name: Test the league bot's PSBL Bucks and Awards Ballot
         run: python bot/tests/test_book_awards.py

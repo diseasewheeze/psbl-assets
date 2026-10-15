@@ -1,4 +1,4 @@
-"""Draw preview frames of the compositions a DBL Video Kit script builds, from the JSON that
+"""Draw preview frames of the compositions a PSBL Video Kit script builds, from the JSON that
 tools/video_kit_jsx_mock.js writes. An approximation of EffectCraft's renderer (flat shapes,
 images, the brand fonts), good enough to check layout, timing and overflow by eye.
 

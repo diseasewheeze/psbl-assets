@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline checks for the DBL Playoff Pool.
+"""Offline checks for the PSBL Playoff Pool.
 
 NHL data: automation/tests/fixtures/nhl_playoffs_synthetic.json, a made-up
 2027 playoffs in the shapes the pool reads (see its _note: the shapes are
@@ -418,7 +418,7 @@ class PostTests(unittest.TestCase):
             self.assertIn(f"<t:{int(FIRST_PUCK.timestamp())}:F>", embed["description"])
             self.assertIn("/pool pick" if via == "bot" else "DM your 10 picks", embed["description"])
             self.assertIn("no money", embed["description"])
-            self.assertEqual(body["username"], "DBL Competition Desk")
+            self.assertEqual(body["username"], "PSBL Competition Desk")
             self.assertEqual(body["allowed_mentions"], {"parse": []})
             no_emoji(self, body)
         self.assertIn("hasn't published", posts.deadline_line(built()))
@@ -638,7 +638,7 @@ class ScheduleConfigTests(unittest.TestCase):
         schedule = yaml.safe_load((AUTOMATION / "scheduler" / "schedule.yaml").read_text())
         job = next(j for j in schedule["jobs"] if j["id"] == "playoff-pool")
         self.assertEqual(job["when"], "nhl-playoffs")
-        self.assertNotIn("phases", job, "the NHL playoffs fall in the DBL Offseason")
+        self.assertNotIn("phases", job, "the NHL playoffs fall in the PSBL Offseason")
         health = yaml.safe_load((AUTOMATION / "health" / "health_config.yaml").read_text())
         self.assertIn(job["workflow"], [w["file"] for w in health["workflows"]])
         workflow = (AUTOMATION.parent / ".github" / "workflows" / job["workflow"]).read_text()

@@ -1,4 +1,4 @@
-"""Annual Awards Ballot: owners vote 5-3-1 for the Season's awards after the DBL Championship.
+"""Annual Awards Ballot: owners vote 5-3-1 for the Season's awards after the PSBL Championship.
 
 Just for fun, like Awards Night has always been: awards carry no money and
 change nothing in the standings or the draft.
@@ -49,8 +49,8 @@ ORDINAL = {1: "1st", 2: "2nd", 3: "3rd"}
 MAX_NOMINEES = 25          # a Discord menu holds 25 options
 DATA_NOMINEES = 3          # Comeback and Bust nominees proposed from the standings (ties at the cut included)
 MAX_BALLOT_DAYS = 30
-EXPORT_FORMAT = "dbl-awards/1"
-FOOTER = "DBL RECORDS DEPARTMENT"
+EXPORT_FORMAT = "psbl-awards/1"
+FOOTER = "PSBL RECORDS DEPARTMENT"
 JUST_FOR_FUN = "Awards carry no money and change nothing in the standings or the draft."
 RECUSAL = ("The Commissioner can't nominate their own franchise for Trade, Waiver Steal, Comeback or Bust; a neutral "
            "Assistant Commissioner adds it with `/awards nominate` (19.3). The Commissioner's ballot counts like "
@@ -417,9 +417,9 @@ def open_problems(phase: str | None, season: int) -> list[str]:
     """Why /awards open can't run now. The ballot follows the Championship (Fantrax phase from core.season)."""
     problems = []
     if not 2027 <= season <= 2200:
-        problems.append("The Season must be a year from 2027 on, like 2027 for the first DBL Season.")
+        problems.append("The Season must be a year from 2027 on, like 2027 for the first PSBL Season.")
     if phase in ("regular", "playoffs"):
-        problems.append("The Awards Ballot opens after the DBL Championship is final.")
+        problems.append("The Awards Ballot opens after the PSBL Championship is final.")
     return problems
 
 
@@ -506,7 +506,7 @@ def ballot_embed(season: int, nominees: Nominees, closes_at: datetime) -> dict[s
         ("NOMINATIONS", RECUSAL),
         ("JUST FOR FUN", JUST_FOR_FUN),
     ]
-    title, description = "DBL AWARDS NIGHT", f"Season {season} ballots are open. Owners choose the winners."
+    title, description = "PSBL AWARDS NIGHT", f"Season {season} ballots are open. Owners choose the winners."
     on_ballot = [a for a in AWARDS if nominees.get(a.key)]
     room = E.MESSAGE_MAX - 100 - E.counted(E.card(title, description, fixed, FOOTER))
     room -= sum(len(a.name) for a in on_ballot)
@@ -551,7 +551,7 @@ def _winner_text(r: AwardResult) -> str:
 
 def results_embed(season: int, results: list[AwardResult], ballots: int, eligible: int) -> dict[str, Any]:
     return E.card(
-        "DBL AWARDS NIGHT: THE WINNERS",
+        "PSBL AWARDS NIGHT: THE WINNERS",
         f"Season {season}, as voted by the owners: {ballots} of {eligible} franchises returned a ballot. 5 points for "
         "a first-place vote, 3 for second, 1 for third; a tie goes to the most first-place votes, then the award "
         "is shared.",

@@ -3,7 +3,7 @@
   "section": "Before owners join",
   "title": "Recruiting trailer (45 seconds)",
   "notes": [
-   "Post it wherever you recruit and link it in invite messages. Templates: DBL Hype Trailer, 01 Brand Kit, bed-hype-45s."
+   "Post it wherever you recruit and link it in invite messages. Templates: PSBL Hype Trailer, 01 Brand Kit, bed-hype-45s."
   ],
   "rows": [
    [
@@ -18,8 +18,8 @@
    ],
    [
     "0:08",
-    "DBL logo",
-    "This is the Dynasty Baseball League, a dynasty fantasy hockey league on Fantrax."
+    "PSBL logo",
+    "This is the Pitch Slapped Baseball League, a dynasty fantasy hockey league on Fantrax."
    ],
    [
     "0:14",
@@ -57,8 +57,8 @@
   "section": "Before owners join",
   "title": "Commissioner welcome (75 seconds, on camera)",
   "notes": [
-   "Pin it in 👋🏻│welcome. Templates: DBL Talking Head, 01 Brand Kit (lower third: [YOUR NAME] · COMMISSIONER at 0:03, end card at the close).",
-   "Hey, I'm [your first name], the Commissioner of the DBL, and welcome to the league.",
+   "Pin it in 👋🏻│welcome. Templates: PSBL Talking Head, 01 Brand Kit (lower third: [YOUR NAME] · COMMISSIONER at 0:03, end card at the close).",
+   "Hey, I'm [your first name], the Commissioner of the PSBL, and welcome to the league.",
    "You're one of twelve founding owners. That means the record book starts with you: the first champion, the first trade of the year, the first banner in the rafters.",
    "Here's how it works. Fantrax is where the hockey happens: your roster, your lineup, trades and scoring. Discord is the league office and the clubhouse. That's where you'll find the news, the votes, the rulings and a lot of chirping.",
    "Before anything else, read the Constitution. It's short, and joining the league means you've agreed to it. Then pay your dues through Fantrax Treasurer, name your franchise and say hello in the GM lounge.",
@@ -72,13 +72,13 @@
   "section": "Before owners join",
   "title": "Server tour (2 minutes 30 seconds, screen recording)",
   "notes": [
-   "Pin it in 👋🏻│welcome and 📖│owner-handbook. Templates: DBL Screen Tutorial, 01 Brand Kit (a section title for each category). Click into each category as you name it."
+   "Pin it in 👋🏻│welcome and 📖│owner-handbook. Templates: PSBL Screen Tutorial, 01 Brand Kit (a section title for each category). Click into each category as you name it."
   ],
   "rows": [
    [
     "0:00",
     "Server with every category collapsed",
-    "This is a two-and-a-half-minute tour of the DBL server. Every category has one job."
+    "This is a two-and-a-half-minute tour of the PSBL server. Every category has one job."
    ],
    [
     "0:08",
@@ -136,13 +136,13 @@
   "section": "Before owners join",
   "title": "The Constitution in 3 minutes (explainer)",
   "notes": [
-   "Post it in 📜│constitution under the eight messages, and in 📖│owner-handbook. Templates: DBL Explainer, 11 Explainer Cards."
+   "Post it in 📜│constitution under the eight messages, and in 📖│owner-handbook. Templates: PSBL Explainer, 11 Explainer Cards."
   ],
   "rows": [
    [
     "0:00",
     "Title: THE CONSTITUTION IN 3 MINUTES",
-    "This is the DBL Constitution in three minutes. It's the short version. The full text in the constitution channel always wins."
+    "This is the PSBL Constitution in three minutes. It's the short version. The full text in the constitution channel always wins."
    ],
    [
     "0:10",
@@ -210,13 +210,13 @@
   "section": "Before owners join",
   "title": "How scoring works (60 seconds, explainer)",
   "notes": [
-   "Post it in 📜│constitution and 🔎│scouting. Templates: DBL Explainer, 11 Explainer Cards."
+   "Post it in 📜│constitution and 🔎│scouting. Templates: PSBL Explainer, 11 Explainer Cards."
   ],
   "rows": [
    [
     "0:00",
     "Title: HOW SCORING WORKS",
-    "Here's how a DBL team scores points."
+    "Here's how a PSBL team scores points."
    ],
    [
     "0:04",
@@ -254,7 +254,7 @@
   "section": "Before owners join",
   "title": "Where the money goes (45 seconds, explainer)",
   "notes": [
-   "Post it in 💰│league-ledger. Templates: DBL Explainer, 11 Explainer Cards."
+   "Post it in 💰│league-ledger. Templates: PSBL Explainer, 11 Explainer Cards."
   ],
   "rows": [
    [
@@ -265,7 +265,7 @@
    [
     "0:08",
     "Card: PRIZES",
-    "Six-fifty to the DBL Champion, three-fifty to the runner-up, one-fifty for third place, and two hundred for the Presidents' Trophy, the best regular-season record."
+    "Six-fifty to the PSBL Champion, three-fifty to the runner-up, one-fifty for third place, and two hundred for the Presidents' Trophy, the best regular-season record."
    ],
    [
     "0:20",
@@ -333,7 +333,7 @@
   "rows": [
    [
     "Title: SETTING YOUR LINEUP",
-    "Lineups in the DBL are daily, and only your active players score."
+    "Lineups in the PSBL are daily, and only your active players score."
    ],
    [
     "Lineup page, today's games showing",
@@ -434,7 +434,7 @@
   "rows": [
    [
     "Title: FAAB BIDS",
-    "Every free agent in the DBL comes through a FAAB bid. There's no first-come, first-served."
+    "Every free agent in the PSBL comes through a FAAB bid. There's no first-come, first-served."
    ],
    [
     "Fantrax: a player's page, Claim, bid amount",
@@ -596,8 +596,8 @@
     "Slash tradecheck checks a trade against the rules before you send it: picks, prepayment, roster limits and the deadline. It never grades a trade."
    ],
    [
-    "🏒│game-day: Pick'em and DBL Bucks",
-    "In game-day there's a weekly Pick'em and DBL Bucks, a play-money sportsbook on our matchups. You can't bet on your own."
+    "🏒│game-day: Pick'em and PSBL Bucks",
+    "In game-day there's a weekly Pick'em and PSBL Bucks, a play-money sportsbook on our matchups. You can't bet on your own."
    ],
    [
     "🗳️│league-voting",
@@ -613,7 +613,7 @@
   "section": "Draft",
   "title": "Startup Draft hype (45 seconds)",
   "notes": [
-   "Post it in 📢│draft-announcements the day before the draft opens, and pin it in 🎙️│draft-room. Templates: DBL Hype Trailer, 09 Countdown (set it to the draft's start time), bed-hype-45s."
+   "Post it in 📢│draft-announcements the day before the draft opens, and pin it in 🎙️│draft-room. Templates: PSBL Hype Trailer, 09 Countdown (set it to the draft's start time), bed-hype-45s."
   ],
   "rows": [
    [
@@ -654,7 +654,7 @@
    [
     "0:39",
     "End card: STARTUP DRAFT · [DATE] · [TIME] ET",
-    "The DBL Startup Draft opens [day] at [time] Eastern. Be on the clock."
+    "The PSBL Startup Draft opens [day] at [time] Eastern. Be on the clock."
    ]
   ],
   "header": [
@@ -667,14 +667,14 @@
   "section": "Draft",
   "title": "Draft order draw (live, about 3 minutes, screen recording)",
   "notes": [
-   "The Startup Draft order is a random draw by the Commissioner, published in Discord before the draft (13.2). Record the draw in one take with no cuts, so nobody can say it was redone. Post the full video in 📢│draft-announcements and the order in 📋│draft-results. Templates: DBL Screen Tutorial, 01 Brand Kit (title card only).",
+   "The Startup Draft order is a random draw by the Commissioner, published in Discord before the draft (13.2). Record the draw in one take with no cuts, so nobody can say it was redone. Post the full video in 📢│draft-announcements and the order in 📋│draft-results. Templates: PSBL Screen Tutorial, 01 Brand Kit (title card only).",
    "Before you record: open a list randomizer (random.org's List Randomizer works), have the twelve franchise names in alphabetical order in a text file, and turn on the clock in the corner of your screen.",
    "Use the same method, and the same rules (one press, no redraws), for any tie that goes to a random draw (15.4 and 15.5) and for Review Panel draws (19.4)."
   ],
   "rows": [
    [
     "Title card: STARTUP DRAFT ORDER DRAW",
-    "This is the official draw for the DBL Startup Draft order. It's [date] at [time] Eastern."
+    "This is the official draw for the PSBL Startup Draft order. It's [date] at [time] Eastern."
    ],
    [
     "The text file with all twelve franchises",
@@ -690,7 +690,7 @@
    ],
    [
     "The result",
-    "Reading from the top. With the first pick in the DBL Startup Draft: [franchise]. Second: [franchise]. (Read all twelve.)"
+    "Reading from the top. With the first pick in the PSBL Startup Draft: [franchise]. Second: [franchise]. (Read all twelve.)"
    ],
    [
     "Zoom on the result",
@@ -710,13 +710,13 @@
   "section": "Draft",
   "title": "How the Annual Draft order works (60 seconds, explainer)",
   "notes": [
-   "Post it in 📢│draft-announcements once the playoffs end, and pin it in 📖│owner-handbook. Templates: DBL Explainer, 11 Explainer Cards, bed-tutorial-loop."
+   "Post it in 📢│draft-announcements once the playoffs end, and pin it in 📖│owner-handbook. Templates: PSBL Explainer, 11 Explainer Cards, bed-tutorial-loop."
   ],
   "rows": [
    [
     "0:00",
     "Title card: THE ANNUAL DRAFT ORDER",
-    "Every summer the DBL holds a five-round draft. Here's how the order is set."
+    "Every summer the PSBL holds a five-round draft. Here's how the order is set."
    ],
    [
     "0:06",
@@ -769,7 +769,7 @@
   "section": "Season",
   "title": "Opening night (45 seconds)",
   "notes": [
-   "Post it in 📢│announcements the morning of the NHL's opening night. Templates: DBL Hype Trailer, 09 Countdown (set to the first puck drop), bed-hype-45s."
+   "Post it in 📢│announcements the morning of the NHL's opening night. Templates: PSBL Hype Trailer, 09 Countdown (set to the first puck drop), bed-hype-45s."
   ],
   "rows": [
    [
@@ -785,7 +785,7 @@
    [
     "0:08",
     "Card: WEEK 1",
-    "Week one of the [year] DBL season starts tonight."
+    "Week one of the [year] PSBL season starts tonight."
    ],
    [
     "0:12",
@@ -823,14 +823,14 @@
   "section": "Season",
   "title": "Week in 60 Seconds (fill-in script, every week)",
   "notes": [
-   "Post it in 📰│weekly-recap on Monday, after the League Bot's recap goes up. Pull every number from that recap, the Weekly Awards and the standings post. Templates: DBL Week in 60, 02 Week in 60, bed-week-60s. Keep it to about 150 words. Cut a line before you rush one.",
+   "Post it in 📰│weekly-recap on Monday, after the League Bot's recap goes up. Pull every number from that recap, the Weekly Awards and the standings post. Templates: PSBL Week in 60, 02 Week in 60, bed-week-60s. Keep it to about 150 words. Cut a line before you rush one.",
    "Optional lines to swap in when they happen: a trade (\"The big deal of the week: [team] sent [player] to [team] for [return].\"), a closest game under 2 points, a hat trick bounty, or the playoff line once the race starts (\"Six spots, [N] weeks left. [Team] is [X] points back of sixth.\")."
   ],
   "rows": [
    [
     "0:00",
     "Intro sting, then WEEK [N] · [DATES]",
-    "This is the DBL Week in 60. Week [N], [Monday date] to [Sunday date]."
+    "This is the PSBL Week in 60. Week [N], [Monday date] to [Sunday date]."
    ],
    [
     "0:05",
@@ -873,13 +873,13 @@
   "section": "Season",
   "title": "Monthly awards (60 seconds)",
   "notes": [
-   "Post it in 📰│weekly-recap the morning the League Bot posts the Monthly Awards. Templates: DBL Monthly Awards, 03 Monthly Awards, bed-week-60s."
+   "Post it in 📰│weekly-recap the morning the League Bot posts the Monthly Awards. Templates: PSBL Monthly Awards, 03 Monthly Awards, bed-week-60s."
   ],
   "rows": [
    [
     "0:00",
     "Intro sting, then [MONTH] AWARDS",
-    "The DBL Monthly Awards for [month]."
+    "The PSBL Monthly Awards for [month]."
    ],
    [
     "0:05",
@@ -922,13 +922,13 @@
   "section": "Season",
   "title": "Trade deadline day (45 seconds)",
   "notes": [
-   "Post it in 📢│announcements on the Monday after Week 20. Templates: DBL Hype Trailer, 05 Trade Alert (one card per deal), bed-hype-45s."
+   "Post it in 📢│announcements on the Monday after Week 20. Templates: PSBL Hype Trailer, 05 Trade Alert (one card per deal), bed-hype-45s."
   ],
   "rows": [
    [
     "0:00",
     "Intro sting, then TRADE DEADLINE",
-    "The DBL trade deadline has passed."
+    "The PSBL trade deadline has passed."
    ],
    [
     "0:04",
@@ -990,13 +990,13 @@
   "section": "Playoffs",
   "title": "Bracket reveal (60 seconds)",
   "notes": [
-   "Post it in 📢│announcements the Monday after Week 22, once the final standings are in. Templates: DBL Playoff Show, 07 Playoff Bracket (fill in all six seeds), bed-hype-45s."
+   "Post it in 📢│announcements the Monday after Week 22, once the final standings are in. Templates: PSBL Playoff Show, 07 Playoff Bracket (fill in all six seeds), bed-hype-45s."
   ],
   "rows": [
    [
     "0:00",
-    "Intro sting, then THE DBL PLAYOFFS",
-    "Twenty-two weeks are done. Six teams are left. This is the [year] DBL playoff bracket."
+    "Intro sting, then THE PSBL PLAYOFFS",
+    "Twenty-two weeks are done. Six teams are left. This is the [year] PSBL playoff bracket."
    ],
    [
     "0:07",
@@ -1049,7 +1049,7 @@
   "section": "Playoffs",
   "title": "Round preview (45 seconds, once per round)",
   "notes": [
-   "Post it in 🏁│playoff-race the Monday each round starts. Templates: DBL Playoff Show, 07 Playoff Bracket, bed-hype-45s. Read one block per matchup.",
+   "Post it in 🏁│playoff-race the Monday each round starts. Templates: PSBL Playoff Show, 07 Playoff Bracket, bed-hype-45s. Read one block per matchup.",
    "For the Championship preview, swap the last line for \"Two weeks. Total points. Eight goalie starts and ten pickups across both weeks.\""
   ],
   "rows": [
@@ -1094,7 +1094,7 @@
   "section": "Playoffs",
   "title": "Championship hype (45 seconds)",
   "notes": [
-   "Post it in 📢│announcements the Monday the Championship starts. Templates: DBL Hype Trailer, 09 Countdown (set to the end of the second week), bed-hype-45s."
+   "Post it in 📢│announcements the Monday the Championship starts. Templates: PSBL Hype Trailer, 09 Countdown (set to the end of the second week), bed-hype-45s."
   ],
   "rows": [
    [
@@ -1134,8 +1134,8 @@
    ],
    [
     "0:42",
-    "End card: THE DBL CHAMPIONSHIP",
-    "The DBL Championship starts tonight."
+    "End card: THE PSBL CHAMPIONSHIP",
+    "The PSBL Championship starts tonight."
    ]
   ],
   "header": [
@@ -1148,7 +1148,7 @@
   "section": "Playoffs",
   "title": "Champion (30 seconds)",
   "notes": [
-   "Post it in 📢│announcements and 🏆│hall-of-champions once the result is final in Fantrax. Templates: DBL Playoff Show, 08 Champion Banner (team name, year, final score), bed-hype-45s with sfx-reveal on the banner."
+   "Post it in 📢│announcements and 🏆│hall-of-champions once the result is final in Fantrax. Templates: PSBL Playoff Show, 08 Champion Banner (team name, year, final score), bed-hype-45s with sfx-reveal on the banner."
   ],
   "rows": [
    [
@@ -1164,7 +1164,7 @@
    [
     "0:09",
     "08 Champion Banner drops (sfx-reveal)",
-    "Your [year] DBL Champion: the [city] [team]!"
+    "Your [year] PSBL Champion: the [city] [team]!"
    ],
    [
     "0:15",
@@ -1192,7 +1192,7 @@
   "section": "Playoffs",
   "title": "Third place and consolation (30 seconds)",
   "notes": [
-   "Post it in 🏁│playoff-race once both are final. Templates: DBL Playoff Show, 01 Brand Kit, bed-week-60s."
+   "Post it in 🏁│playoff-race once both are final. Templates: PSBL Playoff Show, 01 Brand Kit, bed-week-60s."
   ],
   "rows": [
    [
@@ -1231,13 +1231,13 @@
   "section": "Offseason",
   "title": "Season in review (3 to 4 minutes)",
   "notes": [
-   "Play it at the start of Awards Night, then post it in 🏆│hall-of-champions. Templates: DBL Season in Review, 01 Brand Kit (a section title for each chapter), 02 Week in 60 (score and standings panels), bed-tutorial-loop under the talking and bed-hype-45s under the playoff chapter. Write the lines from the season's Week in 60 scripts: the best moments are already in them."
+   "Play it at the start of Awards Night, then post it in 🏆│hall-of-champions. Templates: PSBL Season in Review, 01 Brand Kit (a section title for each chapter), 02 Week in 60 (score and standings panels), bed-tutorial-loop under the talking and bed-hype-45s under the playoff chapter. Write the lines from the season's Week in 60 scripts: the best moments are already in them."
   ],
   "rows": [
    [
     "Cold open",
     "Intro sting, then [YEAR] SEASON IN REVIEW",
-    "Twenty-two weeks, four playoff rounds and [number] trades. This was the [year] DBL season."
+    "Twenty-two weeks, four playoff rounds and [number] trades. This was the [year] PSBL season."
    ],
    [
     "The draft",
@@ -1272,7 +1272,7 @@
    [
     "The final",
     "Final score card, then 08 Champion Banner",
-    "And [team] beat [team], [score] to [score], to win the [year] DBL Championship."
+    "And [team] beat [team], [score] to [score], to win the [year] PSBL Championship."
    ],
    [
     "Close",
@@ -1290,16 +1290,16 @@
   "section": "Offseason",
   "title": "Awards Night host script (about 20 minutes, live or recorded)",
   "notes": [
-   "Run it in a voice channel or record it and post it in 📢│announcements. It follows the Awards Night program, in the same order. Templates: DBL Awards Night, 10 Awards Night (one card per award: name, the top three with points, winner), bed-awards-loop under the talking and sfx-reveal on every winner. Tally the 5-3-1 votes from 🗳️│league-voting before you start.",
+   "Run it in a voice channel or record it and post it in 📢│announcements. It follows the Awards Night program, in the same order. Templates: PSBL Awards Night, 10 Awards Night (one card per award: name, the top three with points, winner), bed-awards-loop under the talking and sfx-reveal on every winner. Tally the 5-3-1 votes from 🗳️│league-voting before you start.",
    "1. Welcome",
-   "Good evening, and welcome to the [year] DBL Awards Night. I'm [name], your Commissioner. Tonight we close the book on the [year] season: the champions, the money and the five awards you voted on. Let's start with a look back.",
+   "Good evening, and welcome to the [year] PSBL Awards Night. I'm [name], your Commissioner. Tonight we close the book on the [year] season: the champions, the money and the five awards you voted on. Let's start with a look back.",
    "(Play the Season in Review.)",
    "2. The season's honors. Read each one and pause for the card.",
    "• The consolation champion, with fifty dollars of extra FAAB next season: [team].",
    "• The Presidents' Trophy, for the best regular-season record, and two hundred dollars: [team], at [record].",
    "• Third place, and one hundred and fifty dollars: [team].",
    "• The runner-up, and three hundred and fifty dollars: [team].",
-   "• And your [year] DBL Champion, with six hundred and fifty dollars and a banner in the hall of champions: [team]. (Let the sting play. Give the champion's owner the floor if it's live.)",
+   "• And your [year] PSBL Champion, with six hundred and fifty dollars and a banner in the hall of champions: [team]. (Let the sting play. Give the champion's owner the floor if it's live.)",
    "3. The owners' awards. Before the first one, say this:",
    "Every franchise got one ballot: a first, second and third choice for each award, worth five, three and one points. Nobody could vote for their own franchise, their own pickups, or a trade they were part of. Bust of the Year is the one exception. These awards are for bragging rights. No money, no picks.",
    "Then, for each award, the same three lines: \"The nominees for [award] are [third place], [second place] and [first place].\" Pause. \"And the winner, with [points] points, is... [winner].\" Then one sentence on why.",
@@ -1321,7 +1321,7 @@
   "section": "Offseason",
   "title": "Dynasty Pot update (30 seconds)",
   "notes": [
-   "Post it in 💰│league-ledger with the Season Ledger. Templates: DBL Explainer, 11 Explainer Cards, bed-tutorial-loop."
+   "Post it in 💰│league-ledger with the Season Ledger. Templates: PSBL Explainer, 11 Explainer Cards, bed-tutorial-loop."
   ],
   "rows": [
    [
@@ -1360,7 +1360,7 @@
   "section": "Offseason",
   "title": "Rule changes explainer (60 to 90 seconds, after each vote)",
   "notes": [
-   "Post it in 📢│announcements once a vote closes, whether the change passed or failed. Templates: DBL Explainer, 11 Explainer Cards, bed-tutorial-loop.",
+   "Post it in 📢│announcements once a vote closes, whether the change passed or failed. Templates: PSBL Explainer, 11 Explainer Cards, bed-tutorial-loop.",
    "Amendment votes only happen in the Offseason. The proposal goes up in league-voting at least 7 days before voting opens, and the vote is open for 7 days (20.2 and 20.3). The first vote can be held in the Offseason after Season 2027 (20.1)."
   ],
   "rows": [
@@ -1398,7 +1398,7 @@
   "section": "Offseason",
   "title": "Winter Meetings recap (60 seconds)",
   "notes": [
-   "Post it in 💬│gm-lounge the day after the meeting, for anyone who missed it. Templates: DBL Talking Head, 01 Brand Kit (lower third, then a card per topic).",
+   "Post it in 💬│gm-lounge the day after the meeting, for anyone who missed it. Templates: PSBL Talking Head, 01 Brand Kit (lower third, then a card per topic).",
    "Thanks to everyone who came to the Winter Meetings. Here's the short version for everyone who couldn't make it.",
    "First, the season review. [One or two lines.]",
    "Second, ideas for rule changes. We talked about [idea] and [idea]. [Owner] is writing up [idea] as a proposal, and it'll go up in league-voting by [date]. Remember, nothing was decided tonight. Every change still needs a written proposal and eight votes.",
@@ -1413,7 +1413,7 @@
   "section": "Offseason",
   "title": "Wooden Spoon preview (only if owners adopt the Spoon)",
   "notes": [
-   "The last-place franchise holds the Wooden Spoon role for the Offseason and writes a short preview of the next season, posted before Week 1. If the Spoon holder wants to record it, give them this outline. Post it in 📢│announcements. Templates: DBL Talking Head, 01 Brand Kit.",
+   "The last-place franchise holds the Wooden Spoon role for the Offseason and writes a short preview of the next season, posted before Week 1. If the Spoon holder wants to record it, give them this outline. Post it in 📢│announcements. Templates: PSBL Talking Head, 01 Brand Kit.",
    "• Who you are, and how you finished last (be honest, it's funnier).",
    "• The team you think wins it all next season, and why.",
    "• The team that's in trouble.",
@@ -1427,7 +1427,7 @@
   "section": "Offseason",
   "title": "Owner spotlight (5 to 10 minutes, interview)",
   "notes": [
-   "Talk on a Discord call, and have each of you record your own voice at the same time: you in SoundCraft, the owner with their phone's voice memo app. Clap once at the start so the two tracks are easy to line up in SoundCraft afterward. Post it in 💬│gm-lounge. Templates: DBL Talking Head, 04 Franchise Cards for the open. Pick six to eight questions.",
+   "Talk on a Discord call, and have each of you record your own voice at the same time: you in SoundCraft, the owner with their phone's voice memo app. Clap once at the start so the two tracks are easy to line up in SoundCraft afterward. Post it in 💬│gm-lounge. Templates: PSBL Talking Head, 04 Franchise Cards for the open. Pick six to eight questions.",
    "• How did you pick your franchise's name?",
    "• Which NHL team do you cheer for, and how did that start?",
    "• What's your plan: win now or build for later?",

@@ -1,17 +1,17 @@
-# DBL Soundboard Sounds
+# PSBL Soundboard Sounds
 
-These are original 8-bit chiptune sounds synthesized from scratch in Python (no samples, recordings or downloaded audio), and the DBL owns them. They use the same console-style voices as the league's arcade brand: pulse waves with duty-cycle control, a 4-bit stepped triangle, a 15-bit LFSR noise channel and an 8-bit output crush.
+These are original 8-bit chiptune sounds synthesized from scratch in Python (no samples, recordings or downloaded audio), and the PSBL owns them. They use the same console-style voices as the league's arcade brand: pulse waves with duty-cycle control, a 4-bit stepped triangle, a 15-bit LFSR noise channel and an 8-bit output crush.
 
 All files are MP3, mono, 44.1 kHz, 192 kbps, loudness-matched to about -14 LUFS integrated with a true peak under -1 dBTP, so they all sound about the same volume. All of them fit Discord's soundboard limits (MP3/OGG, under 512 KB, 5.2 s max).
 
 | File | Length | Size | Suggested name | Emoji | Starting volume |
 |---|---|---|---|---|---|
-| `dbl-goal-horn.mp3` | 4.0 s | 96 KB | DBL Goal Horn | 🚨 | 80% |
-| `dbl-gavel.mp3` | 1.2 s | 30 KB | DBL Gavel | ⚖️ | 80% |
-| `dbl-draft-horn.mp3` | 3.0 s | 72 KB | DBL Draft Horn | 📯 | 80% |
-| `dbl-on-the-clock.mp3` | 3.0 s | 72 KB | DBL On The Clock | ⏰ | 80% |
-| `dbl-trade-alert.mp3` | 1.5 s | 37 KB | DBL Trade Alert | 🤝🏻 | 80% |
-| `dbl-final-buzzer.mp3` | 2.5 s | 60 KB | DBL Final Buzzer | 🏁 | 80% |
+| `psbl-goal-horn.mp3` | 4.0 s | 96 KB | PSBL Goal Horn | 🚨 | 80% |
+| `psbl-gavel.mp3` | 1.2 s | 30 KB | PSBL Gavel | ⚖️ | 80% |
+| `psbl-draft-horn.mp3` | 3.0 s | 72 KB | PSBL Draft Horn | 📯 | 80% |
+| `psbl-on-the-clock.mp3` | 3.0 s | 72 KB | PSBL On The Clock | ⏰ | 80% |
+| `psbl-trade-alert.mp3` | 1.5 s | 37 KB | PSBL Trade Alert | 🤝🏻 | 80% |
+| `psbl-final-buzzer.mp3` | 2.5 s | 60 KB | PSBL Final Buzzer | 🏁 | 80% |
 
 The sounds are already loudness-matched, so one starting volume works for all of them. Adjust to taste.
 
@@ -59,9 +59,9 @@ It prints a JSON check for each file (duration, size, sample rate, integrated lo
 
 | Sound | Emoji file | Emoji name |
 | --- | --- | --- |
-| dbl-goal-horn | `dbl_goalhorn.png` | `dbl_goalhorn` |
-| dbl-gavel | `dbl_gavel.png` | `dbl_gavel` |
-| dbl-draft-horn | `dbl_drafthorn.png` | `dbl_drafthorn` |
-| dbl-on-the-clock | `dbl_onclock.png` | `dbl_onclock` |
-| dbl-trade-alert | `dbl_trade.png` | `dbl_trade` |
-| dbl-final-buzzer | `dbl_buzzer.png` | `dbl_buzzer` |
+| psbl-goal-horn | `psbl_goalhorn.png` | `psbl_goalhorn` |
+| psbl-gavel | `psbl_gavel.png` | `psbl_gavel` |
+| psbl-draft-horn | `psbl_drafthorn.png` | `psbl_drafthorn` |
+| psbl-on-the-clock | `psbl_onclock.png` | `psbl_onclock` |
+| psbl-trade-alert | `psbl_trade.png` | `psbl_trade` |
+| psbl-final-buzzer | `psbl_buzzer.png` | `psbl_buzzer` |

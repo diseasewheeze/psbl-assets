@@ -1,7 +1,7 @@
 # The Wire: Discord Webhooks
 
 ## Webhook identity
-Posts appear as **DBL News Wire** with the league's webhook avatar.
+Posts appear as **PSBL News Wire** with the league's webhook avatar.
 
 ## Channel webhooks
 Create one webhook in each automated channel:
@@ -28,4 +28,4 @@ Do not create an automation webhook in `💬│news-desk`.
 A missing secret skips that channel's posts with a log line; the run still succeeds. Never paste a webhook URL into a committed file, issue, README, screenshot or public chat.
 
 ## Post style
-Each post has the headline (linked), the source, the DBL roster tag when a rostered player is involved, and the publication time when the feed gives one. Official transactions link the player's MLB.com page and name the kind of move ("Injured list", "Trade", "Recalled"). Article bodies are never copied.
+Each post has the headline (linked), the source, the PSBL roster tag when a rostered player is involved, and the publication time when the feed gives one. Official transactions link the player's MLB.com page and name the kind of move ("Injured list", "Trade", "Recalled"). Article bodies are never copied.

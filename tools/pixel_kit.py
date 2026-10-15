@@ -1,4 +1,4 @@
-"""DBL 8-bit pixel-art toolkit, shared by build_discord_assets.py and build_brand_package.py.
+"""PSBL 8-bit pixel-art toolkit, shared by build_discord_assets.py and build_brand_package.py.
 
 Every graphic is painted on a small art grid and enlarged with NEAREST, so each
 art pixel is a hard-edged square (banners and headers use an 8 px grid: one art
@@ -36,8 +36,8 @@ FONTS = ROOT / "brand" / "fonts"
 # ---------------------------------------------------------------- league identity
 # The league's name lives in brand/identity.json: rename it there, then rebuild.
 IDENTITY = json.loads((ROOT / "brand" / "identity.json").read_text(encoding="utf-8"))
-LEAGUE_NAME = IDENTITY["league_name"]                      # Dynasty Baseball League
-LEAGUE_SHORT = IDENTITY["short_name"]                      # DBL
+LEAGUE_NAME = IDENTITY["league_name"]                      # Pitch Slapped Baseball League
+LEAGUE_SHORT = IDENTITY["short_name"]                      # PSBL
 LEAGUE_EST = str(IDENTITY["established"])                  # 2026
 LEAGUE_TAGLINE = f"{LEAGUE_NAME} • Est. {LEAGUE_EST}"
 LEAGUE_LINE = f"{LEAGUE_NAME.upper()} • EST. {LEAGUE_EST}"  # sign-off line on headers and cards
@@ -47,7 +47,7 @@ LEAGUE_LINE = f"{LEAGUE_NAME.upper()} • EST. {LEAGUE_EST}"  # sign-off line on
 NAVY = (12, 35, 64)         # #0C2340  main ground: banners, headers, embed side color
 NAVY_DK = (7, 21, 40)       # #071528  deep ground, outer keylines, counters
 RED = (189, 48, 57)         # #BD3039  the accent: keylines, rails, rules, bars; red status stamps
-WHITE = (255, 255, 255)     # #FFFFFF  letter fill of DBL, the ball, titles on navy
+WHITE = (255, 255, 255)     # #FFFFFF  letter fill of PSBL, the ball, titles on navy
 PAPER = (246, 247, 249)     # #F6F7F9  off-white paper ground
 GREEN = (63, 163, 77)       # #3FA34D  status green: stamps only
 
@@ -493,7 +493,7 @@ VARIANTS = {
 
 
 def lockup(a: int, b: int, variant: str = "white", sub_bold: bool = True) -> Image.Image:
-    """The short name (DBL) in Jersey 10 (a px per font pixel) over the league name and EST. year in
+    """The short name (PSBL) in Jersey 10 (a px per font pixel) over the league name and EST. year in
     Silkscreen (b px per font pixel). Keylines: red then navy on the white version."""
     fill, keys, whole_keys, ink, subkey = VARIANTS[variant]
     mask, cap_top = font("jersey").mask(LEAGUE_SHORT)

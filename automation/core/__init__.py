@@ -1,1 +1,1 @@
-"""Shared building blocks for DBL automations (league config, Fantrax, season calendar)."""
+"""Shared building blocks for PSBL automations (league config, Fantrax, season calendar)."""

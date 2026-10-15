@@ -27,7 +27,7 @@ from core.league import REPO_ROOT
 HISTORY_PATH = Path(__file__).resolve().parent / "history.yaml"
 
 AWARDS = {
-    "champion": "DBL Champion",
+    "champion": "PSBL Champion",
     "runner_up": "Runner-Up",
     "third_place": "Third Place",
     "presidents_trophy": "Presidents' Trophy",

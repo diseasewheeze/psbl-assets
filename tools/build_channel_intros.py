@@ -3,7 +3,7 @@
 
 Channel names follow the live server. Rules references use the Constitution
 article numbers in tools/constitution_source.py. Each intro is written
-in the DBL format from discohook_format.py: one message, header banner first,
+in the PSBL format from discohook_format.py: one message, header banner first,
 footer text and divider on the final embed only. The normalizer re-checks it:
 
     python3 tools/build_channel_intros.py && python3 tools/normalize_discohook_templates.py
@@ -22,16 +22,16 @@ import posted_messages as posted  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1] / "templates"
 GOLD = 12398649  # league red #BD3039
 
-NEWS = "DBL NEWS DESK"
-COMP = "DBL COMPETITION DESK"
-LO = "DBL LEAGUE OFFICE"
-GM = "DBL GENERAL MANAGERS"
-TC = "DBL TRADE CENTER"
-SD = "DBL SCOUTING DEPARTMENT"
-WW = "DBL WAIVER WIRE"
-CO = "DBL COMMISSIONER'S OFFICE"
-DC = "DBL DRAFT CENTER"
-HQ = "DBL FRANCHISE HQ"
+NEWS = "PSBL NEWS DESK"
+COMP = "PSBL COMPETITION DESK"
+LO = "PSBL LEAGUE OFFICE"
+GM = "PSBL GENERAL MANAGERS"
+TC = "PSBL TRADE CENTER"
+SD = "PSBL SCOUTING DEPARTMENT"
+WW = "PSBL WAIVER WIRE"
+CO = "PSBL COMMISSIONER'S OFFICE"
+DC = "PSBL DRAFT CENTER"
+HQ = "PSBL FRANCHISE HQ"
 
 AUTO = ("Stories are posted by automation as a headline, a source name and a direct link. Full articles are never copied; "
         "open the link to read the source.")
@@ -62,20 +62,20 @@ def more(path: str, title: str, desc: str, footer: str, fields: list[tuple[str, 
 
 
 # ------------------------------------------------------------------ League Office
-card("league-office/01_constitution_channel_intro.json", "DBL CONSTITUTION",
-     "The Constitution is the controlling rules document of the Dynasty Baseball League. Every owner accepts it as a condition of joining and is responsible for knowing it.", LO,
+card("league-office/01_constitution_channel_intro.json", "PSBL CONSTITUTION",
+     "The Constitution is the controlling rules document of the Pitch Slapped Baseball League. Every owner accepts it as a condition of joining and is responsible for knowing it.", LO,
      [("CURRENT DOCUMENT", "**Edition:** Preliminary Draft\n**Effective:** Season 2027 once adopted (the 2027 MLB season)\n**Last amended:** Not yet amended"),
       ("HOW DATES WORK", "The Constitution defines deadlines by formula. Exact dates for each season are published in **league-calendar** within 14 days after MLB releases its schedule."),
       ("CHANGING THE RULES", "Material Amendments need 8 of 12 franchise votes, are held only in the offseason, and must pass before the dues deadline of the season they first apply to (Article XX). The first amendment vote can happen after Season 2027."),
       ("HOW TO USE THIS CHANNEL", "The current Constitution, adopted amendments and the amendment history live here. Questions about what a rule means go to **rules-questions**."),
       ("AUTHORITY", "Fantrax controls gameplay records and transactions. The Constitution controls league rules and governance. The newest published version controls.")])
-card("league-office/02_announcements_channel_intro.json", "OFFICIAL DBL ANNOUNCEMENTS",
-     "This channel is the official notice board of the Dynasty Baseball League. Managers are responsible for monitoring it.", LO,
+card("league-office/02_announcements_channel_intro.json", "OFFICIAL PSBL ANNOUNCEMENTS",
+     "This channel is the official notice board of the Pitch Slapped Baseball League. Managers are responsible for monitoring it.", LO,
      [("POSTED HERE", "Deadlines • Season notices • Calendar changes • Commissioner instructions • League-wide action items"),
       ("NOT POSTED HERE", "General discussion, trade talk, scouting chatter or routine questions."),
       ("RULES CHANGES", "Rules change only through the process in Article XX of the Constitution. An announcement never changes a rule by itself.")])
-card("league-office/03_calendar_channel_intro.json", "DBL LEAGUE CALENDAR",
-     "Official dates and deadlines for the current DBL season.", LO,
+card("league-office/03_calendar_channel_intro.json", "PSBL LEAGUE CALENDAR",
+     "Official dates and deadlines for the current PSBL season.", LO,
      [("TRACKED HERE", "Draft dates • Dues deadline • Trade deadline and reopening • Roster deadlines • Playoff weeks • Offseason milestones"),
       ("HOW DATES ARE SET", "The Constitution gives each date as a formula, such as \"end of Week 20\" or \"between January 20 and February 10\". The calendar turns those formulas into exact dates. If the two ever disagree, the formula wins (Article V)."),
       ("CHANGES", "A published date changes only when the MLB schedule, a platform limitation or events outside the league's control require it, with at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the MLB schedule forces it."),
@@ -83,7 +83,7 @@ card("league-office/03_calendar_channel_intro.json", "DBL LEAGUE CALENDAR",
 # The Sesh reminder steps travel in the same message as the calendar intro.
 more("league-office/03_calendar_channel_intro.json", "SESH REMINDERS",
      "League events on this calendar run through **Sesh**. Sesh reminds you by direct message, so it only works if Discord lets Sesh message you. One-time setup, about a minute.",
-     "DBL LEAGUE CALENDAR",
+     "PSBL LEAGUE CALENDAR",
      [("1. ALLOW DMS FROM THIS SERVER",
        "**Desktop:** click the server name at the top left, choose **Privacy Settings**, and turn on **Direct Messages**.\n"
        "**Phone:** tap your profile picture, then the gear, then **Messaging Permissions** (older apps: **Content & Social** or **Privacy & Safety**). "
@@ -98,66 +98,66 @@ more("league-office/03_calendar_channel_intro.json", "SESH REMINDERS",
        "Still nothing? Send Sesh the command `/settings` in a DM, or open **sesh.fyi/dashboard**, click your name, then **Preferences**, "
        "and turn on **Event RSVP Confirmation DMs**. Sesh also needs you to stay in this server and not block it."),
       ("TO STOP", "Change your RSVP or the reminder in the Sesh DM. Turning off Event RSVP Confirmation DMs stops every Sesh reminder.")])
-card("league-office/04_ledger_channel_intro.json", "DBL LEAGUE LEDGER",
+card("league-office/04_ledger_channel_intro.json", "PSBL LEAGUE LEDGER",
      "Public league-level accounting for dues, league expenses, prizes and the Dynasty Pot.", LO,
      [("POSTED HERE", "Payment confirmations • Dues status • Future-season prepayments • Prize payouts • Dynasty Pot balance • The Season Ledger"),
       ("A PAYMENT COUNTS WHEN", "The Commissioner has confirmed it and recorded it here (Article III). A future 1st- or 2nd-round pick trade made before the required prepayment is confirmed here is reversed (Article XII)."),
-      ("SEASON LEDGER", "Within 30 days after the DBL Championship concludes, the Commissioner posts dues received, prizes paid, operating reserve spending, the League Services Allocation and the Dynasty Pot balance."),
+      ("SEASON LEDGER", "Within 30 days after the PSBL Championship concludes, the Commissioner posts dues received, prizes paid, operating reserve spending, the League Services Allocation and the Dynasty Pot balance."),
       ("PRIVACY", "Do **not** post payment credentials, account numbers, login details or sensitive personal financial information.")])
-card("league-office/05_voting_channel_intro.json", "DBL LEAGUE VOTING",
+card("league-office/05_voting_channel_intro.json", "PSBL LEAGUE VOTING",
      "Formal franchise votes are recorded here.", LO,
      [("ONE FRANCHISE = ONE VOTE", "Each franchise casts one vote, whether it has one owner or several. Co-owners may discuss proposals but do not create an additional vote."),
       ("THE RULES OF A VOTE", "Material Amendments need **8 of 12** affirmative votes. Votes happen only in the offseason, last 7 days, and follow a proposal posted at least 7 days earlier. Non-votes are not affirmative votes (Article XX)."),
       ("A VALID VOTE POST STATES", "The proposal • Voting options • Opening time • Closing time • Threshold required • Final result"),
       ("DISCUSSION", "Debate proposals in **gm-lounge**. This channel is for the proposal and the recorded vote.")])
-card("league-office/06_hall_of_champions_channel_intro.json", "DBL HALL OF CHAMPIONS",
-     "The permanent record of every DBL champion.", LO,
+card("league-office/06_hall_of_champions_channel_intro.json", "PSBL HALL OF CHAMPIONS",
+     "The permanent record of every PSBL champion.", LO,
      [("POSTED HERE", "Championship announcements • Champion history • Presidents' Trophy winners • Third-place finishers • Dynasty Pot standings"),
-      ("DYNASTY POT", "The first franchise to win three DBL Championships in the same active cycle wins the entire pot. Championships belong to the franchise, not the owner (Article IV)."),
+      ("DYNASTY POT", "The first franchise to win three PSBL Championships in the same active cycle wins the entire pot. Championships belong to the franchise, not the owner (Article IV)."),
       ("PERMANENT RECORD", "This channel is the lasting history of the league. Questions about an entry go to the League Office.")])
-card("league-office/07_league_records_channel_intro.json", "DBL LEAGUE RECORDS",
+card("league-office/07_league_records_channel_intro.json", "PSBL LEAGUE RECORDS",
      "The permanent record of league history, milestones and achievements.", LO,
      [("POSTED HERE", "League records • Milestones • Season-by-season history • Constitution amendment history"),
       ("PERMANENT RECORD", "Records are posted by the League Office. Questions about an entry go to the League Office.")])
 
 # ------------------------------------------------------------------------ The Wire
-card("the-wire/01_breaking_news_channel_intro.json", "DBL BREAKING NEWS",
+card("the-wire/01_breaking_news_channel_intro.json", "PSBL BREAKING NEWS",
      "High-impact MLB news that may change a roster decision right now. " + AUTO, NEWS,
      [("POSTED HERE", "Season-ending or indefinite injuries • Retirements • Indefinite suspensions • Firings • Major blockbuster trades"),
       ("HOW A STORY QUALIFIES", "It must come from a trusted primary source and describe a high-impact event. Ordinary signings, depth trades and routine roster moves go to other channels."),
       ("NOT POSTED HERE", "Rumors, opinion pieces, predictions, game threads or discussion. Talk it over in **news-desk**.")])
-card("the-wire/02_mlb_news_channel_intro.json", "DBL MLB NEWS",
+card("the-wire/02_mlb_news_channel_intro.json", "PSBL MLB NEWS",
      "The league-wide baseball news feed: reports worth knowing that don't belong in a specialty channel. " + AUTO, NEWS,
      [("POSTED HERE", "Team and league developments • Managerial and front-office changes • Role changes: closer jobs, rotation spots, lineup spots • Interviews • Meaningful analysis"),
       ("FILTERED OUT", "Scores, routine highlights, daily discussion threads and feed-section labels."),
       ("LOOKING FOR SOMETHING ELSE?", "Injuries go to **injury-report**, signings and trades to **mlb-transactions**, prospects to **prospect-wire**, and major news to **breaking-news**.")])
-card("the-wire/03_injury_report_channel_intro.json", "DBL INJURY REPORT",
+card("the-wire/03_injury_report_channel_intro.json", "PSBL INJURY REPORT",
      "Injury updates across MLB. " + AUTO, NEWS,
      [("POSTED HERE", "New injuries • Day-to-day updates • Injured list placements, transfers and activations (10, 15 and 60-day) • Surgeries and rehab assignments • Returns"),
-      ("OWNER ALERTS", "The wire checks injury stories against DBL rosters. An owner who has opted in is mentioned when one of their own players appears, and only for their own players."),
+      ("OWNER ALERTS", "The wire checks injury stories against PSBL rosters. An owner who has opted in is mentioned when one of their own players appears, and only for their own players."),
       ("MAJOR INJURIES", "A season-ending or indefinite injury may be posted in **breaking-news** instead.")])
-card("the-wire/04_mlb_transactions_channel_intro.json", "DBL MLB TRANSACTIONS",
-     "Real-MLB roster moves. These are not DBL transactions. " + AUTO, NEWS,
+card("the-wire/04_mlb_transactions_channel_intro.json", "PSBL MLB TRANSACTIONS",
+     "Real-MLB roster moves. These are not PSBL transactions. " + AUTO, NEWS,
      [("POSTED HERE", "Trades • Signings and extensions • Call-ups and options • Designations for assignment and waiver claims • Releases and outrights"),
-      ("DBL TRANSACTIONS", "Moves inside your DBL franchise happen in Fantrax, and Fantrax is the official record. League trade talk belongs in the Trade Center."),
+      ("PSBL TRANSACTIONS", "Moves inside your PSBL franchise happen in Fantrax, and Fantrax is the official record. League trade talk belongs in the Trade Center."),
       ("ROUTINE MOVES", "Routine moves post here. Major trades and major news may appear in **breaking-news** instead.")])
-card("the-wire/05_prospect_wire_channel_intro.json", "DBL PROSPECT WIRE",
+card("the-wire/05_prospect_wire_channel_intro.json", "PSBL PROSPECT WIRE",
      "Development news for dynasty owners who look beyond this season. " + AUTO, NEWS,
      [("POSTED HERE", "Minor-league promotions and call-ups • Prospect rankings and updates • MLB Draft and international signings • Arizona Fall League and winter ball • Spring training standouts"),
       ("DISCUSSION", "Use the **scouting** forum to talk about prospects, draft rankings and trade targets.")])
-card("the-wire/06_news_desk_channel_intro.json", "DBL NEWS DESK",
+card("the-wire/06_news_desk_channel_intro.json", "PSBL NEWS DESK",
      "The discussion room for everything the wire posts. No automation posts here, so conversation stays readable.", NEWS,
      [("USE THIS ROOM FOR", "Reactions to news • Injury impact • Player outlook • General baseball talk"),
       ("FEEDS", "🚨│breaking-news • 📰│mlb-news • 🏥│injury-report • 🔄│mlb-transactions • 🌱│prospect-wire"),
       ("GUIDELINES", "Link the story you're discussing. Keep rumors labeled as rumors. Anything official goes through the League Office.")])
 
-card("league-competition/08_lineup_alerts_channel_intro.json", "DBL LINEUP ALERTS",
+card("league-competition/08_lineup_alerts_channel_intro.json", "PSBL LINEUP ALERTS",
      "A daily heads-up before games start when a lineup can be improved.", COMP,
      [("WHAT IT CATCHES", "A hitter in your active lineup has no MLB game today, or a starting pitcher in your lineup is not starting today, while a reserve who can fill that slot does play."),
       ("WHO GETS ALERTS", "Owners who opt in. Ask the Commissioner to add you; the alert mentions you once a day at most, around 3:00 PM ET."),
       ("YOUR CALL", "Alerts are a reminder, not a rule. Lineups are yours to set in Fantrax (9.1)."),
       ("DISCUSSION", "Owners can react here but not post. Talk about it in **gm-lounge**.")])
-card("commissioners-office/06_owner_handbook_channel_intro.json", "DBL OWNER HANDBOOK",
+card("commissioners-office/06_owner_handbook_channel_intro.json", "PSBL OWNER HANDBOOK",
      "Everything an owner needs week to week, in one place. The Constitution has the full rules; section numbers are in brackets.", CO,
      [("DAILY LINEUPS", "Set your lineup in Fantrax every day. Each player locks about one minute before his MLB game (5.3). "
        "Active slots: C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL (any hitter), 5 SP and 3 RP (6.2)."),
@@ -176,26 +176,26 @@ card("commissioners-office/06_owner_handbook_channel_intro.json", "DBL OWNER HAN
       ("QUESTIONS", "Rules questions go to **rules-questions**. Anything private goes to **open-a-ticket**.")])
 
 # -------------------------------------------------------------- General Managers
-card("general-managers/01_gm_lounge_channel_intro.json", "DBL GM LOUNGE",
+card("general-managers/01_gm_lounge_channel_intro.json", "PSBL GM LOUNGE",
      "The clubhouse. This is where general managers talk baseball, discuss league business and enjoy the league.", GM,
      [("USE THIS ROOM FOR", "League talk • Proposal discussion before a vote • Baseball conversation • Getting to know your fellow owners"),
       ("OTHER ROOMS", "**game-day** for live games • **chirps-and-memes** for trash talk • **off-topic** for everything else • **media** for clips and photos"),
       ("NOT FOR OFFICIAL BUSINESS", "Votes, rulings, trades and deadlines belong in their own rooms. Nothing said in the lounge changes a rule or a result.")])
-card("general-managers/02_game_day_channel_intro.json", "DBL GAME DAY",
-     "Live reaction for MLB games and DBL matchups.", GM,
+card("general-managers/02_game_day_channel_intro.json", "PSBL GAME DAY",
+     "Live reaction for MLB games and PSBL matchups.", GM,
      [("USE THIS ROOM FOR", "Live game chat • Matchup swings • Pitcher-start watching • Late-night West Coast lineup panic"),
-      ("PROBABLE PITCHERS", "Each game day from late morning, one message lists every game's probable starters and tags pitchers on DBL rosters. It updates quietly when a team changes its starter."),
-      ("PICK'EM", "From Season 2027 the DBL League Bot posts each Week's matchups here. Pick the winners before the Week starts; a season leaderboard keeps score."),
+      ("PROBABLE PITCHERS", "Each game day from late morning, one message lists every game's probable starters and tags pitchers on PSBL rosters. It updates quietly when a team changes its starter."),
+      ("PICK'EM", "From Season 2027 the PSBL League Bot posts each Week's matchups here. Pick the winners before the Week starts; a season leaderboard keeps score."),
       ("KEEP IT READABLE", "Spoiler courtesy goes a long way. Use **news-desk** for deeper discussion of a story.")])
-card("general-managers/03_chirps_and_memes_channel_intro.json", "DBL CHIRPS AND MEMES",
+card("general-managers/03_chirps_and_memes_channel_intro.json", "PSBL CHIRPS AND MEMES",
      "Friendly trash talk and baseball humor.", GM,
      [("KEEP IT GOOD", "Chirp the team, not the person. Keep it fun and respectful, and remember everyone here is a co-owner of the league."),
       ("NOT HERE", "Rule disputes, trade negotiations or anything that needs a ruling. Take those to the Commissioner's Office.")])
-card("general-managers/04_off_topic_channel_intro.json", "DBL OFF TOPIC",
+card("general-managers/04_off_topic_channel_intro.json", "PSBL OFF TOPIC",
      "Everything that isn't baseball or league business.", GM,
      [("USE THIS ROOM FOR", "Other sports • Food and drink • Movies, games and music • Life outside the league"),
       ("HOUSE RULES", "Server-wide conduct rules still apply. Keep it friendly.")])
-card("general-managers/05_media_channel_intro.json", "DBL MEDIA",
+card("general-managers/05_media_channel_intro.json", "PSBL MEDIA",
      "Clips, highlights, photos and graphics.", GM,
      [("POSTED HERE", "Highlight clips • Game photos • Franchise graphics and logos • Anything worth sharing visually"),
       ("MORNING RECAP", "Every morning after a day of MLB games: the final scores with recap and condensed-game links."),
@@ -205,80 +205,80 @@ card("general-managers/05_media_channel_intro.json", "DBL MEDIA",
 # ------------------------------------------------------------------- Trade Center
 TRADE_RULES = ("TRADE RULES", "Trades are unlimited and are not subject to a league vote. The deadline is the end of Week 20 and trading reopens the day after the World Series ends (Article XI). Future 1st- and 2nd-round pick trades require prepayment (Article XII).")
 OFFICIAL = ("OFFICIAL RECORD", "A trade is official only when it is processed in Fantrax. Posts here don't bind anyone.")
-card("trade-center/01_trade_block_channel_intro.json", "DBL TRADE BLOCK",
+card("trade-center/01_trade_block_channel_intro.json", "PSBL TRADE BLOCK",
      "Players and picks you're willing to move.", TC,
      [("POST FORMAT", "Name the player or pick, say what you're hoping to get back, and note any deadline."),
       ("ALLOWED IN TRADES", "Rostered players, eligible draft picks and current-season FAAB. Cash, loans, rentals, predetermined tradebacks and conditional picks are prohibited."), OFFICIAL])
-card("trade-center/02_looking_to_acquire_channel_intro.json", "DBL LOOKING TO ACQUIRE",
+card("trade-center/02_looking_to_acquire_channel_intro.json", "PSBL LOOKING TO ACQUIRE",
      "Players, picks and positions you're hunting for.", TC,
      [("POST FORMAT", "Say what you want and what you can offer so owners can answer quickly."),
       ("TIP", "Check **trade-block** first, since the player you want may already be listed."), OFFICIAL])
-card("trade-center/03_trade_discussion_channel_intro.json", "DBL TRADE DISCUSSION",
+card("trade-center/03_trade_discussion_channel_intro.json", "PSBL TRADE DISCUSSION",
      "Open talk about trade ideas, valuations and strategy.", TC,
      [("USE THIS ROOM FOR", "Negotiating • Comparing offers • Rebuild vs. contend strategy • Pick valuations"),
       TRADE_RULES, OFFICIAL])
-card("trade-center/04_completed_trades_channel_intro.json", "DBL COMPLETED TRADES",
+card("trade-center/04_completed_trades_channel_intro.json", "PSBL COMPLETED TRADES",
      "The public record of trades that have been processed.", TC,
      [("POSTED HERE", "Completed trades only: the franchises involved and every player, pick and FAAB amount that moved."),
       ("BEFORE YOU POST", "Post after Fantrax has processed the trade. A future 1st- or 2nd-round pick trade needs the seller's prepayment confirmed in **league-ledger** first, or the Commissioner reverses it (Article XII)."), OFFICIAL])
-card("trade-center/05_player_values_channel_intro.json", "DBL PLAYER VALUES",
+card("trade-center/05_player_values_channel_intro.json", "PSBL PLAYER VALUES",
      "Dynasty values, rankings and trade-value discussion.", TC,
      [("USE THIS ROOM FOR", "Dynasty rankings • Value charts • Pick values • Risers and fallers"),
       ("REMEMBER", "Values are opinions. A trade isn't reversible just because someone believes one side received more value (Article XI).")])
 
 # --------------------------------------------------------------------- Scouting
 MINORS = ("MINOR-LEAGUE RULES", "Minor-league spots are for players with no more than 130 career MLB at-bats and no more than 50 career MLB innings pitched (MLB's rookie limits; no age limit). Details are in Article VII.")
-card("scouting/01_scouting_channel_intro.json", "DBL SCOUTING",
-     "One forum for every prospect: the minors, college, international signings, the MLB Draft and the DBL draft.", SD,
+card("scouting/01_scouting_channel_intro.json", "PSBL SCOUTING",
+     "One forum for every prospect: the minors, college, international signings, the MLB Draft and the PSBL draft.", SD,
      [("HOW IT WORKS", "Make one post per player or topic, and search before you post so each prospect keeps one thread. Add tags for the league, the player's status and position."),
-      ("TAGS", "**Level:** AAA • AA • HIGH-A • LOW-A • ROOKIE • COLLEGE • INTERNATIONAL • MLB DRAFT\n**Status:** TOP PROSPECT • SLEEPER • RISER • FALLER • MLB READY • LONG SHOT\n**Position:** HITTER • PITCHER\n**DBL draft:** DBL DRAFT • RANKINGS • MOCK DRAFT"),
+      ("TAGS", "**Level:** AAA • AA • HIGH-A • LOW-A • ROOKIE • COLLEGE • INTERNATIONAL • MLB DRAFT\n**Status:** TOP PROSPECT • SLEEPER • RISER • FALLER • MLB READY • LONG SHOT\n**Position:** HITTER • PITCHER\n**PSBL draft:** PSBL DRAFT • RANKINGS • MOCK DRAFT"),
       MINORS,
-      ("THE DBL DRAFT", "5 rounds, linear order, starting between January 20 and February 10; the first Annual Draft is in 2028. The pool is any unowned player who qualifies for a minor-league spot, not just the MLB Draft class (Article XIV). Official draft notices are in the Draft Center."),
+      ("THE PSBL DRAFT", "5 rounds, linear order, starting between January 20 and February 10; the first Annual Draft is in 2028. The pool is any unowned player who qualifies for a minor-league spot, not just the MLB Draft class (Article XIV). Official draft notices are in the Draft Center."),
       ("NEWS FEED", "Automated prospect news appears in **prospect-wire**. Come here to talk about what it means.")])
 
 # ------------------------------------------------------------------- Waiver Wire
-card("waiver-wire/01_waiver_talk_channel_intro.json", "DBL WAIVER TALK",
+card("waiver-wire/01_waiver_talk_channel_intro.json", "PSBL WAIVER TALK",
      "FAAB strategy, waiver timing and recently dropped players worth a claim.", WW,
      [("THE RULES", "$1,000 FAAB per season, $0 bids allowed, $1 increments, hidden bids, daily processing at about 11:00 AM ET (Article X). FAAB does not roll over."),
       ("CONSOLATION BONUS", "The consolation-bracket champion gets a $50 FAAB bonus next season. Current-season FAAB can be traded (Article XI)."),
       ("RECENTLY DROPPED", "Spot a useful player who just hit the pool? Post him here. Players worth a longer look get their own post in **waiver-watch**."),
       ("OFFICIAL CLAIMS", "Actual claims stay in Fantrax. Discord never submits or changes a claim.")])
-card("waiver-wire/02_waiver_watch_channel_intro.json", "DBL WAIVER WATCH",
+card("waiver-wire/02_waiver_watch_channel_intro.json", "PSBL WAIVER WATCH",
      "Players worth watching before the next waiver run.", WW,
      [("USE THIS ROOM FOR", "Breakout candidates • Call-ups • Closer and setup changes • Two-start pitchers • Streaming targets"),
       ("ACQUISITION LIMIT", "Up to 5 acquisitions per normal fantasy week. The two-week championship counts as two separate weeks (Article X).")])
 
 # -------------------------------------------------------------- League Competition
 DISCUSS = ("DISCUSSION", "Owners can react here but not post. Talk about it in **gm-lounge** or **chirps-and-memes**.")
-card("league-competition/01_scoreboard_channel_intro.json", "DBL SCOREBOARD",
-     "Live matchup results for the current week, posted by the DBL Competition Desk and read directly from Fantrax.", COMP,
+card("league-competition/01_scoreboard_channel_intro.json", "PSBL SCOREBOARD",
+     "Live matchup results for the current week, posted by the PSBL Competition Desk and read directly from Fantrax.", COMP,
      [("POSTED HERE", "Weekly matchup previews • MLB games grid for the Week (games per team, doubleheaders, off days, two-start pitchers) • Live scoreboards with pitcher starts used • Final scoreboards when a week ends"),
       ("OFFICIAL RESULTS", FANTRAX), ("DISCUSSION", "Matchup talk and trash talk belong in **gm-lounge** and **chirps-and-memes**.")])
-card("league-competition/02_standings_channel_intro.json", "DBL STANDINGS",
-     "League standings after each completed week, posted by the DBL Competition Desk from Fantrax data.", COMP,
+card("league-competition/02_standings_channel_intro.json", "PSBL STANDINGS",
+     "League standings after each completed week, posted by the PSBL Competition Desk from Fantrax data.", COMP,
      [("POSTED HERE", "Weekly standings • Playoff cut line • Final regular-season standings"),
       ("TIEBREAKERS", "Points scored, then head-to-head among the tied teams, then the next Fantrax tiebreaker, then a recorded random draw (Article XV)."),
       ("OFFICIAL RESULTS", "Fantrax is the authoritative record. These posts are a convenient copy of it.")])
-card("league-competition/04_weekly_recap_channel_intro.json", "DBL WEEKLY RECAP",
+card("league-competition/04_weekly_recap_channel_intro.json", "PSBL WEEKLY RECAP",
      "The results of every completed matchup, posted after each fantasy week ends, normally on Monday morning.", COMP,
      [("POSTED HERE", "Completed matchup results for the week • Weekly Awards (the three stars, tough luck, lucky win, closest game, biggest blowout) • Power Rankings • All-play records"),
       ("POWER RANKINGS", "Results only: 50% season points, 30% points over the last three Weeks, 20% all-play record. All-play is each team's record if it had played every other team every Week."),
       ("MONTHLY AWARDS", "Manager of the Month and the other Monthly Awards after each month, plus a post whenever a franchise claims a Season bounty. Recognition only: a role and a mention, never FAAB or picks."),
       ("OFFICIAL RESULTS", "Results are pulled directly from Fantrax. Questions about a score go to the Commissioner's Office."),
       DISCUSS])
-card("league-competition/05_playoff_race_channel_intro.json", "DBL PLAYOFF RACE",
+card("league-competition/05_playoff_race_channel_intro.json", "PSBL PLAYOFF RACE",
      "The late-season picture: who is in, who is on the bubble and what each team needs.", COMP,
      [("POSTED HERE", "Teams above and below the playoff cut line • Bubble teams • Updates through Week 22"),
       ("THE FIELD", "Six teams make the playoffs and the top two seeds get byes (Article XVI)."),
       ("WHEN IT STARTS", "These posts begin late in the regular season. Until then the channel stays quiet."),
       DISCUSS])
-card("league-competition/06_playoffs_channel_intro.json", "DBL PLAYOFFS",
-     "Playoff matchups and results, posted by the DBL Competition Desk.", COMP,
-     [("THE FORMAT", "Quarterfinals and Semifinals are one week each, and the DBL Championship is a two-week cumulative matchup. Brackets reseed after each round. The Semifinal losers play for third place (Article XVI)."),
+card("league-competition/06_playoffs_channel_intro.json", "PSBL PLAYOFFS",
+     "Playoff matchups and results, posted by the PSBL Competition Desk.", COMP,
+     [("THE FORMAT", "Quarterfinals and Semifinals are one week each, and the PSBL Championship is a two-week cumulative matchup. Brackets reseed after each round. The Semifinal losers play for third place (Article XVI)."),
       ("POSTED HERE", "Playoff matchups • Round results • Third-place game • Champion announcement"),
       ("OFFICIAL RESULTS", "Fantrax is the authoritative record. Rulings on playoff questions come from the League Office."),
       DISCUSS])
-card("league-competition/07_consolation_bracket_channel_intro.json", "DBL CONSOLATION BRACKET",
+card("league-competition/07_consolation_bracket_channel_intro.json", "PSBL CONSOLATION BRACKET",
      "The bracket for the six franchises that miss the playoffs.", COMP,
      [("THE FORMAT", "Same structure as the playoffs, played in the same weeks, seeded by regular-season standings among non-playoff teams (Article XVI)."),
       ("THE PRIZE", "The consolation champion receives a **$50 FAAB bonus** for the following season (Article X)."),
@@ -286,54 +286,54 @@ card("league-competition/07_consolation_bracket_channel_intro.json", "DBL CONSOL
       DISCUSS])
 
 # --------------------------------------------------------------- Commissioner's Office
-card("commissioners-office/01_commissioner_support_channel_intro.json", "DBL COMMISSIONER SUPPORT",
+card("commissioners-office/01_commissioner_support_channel_intro.json", "PSBL COMMISSIONER SUPPORT",
      "Open a private ticket for anything that shouldn't be handled in public.", CO,
      [("USE THIS ROOM FOR", "Disputes • Complaints • Payment questions • Roster or platform problems"),
       ("TIMING", "A request to review a material Commissioner ruling must be made within 48 hours of the ruling (Article XIX)."),
       ("PRIVACY", "Never post passwords, payment credentials or account numbers.")])
-card("commissioners-office/02_rules_questions_channel_intro.json", "DBL RULES QUESTIONS",
+card("commissioners-office/02_rules_questions_channel_intro.json", "PSBL RULES QUESTIONS",
      "Ask how a rule works. Check the Constitution first.", CO,
      [("HOW IT WORKS", "Ask here so the answer helps everyone. Include the situation and the Article you're looking at."),
       ("OFFICIAL RULINGS", "Binding answers are posted in **rulings-log**. A casual reply in this channel is not a ruling.")])
-card("commissioners-office/03_league_suggestions_channel_intro.json", "DBL LEAGUE SUGGESTIONS",
+card("commissioners-office/03_league_suggestions_channel_intro.json", "PSBL LEAGUE SUGGESTIONS",
      "Ideas for improving the league, tracked from first post to final decision.", CO,
      [("HOW IT WORKS", "Start one post per idea and pick a topic tag. Owners discuss it in the post. Every idea shows where it stands with a status tag."),
       ("STATUS TAGS", "**Idea** → **Discussion** → **Commissioner Review** → **Scheduled for Vote** → **Approved** or **Rejected** → **Implemented**. Only the Commissioner changes a status."),
       ("THE PROCESS", "Material Amendments are proposed in writing, posted at least 7 days before voting, and approved by 8 of 12 votes in the offseason (Article XX).")])
-card("commissioners-office/04_rulings_log_channel_intro.json", "DBL RULINGS LOG",
+card("commissioners-office/04_rulings_log_channel_intro.json", "PSBL RULINGS LOG",
      "The permanent record of Commissioner rulings, recusals and appeal outcomes.", CO,
      [("POSTED HERE", "Official rulings • Recusal decisions • Appeal outcomes (Article XIX)"),
       ("APPEALS", "A directly affected franchise may request review within 48 hours by opening an Appeal ticket in **open-a-ticket** (Section 19.4). A panel of three unaffected owners, drawn at random, decides by majority within 7 days.")])
 
 # ------------------------------------------------------------------- Draft Center
-card("draft-center/01_draft_announcements_channel_intro.json", "DBL DRAFT ANNOUNCEMENTS",
+card("draft-center/01_draft_announcements_channel_intro.json", "PSBL DRAFT ANNOUNCEMENTS",
      "Official draft notices. Fantrax remains the authoritative platform for actual selections.", DC,
      [("POSTED HERE", "Draft date and start time • Order • Pick-clock and pause rules • Roster-compliance deadline"),
       ("DATES", "The Startup Draft begins in late January 2027 and each Annual Draft between January 20 and February 10. Both are announced at least 30 days ahead (Articles V, XIII and XIV)."),
       ("ON THE CLOCK", "Fantrax alerts each manager when it's their pick, so Discord doesn't repeat those alerts. Round results are posted in **draft-results**.")])
-card("draft-center/03_draft_room_channel_intro.json", "DBL DRAFT ROOM",
+card("draft-center/03_draft_room_channel_intro.json", "PSBL DRAFT ROOM",
      "Live discussion while the draft runs.", DC,
      [("USE THIS ROOM FOR", "Reactions • Pick talk • Draft banter"),
       ("DRAFT QUEUES", "Maintain a Fantrax queue so a timeout never costs you a pick (Articles XIII and XIV).")])
-card("draft-center/04_draft_day_trades_channel_intro.json", "DBL DRAFT DAY TRADES",
+card("draft-center/04_draft_day_trades_channel_intro.json", "PSBL DRAFT DAY TRADES",
      "Trades made while the draft is running.", DC,
      [("POSTED HERE", "Draft-day trades once processed in Fantrax"),
       ("PICK TRADES", "Future 1st- and 2nd-round pick trades require confirmed prepayment before they become final (Article XII).")])
-card("draft-center/05_draft_results_channel_intro.json", "DBL DRAFT RESULTS",
+card("draft-center/05_draft_results_channel_intro.json", "PSBL DRAFT RESULTS",
      "The pick-by-pick record and final board.", DC,
      [("POSTED HERE", "Pick results • Round summaries • Final draft board"),
       ("OFFICIAL RECORD", FANTRAX)])
 
 # --------------------------------------------------------------------- Franchise HQ
-card("franchise-hq/01_franchise_directory_channel_intro.json", "DBL FRANCHISE DIRECTORY",
+card("franchise-hq/01_franchise_directory_channel_intro.json", "PSBL FRANCHISE DIRECTORY",
      "Every franchise, its owners and who holds its vote.", HQ,
      [("LISTED HERE", "Franchise name • Owner and co-owners • Which owner casts the franchise vote"),
       ("ONE FRANCHISE, ONE VOTE", "Co-owners share one dues obligation and one formal vote (Articles II and III).")])
-card("franchise-hq/02_franchise_news_channel_intro.json", "DBL FRANCHISE NEWS",
+card("franchise-hq/02_franchise_news_channel_intro.json", "PSBL FRANCHISE NEWS",
      "News from each franchise.", HQ,
      [("POSTED HERE", "Franchise announcements • Roster changes worth sharing • Branding and identity updates"),
       ("OFFICIAL BUSINESS", "Votes, trades and rulings stay in the League Office, the Trade Center and Fantrax.")])
-card("franchise-hq/03_roster_showcase_channel_intro.json", "DBL ROSTER SHOWCASE",
+card("franchise-hq/03_roster_showcase_channel_intro.json", "PSBL ROSTER SHOWCASE",
      "Show off your team and your prospect pipeline.", HQ,
      [("POSTED HERE", "Roster snapshots • Prospect stashes • Draft-pick hauls"),
       ("FANTRAX FIRST", "Fantrax is the live roster. Showcase posts are a snapshot.")])

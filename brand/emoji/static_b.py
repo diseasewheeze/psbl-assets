@@ -1,6 +1,6 @@
-"""PSBL static emoji, group static_b (22 emoji). File names keep the dbl_ prefix.
+"""PSBL static emoji, group static_b (22 emoji). File names keep the psbl_ prefix.
 
-Run:  python3 static_b.py      -> static/dbl_*.png and static_b_sheet.png
+Run:  python3 static_b.py      -> static/psbl_*.png and static_b_sheet.png
 Everything is drawn on the 32 x 32 art grid from pix.py and exported x4 (128 x 128).
 Deterministic: no randomness.
 """
@@ -762,12 +762,12 @@ def lock():
 
 
 EMOJI = [
-    ("dbl_faab", faab), ("dbl_contract", contract), ("dbl_pick", pick), ("dbl_scout", scout),
-    ("dbl_lineup", lineup), ("dbl_medal", medal), ("dbl_spoon", spoon), ("dbl_pot", pot),
-    ("dbl_rally_cap", rally_cap), ("dbl_tooth", tooth), ("dbl_injury", injury), ("dbl_hotdog", hotdog),
-    ("dbl_beard", beard), ("dbl_w", w), ("dbl_l", l), ("dbl_gg", gg),
-    ("dbl_bullpen", bullpen), ("dbl_error", error), ("dbl_chirp", chirp), ("dbl_apple", apple),
-    ("dbl_sauce", sauce), ("dbl_lock", lock),
+    ("psbl_faab", faab), ("psbl_contract", contract), ("psbl_pick", pick), ("psbl_scout", scout),
+    ("psbl_lineup", lineup), ("psbl_medal", medal), ("psbl_spoon", spoon), ("psbl_pot", pot),
+    ("psbl_rally_cap", rally_cap), ("psbl_tooth", tooth), ("psbl_injury", injury), ("psbl_hotdog", hotdog),
+    ("psbl_beard", beard), ("psbl_w", w), ("psbl_l", l), ("psbl_gg", gg),
+    ("psbl_bullpen", bullpen), ("psbl_error", error), ("psbl_chirp", chirp), ("psbl_apple", apple),
+    ("psbl_sauce", sauce), ("psbl_lock", lock),
 ]
 
 

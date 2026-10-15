@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""DBL Trade Desk: a report card and poll for every trade, revisits, and the deadline-day tracker.
+"""PSBL Trade Desk: a report card and poll for every trade, revisits, and the deadline-day tracker.
 
 Every run (every 30 minutes, every 15 on trade-deadline day; see
 automation/scheduler/schedule.yaml) compares Fantrax's rosters and draft-pick
 ownership with the last saved copy (trade_detect.py). Players and picks that
-moved straight from one DBL team to another in that window are one trade;
+moved straight from one PSBL team to another in that window are one trade;
 free-agent adds and drops are ignored. The first run for a league and season
 only saves a baseline.
 
@@ -19,13 +19,13 @@ only saves a baseline.
    saying the Commissioner reviews it under Section 11.6, and it doesn't count
    toward the season's trades. A card for three or more teams says the feed
    can't separate trades made minutes apart.
-2. TRADE REVISIT at 6 and 12 months (same channel): for each side, the DBL
+2. TRADE REVISIT at 6 and 12 months (same channel): for each side, the PSBL
    fantasy points its players have produced in MLB regular-season games since
    the trade (trade_points.py), wherever they have played since; picks show
    "not yet used" or the player drafted with them (league archive); and the
    final poll result, read back from Discord. It never suggests a trade should
    change.
-3. DBL DEADLINE DAY TRADE CENTER (📢│announcements, secret LEAGUE_WEBHOOK_LEAGUE_ANNOUNCEMENTS):
+3. PSBL DEADLINE DAY TRADE CENTER (📢│announcements, secret LEAGUE_WEBHOOK_LEAGUE_ANNOUNCEMENTS):
    on trade-deadline day (Sunday of the deadline Week, 11:59 PM ET; deadline
    from core.season.trade_deadline, the same helper the League Bot uses) one
    live message is posted at 9:00 AM ET and edited every run until the
@@ -628,7 +628,7 @@ def run(mode: str, *, now: datetime | None = None, fx: Any = None, cfg: dict[str
     cfg = cfg or load_league()
     tz = timezone_of(cfg)
     now = now or datetime.now(timezone.utc)
-    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="DBL-Trade-Desk/1.0")
+    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="PSBL-Trade-Desk/1.0")
     state = load_json(state_path, {})
     state.setdefault("trades", [])
     state.setdefault("deadline", {})
@@ -647,7 +647,7 @@ def run(mode: str, *, now: datetime | None = None, fx: Any = None, cfg: dict[str
         errors += 1
         print(f"ERROR: could not read Fantrax league info ({exc.__class__.__name__}: {str(exc)[:200]}). "
               "Trades and the tracker are skipped this run; report cards and revisits still run.")
-    print(f"DBL TRADE DESK mode={mode.upper()} season={season} ({cfg.get('season_label') or ''}) "
+    print(f"PSBL TRADE DESK mode={mode.upper()} season={season} ({cfg.get('season_label') or ''}) "
           f"now={now.astimezone(tz).strftime('%a %b %d %Y %I:%M %p %Z')}")
 
     if mode == "rebaseline":

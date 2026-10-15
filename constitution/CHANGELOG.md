@@ -1,5 +1,5 @@
 <!-- Generated from tools/constitution_source.py (AMENDMENTS) by tools/build_constitution.py. Do not edit by hand. -->
-# DBL Constitution — Changelog
+# PSBL Constitution — Changelog
 
 Every change to the Constitution, newest first. Amendments are identified by the date they were adopted.
 

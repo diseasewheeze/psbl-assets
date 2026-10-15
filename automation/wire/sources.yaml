@@ -1,5 +1,5 @@
 fantrax:
-  # Tag stories with the DBL team that rosters the player. The league comes
+  # Tag stories with the PSBL team that rosters the player. The league comes
   # from automation/league.yaml; owner pings are configured there too.
   roster_enrichment: true
 

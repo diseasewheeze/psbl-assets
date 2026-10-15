@@ -5,10 +5,10 @@
         "embeds": [
           {
             "title": "SEASON LEDGER",
-            "description": "`[SEASON]` • Published within 30 days after the DBL Championship.",
+            "description": "`[SEASON]` • Published within 30 days after the PSBL Championship.",
             "color": 795456,
             "footer": {
-              "text": "DBL LEAGUE LEDGER"
+              "text": "PSBL LEAGUE LEDGER"
             },
             "fields": [
               {
@@ -38,7 +38,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -52,7 +52,7 @@
             "description": "`[SEASON / DATE]`",
             "color": 795456,
             "footer": {
-              "text": "DBL LEAGUE LEDGER • NO PAYMENT CREDENTIALS POSTED"
+              "text": "PSBL LEAGUE LEDGER • NO PAYMENT CREDENTIALS POSTED"
             },
             "fields": [
               {
@@ -77,7 +77,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -87,15 +87,15 @@
       "data": {
         "embeds": [
           {
-            "title": "DBL PRIZE POOL",
+            "title": "PSBL PRIZE POOL",
             "description": "`[SEASON]` • 12 franchises × $150 = $1,800",
             "color": 795456,
             "footer": {
-              "text": "DBL LEAGUE LEDGER"
+              "text": "PSBL LEAGUE LEDGER"
             },
             "fields": [
               {
-                "name": "DBL CHAMPION",
+                "name": "PSBL CHAMPION",
                 "value": "$650",
                 "inline": false
               },
@@ -131,7 +131,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -145,7 +145,7 @@
             "description": "`[FRANCHISE]` is confirmed paid through **Season `[YEAR]`**.",
             "color": 795456,
             "footer": {
-              "text": "DBL LEAGUE LEDGER • NO PAYMENT CREDENTIALS POSTED"
+              "text": "PSBL LEAGUE LEDGER • NO PAYMENT CREDENTIALS POSTED"
             },
             "fields": [
               {
@@ -165,7 +165,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -179,7 +179,7 @@
             "description": "`[PRIZE]` for **Season `[YEAR]`** has been paid to `[FRANCHISE]`.",
             "color": 795456,
             "footer": {
-              "text": "DBL LEAGUE LEDGER"
+              "text": "PSBL LEAGUE LEDGER"
             },
             "fields": [
               {
@@ -199,7 +199,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -213,7 +213,7 @@
             "description": "The pot stands at **`$[BALANCE]`**.",
             "color": 795456,
             "footer": {
-              "text": "DBL LEAGUE LEDGER"
+              "text": "PSBL LEAGUE LEDGER"
             },
             "fields": [
               {
@@ -233,12 +233,12 @@
               },
               {
                 "name": "TO WIN",
-                "value": "Three DBL Championships in the same active cycle (Article IV).",
+                "value": "Three PSBL Championships in the same active cycle (Article IV).",
                 "inline": false
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]

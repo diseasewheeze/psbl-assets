@@ -1,11 +1,11 @@
-"""Trade detection: what moved straight from one DBL team to another between two runs.
+"""Trade detection: what moved straight from one PSBL team to another between two runs.
 
 Fantrax's read-only feed has no transaction log, so a trade is inferred by
 comparing two snapshots, the same way the league archive does
 (automation/history/collect.py), only every 15 to 30 minutes instead of daily:
 
 - Players: getTeamRosters, diffed with collect.player_changes. A player who
-  left one DBL team and is now on another moved in a trade. Adds from the
+  left one PSBL team and is now on another moved in a trade. Adds from the
   free-agent pool and drops to it are ignored.
 - Draft picks: getDraftPicks, snapshotted with the archive's
   collect.pick_snapshot (future picks, plus the current draft's picks once
@@ -51,7 +51,7 @@ __all__ = ["SnapshotError", "detect", "group_trades", "hold_back_one_sided_playe
 REVERSAL_WINDOW = timedelta(days=14)
 DEFAULT_TZ = ZoneInfo("America/New_York")
 REBASELINE_HINT = ("If rosters were reset on purpose (the Commissioner emptied a team, a TEST draft was re-run), "
-                   "run the DBL Trade Desk workflow once with mode rebaseline")
+                   "run the PSBL Trade Desk workflow once with mode rebaseline")
 
 
 def current_draft(fx: Any, tz: ZoneInfo) -> tuple[dr.Draft | None, int | None]:

@@ -40,8 +40,8 @@ var DATA = {
     nextWeek: { label: "GAME OF THE WEEK", teamA: "TEAM C", teamB: "TEAM D" }
 };
 
-DBL.run("02 Week in 60", function () {
-    var B = DBL, D = DATA;
+PSBL.run("02 Week in 60", function () {
+    var B = PSBL, D = DATA;
     var wk = (D.week < 10 ? "0" : "") + D.week;
     var c = B.comp(B.folder("Week in 60"), "Week in 60 - Week " + wk, 60);
     B.background(c, "dots");
@@ -54,7 +54,7 @@ DBL.run("02 Week in 60", function () {
 
     // ---- 0:00 open (the WEEK slam lands with the intro sting's hit at 0.5 s)
     var mark = B.image(c, "b-mark-8.png", 960, 300, { center: true });
-    var eb = B.text(c, "DBL WEEK IN 60", { face: "silk", k: 6, color: "gold", x: 960, y: 470, align: "center" });
+    var eb = B.text(c, "PSBL WEEK IN 60", { face: "silk", k: 6, color: "gold", x: 960, y: 470, align: "center" });
     var big = B.text(c, "WEEK " + D.week, { face: "jersey", k: 18, color: "cream", x: 960, y: 540, align: "center", shadow: "black" });
     var dates = B.text(c, D.dates, { face: "silk", k: 6, color: "cream", x: 960, y: 760, align: "center" });
     B.pop(mark, B.f(3));

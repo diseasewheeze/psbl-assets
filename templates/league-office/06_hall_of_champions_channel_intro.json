@@ -1,20 +1,20 @@
 {
   "embeds": [
     {
-      "color": 2829617,
+      "color": 795456,
       "footer": {
         "text": "​"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/league-office/dbl-champions-header.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-champions-header.png?v=8bit-sox-1"
       }
     },
     {
-      "title": "DBL HALL OF CHAMPIONS",
-      "description": "The permanent record of every DBL champion.",
+      "title": "PSBL HALL OF CHAMPIONS",
+      "description": "The permanent record of every PSBL champion.",
       "color": 12398649,
       "footer": {
-        "text": "DBL LEAGUE OFFICE"
+        "text": "PSBL LEAGUE OFFICE"
       },
       "fields": [
         {
@@ -24,7 +24,7 @@
         },
         {
           "name": "DYNASTY POT",
-          "value": "The first franchise to win three DBL Championships in the same active cycle wins the entire pot. Championships belong to the franchise, not the owner (Article IV).",
+          "value": "The first franchise to win three PSBL Championships in the same active cycle wins the entire pot. Championships belong to the franchise, not the owner (Article IV).",
           "inline": false
         },
         {
@@ -34,7 +34,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

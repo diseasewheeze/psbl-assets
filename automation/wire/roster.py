@@ -1,7 +1,7 @@
-"""Tag Wire stories with the DBL team that rosters the player.
+"""Tag Wire stories with the PSBL team that rosters the player.
 
 How matching works:
-- Fantrax's getTeamRosters gives player IDs per DBL team; getPlayerIds gives
+- Fantrax's getTeamRosters gives player IDs per PSBL team; getPlayerIds gives
   every MLB player's name ("Last, First"), MLB team and position.
 - Several real players share a name (two Will Smiths, several Luis Garcias).
   A story is only tagged when the player can be identified unambiguously:
@@ -167,7 +167,7 @@ def display_name(player: Player) -> str:
 
 
 def tag_candidates(candidates: list[dict], index: RosterIndex) -> int:
-    """Attach DBL roster info to candidates in place. Returns tagged count.
+    """Attach PSBL roster info to candidates in place. Returns tagged count.
 
     A structured entry (an MLB transaction) names its players with their MLB
     teams and positions; a trade names every player in it. Any other story is
@@ -222,7 +222,7 @@ def load_index(league: dict[str, Any]) -> RosterIndex | None:
     """Fetch rosters and the player directory from Fantrax (None on failure)."""
     from core.fantrax import Fantrax
 
-    fx = Fantrax(str(league.get("league_id") or ""), user_agent="DBL-Wire-Roster/2.0", timeout=20)
+    fx = Fantrax(str(league.get("league_id") or ""), user_agent="PSBL-Wire-Roster/2.0", timeout=20)
     try:
         rosters = fx.rosters()
     except Exception as exc:
@@ -232,7 +232,7 @@ def load_index(league: dict[str, Any]) -> RosterIndex | None:
     if isinstance(block, dict) and block and not any(
         (team or {}).get("rosterItems") for team in block.values() if isinstance(team, dict)
     ):
-        print(f"ROSTER TAGS: all {len(block)} DBL rosters are empty; tags start once players are rostered")
+        print(f"ROSTER TAGS: all {len(block)} PSBL rosters are empty; tags start once players are rostered")
         return None
     try:
         players = fx.player_ids()

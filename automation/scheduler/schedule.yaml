@@ -1,4 +1,4 @@
-# DBL Scheduler: the single source of truth for when each automation runs.
+# PSBL Scheduler: the single source of truth for when each automation runs.
 #
 # The scheduler workflow is started every 15 minutes by an external timer
 # (cron-job.org), with GitHub's own cron as a backup. On every start it checks
@@ -103,8 +103,8 @@ jobs:
     phases: [regular, playoffs]
 
   # Morning Recap: last night's MLB finals with recap and condensed-game
-  # links and the DBL Home Run Reel in 📸│media, once per MLB date. All year,
-  # so the MLB postseason is covered after the DBL season ends; days without
+  # links and the PSBL Home Run Reel in 📸│media, once per MLB date. All year,
+  # so the MLB postseason is covered after the PSBL season ends; days without
   # MLB games post nothing. A failed post is retried at the next check.
   - id: morning-recap
     workflow: league-morning-recap.yml
@@ -132,7 +132,7 @@ jobs:
 
   # Trade Desk: a report card with a "Who won the trade?" poll in
   # 💬│trade-discussion for every trade, revisits 6 and 12 months later, and the
-  # DBL Deadline Day Trade Center tracker in 📢│announcements. All year: trades
+  # PSBL Deadline Day Trade Center tracker in 📢│announcements. All year: trades
   # happen in the offseason too. Every 30 minutes, and every 15 minutes on
   # trade-deadline day (midnight until an hour after the 11:59 PM ET deadline).
   - id: trade-desk

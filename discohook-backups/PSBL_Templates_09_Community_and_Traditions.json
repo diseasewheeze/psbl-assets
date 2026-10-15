@@ -4,11 +4,11 @@
       "data": {
         "embeds": [
           {
-            "title": "DBL AWARDS NIGHT",
+            "title": "PSBL AWARDS NIGHT",
             "description": "Season `[YEAR]` ballots are open in **🗳️│league-voting**. Owners choose the winners.",
             "color": 795456,
             "footer": {
-              "text": "DBL RECORDS DEPARTMENT"
+              "text": "PSBL RECORDS DEPARTMENT"
             },
             "fields": [
               {
@@ -38,7 +38,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -48,11 +48,11 @@
       "data": {
         "embeds": [
           {
-            "title": "DBL AWARDS NIGHT: THE WINNERS",
+            "title": "PSBL AWARDS NIGHT: THE WINNERS",
             "description": "Season `[YEAR]`, as voted by the owners: `[N]` of `[N]` franchises returned a ballot. 5 points for a first-place vote, 3 for second, 1 for third.",
             "color": 795456,
             "footer": {
-              "text": "DBL RECORDS DEPARTMENT"
+              "text": "PSBL RECORDS DEPARTMENT"
             },
             "fields": [
               {
@@ -87,7 +87,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -101,7 +101,7 @@
             "description": "A just-for-fun tradition for the last-place team. Owners decide whether we do it.",
             "color": 12398649,
             "footer": {
-              "text": "DBL LEAGUE OFFICE • DISCUSSION"
+              "text": "PSBL LEAGUE OFFICE • DISCUSSION"
             },
             "fields": [
               {
@@ -121,7 +121,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -135,7 +135,7 @@
             "description": "**`[FRANCHISE]`** finishes last in Season `[YEAR]` and takes home the Spoon.",
             "color": 795456,
             "footer": {
-              "text": "DBL RECORDS DEPARTMENT"
+              "text": "PSBL RECORDS DEPARTMENT"
             },
             "fields": [
               {
@@ -150,7 +150,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -160,11 +160,11 @@
       "data": {
         "embeds": [
           {
-            "title": "MEET THE DBL LEAGUE BOT",
+            "title": "MEET THE PSBL LEAGUE BOT",
             "description": "League tools, right in Discord. Every command reads Fantrax and the Constitution; nothing here changes Fantrax.",
             "color": 12398649,
             "footer": {
-              "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
+              "text": "PSBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },
             "fields": [
               {
@@ -194,7 +194,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]

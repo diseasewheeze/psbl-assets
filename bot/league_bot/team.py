@@ -38,7 +38,7 @@ STATUS = {"ACTIVE": "active", "RESERVE": "reserve", "MINORS": "minors", "MINOR":
 SLOTS = tuple(slot for slot, count in sport.LINEUP.items() for _ in range(count))
 SLOT_NAMES = {"UT": "UTIL", "U": "UTIL", "UTIL": "UTIL", "UTILITY": "UTIL"}
 ROUND = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}
-FOOTER = "DBL LEAGUE BOT • ONLY YOU CAN SEE THIS"
+FOOTER = "PSBL LEAGUE BOT • ONLY YOU CAN SEE THIS"
 log = logging.getLogger("league.bot")
 
 

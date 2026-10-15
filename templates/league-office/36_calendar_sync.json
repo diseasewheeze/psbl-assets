@@ -2,10 +2,10 @@
   "embeds": [
     {
       "title": "ADD THE LEAGUE CALENDAR TO YOUR PHONE",
-      "description": "Every DBL date can live in the calendar you already use.",
+      "description": "Every PSBL date can live in the calendar you already use.",
       "color": 12398649,
       "footer": {
-        "text": "DBL LEAGUE CALENDAR"
+        "text": "PSBL LEAGUE CALENDAR"
       },
       "fields": [
         {
@@ -25,7 +25,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

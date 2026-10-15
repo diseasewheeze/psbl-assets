@@ -1,1 +1,1 @@
-"""DBL league history: daily archive, trade trees, rivalries, draft retrospectives, records and graphics."""
+"""PSBL league history: daily archive, trade trees, rivalries, draft retrospectives, records and graphics."""

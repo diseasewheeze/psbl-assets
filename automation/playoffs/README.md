@@ -1,4 +1,4 @@
-# DBL Playoffs
+# PSBL Playoffs
 
 Live playoff bracket for the league's six-team head-to-head format.
 
@@ -15,7 +15,7 @@ Playoff weeks, number of playoff teams and the last regular-season week come fro
 
 ## How it runs
 
-The DBL Scheduler starts it **hourly during playoff weeks only** (`automation/scheduler/schedule.yaml`).
+The PSBL Scheduler starts it **hourly during playoff weeks only** (`automation/scheduler/schedule.yaml`).
 
 1. **Seeds save themselves.** On the first run after Fantrax has counted every regular-season week, the final standings are saved as the playoff seeds (and the consolation seeds) in `state/playoff.json`. Later playoff results can never reshuffle them. If seeds were somehow never saved and the playoffs are already past round 1, the run fails loudly (Automation Health reports it) instead of guessing.
 2. **One message per round.** When a round starts, a new bracket message is posted so members are notified. During the round the same message is edited as scores change. Edits are silent.
@@ -23,7 +23,7 @@ The DBL Scheduler starts it **hourly during playoff weeks only** (`automation/sc
 ## Manual modes (Actions tab)
 
 - `preview` — print the bracket payload in the log
-- `test` — post a `[TEST] DBL Playoffs` bracket
+- `test` — post a `[TEST] PSBL Playoffs` bracket
 - `baseline` — save seeds now (only allowed once Fantrax has counted the whole regular season)
 - `live` — what the scheduler runs
 

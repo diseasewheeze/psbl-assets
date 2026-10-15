@@ -42,7 +42,7 @@ class FakeFantrax:
         self.fail = fail
 
     def league_info(self) -> dict:
-        return {"leagueName": "DBL Test League"}
+        return {"leagueName": "PSBL Test League"}
 
     def rosters(self) -> dict:
         if self.fail:
@@ -99,14 +99,14 @@ class TagTests(unittest.TestCase):
     def test_fantrax_failure_means_no_tags(self):
         index, out = quiet(probables.load_index, FakeFantrax(fail=True))
         self.assertIsNone(index)
-        self.assertIn("posting without DBL tags", out)
+        self.assertIn("posting without PSBL tags", out)
         self.assertEqual(probables.owners(games(), None), {})
 
 
 class PayloadTests(unittest.TestCase):
     def test_message_layout(self):
         found = games()
-        ctx = probables.render.Context("DBL Test League", "2027 TEST", 0xBD3039)
+        ctx = probables.render.Context("PSBL Test League", "2027 TEST", 0xBD3039)
         body = probables.payload(ctx, found, fx.THU, tags(found), MORNING)
         embed = body["embeds"][0]
         self.assertEqual(embed["title"], "Probable Pitchers — Thursday, April 15")
@@ -120,7 +120,7 @@ class PayloadTests(unittest.TestCase):
         self.assertIn("**NYY** Hank Ellery", fields["NYY at BOS (Game 2)"])
         self.assertEqual(embed["footer"]["text"], "PROBABLE PITCHERS • MLB DATA")
         self.assertEqual(body["allowed_mentions"], {"parse": []})
-        self.assertEqual(body["username"], "DBL Competition Desk")
+        self.assertEqual(body["username"], "PSBL Competition Desk")
         self.assertLess(len(json.dumps(embed)), 6000)
 
     def test_full_slate_fits_one_message(self):
@@ -212,7 +212,7 @@ class RunTests(unittest.TestCase):
     def test_fantrax_failure_still_posts_without_tags(self):
         code, out, calls = self.live(MORNING, fantrax=FakeFantrax(fail=True))
         self.assertEqual(code, 0)
-        self.assertIn("posting without DBL tags", out)
+        self.assertIn("posting without PSBL tags", out)
         self.assertNotIn("Test 1", json.dumps(calls[0][2]))
 
     def test_preview_and_test_modes_never_save_state(self):

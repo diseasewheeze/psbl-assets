@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression checks for DBL playoff bracket logic."""
+"""Offline regression checks for PSBL playoff bracket logic."""
 
 from __future__ import annotations
 
@@ -43,7 +43,7 @@ class PlayoffLogicTests(unittest.TestCase):
         payload = {
             "embeds": [
                 {
-                    "title": "DBL Playoffs",
+                    "title": "PSBL Playoffs",
                     "description": "same bracket",
                     "fields": [],
                     "color": 0xFFB81C,
@@ -62,7 +62,7 @@ class PlayoffLogicTests(unittest.TestCase):
         payload = {
             "embeds": [
                 {
-                    "title": "DBL Playoffs",
+                    "title": "PSBL Playoffs",
                     "description": "same bracket",
                     "fields": [{"name": "ROUND 1", "value": "3 vs 6"}],
                     "timestamp": "2026-10-01T12:00:00+00:00",

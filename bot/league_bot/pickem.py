@@ -27,7 +27,7 @@ FIRST_WEEK_LEAD = timedelta(days=3)
 LATEST_POST = timedelta(hours=1)   # post at least this long before a Week starts
 SCORE_GRACE = timedelta(hours=24)  # after this, score even if Fantrax is missing a matchup
 PER_PAGE = 4                       # four selects per page; the fifth row holds the buttons
-FOOTER = "DBL PICK'EM"
+FOOTER = "PSBL PICK'EM"
 RULES = "1 point per correct pick. An exact tie scores nobody."
 
 

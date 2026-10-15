@@ -1,4 +1,4 @@
-"""/minor: is a player DBL minor-eligible? (Article VII)
+"""/minor: is a player PSBL minor-eligible? (Article VII)
 
 7.2  A player is minor-eligible while his career MLB regular-season totals stay
      within MLB's rookie limits: no more than sport.MINORS_MAX_AB at-bats and no
@@ -25,7 +25,7 @@ from core import mlb_people as mp  # noqa: E402
 from core import sport  # noqa: E402
 
 NOTE = "By MLB's official career statistics. The Commissioner's determination is final (7.3)."
-FOOTER = "DBL LEAGUE BOT • MINOR ELIGIBILITY"
+FOOTER = "PSBL LEAGUE BOT • MINOR ELIGIBILITY"
 NEAR_AB = 20      # "close to the limit" note within this many at-bats
 NEAR_OUTS = 15    # or this many outs (5 innings)
 
@@ -149,7 +149,7 @@ def embed(player: mp.Person, v: Verdict) -> dict[str, Any]:
     fields.append(("NOTE", note))
     return E.card(
         f"MINOR ELIGIBILITY — {player.name.upper()}",
-        f"{about}\n\n**DBL minor-eligible: {'YES' if v.eligible else 'NO'}**",
+        f"{about}\n\n**PSBL minor-eligible: {'YES' if v.eligible else 'NO'}**",
         fields,
         FOOTER,
     )

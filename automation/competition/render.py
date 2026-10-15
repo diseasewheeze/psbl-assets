@@ -1,7 +1,7 @@
-"""Discord payloads for DBL Competition Desk posts.
+"""Discord payloads for PSBL Competition Desk posts.
 
 Layouts follow automation/DISCORD_AUTOMATION_STYLE.md and keep the approved
-scoreboard / standings / recap / playoff race / preview formats: DBL
+scoreboard / standings / recap / playoff race / preview formats: PSBL
 Competition Desk sender, gold accent, vertical fields, no emoji, short footer.
 """
 
@@ -77,7 +77,7 @@ def _payload(
     source: str = FANTRAX_SOURCE,
 ) -> dict[str, Any]:
     return {
-        "username": "DBL Competition Desk",
+        "username": "PSBL Competition Desk",
         "avatar_url": AVATAR,
         "allowed_mentions": {"parse": []},
         "embeds": [{
@@ -151,7 +151,7 @@ def scoreboard(
     start_cap: int | None = None,
 ) -> dict[str, Any]:
     label = "Playoffs " if playoffs else ""
-    title = f"DBL {label}Week {p.number} {'Final ' if final else ''}Scoreboard"
+    title = f"PSBL {label}Week {p.number} {'Final ' if final else ''}Scoreboard"
     if final:
         note = "*Final scores for the week, from Fantrax. The winning score is bolded.*"
     else:
@@ -230,7 +230,7 @@ def recap(
         others = len(all_play_week or {}) - 1
         note += f"\n*All-play: each team's record had it played all {others} other teams this week.*"
         fields.append(extra)
-    return _payload(ctx, f"DBL Week {p.number} Recap", f"{_header(ctx, p)}\n\n{note}", fields, "WEEKLY RECAP")
+    return _payload(ctx, f"PSBL Week {p.number} Recap", f"{_header(ctx, p)}\n\n{note}", fields, "WEEKLY RECAP")
 
 
 # --- Weekly awards ------------------------------------------------------------
@@ -277,7 +277,7 @@ def awards(ctx: Context, p: Period, result: Any) -> dict[str, Any] | None:
         "*From this week's final Fantrax scores. Stars are the top three scores; Tough Luck is the "
         "highest score in a loss and Lucky Win the lowest score in a win.*"
     )
-    return _payload(ctx, f"DBL Week {p.number} Awards", f"{_header(ctx, p)}\n\n{note}", fields, "WEEKLY AWARDS")
+    return _payload(ctx, f"PSBL Week {p.number} Awards", f"{_header(ctx, p)}\n\n{note}", fields, "WEEKLY AWARDS")
 
 
 # --- Power rankings -----------------------------------------------------------
@@ -343,7 +343,7 @@ def power_rankings(ctx: Context, after_week: int, rows: list[Any], *, has_previo
     extremes = luck_line(rows)
     if extremes:
         note += f"\n{extremes}"
-    return _payload(ctx, f"DBL Power Rankings — After Week {after_week}", f"{_header(ctx)}\n\n{note}",
+    return _payload(ctx, f"PSBL Power Rankings — After Week {after_week}", f"{_header(ctx)}\n\n{note}",
                     fields, "POWER RANKINGS")
 
 
@@ -365,10 +365,10 @@ def standings(ctx: Context, rows: list[dict], *, after_week: int, playoff_cut: i
             "inline": False,
         })
     if final:
-        title = "DBL Final Regular-Season Standings"
+        title = "PSBL Final Regular-Season Standings"
         note = f"*Final regular-season standings from Fantrax. The top {playoff_cut} teams qualify for the playoffs.*"
     else:
-        title = f"DBL League Standings — After Week {after_week}"
+        title = f"PSBL League Standings — After Week {after_week}"
         note = f"*Standings pulled directly from Fantrax. The top {playoff_cut} teams currently occupy playoff positions.*"
     return _payload(ctx, title, f"{_header(ctx)}\n\n{note}", fields, "STANDINGS")
 
@@ -423,7 +423,7 @@ def playoff_race(
         f"*After Week {after_week} — {left}. The top {playoff_cut} teams currently "
         f"occupy playoff positions; the next {bubble_depth} are on the bubble.*"
     )
-    return _payload(ctx, "DBL Playoff Race", f"{_header(ctx)}\n\n{note}", fields, "PLAYOFF RACE")
+    return _payload(ctx, "PSBL Playoff Race", f"{_header(ctx)}\n\n{note}", fields, "PLAYOFF RACE")
 
 
 # --- Matchup preview ----------------------------------------------------------
@@ -478,7 +478,7 @@ def preview(
             "(a doubleheader counts twice; minors and IL left out), plus starts by its starting pitchers "
             f"where MLB has announced them{cap}. Light-day games: the same count on light days{light}.*"
         )
-    return _payload(ctx, f"DBL Week {p.number} Matchup Preview", f"{_header(ctx, p)}\n\n{note}", fields, "SCOREBOARD")
+    return _payload(ctx, f"PSBL Week {p.number} Matchup Preview", f"{_header(ctx, p)}\n\n{note}", fields, "SCOREBOARD")
 
 
 # --- MLB games grid -----------------------------------------------------------
@@ -529,7 +529,7 @@ def games_grid(ctx: Context, p: Period, grid: Any) -> dict[str, Any]:
         "pitchers are listed only where MLB has announced both starts. Lineups lock about one minute before "
         "each player's game (5.3).*"
     )
-    return _payload(ctx, f"DBL Week {p.number} MLB Games Grid", f"{_header(ctx, p)}\n\n{note}", fields,
+    return _payload(ctx, f"PSBL Week {p.number} MLB Games Grid", f"{_header(ctx, p)}\n\n{note}", fields,
                     "MLB GAMES GRID", source=MLB_SOURCE)
 
 
@@ -596,7 +596,7 @@ def monthly_awards(
         "Hard Luck is the most points scored in losses. Ties go to more total points for the month, "
         "then are shared.*"
     )
-    title = f"DBL Monthly Awards — {group.label}" + (" (Month to Date)" if month_to_date else "")
+    title = f"PSBL Monthly Awards — {group.label}" + (" (Month to Date)" if month_to_date else "")
     return _payload(ctx, title, f"{_header(ctx, span)}\n\n{note}", fields, "MONTHLY AWARDS")
 
 
@@ -632,11 +632,11 @@ def bounties(
             lines.append(line + (f"\n{status}" if status else ""))
         fields.append({"name": "Still Open", "value": _clip("\n".join(lines)), "inline": False})
     if not claims:
-        title = "DBL Bounty Board"
+        title = "PSBL Bounty Board"
     elif len(claims) == 1:
-        title = f"DBL Bounty Claimed — {claims[0][0].title}"
+        title = f"PSBL Bounty Claimed — {claims[0][0].title}"
     else:
-        title = "DBL Bounties Claimed"
+        title = "PSBL Bounties Claimed"
     note = (
         "*Season bounties: each is claimed once, by the first franchise to get there. "
         "Rewards are recognition only.*"

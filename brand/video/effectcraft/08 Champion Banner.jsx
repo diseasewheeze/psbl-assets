@@ -14,18 +14,18 @@ var DATA = {
     titlesThisCycle: 1             // this franchise's championships in the current Dynasty Pot cycle
 };
 
-DBL.run("08 Champion Banner", function () {
-    var B = DBL, D = DATA;
+PSBL.run("08 Champion Banner", function () {
+    var B = PSBL, D = DATA;
     var c = B.comp(B.folder("Playoffs"), "Champion Banner - " + D.year, 12);
     B.background(c, "arena");
 
-    var eb = B.text(c, "THE DBL CHAMPIONSHIP \u2022 " + D.year, { face: "silk", k: 6, color: "gold", x: 960, y: 60, align: "center" });
+    var eb = B.text(c, "THE PSBL CHAMPIONSHIP \u2022 " + D.year, { face: "silk", k: 6, color: "gold", x: 960, y: 60, align: "center" });
     var ebPlate = B.plateFor(c, "Eyebrow plate", eb, 24, 14, "black");
     B.blinkIn(eb.concat(ebPlate), 0.2);
 
     var banner = B.image(c, "banner.png", 960, 140, { center: false, name: "Banner" });
     if (banner.length) B.pos(B.main(banner)).setValue([960, 140 + 296]);
-    var b1 = B.text(c, "DBL", { face: "silk", k: 6, color: "gold", x: 960, y: 210, align: "center" });
+    var b1 = B.text(c, "PSBL", { face: "silk", k: 6, color: "gold", x: 960, y: 210, align: "center" });
     var b2 = B.text(c, "CHAMPIONS", { face: "silk", k: 4, color: "gold", x: 960, y: 260, align: "center" });
     var bn = B.text(c, D.bannerName, { face: "jersey", k: 5, color: "cream", x: 960, y: 330, align: "center", maxW: 270 });
     var by = B.text(c, D.year, { face: "jersey", k: 8, color: "gold", x: 960, y: 510, align: "center", maxW: 270 });

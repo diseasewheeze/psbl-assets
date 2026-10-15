@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the complete DBL brand/graphics package in the 8-bit arcade style.
+"""Build the complete PSBL brand/graphics package in the 8-bit arcade style.
 
 Usage: build_brand_package.py [OUT_DIR]   (default: brand/kit)
 
@@ -86,59 +86,59 @@ def build_kit(out: Path) -> dict[str, list[tuple[str, Image.Image]]]:
         made.setdefault(group, []).append((name, img.convert(mode)))
 
     g = "01_logos"
-    put(g, "dbl-wordmark-white-transparent.png", px.wordmark_transparent((2000, 866), "white", 7), "RGBA")
-    put(g, "dbl-wordmark-black-transparent.png", px.wordmark_transparent((2000, 799), "black", 7), "RGBA")
-    put(g, "dbl-wordmark-textured-cream.png", px.wordmark_paper())
-    put(g, "dbl-wordmark-on-charcoal-1920x1080.png", px.wordmark_on((1920, 1080), px.NAVY, "white", 6))
-    put(g, "dbl-wordmark-on-black-1920x1080.png", px.wordmark_on((1920, 1080), px.NAVY_DK, "white", 6))
-    put(g, "dbl-wordmark-on-white-1920x1080.png", px.wordmark_on((1920, 1080), px.WHITE, "black", 6))
-    put(g, "dbl-b-mark-transparent-1024.png", px.emblem_mark((889, 1024), 27), "RGBA")
+    put(g, "psbl-wordmark-white-transparent.png", px.wordmark_transparent((2000, 866), "white", 7), "RGBA")
+    put(g, "psbl-wordmark-black-transparent.png", px.wordmark_transparent((2000, 799), "black", 7), "RGBA")
+    put(g, "psbl-wordmark-textured-cream.png", px.wordmark_paper())
+    put(g, "psbl-wordmark-on-charcoal-1920x1080.png", px.wordmark_on((1920, 1080), px.NAVY, "white", 6))
+    put(g, "psbl-wordmark-on-black-1920x1080.png", px.wordmark_on((1920, 1080), px.NAVY_DK, "white", 6))
+    put(g, "psbl-wordmark-on-white-1920x1080.png", px.wordmark_on((1920, 1080), px.WHITE, "black", 6))
+    put(g, "psbl-b-mark-transparent-1024.png", px.emblem_mark((889, 1024), 27), "RGBA")
     for name, col in (("black", px.NAVY_DK), ("charcoal", px.NAVY), ("cream", px.PAPER), ("gold", px.RED)):
-        put(g, f"dbl-b-icon-{name}-1024.png", px.emblem_icon(1024, col))
+        put(g, f"psbl-b-icon-{name}-1024.png", px.emblem_icon(1024, col))
 
     g = "02_avatars_icons"
-    put(g, "dbl-server-icon-1024.png", px.avatar(1024))
-    put(g, "dbl-webhook-avatar-512.png", px.avatar(512))
-    put(g, "dbl-bot-avatar-round-512.png", px.avatar(512, round_=True), "RGBA")
-    put(g, "dbl-profile-picture-400.png", px.avatar(400))
+    put(g, "psbl-server-icon-1024.png", px.avatar(1024))
+    put(g, "psbl-webhook-avatar-512.png", px.avatar(512))
+    put(g, "psbl-bot-avatar-round-512.png", px.avatar(512, round_=True), "RGBA")
+    put(g, "psbl-profile-picture-400.png", px.avatar(400))
     for s in (128, 64):
-        put(g, f"dbl-emoji-b-{s}.png", px.emoji(s), "RGBA")
-    put(g, "dbl-favicon-256.png", px.emoji(256, px.NAVY))
+        put(g, f"psbl-emoji-b-{s}.png", px.emoji(s), "RGBA")
+    put(g, "psbl-favicon-256.png", px.emoji(256, px.NAVY))
 
     g = "03_server_social_banners"
     big = bda.server_banner()
-    put(g, "dbl-server-banner-960x540.png", big.resize((960, 540), Image.NEAREST))
-    put(g, "dbl-server-banner-1920x1080.png", big)
-    put(g, "dbl-invite-splash-1920x1080.png", px.splash())
-    put(g, "dbl-github-social-preview-1280x640.png", px.banner((1280, 640), 18, 3, dy=24))
-    put(g, "dbl-x-header-1500x500.png", px.banner((1500, 500), 12, 2, dy=20))
-    put(g, "dbl-bot-profile-banner-1360x480.png", px.banner((1360, 480), 12, 2, dy=20))
-    put(g, "dbl-event-cover-800x320.png", px.banner((800, 320), 10, 2, dy=16, bats=True, sub_bold=False))
+    put(g, "psbl-server-banner-960x540.png", big.resize((960, 540), Image.NEAREST))
+    put(g, "psbl-server-banner-1920x1080.png", big)
+    put(g, "psbl-invite-splash-1920x1080.png", px.splash())
+    put(g, "psbl-github-social-preview-1280x640.png", px.banner((1280, 640), 18, 3, dy=24))
+    put(g, "psbl-x-header-1500x500.png", px.banner((1500, 500), 12, 2, dy=20))
+    put(g, "psbl-bot-profile-banner-1360x480.png", px.banner((1360, 480), 12, 2, dy=20))
+    put(g, "psbl-event-cover-800x320.png", px.banner((800, 320), 10, 2, dy=16, bats=True, sub_bold=False))
 
     g = "04_channel_headers"
     for _rel, slug, img in bda.all_headers():
-        put(g, f"dbl-{slug}-header-1600x533.png", img)
+        put(g, f"psbl-{slug}-header-1600x533.png", img)
 
     g = "05_dividers"
-    put(g, "dbl-footer-divider-1600x180.png", bda.make_footer(), "RGBA")
-    put(g, "dbl-thin-rule-1600x40.png", px.thin_rule(), "RGBA")
-    put(g, "dbl-gold-bar-1600x24.png", px.red_bar(), "RGBA")
+    put(g, "psbl-footer-divider-1600x180.png", bda.make_footer(), "RGBA")
+    put(g, "psbl-thin-rule-1600x40.png", px.thin_rule(), "RGBA")
+    put(g, "psbl-gold-bar-1600x24.png", px.red_bar(), "RGBA")
 
     g = "06_seals_stamps"
-    put(g, "dbl-official-seal-dark-1024.png", px.seal(dark=True), "RGBA")
-    put(g, "dbl-official-seal-cream-1024.png", px.seal(dark=False), "RGBA")
-    put(g, "dbl-official-seal-256.png", px.seal(dark=True, k=1), "RGBA")
+    put(g, "psbl-official-seal-dark-1024.png", px.seal(dark=True), "RGBA")
+    put(g, "psbl-official-seal-cream-1024.png", px.seal(dark=False), "RGBA")
+    put(g, "psbl-official-seal-256.png", px.seal(dark=True, k=1), "RGBA")
     for i, (slug, word, col, sub) in enumerate(STAMPS):
-        put(g, f"dbl-stamp-{slug}.png", px.stamp(word, col, sub, seed=11 + 7 * i), "RGBA")
+        put(g, f"psbl-stamp-{slug}.png", px.stamp(word, col, sub, seed=11 + 7 * i), "RGBA")
 
     (out / "README.txt").write_text(README, encoding="utf-8")
     manifest = {k: [name for name, _img in v] for k, v in made.items()}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     groups = [(k.upper(), v) for k, v in made.items()]
-    px.save(out / "DBL_Package_Contact_Sheet.png",
+    px.save(out / "PSBL_Package_Contact_Sheet.png",
             px.contact_sheet(f"{S} BRAND & GRAPHICS PACKAGE", groups, (1800, 5241)), "RGB")
     if out == ROOT / "brand" / "kit":  # the older root-level preview of the same package
-        px.save(ROOT / "DBL_Revised_Header_Preview.png",
+        px.save(ROOT / "PSBL_Revised_Header_Preview.png",
                 px.contact_sheet(f"{S} BRAND & GRAPHICS PACKAGE", groups, (1800, 5033)), "RGB")
     return made
 
@@ -146,13 +146,13 @@ def build_kit(out: Path) -> dict[str, list[tuple[str, Image.Image]]]:
 def build_marks(brand: Path) -> list[Path]:
     """The source marks other tools read (same names and sizes as before)."""
     marks = [
-        (brand / "primary" / "dbl-b-mark.png", px.emblem_mark((395, 455), 12), "RGBA"),
-        (brand / "primary" / "dbl-primary-logo.png", px.wordmark_paper(), "RGB"),
-        (brand / "secondary" / "dbl-league-stamp.png", px.seal(dark=False), "RGBA"),
-        (brand / "icon" / "dbl-rink-mark.png", px.emblem_icon(1024, px.NAVY), "RGB"),
-        (brand / "source" / "dbl-wordmark-white.png", px.wordmark_transparent((1448, 1086), "white", 6), "RGBA"),
-        (brand / "source" / "dbl-wordmark-black.png", px.wordmark_transparent((1448, 1086), "black", 6), "RGBA"),
-        (brand / "source" / "dbl-wordmark-textured-cream.png", px.wordmark_paper(), "RGB"),
+        (brand / "primary" / "psbl-b-mark.png", px.emblem_mark((395, 455), 12), "RGBA"),
+        (brand / "primary" / "psbl-primary-logo.png", px.wordmark_paper(), "RGB"),
+        (brand / "secondary" / "psbl-league-stamp.png", px.seal(dark=False), "RGBA"),
+        (brand / "icon" / "psbl-rink-mark.png", px.emblem_icon(1024, px.NAVY), "RGB"),
+        (brand / "source" / "psbl-wordmark-white.png", px.wordmark_transparent((1448, 1086), "white", 6), "RGBA"),
+        (brand / "source" / "psbl-wordmark-black.png", px.wordmark_transparent((1448, 1086), "black", 6), "RGBA"),
+        (brand / "source" / "psbl-wordmark-textured-cream.png", px.wordmark_paper(), "RGB"),
     ]
     for path, img, mode in marks:
         px.save(path, img, mode)

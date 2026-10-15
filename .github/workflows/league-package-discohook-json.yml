@@ -1,4 +1,4 @@
-name: DBL Package Frozen Discohook JSON
+name: PSBL Package Frozen Discohook JSON
 
 on:
   workflow_dispatch:
@@ -70,25 +70,25 @@ jobs:
                   total += len(field.get('value') or '')
               return total
 
-          # DBL format (tools/discohook_format.py): one message per send made of
+          # PSBL format (tools/discohook_format.py): one message per send made of
           # the channel's header banner embed (if any) plus ONE text embed. The
           # banner keeps only an invisible footer; only the final embed has real
           # footer text and the gold divider image.
           divider = ('https://raw.githubusercontent.com/diseasewheeze/'
-                     'dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png')
+                     'psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png')
           zwsp = '\u200b'
           # Messages whose sections do not fit one embed yet (kept in step with
           # MULTI_SECTION_EXCEPTIONS in tools/discohook_format.py).
           multi_section_ok = ('welcome/01_welcome.json', 'constitution/',
-                              'DBL_Welcome_Single_Message.json', '_discohook_backup.json')
+                              'PSBL_Welcome_Single_Message.json', '_discohook_backup.json')
 
           def image_url(embed):
               return str((embed.get('image') or {}).get('url') or '')
 
           def is_banner(embed):
               url = image_url(embed)
-              return ('-header.png' in url or 'dbl-welcome-banner.png' in url
-                      or 'dbl-generic-header' in url)
+              return ('-header.png' in url or 'psbl-welcome-banner.png' in url
+                      or 'psbl-generic-header' in url)
 
           def banner_expected(src):
               rel = src.relative_to(root).as_posix()
@@ -119,8 +119,8 @@ jobs:
                   assert head, f'{label}: must start with the header banner embed'
               if head:
                   banner = embeds[0]
-                  assert set(banner) == {'color', 'footer', 'image'} and banner['color'] == 0x2B2D31, (
-                      f'{label}: header banner must be charcoal with only the image and invisible footer'
+                  assert set(banner) == {'color', 'footer', 'image'} and banner['color'] == 0x0C2340, (
+                      f'{label}: header banner must be navy with only the image and invisible footer'
                   )
                   assert banner['footer'].get('text') == zwsp, (
                       f'{label}: header banner must keep the invisible footer'
@@ -207,8 +207,8 @@ jobs:
                   check_league_format(src, embeds, banner_expected(src))
 
           # Bundles and backups hold several separate one-message templates;
-          # every message in them follows the same DBL format.
-          backups = sorted(Path('discohook-backups').glob('DBL_*.json'))
+          # every message in them follows the same PSBL format.
+          backups = sorted(Path('discohook-backups').glob('PSBL_*.json'))
           backups += sorted(Path('constitution').glob('*_discohook_backup.json'))
           checked = 0
           for src in backups:
@@ -243,7 +243,7 @@ jobs:
 
           root = Path('templates')
           files = sorted(root.rglob('*.json'))
-          out = Path('DBL_Phase_2C6_Raw_Discohook_JSON.zip')
+          out = Path('PSBL_Phase_2C6_Raw_Discohook_JSON.zip')
 
           with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
               for src in files:
@@ -261,7 +261,7 @@ jobs:
       - name: Upload raw JSON package
         uses: actions/upload-artifact@v6
         with:
-          name: DBL-Phase-2C6-Raw-Discohook-JSON
-          path: DBL_Phase_2C6_Raw_Discohook_JSON.zip
+          name: PSBL-Phase-2C6-Raw-Discohook-JSON
+          path: PSBL_Phase_2C6_Raw_Discohook_JSON.zip
           if-no-files-found: error
           retention-days: 30

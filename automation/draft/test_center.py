@@ -239,7 +239,7 @@ class RenderTests(unittest.TestCase):
     def test_announcement_has_details(self) -> None:
         body = self.renderer().countdown("30d", first=True)
         embed = body["embeds"][0]
-        self.assertEqual(embed["title"], "2027 DBL Startup Draft")
+        self.assertEqual(embed["title"], "2027 PSBL Startup Draft")
         names = [f["name"] for f in embed["fields"]]
         self.assertEqual(names, ["START", "FORMAT", "PICK CLOCK", "DRAFT ROOM", "DRAFT ORDER"])
         self.assertIn("36 rounds, snake", embed["fields"][1]["value"])
@@ -248,7 +248,7 @@ class RenderTests(unittest.TestCase):
 
     def test_short_countdown(self) -> None:
         body = self.renderer().countdown("1h", first=False)
-        self.assertEqual(body["embeds"][0]["title"], "2027 DBL Startup Draft: 1 hour to go")
+        self.assertEqual(body["embeds"][0]["title"], "2027 PSBL Startup Draft: 1 hour to go")
 
     def test_order_with_traded_pick(self) -> None:
         r = self.renderer()

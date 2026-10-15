@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL The Wire: source collectors and the headline classifier.
+"""PSBL The Wire: source collectors and the headline classifier.
 
 Shared by the engine (engine.py), which does the dedupe, roster tags and
 Discord delivery. Collectors turn each source in sources.yaml into entries
@@ -16,7 +16,7 @@ his MLB team and the channel):
                     assignment, outrights, trades, releases, waiver claims and
                     signings go to mlb-transactions. A minor-league deal or a
                     plain draft-pick signing is posted only when the player is
-                    on a DBL roster. Other
+                    on a PSBL roster. Other
                     records (status changes that aren't injured-list moves,
                     ordinary minor-league assignments) are left out.
 
@@ -40,7 +40,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent
 CONFIG = ROOT / "sources.yaml"
-USER_AGENT = "DBL-The-Wire/1.0 (+https://github.com/diseasewheeze/dbl-assets)"
+USER_AGENT = "PSBL-The-Wire/1.0 (+https://github.com/diseasewheeze/psbl-assets)"
 LEAGUE_TZ = ZoneInfo("America/New_York")
 
 if str(ROOT.parent) not in sys.path:
@@ -339,7 +339,7 @@ def transaction_channel(move: mp.Transaction) -> str | None:
 
 
 def rostered_only(move: mp.Transaction) -> bool:
-    """Signings worth a post only for a player on a DBL roster.
+    """Signings worth a post only for a player on a PSBL roster.
 
     Minor-league deals, and plain "signed" (SGN) records that name no
     major-league deal or extension: after the MLB Draft these are mostly draft
@@ -412,7 +412,7 @@ def fetch_source(source: dict) -> list[dict[str, Any]]:
 
 def main() -> int:
     cfg = yaml.safe_load(CONFIG.read_text(encoding="utf-8"))
-    print("DBL The Wire: DRY RUN")
+    print("PSBL The Wire: DRY RUN")
     print("No Discord messages will be sent.\n")
     total = 0
     for source in cfg["sources"]:

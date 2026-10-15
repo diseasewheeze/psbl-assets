@@ -1,8 +1,8 @@
-name: DBL League Office Automation
-run-name: DBL League Office Automation — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL League Office Automation
+run-name: PSBL League Office Automation — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 on:
-  # Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler
+  # Timing lives in automation/scheduler/schedule.yaml; the PSBL Scheduler
   # starts this workflow with mode=live when it is due.
   workflow_dispatch:
     inputs:
@@ -28,7 +28,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-league-office
+  group: psbl-league-office
   cancel-in-progress: false
 
 jobs:
@@ -90,5 +90,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(league-office): save reminder state" \
-            "DBL League Office Automation" \
+            "PSBL League Office Automation" \
             "automation/league-office/state/league_ops.json"

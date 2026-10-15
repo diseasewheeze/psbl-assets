@@ -1,4 +1,4 @@
-# League-wide settings shared by every DBL automation.
+# League-wide settings shared by every PSBL automation.
 #
 # When the real 2027-28 league is created on Fantrax, change league_id and
 # season_label here. Everything else (week dates, playoff weeks, number of
@@ -8,7 +8,7 @@ league_id: w02cjakmmumb3lur
 season_label: "2026-27 TEST"
 timezone: America/New_York
 
-# DBL league red accent used by Competition Desk posts.
+# PSBL league red accent used by Competition Desk posts.
 color: 0xBD3039
 
 competition:
@@ -65,7 +65,7 @@ competition:
   #                team_win_streak     first to `threshold` head-to-head wins in a row
   #                                    (a tie ends a streak)
   #                player_multi_homer  first MLB regular-season game in which a player on a
-  #                                    DBL roster hits `threshold` home runs (2 = a
+  #                                    PSBL roster hits `threshold` home runs (2 = a
   #                                    multi-homer game); checked the morning after
   #   threshold    the number to reach
   #   reward       optional; default "🎯 Bounty Hunter role for the Season"
@@ -85,7 +85,7 @@ competition:
   bounties:
     - id: first-multi-homer
       title: "First Multi-Homer Game"
-      description: "First DBL-rostered player to hit two home runs in an MLB regular-season game."
+      description: "First PSBL-rostered player to hit two home runs in an MLB regular-season game."
       type: player_multi_homer
       threshold: 2
       reward: "🎯 Bounty Hunter role for the Season"
@@ -130,14 +130,14 @@ competition:
 # Owner pings (opt-in)
 #
 # Owners listed here are mentioned:
-#   - by the Wire, when a player on their DBL roster shows up in the Injury
+#   - by the Wire, when a player on their PSBL roster shows up in the Injury
 #     Report (wire_pings below), and
 #   - by Lineup Alerts, when a hitter in the lineup has no MLB game today, or
 #     a starting pitcher in it is not today's probable starter, while an
 #     eligible bench player plays (lineup_alerts below).
 # Only owners listed here are ever pinged, and only about their own team.
 #
-# Key: the DBL team's Fantrax team name (or Fantrax team ID).
+# Key: the PSBL team's Fantrax team name (or Fantrax team ID).
 # Value: the owner's Discord user ID, in quotes. In Discord: User Settings ->
 #        Advanced -> turn on Developer Mode, then right-click the member ->
 #        Copy User ID.
@@ -167,7 +167,7 @@ lineup_alerts:
 #
 # One message per game day in ⚾│game-day listing every MLB game's probable
 # starters as MLB announces them, edited silently until the last game starts.
-# Starters on a DBL roster show their DBL team. Nobody is pinged.
+# Starters on a PSBL roster show their PSBL team. Nobody is pinged.
 # webhook:   GitHub Actions secret holding the ⚾│game-day webhook URL.
 # post_from: earliest local time the day's message is posted. The scheduler
 #            checks from 09:15 (automation/scheduler/schedule.yaml).
@@ -180,8 +180,8 @@ probable_pitchers:
 #
 # Every morning after a day with MLB games (regular season and postseason),
 # 📸│media gets last night's finals with the pitchers of record and MLB.com
-# recap and condensed-game links, then the DBL Home Run Reel (home runs by
-# players on DBL rosters, with clip links; left out when none of them
+# recap and condensed-game links, then the PSBL Home Run Reel (home runs by
+# players on PSBL rosters, with clip links; left out when none of them
 # homered). Links only, nothing is re-uploaded. Nobody is pinged.
 # enabled:               false stops the scheduled posts (manual preview/test
 #                        runs still work).
@@ -213,7 +213,7 @@ commissioner_desk:
 # Every trade Fantrax processes gets a report card in 💬│trade-discussion with
 # a "Who won the trade?" poll (just for fun; it never affects the trade,
 # Article XI), and a revisit 6 and 12 months later. On trade-deadline day the
-# DBL DEADLINE DAY TRADE CENTER tracker in 📢│announcements counts down to the deadline.
+# PSBL DEADLINE DAY TRADE CENTER tracker in 📢│announcements counts down to the deadline.
 # webhooks:   GitHub Actions secrets holding each channel's webhook URL. A
 #             missing secret skips that post without failing the run.
 # poll_hours: how long the poll stays open.
@@ -266,17 +266,17 @@ draft_center:
 rivals: []
 
 # ---------------------------------------------------------------------------
-# League history website (tools/build_site.py, workflow DBL History Site)
+# League history website (tools/build_site.py, workflow PSBL History Site)
 #
 # A standalone site on Cloudflare Pages. Nothing on it points to GitHub.
 # url:                the site's own address once the domain is connected,
-#                     e.g. "https://dbl-history.pages.dev" (no trailing slash). Used
+#                     e.g. "https://psbl-history.pages.dev" (no trailing slash). Used
 #                     for search engines and link previews; leave "" until then.
 # cloudflare_project: the Cloudflare Pages project name. Its free address is
 #                     https://<project>.pages.dev until the domain is added.
 history_site:
   url: ""
-  cloudflare_project: dbl-history
+  cloudflare_project: psbl-history
 
 history:
   # GitHub Actions secret holding each channel's Discord webhook URL.

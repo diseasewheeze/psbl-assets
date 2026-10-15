@@ -5,7 +5,7 @@
       "description": "`[URGENT NOTICE]`",
       "color": 10697266,
       "footer": {
-        "text": "DBL LEAGUE OFFICE • DEADLINE"
+        "text": "PSBL LEAGUE OFFICE • DEADLINE"
       },
       "fields": [
         {
@@ -25,7 +25,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

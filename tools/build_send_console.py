@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Build the DBL Send Console: one HTML page with a Discohook link per message.
+"""Build the PSBL Send Console: one HTML page with a Discohook link per message.
 
 Reads discohook-backups/links.json (from build_news_templates.py) and writes
-discohook-backups/DBL_Send_Console.html.
+discohook-backups/PSBL_Send_Console.html.
 """
 
 from __future__ import annotations
@@ -128,19 +128,19 @@ AUTOMATED = {
     "CALENDAR EVENT": "Automation posts calendar milestones once their dates are filled in automation/league-office/events.yaml. Use this only for an extra one.",
     "DEADLINE REMINDER": "Automation posts reminders before each deadline in events.yaml. Use this only for an extra one.",
     "DYNASTY POT UPDATE": "Automation posts the Dynasty Pot graphic once the franchises are filled in. Use this only for a written update.",
-    "DBL DEADLINE DAY TRADE CENTER: TRADE BAIT": "Forum post in trade-block a few days before deadline day: fill in the deadline timestamp, send (the thread name is filled in), then pin the post.",
-    "DBL AWARDS NIGHT": "Announcement in announcements once /awards open has posted the ballot in league-voting. The League Bot runs the ballot itself.",
-    "DBL AWARDS NIGHT: THE WINNERS": "The League Bot posts the winners itself with /awards results. Use this only if the bot isn't running.",
-    "DBL DEADLINE DAY TRADE CENTER": "The Sesh event's text. In league-calendar run /create, name it DBL Deadline Day Trade Center, set deadline day 9:00 AM to 11:59 PM ET, and paste this message's text as the description.",
+    "PSBL DEADLINE DAY TRADE CENTER: TRADE BAIT": "Forum post in trade-block a few days before deadline day: fill in the deadline timestamp, send (the thread name is filled in), then pin the post.",
+    "PSBL AWARDS NIGHT": "Announcement in announcements once /awards open has posted the ballot in league-voting. The League Bot runs the ballot itself.",
+    "PSBL AWARDS NIGHT: THE WINNERS": "The League Bot posts the winners itself with /awards results. Use this only if the bot isn't running.",
+    "PSBL DEADLINE DAY TRADE CENTER": "The Sesh event's text. In league-calendar run /create, name it PSBL Deadline Day Trade Center, set deadline day 9:00 AM to 11:59 PM ET, and paste this message's text as the description.",
 }
 
 
 # Templates in a bundle that spans channels: the channel each one goes to.
 TEMPLATE_CHANNELS = {
-    "DBL DEADLINE DAY TRADE CENTER: TRADE BAIT": "trade-block",
-    "DBL AWARDS NIGHT": "announcements",
-    "DBL AWARDS NIGHT: THE WINNERS": "hall-of-champions",
-    "DBL DEADLINE DAY TRADE CENTER": "league-calendar",
+    "PSBL DEADLINE DAY TRADE CENTER: TRADE BAIT": "trade-block",
+    "PSBL AWARDS NIGHT": "announcements",
+    "PSBL AWARDS NIGHT: THE WINNERS": "hall-of-champions",
+    "PSBL DEADLINE DAY TRADE CENTER": "league-calendar",
 }
 
 
@@ -171,7 +171,7 @@ def build() -> str:
             stem = k.split(":", 1)[1].replace(".json", "")
             idx = stem[:2]
             lo_rows.append(row(f"constitution-{idx}", "constitution", f"Message {int(idx) + 1} of 8: {constitution_label(stem)}", v, "Open in Discohook", rel=f"constitution/{stem}.json"))
-    lo_rows.append(row("scoring-explained", "constitution", "How DBL scoring works: the reasoning behind each value. A separate post with its own banner; send it after the Constitution, then pin it.", LINKS["scoring"], rel="league-office/16_scoring_explained.json"))
+    lo_rows.append(row("scoring-explained", "constitution", "How PSBL scoring works: the reasoning behind each value. A separate post with its own banner; send it after the Constitution, then pin it.", LINKS["scoring"], rel="league-office/16_scoring_explained.json"))
     for rel, v in lo_intro.items():
         if rel == const_intro:
             continue
@@ -202,11 +202,11 @@ def build() -> str:
     # opens on its own. Nothing here is a one-time send, so these rows are never ticked or counted.
     sections.append('<section id="templates"><header><h2>Reusable templates</h2><p>Use these any time, as often as you need. Each button opens one message on its own: set the webhook to the channel shown, replace every placeholder in backticks, then send. Nothing below is automated unless its row says so.</p></header></section>')
     for name, ch, what in BUNDLES:
-        msgs = json.loads((ROOT / "discohook-backups" / f"DBL_Templates_{name}.json").read_text(encoding="utf-8"))["messages"]
+        msgs = json.loads((ROOT / "discohook-backups" / f"PSBL_Templates_{name}.json").read_text(encoding="utf-8"))["messages"]
         trows = []
         for i, m in enumerate(msgs):
             title = next((e.get("title") for e in reversed(m["data"]["embeds"]) if e.get("title")), f"Message {i + 1}")
-            label = title.title().replace("Dbl", "DBL").replace("'S", "'s")
+            label = title.title().replace("Dbl", "PSBL").replace("'S", "'s")
             body = {"messages": [{"data": m["data"]}]}
             raw = json.dumps(body, ensure_ascii=True, separators=(",", ":")).encode()
             href = "https://discohook.org/?data=" + base64.urlsafe_b64encode(raw).decode().rstrip("=")
@@ -222,7 +222,7 @@ def build() -> str:
     return TEMPLATE.replace("{{BODY}}", body).replace("{{TOTAL}}", str(n_rows)).replace("{{STATUS}}", summary)
 
 
-TEMPLATE = r"""<title>DBL Send Console</title>
+TEMPLATE = r"""<title>PSBL Send Console</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -235,10 +235,10 @@ TEMPLATE = r"""<title>DBL Send Console</title>
   --f-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #1E2024; --surface: #2B2D31; --ink: #F1EFE8; --muted: #A3A7AF; --line: #3B3E45;
+  --bg: #081A30; --surface: #0C2340; --ink: #FFFFFF; --muted: #A9B4C4; --line: #1E3A5F;
   --accent-ink: #FFB81C; --done: #5CC48E; --soft: #25272B; color-scheme: dark; } }
 :root[data-theme="dark"] {
-  --bg: #1E2024; --surface: #2B2D31; --ink: #F1EFE8; --muted: #A3A7AF; --line: #3B3E45;
+  --bg: #081A30; --surface: #0C2340; --ink: #FFFFFF; --muted: #A9B4C4; --line: #1E3A5F;
   --accent-ink: #FFB81C; --done: #5CC48E; --soft: #25272B; color-scheme: dark; }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5; }
@@ -282,7 +282,7 @@ section header p { margin: 0; color: var(--muted); font-size: .88rem; max-width:
 <main>
   <div class="top">
     <div>
-      <h1>DBL Send Console</h1>
+      <h1>PSBL Send Console</h1>
       <p>Each button opens Discohook with the message loaded. Tick a row once it is sent and pinned.</p>
     </div>
     <div class="progress"><span><b id="n-done">0</b> of {{TOTAL}} done</span><button type="button" id="reset">Reset ticks</button></div>
@@ -299,7 +299,7 @@ section header p { margin: 0; color: var(--muted); font-size: .88rem; max-width:
 </main>
 <script>
 (function () {
-  var KEY = "dbl-send-console-v1", state = {};
+  var KEY = "psbl-send-console-v1", state = {};
   try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { state = {}; }
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".row input[type=checkbox]"));
   var counter = document.getElementById("n-done");
@@ -326,7 +326,7 @@ section header p { margin: 0; color: var(--muted); font-size: .88rem; max-width:
 """
 
 if __name__ == "__main__":
-    out = ROOT / "discohook-backups" / "DBL_Send_Console.html"
+    out = ROOT / "discohook-backups" / "PSBL_Send_Console.html"
     page = build()
     out.write_text(page, encoding="utf-8")
     print(f"Wrote {out} ({len(page) // 1024} KB)")

@@ -20,7 +20,7 @@ from .shared import picktrades
 
 from core import mlb_people as mp  # noqa: E402  (path set up by .shared)
 
-USER_AGENT = "DBL-LeagueBot/1.0"
+USER_AGENT = "PSBL-LeagueBot/1.0"
 log = logging.getLogger("league.bot")
 
 # Seconds each kind of data is reused before it is read again.

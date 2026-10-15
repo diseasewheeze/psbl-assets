@@ -1,4 +1,4 @@
-# DBL Commissioner Desk
+# PSBL Commissioner Desk
 
 Private reminders for the manual work that keeps the league on track, posted
 to a commissioner-only Discord channel. It is the automated companion to the
@@ -33,7 +33,7 @@ channel is only for you.
 
 ## Pick-trade alert
 
-`picktrades.py` (workflow DBL Pick Trades, every 15 minutes) compares Fantrax's
+`picktrades.py` (workflow PSBL Pick Trades, every 15 minutes) compares Fantrax's
 future-pick ownership with the last saved copy and posts one message to this
 channel whenever a pick changes owner. Fantrax processes trades without your
 approval and shows a pick only after the trade has gone through, so a 1st- or
@@ -66,7 +66,7 @@ The first run only saves a baseline. Use mode `test` for a sample alert and
 
 ## Minor-eligibility watch
 
-`minors.py` (workflow DBL Minor Eligibility, once a day at 7 AM) matches every
+`minors.py` (workflow PSBL Minor Eligibility, once a day at 7 AM) matches every
 rostered player to an MLB player by name, MLB team and position and reads his
 career MLB regular-season totals from the MLB Stats API
 (`automation/core/mlb_people.py`). It posts here when a rostered player crosses
@@ -82,7 +82,7 @@ amateur MLB has no record of yet).
 
 ## Prospect board
 
-`prospects.py` (workflow DBL Prospect Board) posts MLB's ranked prospects for
+`prospects.py` (workflow PSBL Prospect Board) posts MLB's ranked prospects for
 the next MLB Draft here: the top 30 (`prospects.yaml`), with position, school,
 age and, after the draft, the club and pick. It posts again only when the
 rankings change (a new class, or a player moving five or more places). The
@@ -101,12 +101,12 @@ out. Remove the `#` from both once a `preview` run shows a ranked list.
 1. In Discord create a private channel visible only to you, for example
    `commissioner-desk`.
 2. Channel settings > Integrations > Webhooks > New Webhook. Name it
-   `DBL Commissioner Desk` and copy the URL.
+   `PSBL Commissioner Desk` and copy the URL.
 3. In GitHub: repository Settings > Secrets and variables > Actions > New
    repository secret named `LEAGUE_WEBHOOK_COMMISSIONER_DESK`.
 4. Optional: put your Discord user ID (in quotes) in `ping_user_id` under
    `commissioner_desk` in `automation/league.yaml` to be @mentioned.
-5. Actions > DBL Commissioner Desk > Run workflow > mode `test`. You should
+5. Actions > PSBL Commissioner Desk > Run workflow > mode `test`. You should
    see one `[TEST]` message.
 
 ## Checking it
@@ -114,7 +114,7 @@ out. Remove the `#` from both once a `preview` run shows a ranked list.
 - `preview` mode prints every task with its trigger time and whether it is
   early, due, overdue, already sent or expired. Add `at` (for example
   `2027-03-08T08:00`) to see what would post at that moment.
-- The DBL Scheduler starts the workflow hourly, so each reminder arrives
+- The PSBL Scheduler starts the workflow hourly, so each reminder arrives
   within an hour of its trigger. Nothing is ever posted twice.
 - **Late reminders are never silently dropped.** If GitHub or the scheduler
   was down, a reminder more than 36 hours late is still posted, titled

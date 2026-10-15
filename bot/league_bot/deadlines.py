@@ -18,7 +18,7 @@ from .shared import league_ops
 
 PRIVATE_CHANNELS = {"commissioner-desk"}
 NOT_PUBLISHED = "The League Calendar hasn't been published yet."
-FOOTER = "DBL LEAGUE OFFICE • LEAGUE CALENDAR"
+FOOTER = "PSBL LEAGUE OFFICE • LEAGUE CALENDAR"
 
 
 @dataclass(frozen=True)

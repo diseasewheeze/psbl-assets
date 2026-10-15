@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL Phase 2D.2 — League Office calendar/deadline automation.
+"""PSBL Phase 2D.2 — League Office calendar/deadline automation.
 
 GitHub Actions is the scheduler/brain. Discord webhooks are delivery.
 The module is intentionally independent of Fantrax so league milestones and
@@ -27,8 +27,8 @@ from discord_webhook import post_discord_webhook
 CONFIG_PATH = ROOT / "events.yaml"
 STATE_PATH = ROOT / "state" / "league_ops.json"
 AVATAR = (
-    "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/"
-    "discord/webhooks/avatar/dbl-webhook-avatar-512.png?v=8bit-1"
+    "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/"
+    "discord/webhooks/avatar/psbl-webhook-avatar-512.png?v=8bit-1"
 )
 DEFAULT_CATCHUP_WINDOW = timedelta(hours=24)
 
@@ -120,7 +120,7 @@ def build_payload(
     body += f"\n\n**When:** <t:{unix}:F>\n**Relative:** <t:{unix}:R>"
 
     return {
-        "username": "DBL League Office",
+        "username": "PSBL League Office",
         "avatar_url": AVATAR,
         "allowed_mentions": {"parse": []},
         "embeds": [
@@ -128,7 +128,7 @@ def build_payload(
                 "title": f"{title_prefix}{channel_cfg['label']} — {event['title']}",
                 "description": body,
                 "color": event_color(event.get("priority", "normal"), int(channel_cfg["color"], 16) if isinstance(channel_cfg["color"], str) else channel_cfg["color"]),
-                "footer": {"text": f"DBL LEAGUE OFFICE • {reminder_label(reminder)} REMINDER"},
+                "footer": {"text": f"PSBL LEAGUE OFFICE • {reminder_label(reminder)} REMINDER"},
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         ],
@@ -232,7 +232,7 @@ def run(mode: str, reset_state: bool = False) -> int:
     defaults = settings.get("default_reminders", [])
 
     print(
-        f"DBL LEAGUE OFFICE — mode={mode.upper()} now={now.isoformat()} "
+        f"PSBL LEAGUE OFFICE — mode={mode.upper()} now={now.isoformat()} "
         f"catchup_window_hours={catchup_hours:g}"
     )
     examined = posted = dry = duplicate = skipped = errors = 0

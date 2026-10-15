@@ -1,8 +1,8 @@
-name: DBL Automation Health
-run-name: DBL Automation Health — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Automation Health
+run-name: PSBL Automation Health — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 on:
-  # Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler
+  # Timing lives in automation/scheduler/schedule.yaml; the PSBL Scheduler
   # starts this workflow with mode=live when it is due.
   workflow_dispatch:
     inputs:
@@ -18,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-automation-health
+  group: psbl-automation-health
   cancel-in-progress: false
 
 jobs:
@@ -64,5 +64,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(automation-health): save issue state" \
-            "DBL Systems Automation" \
+            "PSBL Systems Automation" \
             "automation/health/state/health.json"

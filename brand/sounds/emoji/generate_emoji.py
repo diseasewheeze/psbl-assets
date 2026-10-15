@@ -125,6 +125,6 @@ for i, (name, rows) in enumerate(E.items()):
             if ch in pal:
                 im.putpixel((x, y), pal[ch] + (255,))
     big = im.resize((128, 128), Image.NEAREST)
-    big.save(f"{out}/dbl_{name}.png", optimize=True)
+    big.save(f"{out}/psbl_{name}.png", optimize=True)
 
 

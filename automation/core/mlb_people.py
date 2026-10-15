@@ -70,7 +70,7 @@ MLB_SPORT = 1
 ALL_LEVELS = "1,11,12,13,14,16"   # MLB, Triple-A, Double-A, High-A, Single-A, Rookie
 REGULAR_SEASON = "R"
 PEOPLE_BATCH = 40
-USER_AGENT = "DBL-Automation/2.0"
+USER_AGENT = "PSBL-Automation/2.0"
 MIN_GAP = 0.25  # seconds between requests
 
 # The 30 clubs, their names and other spellings come from core/mlb.py, so every

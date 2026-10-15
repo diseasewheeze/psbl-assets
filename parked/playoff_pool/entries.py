@@ -191,7 +191,7 @@ def dump(boxes: Boxes, rows: list[dict[str, Any]]) -> str:
     file can be checked by eye; the ids are what count.
     """
     lines = [
-        "# DBL Playoff Pool entries, exported by the League Bot (/pool export).",
+        "# PSBL Playoff Pool entries, exported by the League Bot (/pool export).",
         "# Commit this file as automation/playoff_pool/entries.yaml. Picks are NHL player ids.",
         f"year: {boxes.year}",
         "entries:" if rows else "entries: []",

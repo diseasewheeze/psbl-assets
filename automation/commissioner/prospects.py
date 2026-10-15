@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL prospect board: MLB's ranked draft prospects, for the Commissioner only.
+"""PSBL prospect board: MLB's ranked draft prospects, for the Commissioner only.
 
 Reads MLB's draft prospect list for the next MLB Draft
 (GET https://statsapi.mlb.com/api/v1/draft/prospects/{year}, through
@@ -137,7 +137,7 @@ def describe(p: dict[str, Any], today: date) -> str:
 def build_task(board: dict[str, Any], top: int, today: date, moved: list[str] | None = None) -> dict[str, Any]:
     players = ranked(board["prospects"])[:top]
     items = [
-        f"MLB's ranked prospects for the {board['year']} MLB Draft. These are MLB's own rankings, not DBL "
+        f"MLB's ranked prospects for the {board['year']} MLB Draft. These are MLB's own rankings, not PSBL "
         "rankings. Use them for scouting only.",
     ]
     if players:
@@ -154,7 +154,7 @@ def run(mode: str, api: mp.MlbApi | None = None, today: date | None = None) -> i
     year = draft_year(today, conf["year"])
     board = fetch_board(api or mp.MlbApi(), year)
     listed = ranked(board["prospects"])
-    print(f"DBL PROSPECTS mode={mode.upper()} year={year} listed={len(board['prospects'])} ranked={len(listed)}")
+    print(f"PSBL PROSPECTS mode={mode.upper()} year={year} listed={len(board['prospects'])} ranked={len(listed)}")
     if not listed or conf["top"] <= 0:
         why = "the board is hidden (top: 0 in prospects.yaml)" if conf["top"] <= 0 else \
             f"MLB has not published a ranked {year} draft prospect list yet"

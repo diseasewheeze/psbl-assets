@@ -13,8 +13,8 @@ var DATA = {
     date: "OCT 14"
 };
 
-DBL.run("05 Trade Alert", function () {
-    var B = DBL, D = DATA;
+PSBL.run("05 Trade Alert", function () {
+    var B = PSBL, D = DATA;
     var c = B.comp(B.folder("Trade Alerts"), "Trade Alert - " + D.teamA + " and " + D.teamB, 8);
     B.background(c, "dots");
     B.sound(c, "sfx-alert.wav", 0);
@@ -45,5 +45,5 @@ DBL.run("05 Trade Alert", function () {
     side(1040, D.teamB, D.teamBGets, 1000, 1.2);
     var swap = B.text(c, "<>", { face: "jersey", k: 10, color: "gold", x: 960, y: 570, align: "center", shadow: "black" });
     B.pop(swap, 1.6);
-    B.signoff(c, "DBL TRADE CENTER \u2022 NO VOTES \u2022 NO VETOES");
+    B.signoff(c, "PSBL TRADE CENTER \u2022 NO VOTES \u2022 NO VETOES");
 });

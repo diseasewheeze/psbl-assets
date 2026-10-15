@@ -1,4 +1,4 @@
-"""Pictures for the DBL Video Kit: the intro sting, the outro, the pixel wipe, overlays, the
+"""Pictures for the PSBL Video Kit: the intro sting, the outro, the pixel wipe, overlays, the
 EffectCraft backgrounds and art, and the placeholder slates that sit in the FilmCraft timelines.
 
 All of it is pixel art from tools/pixel_kit.py, drawn on whole-pixel grids and enlarged with
@@ -314,10 +314,10 @@ def slate(kind: str, title: str, lines: list[str]) -> Image.Image:
 def build(media: Path, ec_images: Path) -> dict[str, str]:
     """Write the movies and overlays (FilmCraft/Media) and the EffectCraft art; returns name -> path."""
     out = {}
-    write_movie(media / "Stings" / "dbl-intro-sting.mp4", intro_sting_frames(), 90)
-    write_movie(media / "Stings" / "dbl-outro.mp4", outro_frames(), 150)
-    write_movie(media / "Transitions" / "dbl-pixel-wipe.mov", wipe_frames(), 20, alpha=True)
-    save_png(media / "Overlays" / "dbl-corner-bug.png", corner_bug())
+    write_movie(media / "Stings" / "psbl-intro-sting.mp4", intro_sting_frames(), 90)
+    write_movie(media / "Stings" / "psbl-outro.mp4", outro_frames(), 150)
+    write_movie(media / "Transitions" / "psbl-pixel-wipe.mov", wipe_frames(), 20, alpha=True)
+    save_png(media / "Overlays" / "psbl-corner-bug.png", corner_bug())
     images = {
         "bg-charcoal.png": bg_navy(), "bg-dots.png": bg_dots(), "bg-arena.png": bg_arena(), "bg-black.png": bg_black(),
         "b-mark-12.png": emblem(12), "b-mark-8.png": emblem(8), "b-mark-4.png": emblem(4), "b-small-6.png": small_ball(6),
@@ -328,6 +328,6 @@ def build(media: Path, ec_images: Path) -> dict[str, str]:
     for name, img in images.items():
         save_png(ec_images / name, img)
         out[name] = str(ec_images / name)
-    save_png(media / "Backgrounds" / "dbl-bg-charcoal.png", images["bg-charcoal.png"])
-    save_png(media / "Backgrounds" / "dbl-bg-arena.png", images["bg-arena.png"])
+    save_png(media / "Backgrounds" / "psbl-bg-charcoal.png", images["bg-charcoal.png"])
+    save_png(media / "Backgrounds" / "psbl-bg-arena.png", images["bg-arena.png"])
     return out

@@ -27,7 +27,7 @@ channels:
     color: 0xBD3039
     label: "COMMISSIONER DESK"
 
-# Keep events disabled until their actual DBL dates are finalized.
+# Keep events disabled until their actual PSBL dates are finalized.
 # starts_at may be entered as local New York wall-clock time without an offset,
 # for example: 2027-01-15T20:00:00. The automation applies America/New_York
 # and therefore handles EST/EDT automatically. Explicit offsets remain valid.
@@ -54,18 +54,18 @@ events:
 
   - id: trade-deadline
     enabled: false
-    title: "DBL Trade Deadline"
+    title: "PSBL Trade Deadline"
     type: deadline
     starts_at: null
     channel: league-calendar
     priority: high
-    description: "The DBL in-season trade window closes at this deadline."
+    description: "The PSBL in-season trade window closes at this deadline."
     reminders: [14d, 7d, 3d, 1d, 3h, 1h, start]
     announcement_reminders: [7d, 1d, 3h, 1h, start]
 
   - id: dues-deadline
     enabled: false
-    title: "DBL Dues Deadline"
+    title: "PSBL Dues Deadline"
     type: finance
     starts_at: null
     channel: league-calendar
@@ -76,23 +76,23 @@ events:
 
   - id: opening-night
     enabled: false
-    title: "DBL Opening Night"
+    title: "PSBL Opening Night"
     type: season
     starts_at: null
     channel: league-calendar
     priority: normal
-    description: "The DBL regular season begins."
+    description: "The PSBL regular season begins."
     reminders: [7d, 3d, 1d, 3h, 1h, start]
     announcement_reminders: [1d, start]
 
   - id: playoffs-begin
     enabled: false
-    title: "DBL Playoffs Begin"
+    title: "PSBL Playoffs Begin"
     type: playoffs
     starts_at: null
     channel: league-calendar
     priority: high
-    description: "The DBL championship playoffs begin."
+    description: "The PSBL championship playoffs begin."
     reminders: [7d, 3d, 1d, 3h, 1h, start]
     announcement_reminders: [3d, 1d, start]
 
@@ -169,7 +169,7 @@ events:
     starts_at: null   # The day after the World Series ends (Art. 5.9, 11.6)
     channel: commissioner-desk
     priority: high
-    description: "Renew the league in Fantrax for next season today; Fantrax lets you renew a day or two after the MLB regular season, but wait until now. Renewal reopens all transactions, including trades and draft-pick trades, keeps traded picks and Premium, and resets every FAAB budget to $1,000: add the consolation champion's $50 by hand (10.7) and don't use Recalculate free agent budgets afterward. If the renewed league has a new league ID, run DBL Season Rollover with it. Then announce that trading is open."
+    description: "Renew the league in Fantrax for next season today; Fantrax lets you renew a day or two after the MLB regular season, but wait until now. Renewal reopens all transactions, including trades and draft-pick trades, keeps traded picks and Premium, and resets every FAAB budget to $1,000: add the consolation champion's $50 by hand (10.7) and don't use Recalculate free agent budgets afterward. If the renewed league has a new league ID, run PSBL Season Rollover with it. Then announce that trading is open."
     reminders: [1d, start]
 
   - id: commissioner-token-renewal
@@ -189,7 +189,7 @@ events:
     starts_at: "2027-05-03T09:00:00"
     channel: commissioner-desk
     priority: normal
-    description: "GitHub retires API version 2022-11-28 on March 10, 2028; 2026-03-10 is the newer one. Update the version header in the scheduler, health check and dormancy guard code, then change X-GitHub-Api-Version in both cron-job.org jobs (DBL Scheduler Timer and DBL Dormancy Guard) and test-run each."
+    description: "GitHub retires API version 2022-11-28 on March 10, 2028; 2026-03-10 is the newer one. Update the version header in the scheduler, health check and dormancy guard code, then change X-GitHub-Api-Version in both cron-job.org jobs (PSBL Scheduler Timer and PSBL Dormancy Guard) and test-run each."
     reminders: [start]
 
   - id: commissioner-amendment-vote-date

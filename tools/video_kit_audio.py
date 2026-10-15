@@ -1,4 +1,4 @@
-"""Music beds, stings and sound effects for the DBL Video Kit (SoundCraft folder).
+"""Music beds, stings and sound effects for the PSBL Video Kit (SoundCraft folder).
 
 Everything is synthesised here in numpy as 8-bit chiptune, in the voice of the league's hype intro
 and soundboard: two pulse channels (12.5 / 25 / 50 % duty), a 4-bit triangle bass and a noise kit.
@@ -449,7 +449,7 @@ def bed_awards() -> np.ndarray:
 
 # ---------------------------------------------------------------- stings and effects
 def sting_intro() -> np.ndarray:
-    """3.0 s, matched to dbl-intro-sting.mp4: riser, the B slams in at 0.5 s, the tagline types on
+    """3.0 s, matched to psbl-intro-sting.mp4: riser, the B slams in at 0.5 s, the tagline types on
     from 1.0 s, the gold rule and chord at 2.2 s."""
     mix = Mix(3.0)
     mix.add("sfx", 0.0, riser(0.5, 220, 1760), 0.8)
@@ -488,7 +488,7 @@ def sting_outro() -> np.ndarray:
 
 
 def sfx_whoosh() -> np.ndarray:
-    """20 frames (0.667 s), loudest at 0.333 s where dbl-pixel-wipe.mov covers the frame."""
+    """20 frames (0.667 s), loudest at 0.333 s where psbl-pixel-wipe.mov covers the frame."""
     n = int(0.667 * SR)
     t = np.arange(n) / SR
     shape = np.exp(-((t - 0.333) / 0.12) ** 2)

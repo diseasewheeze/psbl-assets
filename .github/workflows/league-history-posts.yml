@@ -1,5 +1,5 @@
-name: DBL History Posts
-run-name: DBL History Posts — ${{ inputs.item }} — ${{ inputs.mode }}
+name: PSBL History Posts
+run-name: PSBL History Posts — ${{ inputs.item }} — ${{ inputs.mode }}
 
 # Manual only. Posts league-history graphics and reports to Discord:
 #   dynasty-pot      Dynasty Pot graphic to 💰│league-ledger (one message)
@@ -36,7 +36,7 @@ permissions:
 # Shares the archive's group: both save under archive/, so their runs must
 # never overlap (a stale copy could otherwise overwrite a newer file).
 concurrency:
-  group: dbl-archive
+  group: psbl-archive
   cancel-in-progress: false
 
 jobs:
@@ -99,6 +99,6 @@ jobs:
           if (( ${#files[@]} )); then
             bash automation/tools/state_branch.sh save \
               "chore(history): save draft retrospective" \
-              "DBL History Automation" \
+              "PSBL History Automation" \
               "${files[@]}"
           fi

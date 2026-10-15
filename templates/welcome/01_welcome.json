@@ -1,17 +1,17 @@
 {
   "embeds": [
     {
-      "color": 2829617,
+      "color": 795456,
       "footer": {
         "text": "​"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/welcome/dbl-welcome-banner.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/welcome/psbl-welcome-banner.png?v=8bit-sox-1"
       }
     },
     {
-      "title": "WELCOME TO THE DYNASTY BASEBALL LEAGUE",
-      "description": "**DBL** is a 12-franchise dynasty fantasy baseball league built around long-term roster construction, prospect development, an active trade market, daily competition, and permanent league history.\n\n**Fantrax runs the game. Discord runs the league.**",
+      "title": "WELCOME TO THE PITCH SLAPPED BASEBALL LEAGUE",
+      "description": "**PSBL** is a 12-franchise dynasty fantasy baseball league built around long-term roster construction, prospect development, an active trade market, daily competition, and permanent league history.\n\n**Fantrax runs the game. Discord runs the league.**",
       "color": 12398649,
       "fields": [
         {
@@ -20,14 +20,14 @@
           "inline": false
         },
         {
-          "name": "THE DBL STANDARD",
+          "name": "THE PSBL STANDARD",
           "value": "Build for the long term. Stay active. Make your own moves. Own your decisions. Compete every week.",
           "inline": false
         }
       ]
     },
     {
-      "title": "HOW THE DBL WORKS",
+      "title": "HOW THE PSBL WORKS",
       "description": "The league uses two homes with different jobs. Keeping those jobs separate makes disputes, records, and league administration much cleaner.",
       "color": 12398649,
       "fields": [
@@ -75,7 +75,7 @@
         },
         {
           "name": "🌱 SCOUTING DEPARTMENT",
-          "value": "One prospect forum covering the minors, college, international signings, the MLB Draft and the DBL draft, sorted by tags.",
+          "value": "One prospect forum covering the minors, college, international signings, the MLB Draft and the PSBL draft, sorted by tags.",
           "inline": false
         },
         {
@@ -122,7 +122,7 @@
         },
         {
           "name": "⚜️ FOUNDING OWNER",
-          "value": "Permanent recognition for original DBL ownership.",
+          "value": "Permanent recognition for original PSBL ownership.",
           "inline": false
         },
         {
@@ -139,7 +139,7 @@
     },
     {
       "title": "KEEP OFFICIAL BUSINESS OFFICIAL",
-      "description": "The DBL should feel like a baseball league, not paperwork. The easiest way to keep it that way is to put official actions in the places designed for them.",
+      "description": "The PSBL should feel like a baseball league, not paperwork. The easiest way to keep it that way is to put official actions in the places designed for them.",
       "color": 12398649,
       "fields": [
         {
@@ -171,13 +171,13 @@
     },
     {
       "title": "YOU'RE CLEARED FOR THE ROOM",
-      "description": "Before jumping in, confirm your **Franchise Owner** or **Co-Owner** role and make sure you can see the league categories you need.\n\nThen review the constitution, check the league calendar, and head to **💬│gm-lounge**.\n\n**Welcome to the DBL. Grab a hot dog. Set your lineup. Make bad trades confidently.**",
+      "description": "Before jumping in, confirm your **Franchise Owner** or **Co-Owner** role and make sure you can see the league categories you need.\n\nThen review the constitution, check the league calendar, and head to **💬│gm-lounge**.\n\n**Welcome to the PSBL. Grab a hot dog. Set your lineup. Make bad trades confidently.**",
       "color": 12398649,
       "footer": {
-        "text": "DYNASTY BASEBALL LEAGUE • EST. 2026"
+        "text": "PITCH SLAPPED BASEBALL LEAGUE • EST. 2026"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

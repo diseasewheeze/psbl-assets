@@ -1,4 +1,4 @@
-// A strict stand-in for EffectCraft's scripting object model, for testing the DBL Video Kit
+// A strict stand-in for EffectCraft's scripting object model, for testing the PSBL Video Kit
 // scripts without the app. It implements only the calls the kit uses, with the signatures the
 // EffectCraft prelude defines, and throws on anything else (an unknown match name, a missing
 // method), so a typo fails here instead of in front of the Commissioner.

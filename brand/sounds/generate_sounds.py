@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Generate the DBL Discord soundboard sounds as original 8-bit chiptune.
+"""Generate the PSBL Discord soundboard sounds as original 8-bit chiptune.
 
 Every sound is synthesised from scratch with the same NES-style voices the league's
 arcade brand uses: pulse waves with duty-cycle control, a 4-bit stepped triangle, a
 15-bit LFSR noise channel (long and short "metallic" modes) and an 8-bit output
 crush. No samples, recordings or downloaded audio are used, so the output is
-original DBL material.
+original PSBL material.
 
 Usage:  python3 generate_sounds.py [out_dir] [--preview PATH.mp3]
 Needs:  numpy, and ffmpeg built with libmp3lame (for MP3 output and loudness).
@@ -304,12 +304,12 @@ def final_buzzer():
 
 
 SOUNDS = [
-    ("dbl-goal-horn", "DBL Goal Horn", goal_horn),
-    ("dbl-gavel", "DBL Gavel", gavel),
-    ("dbl-draft-horn", "DBL Draft Horn", draft_horn),
-    ("dbl-on-the-clock", "DBL On The Clock", on_the_clock),
-    ("dbl-trade-alert", "DBL Trade Alert", trade_alert),
-    ("dbl-final-buzzer", "DBL Final Buzzer", final_buzzer),
+    ("psbl-goal-horn", "PSBL Goal Horn", goal_horn),
+    ("psbl-gavel", "PSBL Gavel", gavel),
+    ("psbl-draft-horn", "PSBL Draft Horn", draft_horn),
+    ("psbl-on-the-clock", "PSBL On The Clock", on_the_clock),
+    ("psbl-trade-alert", "PSBL Trade Alert", trade_alert),
+    ("psbl-final-buzzer", "PSBL Final Buzzer", final_buzzer),
 ]
 
 
@@ -344,8 +344,8 @@ def encode_mp3(wav, path, title, measured):
                 "-ar", str(SR), "-ac", "1",
                 "-c:a", "libmp3lame", "-b:a", MP3_BITRATE, "-id3v2_version", "3",
                 "-metadata", f"title={title}",
-                "-metadata", "artist=DBL",
-                "-metadata", "comment=Original 8-bit sound synthesized from scratch and owned by the DBL",
+                "-metadata", "artist=PSBL",
+                "-metadata", "comment=Original 8-bit sound synthesized from scratch and owned by the PSBL",
                 path]).stderr
     return json.loads(err[err.rfind("{"):err.rfind("}") + 1])
 
@@ -419,7 +419,7 @@ def write_preview(out_dir, preview_path, gap=0.6):
         wav = os.path.join(tmp, "preview.wav")
         write_wav(wav, y)
         _run(["ffmpeg", "-y", "-hide_banner", "-nostats", "-i", wav, "-c:a", "libmp3lame", "-b:a", MP3_BITRATE,
-              "-metadata", "title=DBL Soundboard (8-bit) preview", "-metadata", "artist=DBL", preview_path])
+              "-metadata", "title=PSBL Soundboard (8-bit) preview", "-metadata", "artist=PSBL", preview_path])
 
 
 def main():

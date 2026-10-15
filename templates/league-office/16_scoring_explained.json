@@ -1,20 +1,20 @@
 {
   "embeds": [
     {
-      "color": 2829617,
+      "color": 795456,
       "footer": {
         "text": "​"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-generic-header-1600x420.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-generic-header-1600x420.png?v=8bit-sox-1"
       }
     },
     {
-      "title": "HOW DBL SCORING WORKS",
-      "description": "The DBL scoring system has two goals: points should reward what a player does well, and every lineup slot should matter about as much as its share of your lineup. Each value was tested against every MLB player's 2024, 2025 and 2026 regular seasons, about 2,250 hitter seasons and 2,600 pitcher seasons, and the reasons are below.",
+      "title": "HOW PSBL SCORING WORKS",
+      "description": "The PSBL scoring system has two goals: points should reward what a player does well, and every lineup slot should matter about as much as its share of your lineup. Each value was tested against every MLB player's 2024, 2025 and 2026 regular seasons, about 2,250 hitter seasons and 2,600 pitcher seasons, and the reasons are below.",
       "color": 12398649,
       "footer": {
-        "text": "DBL LEAGUE OFFICE"
+        "text": "PSBL LEAGUE OFFICE"
       },
       "fields": [
         {
@@ -59,7 +59,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

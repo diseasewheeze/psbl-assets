@@ -1,6 +1,6 @@
 """Discord payloads for the Playoff Pool (🏒│game-day).
 
-House style (automation/DISCORD_AUTOMATION_STYLE.md): DBL Competition Desk
+House style (automation/DISCORD_AUTOMATION_STYLE.md): PSBL Competition Desk
 sender, gold accent, league and season line first, vertical fields, no emoji,
 short source footer.
 """
@@ -21,13 +21,13 @@ import render  # noqa: E402  (competition/render.py)
 from .boxes import Boxes, Settings  # noqa: E402
 from .scoring import Row, fmt, tie_note  # noqa: E402
 
-FOOTER = "DBL PLAYOFF POOL"
+FOOTER = "PSBL PLAYOFF POOL"
 SOURCE = "NHL STATS DATA"
 SHOWN = 12  # one field per owner
 MESSAGE_MAX = 6000  # Discord's limit for all embed text in one message
 
 FUN = "Just for fun: no money and no effect on the league."
-SCORING = ("**Scoring** (DBL points on NHL playoff games): skaters goal 5, assist 2.95, shot 0.55, block 0.35, "
+SCORING = ("**Scoring** (PSBL points on NHL playoff games): skaters goal 5, assist 2.95, shot 0.55, block 0.35, "
            "hit 0.20, penalty minute -0.54; goalies start 6.5, save 0.49, goal against -5, goal 5, assist 2.95.")
 TIES = "Ties: most points from the goalie (box 10), then the earliest entry."
 
@@ -81,7 +81,7 @@ def boxes_payload(ctx: render.Context, boxes: Boxes, settings: Settings) -> dict
              "(most starts).")
     description = (
         f"{render._header(ctx)}\n\n"
-        f"{FUN} Pick **one player from each box**; your 10 players score DBL points in every NHL playoff game. "
+        f"{FUN} Pick **one player from each box**; your 10 players score PSBL points in every NHL playoff game. "
         "The most points after the Stanley Cup Final wins the **Pool Shark** role for next season and a line "
         f"in the league history. {TIES}\n\n{tiers}\n\n{SCORING}\n{how_to_enter(settings)}\n{deadline_line(boxes)}"
     )
@@ -124,7 +124,7 @@ def standings_payload(ctx: render.Context, boxes: Boxes, rows: list[Row], games:
     counted = f"{games} playoff game{'s' if games != 1 else ''} counted"
     if through is not None:
         counted += f", through {_day(through)}"
-    description = f"{render._header(ctx)}\n\n{FUN} DBL scoring on NHL playoff games: {counted}. {TIES}"
+    description = f"{render._header(ctx)}\n\n{FUN} PSBL scoring on NHL playoff games: {counted}. {TIES}"
     return render._payload(ctx, f"Playoff Pool Standings — {_day(today)}", description,
                            standings_fields(rows, boxes), FOOTER, source=SOURCE)
 

@@ -1,20 +1,20 @@
 {
   "embeds": [
     {
-      "color": 2829617,
+      "color": 795456,
       "footer": {
         "text": "​"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/league-office/dbl-ledger-header.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-ledger-header.png?v=8bit-sox-1"
       }
     },
     {
-      "title": "DBL LEAGUE LEDGER",
+      "title": "PSBL LEAGUE LEDGER",
       "description": "Public league-level accounting for dues, league expenses, prizes and the Dynasty Pot.",
       "color": 12398649,
       "footer": {
-        "text": "DBL LEAGUE OFFICE"
+        "text": "PSBL LEAGUE OFFICE"
       },
       "fields": [
         {
@@ -29,7 +29,7 @@
         },
         {
           "name": "SEASON LEDGER",
-          "value": "Within 30 days after the DBL Championship concludes, the Commissioner posts dues received, prizes paid, operating reserve spending, the League Services Allocation and the Dynasty Pot balance.",
+          "value": "Within 30 days after the PSBL Championship concludes, the Commissioner posts dues received, prizes paid, operating reserve spending, the League Services Allocation and the Dynasty Pot balance.",
           "inline": false
         },
         {
@@ -39,7 +39,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

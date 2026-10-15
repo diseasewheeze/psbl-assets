@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Normalize and verify every DBL Discohook template (templates/**/*.json).
+"""Normalize and verify every PSBL Discohook template (templates/**/*.json).
 
 Each template is one Discord message. The rules live in discohook_format.py:
 - One message per send: the header banner embed (if the channel has one) plus
   ONE text embed. Extra text sections merge into it as bold divider fields.
-- The header banner (charcoal #2B2D31, header image) keeps an invisible
+- The header banner (navy #0C2340, header image) keeps an invisible
   footer so Discohook accepts it.
 - Only the final embed has footer text and the shared gold footer-divider
   image. No other embed has either.

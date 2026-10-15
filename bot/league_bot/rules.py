@@ -1,4 +1,4 @@
-"""League voting rules from the DBL Constitution, with no Discord code.
+"""League voting rules from the PSBL Constitution, with no Discord code.
 
 Everything the bot decides (who may vote, whether a vote may open, and
 whether it passed) lives here so it can be tested without Discord.

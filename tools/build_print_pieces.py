@@ -1,8 +1,8 @@
-"""DBL print pieces: the Owner Welcome Packet, the Startup Draft cheat sheet and
+"""PSBL print pieces: the Owner Welcome Packet, the Startup Draft cheat sheet and
 the Awards Night program, ready to open and edit in DesignCraft.
 
     python tools/build_print_pieces.py              # brand/print/*.idml, *.pdf and art/
-    python tools/build_print_pieces.py --package D  # also D/DBL-Print-Pieces.zip with the fonts
+    python tools/build_print_pieces.py --package D  # also D/PSBL-Print-Pieces.zip with the fonts
 
 Each piece is written as an IDML package (live text, paragraph styles, the
 league swatches, art embedded) and as a PDF proof. Content follows the
@@ -77,11 +77,11 @@ def make_art() -> dict[str, Path]:
     art["arena"] = pk.png_with_dpi(banner.convert("RGB"), art_path("awards-cover-arena.png"), 414)
 
     seal = px.seal(dark=True, k=2)
-    art["seal"] = pk.png_with_dpi(seal, art_path("dbl-seal-dark.png"), 120)
+    art["seal"] = pk.png_with_dpi(seal, art_path("psbl-seal-dark.png"), 120)
     mark = px.lockup(36, 6, "paper")
-    art["logo"] = pk.png_with_dpi(mark, art_path("dbl-wordmark-cream.png"), 220)
+    art["logo"] = pk.png_with_dpi(mark, art_path("psbl-wordmark-cream.png"), 220)
     art["logo_size"] = (220, 220 * mark.height / mark.width)
-    art["bmark"] = px.ROOT / "brand" / "primary" / "dbl-b-mark.png"
+    art["bmark"] = px.ROOT / "brand" / "primary" / "psbl-b-mark.png"
     return art
 
 
@@ -243,10 +243,10 @@ def tile(b: Builder, pg: Page, x, y, w, h, big: str, label: str, note: str = "")
 
 # ------------------------------------------------------------------ Owner Welcome Packet
 def welcome_packet(art) -> Doc:
-    b = Builder("DBL-Owner-Welcome-Packet", "DBL Owner Welcome Packet", LETTER)
+    b = Builder("PSBL-Owner-Welcome-Packet", "PSBL Owner Welcome Packet", LETTER)
     rows = b.add_style(row_style("Row", COL))
     rows_b = b.add_style(row_style("RowTotal", COL, face="SemiBold"))
-    foot = "DBL • OWNER WELCOME PACKET"
+    foot = "PSBL • OWNER WELCOME PACKET"
 
     # 1 Cover
     pg = b.page()
@@ -254,7 +254,7 @@ def welcome_packet(art) -> Doc:
     pg.items += [Pic(-9, 801 - 354.375, 630, 354.375, art["splash"]),
                  Pic(426, 70, 132, 152, art["bmark"]),
                  Box(M, 76, 5, 196, "Red")]
-    b.T(pg, 72, 62, 340, 18, ("CoverKicker", "DYNASTY BASEBALL LEAGUE"))
+    b.T(pg, 72, 62, 340, 18, ("CoverKicker", "PITCH SLAPPED BASEBALL LEAGUE"))
     b.T(pg, 72, 82, 360, 228, ("CoverTitle", "OWNER"), ("CoverTitle", "WELCOME"), ("CoverTitle", "PACKET"))
     b.T(pg, 72, 306, 380, 70, ("CoverSub", "Everything a founding owner needs: how the league works, where the money goes, "
                                            "your first week and where to find it all in Discord."))
@@ -266,12 +266,12 @@ def welcome_packet(art) -> Doc:
     lw, lh = art["logo_size"]
     pg.items.append(Pic((612 - lw) / 2, 140 - 12 - lh, lw, lh, art["logo"]))
     b.T(pg, 106, 150, 400, 14, ("Kicker", "FROM THE COMMISSIONER"))
-    b.T(pg, 106, 162, 400, 56, ("H1", "WELCOME TO THE DBL"))
+    b.T(pg, 106, 162, 400, 56, ("H1", "WELCOME TO THE PSBL"))
     pg.items += [Box(106, 214, 8, 8, "Red"), Box(118, 217, 388, 2, "Red")]
     b.T(pg, 106, 232, 400, 380,
         ("Letter", "You're one of twelve founding owners in a dynasty league built to last: a Startup Draft in 2027, "
                    "an inaugural season in 2027–28, and a record book that starts with your name in it."),
-        ("Letter", "The DBL runs on two things. **Fantrax** is where the hockey happens: rosters, lineups, scoring, trades "
+        ("Letter", "The PSBL runs on two things. **Fantrax** is where the hockey happens: rosters, lineups, scoring, trades "
                    "and standings. **Discord** is the league office and the clubhouse: news, rulings, votes, trade talk and "
                    "a fair amount of chirping. The **Constitution** sits over both, and it's short enough to read in one sitting. "
                    "Please do."),
@@ -371,7 +371,7 @@ def welcome_packet(art) -> Doc:
         ("Small", "Not scored: wins, shutouts, plus/minus, power-play bonuses, game-winning goals and faceoffs."))
     b.T(pg, COL2, 128, COL, 390,
         ("H2", "WHERE THE $1,800 GOES"),
-        (rows, "DBL Champion\t$650"), (rows, "Runner-Up\t$350"), (rows, "Third Place\t$150"),
+        (rows, "PSBL Champion\t$650"), (rows, "Runner-Up\t$350"), (rows, "Third Place\t$150"),
         (rows, "Presidents' Trophy\t$200"), (rows, "Dynasty Pot\t$200"), (rows, "Operating Reserve\t$150"),
         (rows, "League Services\t$100"), (rows_b, "12 franchises × $150\t$1,800"),
         ("Small", "The Operating Reserve pays for Fantrax Premium and other approved costs, and whatever is left joins the "
@@ -381,7 +381,7 @@ def welcome_packet(art) -> Doc:
                  "the Commissioner confirms it in the League Ledger. Prizes are paid within 30 days after the Championship, "
                  "with a Season Ledger in {ch:league-ledger}."))
     callout(b, pg, M, 466, COL, 124, "THE DYNASTY POT",
-            "The first franchise to win **three DBL Championships** in the same cycle takes the whole pot. They don't "
+            "The first franchise to win **three PSBL Championships** in the same cycle takes the whole pot. They don't "
             "have to be in a row. It grows by at least $200 every season, then resets once it's won.")
     callout(b, pg, COL2, 466, COL, 124, "PAY FIRST, THEN TRADE",
             "To trade away a future 1st- or 2nd-round pick, your dues must be paid and confirmed through that pick's "
@@ -494,7 +494,7 @@ def welcome_packet(art) -> Doc:
         ("Body", "**Monthly Awards.** Manager of the Month, Best Record, Biggest Single Week and Hard Luck, in {ch:weekly-recap}."),
         ("Body", "**Bounties.** One-time season goals. The first franchise to reach one takes the Bounty Hunter role."),
         ("Body", "**Pick'em.** Pick each Week's winners in {ch:game-day}. A season leaderboard keeps score."),
-        ("Body", "**DBL Bucks.** A play-money sportsbook on DBL matchups. The season's top earner is the Sharp."),
+        ("Body", "**PSBL Bucks.** A play-money sportsbook on PSBL matchups. The season's top earner is the Sharp."),
         ("Body", "**NHL Playoff Pool.** A free box pool once the fantasy season ends. The winner is the Pool Shark."),
         ("Body", "**The Wooden Spoon (proposed).** Last place holds the Spoon for the offseason and writes the next "
                  "season's preview. Owners decide whether it happens."),
@@ -511,14 +511,14 @@ def welcome_packet(art) -> Doc:
         ("Body", "**Once the League Bot is live,** /myteam, /rule, /deadlines, /minor and /tradecheck answer right in Discord."))
     pg.items += [Box(-9, 640, 630, 161, "Charcoal"), Box(-9, 640, 630, 3, "Red"), Pic(M, 664, 96, 96, art["seal"])]
     b.T(pg, M + 116, 672, 380, 40, ("Signoff", "SEE YOU AT THE DRAFT"))
-    b.T(pg, M + 116, 708, 380, 40, ("SmallLight", "Dynasty Baseball League • Est. 2026. Questions before then? "
+    b.T(pg, M + 116, 708, 380, 40, ("SmallLight", "Pitch Slapped Baseball League • Est. 2026. Questions before then? "
                                                   "Open a ticket any time."))
     return b.doc
 
 
 # ------------------------------------------------------------------ Startup Draft cheat sheet
 def draft_sheet(art) -> Doc:
-    b = Builder("DBL-Startup-Draft-Cheat-Sheet", "DBL Startup Draft Cheat Sheet", LETTER)
+    b = Builder("PSBL-Startup-Draft-Cheat-Sheet", "PSBL Startup Draft Cheat Sheet", LETTER)
     w3 = (CW - 24) / 3
     r3 = b.add_style(row_style("Row3", w3, 9.5, 14))
     r3b = b.add_style(row_style("Row3Total", w3, 9.5, 14, face="SemiBold"))
@@ -580,7 +580,7 @@ def draft_sheet(art) -> Doc:
     callout(b, pg, COL2, 584, COL, 128, "THE ANNUAL DRAFT AFTER THIS",
             "From 2028: 5 rounds, linear, an 8-hour clock, minors-eligible players only. Non-playoff teams pick first, "
             "by lowest Potential Points.", style="CalloutBody")
-    footer(b, pg, "DBL • STARTUP DRAFT CHEAT SHEET", 1)
+    footer(b, pg, "PSBL • STARTUP DRAFT CHEAT SHEET", 1)
 
     # Page 2: my draft board
     pg = b.page()
@@ -612,7 +612,7 @@ def draft_sheet(art) -> Doc:
         pg.items.append(Box(x, rows_top, 0.5, rh * 36, "Mist"))
     pg.items.append(Box(M, rows_top + rh * 36, CW, 1, "Charcoal"))
     pg.items.append(Frame(M, rows_top - 4.5, 28, rh * 36 + 6, [b.P("TableNum", str(i + 1)) for i in range(36)]))
-    footer(b, pg, "DBL • STARTUP DRAFT CHEAT SHEET", 2)
+    footer(b, pg, "PSBL • STARTUP DRAFT CHEAT SHEET", 2)
     return b.doc
 
 
@@ -621,16 +621,16 @@ def awards_program(art) -> Doc:
     W, H = HALF
     m = 36.0
     cw = W - 2 * m
-    b = Builder("DBL-Awards-Night-Program", "DBL Awards Night Program", HALF)
+    b = Builder("PSBL-Awards-Night-Program", "PSBL Awards Night Program", HALF)
     b.add_style(PStyle("H1S", "Jersey 10", "Regular", 34, 32))
     b.add_style(PStyle("BulletS", size=9.5, leading=13.5, left=10, first=-10, after=4, bullet=True))
     b.add_style(PStyle("BodyS", size=9.5, leading=13.5, after=5))
-    foot = "DBL AWARDS NIGHT • SEASON [YEAR]"
+    foot = "PSBL AWARDS NIGHT • SEASON [YEAR]"
 
     pg = b.page()
     bg(pg, HALF, "Charcoal")
     pg.items.append(Pic(-9, -9, W + 18, H + 18, art["arena"]))
-    b.T(pg, m, 170, cw, 14, ("CenterKicker", "DYNASTY BASEBALL LEAGUE"))
+    b.T(pg, m, 170, cw, 14, ("CenterKicker", "PITCH SLAPPED BASEBALL LEAGUE"))
     b.T(pg, m, 184, cw, 146, ("CenterTitle", "AWARDS"), ("CenterTitle", "NIGHT"))
     b.T(pg, m, 326, cw, 20, ("CenterLabel", "SEASON [YEAR]"))
     pg.items.append(Pic((W - 112) / 2, 360, 112, 112, art["seal"]))
@@ -642,7 +642,7 @@ def awards_program(art) -> Doc:
     header(b, pg, "THE PROGRAM", "ORDER OF THE NIGHT", x=m, w=cw, y=34, h1="H1S")
     items = [("Welcome", "The Commissioner opens the night."),
              ("The season in review", "The standings, the playoffs and the best trades."),
-             ("The season's honors", "From the Presidents' Trophy to the DBL Champion."),
+             ("The season's honors", "From the Presidents' Trophy to the PSBL Champion."),
              ("The owners' awards", "Five awards voted 5-3-1, with GM of the Year last."),
              ("The Dynasty Pot", "The balance, and who's closest to three titles."),
              ("What's next", "The Annual Draft, dues and the day trading reopens.")]
@@ -654,7 +654,7 @@ def awards_program(art) -> Doc:
     y += 6
     b.T(pg, m, y, cw, 16, ("H2", "THE SEASON'S HONORS"))
     y += 24
-    for label, note in [("DBL CHAMPION", "$650"), ("RUNNER-UP", "$350"), ("THIRD PLACE", "$150"),
+    for label, note in [("PSBL CHAMPION", "$650"), ("RUNNER-UP", "$350"), ("THIRD PLACE", "$150"),
                         ("PRESIDENTS' TROPHY", "$200"), ("CONSOLATION CHAMPION", "+$50 FAAB")]:
         b.T(pg, m, y, 150, 14, ("FieldLabel", label))
         b.T(pg, m + cw - 70, y, 70, 14, ("FieldNote", note))
@@ -694,7 +694,7 @@ def awards_program(art) -> Doc:
         ("BulletS", "Winners go up in {ch:hall-of-champions}. Awards carry no money and change nothing in the standings "
                     "or the draft."))
     b.T(pg, m, 318, cw, 16, ("H2", "THE DYNASTY POT"))
-    b.T(pg, m, 338, cw, 36, ("ItemNote", "First franchise to three DBL Championships in the same cycle takes the whole pot."))
+    b.T(pg, m, 338, cw, 36, ("ItemNote", "First franchise to three PSBL Championships in the same cycle takes the whole pot."))
     for i, label in enumerate(["BALANCE", "CLOSEST TO THREE"]):
         yy = 380 + i * 28
         b.T(pg, m, yy, 140, 14, ("FieldLabel", label))
@@ -746,7 +746,7 @@ def install_fonts(dest: Path) -> list[Path]:
     return out
 
 
-README = """DBL PRINT PIECES
+README = """PSBL PRINT PIECES
 
 1. Unzip this folder and keep the "Document Fonts" folder next to the .idml
    files. DesignCraft loads the league fonts (Pixelify Sans, Jersey 10 and
@@ -769,7 +769,7 @@ Bleed is 0.125 in on every side.
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--package", type=Path, help="also write DBL-Print-Pieces.zip with the fonts into this folder")
+    ap.add_argument("--package", type=Path, help="also write PSBL-Print-Pieces.zip with the fonts into this folder")
     args = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     art = make_art()
@@ -780,7 +780,7 @@ def main() -> None:
         stats = pk.check_idml(OUT / f"{d.name}.idml")
         print(f"{d.name}: {stats}")
     if args.package:
-        stage = args.package / "DBL-Print-Pieces"
+        stage = args.package / "PSBL-Print-Pieces"
         if stage.exists():
             shutil.rmtree(stage)
         stage.mkdir(parents=True)
@@ -789,7 +789,7 @@ def main() -> None:
                 shutil.copy2(OUT / f"{d.name}.{ext}", stage / f"{d.name}.{ext}")
         install_fonts(stage / "Document Fonts")
         (stage / "READ ME FIRST.txt").write_text(README)
-        z = args.package / "DBL-Print-Pieces.zip"
+        z = args.package / "PSBL-Print-Pieces.zip"
         with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zf:
             for f in sorted(stage.rglob("*")):
                 if f.is_file():

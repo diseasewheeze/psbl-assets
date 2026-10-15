@@ -727,7 +727,7 @@ class RunTests(unittest.TestCase):
         secret_name, payload, message_id = fake.upserts[0]
         self.assertEqual((secret_name, message_id), ("LEAGUE_WEBHOOK_LEAGUE_ANNOUNCEMENTS", None))
         embed = payload["embeds"][0]
-        self.assertEqual(embed["title"], "DBL DEADLINE DAY TRADE CENTER")
+        self.assertEqual(embed["title"], "PSBL DEADLINE DAY TRADE CENTER")
         deadline = int(cal.trade_deadline(INFO, NY).timestamp())
         self.assertIn(f"<t:{deadline}:R>", embed["description"])
         self.assertIn("**Trades today:** 0", embed["description"])
@@ -747,7 +747,7 @@ class RunTests(unittest.TestCase):
         _, payload, message_id = fake.upserts[-1]
         self.assertEqual(message_id, "101")
         embed = payload["embeds"][0]
-        self.assertEqual(embed["title"], "DBL DEADLINE DAY TRADE CENTER — FINAL")
+        self.assertEqual(embed["title"], "PSBL DEADLINE DAY TRADE CENTER — FINAL")
         self.assertIn("Deadline passed — 2 trades today.", embed["description"])
         self.assertIn("first check after the deadline", embed["fields"][1]["value"])
         self.assertEqual(embed["footer"]["text"], tr.TRACKER_FINAL_FOOTER)
@@ -931,7 +931,7 @@ class SafetyTests(RunTests):
         reset = {**full, "a": []}
         code, log, _ = self.run_desk([(reset, BASE_PICKS)], ny(2027, 1, 10, 12, 30), fake)
         self.assertEqual(code, 1)
-        self.assertIn("run the DBL Trade Desk workflow once with mode rebaseline", log)
+        self.assertIn("run the PSBL Trade Desk workflow once with mode rebaseline", log)
         self.assertNotIn("run the archive", log)
         self.assertEqual(self.saved()["snapshot"]["rosters"]["a"], {f"a{i}": "" for i in range(6)})
         code, log, _ = self.run_desk([(reset, BASE_PICKS)], ny(2027, 1, 10, 12, 45), fake, mode="rebaseline")

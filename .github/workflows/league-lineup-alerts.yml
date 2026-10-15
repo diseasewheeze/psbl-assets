@@ -1,10 +1,10 @@
-name: DBL Lineup Alerts
-run-name: DBL Lineup Alerts — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Lineup Alerts
+run-name: PSBL Lineup Alerts — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Daily check for opted-in owners (league.yaml `owners`): a hitter with no MLB
 # game today, or a starting pitcher who is not today's probable starter, while
 # an eligible bench player plays. Posts to 🔔│lineup-alerts.
-# Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler starts
+# Timing lives in automation/scheduler/schedule.yaml; the PSBL Scheduler starts
 # this workflow with mode=live at 15:00 ET during the regular season and playoffs.
 
 on:
@@ -26,7 +26,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-lineup-alerts
+  group: psbl-lineup-alerts
   cancel-in-progress: false
 
 jobs:
@@ -70,5 +70,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(lineup): save lineup alert state" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/lineup/state/lineup_alerts.json"

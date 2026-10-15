@@ -1,20 +1,20 @@
 {
   "embeds": [
     {
-      "color": 2829617,
+      "color": 795456,
       "footer": {
         "text": "​"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/league-competition/dbl-competition-header.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-competition/psbl-competition-header.png?v=8bit-sox-1"
       }
     },
     {
-      "title": "DBL CONSOLATION BRACKET",
+      "title": "PSBL CONSOLATION BRACKET",
       "description": "The bracket for the six franchises that miss the playoffs.",
       "color": 12398649,
       "footer": {
-        "text": "DBL COMPETITION DESK"
+        "text": "PSBL COMPETITION DESK"
       },
       "fields": [
         {
@@ -39,7 +39,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

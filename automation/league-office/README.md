@@ -1,4 +1,4 @@
-# DBL Phase 2D.2 — League Office Automation
+# PSBL Phase 2D.2 — League Office Automation
 
 ## Purpose
 
@@ -42,17 +42,17 @@ Example:
 ```yaml
 - id: trade-deadline-2028
   enabled: true
-  title: "DBL Trade Deadline"
+  title: "PSBL Trade Deadline"
   type: deadline
   starts_at: "2028-02-28T23:59:00"
   channel: league-calendar
   priority: high
-  description: "The DBL in-season trade window closes at this deadline."
+  description: "The PSBL in-season trade window closes at this deadline."
   reminders: [14d, 7d, 3d, 1d, 3h, 1h, start]
   announcement_reminders: [7d, 1d, 3h, 1h, start]
 ```
 
-The date above is an example only and is not a DBL league date. Naive timestamps are interpreted in `America/New_York`, so EST/EDT changes are handled automatically. Explicit offsets and `Z` timestamps remain valid.
+The date above is an example only and is not a PSBL league date. Naive timestamps are interpreted in `America/New_York`, so EST/EDT changes are handled automatically. Explicit offsets and `Z` timestamps remain valid.
 
 ## Scheduling and delayed-run protection
 
@@ -95,14 +95,14 @@ More can be added later for voting deadlines, roster cutdowns, keeper/minors dea
 
 ## Delivery resilience
 
-League Office delivery uses the shared DBL Discord webhook helper in `automation/discord_webhook.py`. The helper retries transient network failures, Discord rate limits, and common temporary HTTP failures with bounded backoff.
+League Office delivery uses the shared PSBL Discord webhook helper in `automation/discord_webhook.py`. The helper retries transient network failures, Discord rate limits, and common temporary HTTP failures with bounded backoff.
 
 ## Rollout
 
-1. Create a Discord webhook in `📅│league-calendar` named `DBL League Office — Calendar`.
-2. Create a Discord webhook in `📢│announcements` named `DBL League Office — Announcements`.
+1. Create a Discord webhook in `📅│league-calendar` named `PSBL League Office — Calendar`.
+2. Create a Discord webhook in `📢│announcements` named `PSBL League Office — Announcements`.
 3. Add the two webhook URLs to GitHub Actions Secrets using the exact secret names above.
-4. Run `DBL League Office Automation` in `test` mode once for each channel.
+4. Run `PSBL League Office Automation` in `test` mode once for each channel.
 5. Leave every real event disabled until its actual date is finalized.
 6. When a date is official, edit `events.yaml`, set the timestamp, and change `enabled` to `true`.
 

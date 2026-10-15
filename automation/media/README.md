@@ -1,4 +1,4 @@
-# DBL Morning Recap
+# PSBL Morning Recap
 
 Code: `morning.py` · Workflow: `.github/workflows/league-morning-recap.yml` ·
 Channel: `📸│media` (webhook secret `LEAGUE_WEBHOOK_MEDIA`, the same one the
@@ -14,12 +14,12 @@ postseason games, the channel gets:
    `**CHC 2**, STL 1 (game 2, 10 inn.) · W: Smith · L: Jones · [Recap](…) · [Condensed](…)`.
    Postponed games close the list with their makeup date. A very long day
    splits into a second embed.
-2. **THE DBL HOME RUN REEL**: only when a player on a DBL roster homered. One
+2. **THE PSBL HOME RUN REEL**: only when a player on a PSBL roster homered. One
    field per franchise, e.g. `Hale (NYY) — 2 HR [▶](clip) [▶](clip)`. ▶ opens
    the home run on MLB.com. Nobody is mentioned.
 
 Days without MLB games post nothing. It runs all year, so the MLB postseason
-is covered after the DBL season ends.
+is covered after the PSBL season ends.
 
 **Links only.** Nothing is downloaded or re-uploaded; Discord builds the
 previews from MLB.com.
@@ -35,11 +35,11 @@ previews from MLB.com.
   home-run clip names its batter by MLB id, and a clip that names two batters,
   such as back-to-back homers, is not used). Content that cannot be read only
   drops that game's links.
-- Fantrax `getTeamRosters` + `getPlayerIds` for DBL ownership, matched with
+- Fantrax `getTeamRosters` + `getPlayerIds` for PSBL ownership, matched with
   the Wire's roster matching (`automation/wire/roster.py`): name, narrowed by
   MLB club. A name two players share on different clubs is told apart by club;
   anything still ambiguous is skipped, because wrong credit is worse than none.
-  While every DBL roster is empty, the reel is skipped and the player
+  While every PSBL roster is empty, the reel is skipped and the player
   directory is not read.
 
 The test fixtures (`automation/tests/fixtures/mlb_schedule_2027-04_synthetic.json`,
@@ -53,12 +53,12 @@ keyed by MLB date and records each message as it goes out. A re-run never
 repeats a message. If a post fails or Fantrax cannot be read, the run fails and
 the scheduler retries it (up to 3 times); the retry posts only what is missing.
 A Fantrax outage still lets the scores go out; the reel follows on the retry
-that can read the rosters. (Empty DBL rosters are not an outage: that day has
+that can read the rosters. (Empty PSBL rosters are not an outage: that day has
 no reel.)
 
 ## Trying it
 
-Actions → **DBL Morning Recap** → Run workflow:
+Actions → **PSBL Morning Recap** → Run workflow:
 
 - `preview` prints every message in the log; nothing is posted or recorded.
 - `test` posts `[TEST]` copies to 📸│media; nothing is recorded.

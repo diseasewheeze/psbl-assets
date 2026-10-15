@@ -1,8 +1,8 @@
-name: DBL Morning Recap
-run-name: DBL Morning Recap — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Morning Recap
+run-name: PSBL Morning Recap — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Every morning after a day with MLB games: last night's finals with MLB.com
-# recap and condensed-game links and the DBL Home Run Reel in 📸│media, once
+# recap and condensed-game links and the PSBL Home Run Reel in 📸│media, once
 # per MLB date. Timing lives in automation/scheduler/schedule.yaml (08:30 ET,
 # all year). Code: automation/media/morning.py. Settings: automation/league.yaml
 # (morning_recap).
@@ -26,7 +26,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-morning-recap
+  group: psbl-morning-recap
   cancel-in-progress: false
 
 jobs:
@@ -70,5 +70,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(media): save morning recap state" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/media/state/morning_recap.json"

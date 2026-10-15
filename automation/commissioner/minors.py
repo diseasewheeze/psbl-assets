@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL minor-eligibility watch: tells the commissioner when a rostered player stops being minor-eligible.
+"""PSBL minor-eligibility watch: tells the commissioner when a rostered player stops being minor-eligible.
 
 Constitution Article VII: a player is minor-eligible while his career MLB
 regular-season totals stay within MLB's rookie limits, at most
@@ -162,13 +162,13 @@ def run(mode: str, api: mp.MlbApi | None = None) -> int:
     cfg = load_league()
     now = datetime.now(timezone.utc)
     api = api or mp.MlbApi()
-    fx = Fantrax(str(cfg["league_id"]), user_agent="DBL-Minors/2.0")
+    fx = Fantrax(str(cfg["league_id"]), user_agent="PSBL-Minors/2.0")
     rostered = load_rostered(fx)
     state = load_json(STATE_PATH, {})
     ours = state.get("sport") == STATE_SPORT
     cache = dict(state.get("mlb_ids") or {}) if ours else {}
     cur, unmatched = evaluate(rostered, api, cache)
-    print(f"DBL MINORS mode={mode.upper()} rostered={len(rostered)} matched={len(cur)} unmatched={len(unmatched)} "
+    print(f"PSBL MINORS mode={mode.upper()} rostered={len(rostered)} matched={len(cur)} unmatched={len(unmatched)} "
           f"ineligible={sum(not v['eligible'] for v in cur.values())}")
     if unmatched:
         print("Could not match to an MLB player: " + "; ".join(sorted(unmatched)[:40]))

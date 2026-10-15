@@ -1,4 +1,4 @@
-"""Pool scoring: DBL fantasy scoring (Constitution Article VIII) on NHL playoff games.
+"""Pool scoring: PSBL fantasy scoring (Constitution Article VIII) on NHL playoff games.
 
   Skaters  goal +5, assist +2.95, shot on goal +0.55, block +0.35, hit +0.20,
            penalty minute -0.54

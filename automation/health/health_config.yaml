@@ -1,6 +1,6 @@
 settings:
   webhook_secret: LEAGUE_WEBHOOK_AUTOMATION_HEALTH
-  username: "DBL Systems Desk"
+  username: "PSBL Systems Desk"
   alert_color: 0xBD3039
   recovery_color: 0x2E7D32
   test_color: 0x0C2340
@@ -17,12 +17,12 @@ workflows:
   # timer (cron-job.org) has probably stopped and only GitHub's late backup
   # cron is running. See automation/scheduler/README.md.
   - id: scheduler
-    name: "DBL Scheduler"
+    name: "PSBL Scheduler"
     file: "league-scheduler.yml"
     max_age_minutes: 45
 
   - id: wire-engine
-    name: "DBL Wire Engine"
+    name: "PSBL Wire Engine"
     file: "league-wire-engine.yml"
     # The scheduler starts the Wire every 15 minutes; alert after several
     # missed starts, not after a single delayed one.
@@ -30,75 +30,75 @@ workflows:
     inspect_wire_logs: true
 
   - id: league-office
-    name: "DBL League Office Automation"
+    name: "PSBL League Office Automation"
     file: "league-office.yml"
     max_age_minutes: 180
 
   - id: competition-desk
-    name: "DBL Competition Desk"
+    name: "PSBL Competition Desk"
     file: "league-competition-desk.yml"
     # Checks at 08:00 and 20:00 during the season.
     max_age_minutes: 900
 
   - id: scoreboard
-    name: "DBL Fantrax Scoreboard"
+    name: "PSBL Fantrax Scoreboard"
     file: "league-fantrax-scoreboard.yml"
     # Hourly during the regular season and playoffs.
     max_age_minutes: 180
 
   - id: lineup-alerts
-    name: "DBL Lineup Alerts"
+    name: "PSBL Lineup Alerts"
     file: "league-lineup-alerts.yml"
     # Once a day at 15:00 during the regular season and playoffs.
     max_age_minutes: 1700
 
   - id: probable-pitchers
-    name: "DBL Probable Pitchers"
+    name: "PSBL Probable Pitchers"
     file: "league-probable-pitchers.yml"
     # Several checks a day from 09:15 to 21:30 during the regular season and
     # playoffs; the longest gap is overnight (about 12 hours).
     max_age_minutes: 1000
 
   - id: morning-recap
-    name: "DBL Morning Recap"
+    name: "PSBL Morning Recap"
     file: "league-morning-recap.yml"
     # Once a day at 08:30, all year (it simply posts nothing after days
     # without MLB games).
     max_age_minutes: 1700
 
   - id: playoffs
-    name: "DBL Fantrax Playoffs"
+    name: "PSBL Fantrax Playoffs"
     file: "league-fantrax-playoffs.yml"
     # Hourly during the playoff weeks only.
     max_age_minutes: 180
 
   - id: draft-center
-    name: "DBL Draft Center"
+    name: "PSBL Draft Center"
     file: "league-draft-center.yml"
     # Every 15 minutes, only from 31 days before a Fantrax draft until a day after it.
     max_age_minutes: 60
 
   - id: commissioner-desk
-    name: "DBL Commissioner Desk"
+    name: "PSBL Commissioner Desk"
     file: "league-commissioner-desk.yml"
     # Hourly all year.
     max_age_minutes: 180
 
   - id: pick-trades
-    name: "DBL Pick Trades"
+    name: "PSBL Pick Trades"
     file: "league-pick-trades.yml"
     # Every 15 minutes all year; alert after several missed runs.
     max_age_minutes: 90
 
   - id: trade-desk
-    name: "DBL Trade Desk"
+    name: "PSBL Trade Desk"
     file: "league-trade-desk.yml"
     # Every 30 minutes all year (every 15 on trade-deadline day); alert after
     # several missed runs.
     max_age_minutes: 120
 
   - id: minor-eligibility
-    name: "DBL Minor Eligibility"
+    name: "PSBL Minor Eligibility"
     file: "league-minor-eligibility.yml"
     # Once a day at 07:00.
     max_age_minutes: 1700
@@ -106,25 +106,25 @@ workflows:
   # Prospect Board: switched off in automation/scheduler/schedule.yaml until MLB
   # publishes the next draft prospect list. Turn this back on with the job.
   # - id: prospect-board
-  #   name: "DBL Prospect Board"
+  #   name: "PSBL Prospect Board"
   #   file: "league-prospect-board.yml"
   #   # Once a day at 09:30.
   #   max_age_minutes: 1700
 
   - id: dormancy-guard
-    name: "DBL Dormancy Guard"
+    name: "PSBL Dormancy Guard"
     file: "league-dormancy-guard.yml"
     # Once a day at 06:15.
     max_age_minutes: 1700
 
   - id: archive
-    name: "DBL League Archive"
+    name: "PSBL League Archive"
     file: "league-archive.yml"
     # Once a day at 05:30.
     max_age_minutes: 1700
 
   - id: history-site
-    name: "DBL History Site"
+    name: "PSBL History Site"
     file: "league-history-site.yml"
     # Once a day at 06:15.
     max_age_minutes: 1700

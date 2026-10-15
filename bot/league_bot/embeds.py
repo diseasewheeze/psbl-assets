@@ -1,4 +1,4 @@
-"""Discord embeds for the DBL League Bot, as plain dicts (discord.Embed.from_dict).
+"""Discord embeds for the PSBL League Bot, as plain dicts (discord.Embed.from_dict).
 
 Wording and layout follow the league-office vote templates (50, 51, 52) so
 bot posts look like the rest of the server: one embed, gold accent, footer
@@ -13,10 +13,10 @@ from typing import Any
 from .rules import ABSTAIN, NO, YES, Kind, Outcome
 
 GOLD = 0xFFB81C
-RAW = "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/"
-DIVIDER = RAW + "discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
-STAMP_PASSED = RAW + "brand/kit/06_seals_stamps/dbl-stamp-vote-passed.png?v=8bit-1"
-STAMP_FAILED = RAW + "brand/kit/06_seals_stamps/dbl-stamp-vote-failed.png?v=8bit-1"
+RAW = "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/"
+DIVIDER = RAW + "discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-1"
+STAMP_PASSED = RAW + "brand/kit/06_seals_stamps/psbl-stamp-vote-passed.png?v=8bit-1"
+STAMP_FAILED = RAW + "brand/kit/06_seals_stamps/psbl-stamp-vote-failed.png?v=8bit-1"
 CHOICE_LABEL = {YES: "Yes", NO: "No", ABSTAIN: "Abstain"}
 
 
@@ -130,7 +130,7 @@ def proposal(p: dict[str, Any], opens_at: datetime, suggestion_url: str | None =
         "AMENDMENT PROPOSAL — DISCUSSION",
         f"**{p['title']}**\nProposal #{p['id']}",
         fields,
-        "DBL LEAGUE VOTING • DISCUSSION ONLY",
+        "PSBL LEAGUE VOTING • DISCUSSION ONLY",
     )
 
 
@@ -152,8 +152,8 @@ def vote_open(v: dict[str, Any], kind: Kind, threshold: str, options: list[str],
         fields.append(("EFFECTIVE", f"{v['effective']} • must pass before that Season's dues deadline (20.4)"))
     if warnings:
         fields.append(("NOTE", "\n".join(warnings)))
-    return _embed("OFFICIAL DBL VOTE", f"**{v['title']}**\n{kind.label} • Vote #{v['id']}", fields,
-                  "DBL LEAGUE VOTING • OFFICIAL")
+    return _embed("OFFICIAL PSBL VOTE", f"**{v['title']}**\n{kind.label} • Vote #{v['id']}", fields,
+                  "PSBL LEAGUE VOTING • OFFICIAL")
 
 
 def result(v: dict[str, Any], kind: Kind, outcome: Outcome, ballots: dict[str, str] | None) -> dict[str, Any]:
@@ -175,7 +175,7 @@ def result(v: dict[str, Any], kind: Kind, outcome: Outcome, ballots: dict[str, s
         fields.append(("BALLOTS", "\n".join(lines) or "None"))
     thumb = STAMP_PASSED if outcome.passed else STAMP_FAILED
     return _embed("VOTE RESULT", f"**{v['title']}**\n{kind.label} • Vote #{v['id']}", fields,
-                  "DBL LEAGUE VOTING • FINAL RESULT", thumbnail=thumb)
+                  "PSBL LEAGUE VOTING • FINAL RESULT", thumbnail=thumb)
 
 
 def reminder(v: dict[str, Any], not_voted: list[str]) -> dict[str, Any]:
@@ -184,7 +184,7 @@ def reminder(v: dict[str, Any], not_voted: list[str]) -> dict[str, Any]:
         f"**{v['title']}** • Vote #{v['id']}",
         [("CLOSES", f"**{stamp(v['closes_at'])}** ({stamp(v['closes_at'], 'R')})"),
          ("NOT VOTED YET", "\n".join(not_voted) or "Everyone has voted.")],
-        "DBL LEAGUE VOTING • REMINDER",
+        "PSBL LEAGUE VOTING • REMINDER",
     )
 
 
@@ -199,5 +199,5 @@ def panel(ruling: str, pool: list[str], excluded: list[str], picks: list[tuple[s
             ("WHEN", stamp(at)),
             ("NEXT", "The Panel decides by majority within 7 days. Its decision is final for this matter (19.4)."),
         ],
-        "DBL COMMISSIONER'S OFFICE • RULINGS LOG",
+        "PSBL COMMISSIONER'S OFFICE • RULINGS LOG",
     )

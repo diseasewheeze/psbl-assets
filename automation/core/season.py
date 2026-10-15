@@ -1,4 +1,4 @@
-"""The DBL season calendar, derived entirely from Fantrax's own week dates.
+"""The PSBL season calendar, derived entirely from Fantrax's own week dates.
 
 Fantrax weeks do not end at midnight. Each week ends when the first MLB game
 of the following Monday starts, and the next week begins at that moment

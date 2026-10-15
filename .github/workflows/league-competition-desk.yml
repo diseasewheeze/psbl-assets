@@ -1,10 +1,10 @@
-name: DBL Competition Desk
-run-name: DBL Competition Desk — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Competition Desk
+run-name: PSBL Competition Desk — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Weekly report: recap (with all-play), weekly awards, power rankings (with the
 # Luck Index), Monthly Awards, bounty claims, standings, playoff race (from
 # week 16), matchup preview (with projected games) and the MLB games grid.
-# Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler starts
+# Timing lives in automation/scheduler/schedule.yaml; the PSBL Scheduler starts
 # this workflow with mode=live at 08:00 and 20:00 ET during the season.
 
 on:
@@ -37,7 +37,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-competition-desk
+  group: psbl-competition-desk
   cancel-in-progress: false
 
 jobs:
@@ -87,5 +87,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(competition): save report state" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/competition/state/competition.json"

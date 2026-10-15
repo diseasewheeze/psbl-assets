@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Build the DBL league history website into site/.
+"""Build the PSBL league history website into site/.
 
 A standalone static site (HTML and CSS, no JavaScript) in the league's 8-bit
 arcade look: every page, image, sprite and font is served from the site's own
 address and nothing points anywhere else. It reads the league archive (the
 automation-state branch's archive/ folder), automation/history/history.yaml,
 automation/league.yaml (history_site) and the Constitution
-(constitution/DBL_Constitution.md, CHANGELOG.md and the PDF), and builds
-cleanly from an empty archive. The DBL History Site workflow publishes the
+(constitution/PSBL_Constitution.md, CHANGELOG.md and the PDF), and builds
+cleanly from an empty archive. The PSBL History Site workflow publishes the
 folder to Cloudflare Pages.
 
 Layout: a scoreboard header with the full menu and a "you are here" marker,
@@ -52,15 +52,15 @@ from history.rivals import HeadToHead, declared_rivals  # noqa: E402
 from history.store import Archive, default_dir  # noqa: E402
 from history.trades import Node, trade_trees  # noqa: E402
 
-CONSTITUTION = ROOT / "constitution" / "DBL_Constitution.md"
+CONSTITUTION = ROOT / "constitution" / "PSBL_Constitution.md"
 CHANGELOG = ROOT / "constitution" / "CHANGELOG.md"
-CONSTITUTION_PDF = ROOT / "constitution" / "DBL_Constitution.pdf"
+CONSTITUTION_PDF = ROOT / "constitution" / "PSBL_Constitution.pdf"
 FONT_DIR = ROOT / "brand" / "fonts"
 KIT = ROOT / "brand" / "kit"
 # (output name, source, width to shrink to)
 IMAGES = [
-    ("favicon.png", KIT / "02_avatars_icons" / "dbl-favicon-256.png", 64),
-    ("apple-touch-icon.png", KIT / "01_logos" / "dbl-b-icon-charcoal-1024.png", 180),
+    ("favicon.png", KIT / "02_avatars_icons" / "psbl-favicon-256.png", 64),
+    ("apple-touch-icon.png", KIT / "01_logos" / "psbl-b-icon-charcoal-1024.png", 180),
 ]
 # served name -> source (subset WOFF files built from the OFL fonts in brand/fonts)
 FONT_FILES = {
@@ -1024,7 +1024,7 @@ class Site:
                 self.versions[name] = version((folder / name).read_bytes())
                 self.logos[p["key"]] = name
         if CONSTITUTION_PDF.exists():
-            self.put_asset("DBL_Constitution.pdf", CONSTITUTION_PDF.read_bytes())
+            self.put_asset("PSBL_Constitution.pdf", CONSTITUTION_PDF.read_bytes())
             self.has_pdf = True
         self.has_card = social_card(folder / "social-card.png")
         if self.has_card:
@@ -1426,7 +1426,7 @@ class Site:
         rival = (f"{esc(p['rival'])} ({esc(p['rival_record'])}, {esc(p['rival_kind'])})" if p.get("rival")
                  else '<span class="muted">To be decided</span>')
         honors = "; ".join(f"{label} {', '.join(map(str, years))}" for label, years in p["awards"].items()
-                            if label not in ("DBL Champion", "Presidents' Trophy"))
+                            if label not in ("PSBL Champion", "Presidents' Trophy"))
         facts = [("Lifetime", f"{esc(p['lifetime'])} in {esc(plural(p['games'], 'game'))}"),
                  ("Championships", esc(f"{len(p['titles'])} ({', '.join(map(str, p['titles']))})" if p["titles"] else "None yet")),
                  ("Dynasty Pot", f"{self.coins(p['dynasty_count'], p['titles_to_win'])} {esc(p['dynasty_count'])} of "
@@ -1690,7 +1690,7 @@ class Site:
         articles = sum(1 for _, n, _ in items if n)
         meta = [plural(articles, "article"), plural(amendments, "amendment") if amendments else "No amendments yet"]
         extra = '<ul class="meta">' + "".join(f"<li>{esc(m)}</li>" for m in meta) + "</ul>"
-        pdf = (f'<nav class="pager" aria-label="Download"><a class="btn" href="{self.asset("DBL_Constitution.pdf")}">'
+        pdf = (f'<nav class="pager" aria-label="Download"><a class="btn" href="{self.asset("PSBL_Constitution.pdf")}">'
                f'&#9660; Download PDF</a></nav>' if self.has_pdf else "")
         body = (f'<div class="con">{self.head("The Constitution", "The rules of the " + esc(LEAGUE_NAME) + ", and every change to them.", pager=pdf, extra=extra)}'
                 f'<div class="in"><div class="con-layout"><nav class="toc" aria-label="Contents"><h2>Contents</h2><ol>{links}</ol></nav>'

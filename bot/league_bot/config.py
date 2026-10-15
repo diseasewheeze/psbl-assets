@@ -63,7 +63,7 @@ class BotConfig:
 
     @property
     def book_role_ids(self) -> set[int]:
-        """Roles that play DBL Bucks (book.players in config.yaml)."""
+        """Roles that play PSBL Bucks (book.players in config.yaml)."""
         ids = {"owner": self.owner_role_id, "co_owner": self.co_owner_role_id}
         return {ids[k] for k in self.book_players if ids.get(k)}
 
@@ -190,11 +190,11 @@ def load(path: str | Path) -> BotConfig:
     elif not cfg.pickem_role_ids:
         problems.append("Pick'em has no player roles: set the roles named in pickem.players.")
     if cfg.book_channel_id is None:
-        problems.append("discord.book_channel_id is not set, so DBL Bucks is off.")
+        problems.append("discord.book_channel_id is not set, so PSBL Bucks is off.")
     elif not cfg.book_role_ids:
-        problems.append("DBL Bucks has no player roles: set the roles named in book.players.")
+        problems.append("PSBL Bucks has no player roles: set the roles named in book.players.")
     elif not cfg.sharp_role:
-        problems.append("book.sharp_role is empty, so the DBL Bucks season leader gets no role.")
+        problems.append("book.sharp_role is empty, so the PSBL Bucks season leader gets no role.")
     if cfg.hall_of_champions_channel_id is None:
         problems.append("discord.hall_of_champions_channel_id is not set, so /awards results can't post the winners.")
     if cfg.suggestions_forum_id is None:

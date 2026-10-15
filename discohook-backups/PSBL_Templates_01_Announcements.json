@@ -4,11 +4,11 @@
       "data": {
         "embeds": [
           {
-            "title": "DBL ANNOUNCEMENT",
+            "title": "PSBL ANNOUNCEMENT",
             "description": "`[ANNOUNCEMENT TEXT]`",
             "color": 12398649,
             "footer": {
-              "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
+              "text": "PSBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },
             "fields": [
               {
@@ -18,7 +18,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -32,7 +32,7 @@
             "description": "`[WHAT MANAGERS MUST DO]`",
             "color": 12398649,
             "footer": {
-              "text": "DBL LEAGUE OFFICE • ACTION REQUIRED"
+              "text": "PSBL LEAGUE OFFICE • ACTION REQUIRED"
             },
             "fields": [
               {
@@ -52,7 +52,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -66,7 +66,7 @@
             "description": "`[URGENT NOTICE]`",
             "color": 10697266,
             "footer": {
-              "text": "DBL LEAGUE OFFICE • DEADLINE"
+              "text": "PSBL LEAGUE OFFICE • DEADLINE"
             },
             "fields": [
               {
@@ -86,7 +86,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -96,7 +96,7 @@
       "data": {
         "embeds": [
           {
-            "title": "THE DBL SEASON IS OPEN",
+            "title": "THE PSBL SEASON IS OPEN",
             "description": "`[SEASON]` is officially underway.",
             "color": 12398649,
             "footer": {
@@ -120,7 +120,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -130,11 +130,11 @@
       "data": {
         "embeds": [
           {
-            "title": "DBL SEASON COMPLETE",
+            "title": "PSBL SEASON COMPLETE",
             "description": "`[SEASON, for example 2027]` is officially in the books.",
             "color": 795456,
             "footer": {
-              "text": "DBL RECORDS DEPARTMENT"
+              "text": "PSBL RECORDS DEPARTMENT"
             },
             "fields": [
               {
@@ -174,7 +174,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]
@@ -188,7 +188,7 @@
             "description": "A clerical, Fantrax configuration or platform correction under Section 2.5 of the Constitution.",
             "color": 12398649,
             "footer": {
-              "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
+              "text": "PSBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },
             "fields": [
               {
@@ -213,7 +213,7 @@
               }
             ],
             "image": {
-              "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+              "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
             }
           }
         ]

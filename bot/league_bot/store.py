@@ -1,4 +1,4 @@
-"""SQLite storage for proposals, votes, ballots, Pick'em, DBL Bucks, the Awards Ballot and the audit trail.
+"""SQLite storage for proposals, votes, ballots, Pick'em, PSBL Bucks, the Awards Ballot and the audit trail.
 
 On Railway the database lives on a volume (LEAGUE_DB_PATH, default
 /data/league_bots.db) so votes survive restarts and redeploys.
@@ -334,7 +334,7 @@ class Store:
         row = self.db.execute("SELECT season FROM pickem_weeks ORDER BY posted_at DESC LIMIT 1").fetchone()
         return row["season"] if row else None
 
-    # -- DBL Bucks --------------------------------------------------------
+    # -- PSBL Bucks --------------------------------------------------------
     def add_book_week(self, season: str, period: int, lines: list[dict[str, Any]], *,
                       locks_at: datetime, now: datetime) -> None:
         self.db.execute(

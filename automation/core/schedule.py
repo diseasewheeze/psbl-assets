@@ -49,7 +49,7 @@ def current_season(now: datetime | None = None) -> tuple[str | None, str, dateti
     now = now or datetime.now(timezone.utc)
     try:
         cfg = load_league()
-        info = Fantrax(str(cfg["league_id"]), user_agent="DBL-Scheduler/2.0").league_info()
+        info = Fantrax(str(cfg["league_id"]), user_agent="PSBL-Scheduler/2.0").league_info()
     except Exception as exc:  # network or config problem: do not gate on phase
         return None, f"unknown (could not read Fantrax: {exc})", None
     return season.phase(info, now), season.describe(info, now), season.phase_started_at(info, now)
@@ -92,7 +92,7 @@ def draft_window(now: datetime | None = None) -> datetime | None:
     dc = cfg.get("draft_center") or {}
     offsets = [str(o) for o in (dc.get("countdown") or ["30d"])]
     days = max((int(o[:-1]) for o in offsets if o.endswith("d")), default=30)
-    info = Fantrax(str(cfg["league_id"]), user_agent="DBL-Scheduler/2.0").get("getDraftResults")
+    info = Fantrax(str(cfg["league_id"]), user_agent="PSBL-Scheduler/2.0").get("getDraftResults")
     draft = dr.parse_results(info)
     return dr.window_start(draft, now, timedelta(days=days + 1), timedelta(hours=float(dc.get("linger_hours") or 24)))
 
@@ -119,7 +119,7 @@ def trade_deadline_day(now: datetime | None = None) -> datetime | None:
     now = now or datetime.now(timezone.utc)
     cfg = load_league()
     tz = timezone_of(cfg)
-    info = Fantrax(str(cfg["league_id"]), user_agent="DBL-Scheduler/2.0").league_info()
+    info = Fantrax(str(cfg["league_id"]), user_agent="PSBL-Scheduler/2.0").league_info()
     return deadline_day_window(season.trade_deadline(info, tz), now, tz)
 
 

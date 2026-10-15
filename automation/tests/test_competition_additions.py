@@ -40,7 +40,7 @@ INFO = json.loads((FIXTURES / "league_info_2026_test.json").read_text())
 RAW_SCORES = json.loads((FIXTURES / "matchup_scores_period2_test.json").read_text())["response"]
 RAW_STANDINGS = json.loads((FIXTURES / "standings_week0.json").read_text())
 MLB_INFO = fx.MLB_INFO
-CTX = render.Context("DBL Test League", "2027 TEST", 0xBD3039)
+CTX = render.Context("PSBL Test League", "2027 TEST", 0xBD3039)
 
 
 def et(y: int, mo: int, d: int, h: int = 0, mi: int = 0) -> datetime:
@@ -147,7 +147,7 @@ class PitcherStartTests(unittest.TestCase):
         p = season.period(MLB_INFO, 25)
         body = render.scoreboard(CTX, p, rows, final=True, playoffs=True, start_cap=render.start_cap(p))
         self.assertIn("Pitcher starts: 3 of 14", body["embeds"][0]["fields"][0]["value"])
-        self.assertEqual(body["embeds"][0]["title"], "DBL Playoffs Week 25 Final Scoreboard")
+        self.assertEqual(body["embeds"][0]["title"], "PSBL Playoffs Week 25 Final Scoreboard")
 
     def test_no_categories_no_starts_text(self) -> None:
         rows = [{"away": {"teamId": "a", "teamName": "A", "score": 1.0, "gamesPlayed": 1},
@@ -221,7 +221,7 @@ class PowerRankingTests(unittest.TestCase):
     def test_first_rankings_have_no_change(self) -> None:
         body = render.power_rankings(CTX, 1, weekly.power_rankings({1: W1}), has_previous=False)
         embed = body["embeds"][0]
-        self.assertEqual(embed["title"], "DBL Power Rankings — After Week 1")
+        self.assertEqual(embed["title"], "PSBL Power Rankings — After Week 1")
         self.assertIn("**Change:** —", embed["fields"][0]["value"])
         self.assertIn("50% season points-for", embed["description"])
 
@@ -271,8 +271,8 @@ class AwardTests(unittest.TestCase):
         self.assertEqual(fields["Tough Luck"], "**Team A** — 80.00 pts in a loss to Team C (110.00)")
         self.assertEqual(fields["Lucky Win"], "**Team C** — 110.00 pts in a win over Team A (80.00)")
         self.assertEqual(fields["Biggest Blowout"], "**Team B** 130.00 – Team D 70.00 • 60.00-point margin")
-        self.assertEqual(body["embeds"][0]["title"], "DBL Week 2 Awards")
-        self.assertEqual(body["username"], "DBL Competition Desk")
+        self.assertEqual(body["embeds"][0]["title"], "PSBL Week 2 Awards")
+        self.assertEqual(body["username"], "PSBL Competition Desk")
 
 
 class MlbGridTests(unittest.TestCase):
@@ -300,7 +300,7 @@ class MlbGridTests(unittest.TestCase):
         body = render.games_grid(CTX, self.p3, grid)
         embed = body["embeds"][0]
         fields = {f["name"]: f["value"] for f in embed["fields"]}
-        self.assertEqual(embed["title"], "DBL Week 3 MLB Games Grid")
+        self.assertEqual(embed["title"], "PSBL Week 3 MLB Games Grid")
         self.assertEqual(list(fields), ["7 Games", "6 Games", "5 Games", "Doubleheaders", "Off Days",
                                         "Light Days (20 or fewer teams)", "Heavy Days (30 or more teams)",
                                         "Two-Start Pitchers", "Postponed"])
@@ -373,12 +373,12 @@ class DeskTests(unittest.TestCase):
         self.state_path.write_text(json.dumps({"recap_week": 1, "standings_week": 1, "preview_week": 2}))
         sent = self.live(self.make(2), et(2027, 4, 12, 8))
         self.assertEqual(sent, [
-            ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Week 2 Recap"),
-            ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Week 2 Awards"),
-            ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Power Rankings — After Week 2"),
-            ("LEAGUE_WEBHOOK_STANDINGS", "DBL League Standings — After Week 2"),
-            ("LEAGUE_WEBHOOK_SCOREBOARD", "DBL Week 3 Matchup Preview"),
-            ("LEAGUE_WEBHOOK_SCOREBOARD", "DBL Week 3 MLB Games Grid"),
+            ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Week 2 Recap"),
+            ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Week 2 Awards"),
+            ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Power Rankings — After Week 2"),
+            ("LEAGUE_WEBHOOK_STANDINGS", "PSBL League Standings — After Week 2"),
+            ("LEAGUE_WEBHOOK_SCOREBOARD", "PSBL Week 3 Matchup Preview"),
+            ("LEAGUE_WEBHOOK_SCOREBOARD", "PSBL Week 3 MLB Games Grid"),
         ])
         state = json.loads(self.state_path.read_text())
         self.assertEqual((state["awards_week"], state["rankings_week"], state["games_week"]), (2, 2, 3))
@@ -427,8 +427,8 @@ class DeskTests(unittest.TestCase):
                 redirect_stdout(io.StringIO()):
             self.assertEqual(desk.run("test", ["awards", "rankings", "games"], 3, False,
                                       desk=self.make(3, test=True)), 0)
-        self.assertEqual(sent, ["[TEST] DBL Week 3 Awards", "[TEST] DBL Power Rankings — After Week 3",
-                                "[TEST] DBL Week 3 MLB Games Grid"])
+        self.assertEqual(sent, ["[TEST] PSBL Week 3 Awards", "[TEST] PSBL Power Rankings — After Week 3",
+                                "[TEST] PSBL Week 3 MLB Games Grid"])
         self.assertFalse(self.state_path.exists())
 
     def test_week_without_regular_season_games_is_skipped(self) -> None:

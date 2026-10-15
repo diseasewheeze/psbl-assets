@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Rename the league everywhere: display name, short name, file prefixes, repository.
 
-The repository starts with a placeholder identity: "Dynasty Baseball League",
-short name "DBL", file prefix "dbl", repository "dbl-assets". Secrets, workflow
+The league's current identity: "Pitch Slapped Baseball League", short name
+"PSBL", file prefix "psbl", repository "psbl-assets". Secrets, workflow
 files and Python packages use generic names (LEAGUE_*, league-*, core,
 league_bot), so they never change.
 
@@ -37,10 +37,10 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OLD_NAME = "Dynasty Baseball League"
-OLD_SHORT = "DBL"
-OLD_PREFIX = "dbl"
-OLD_REPO = "dbl-assets"
+OLD_NAME = "Pitch Slapped Baseball League"
+OLD_SHORT = "PSBL"
+OLD_PREFIX = "psbl"
+OLD_REPO = "psbl-assets"
 SKIP_DIRS = {".git", "__pycache__", "site", "archive", "build"}
 TEXT_EXT = {".py", ".md", ".yml", ".yaml", ".json", ".txt", ".html", ".css", ".js", ".jsx",
             ".jsxinc", ".toml", ".sh", ".svg", ".otio", ".csv", ".xml", ""}

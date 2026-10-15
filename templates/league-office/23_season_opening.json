@@ -1,7 +1,7 @@
 {
   "embeds": [
     {
-      "title": "THE DBL SEASON IS OPEN",
+      "title": "THE PSBL SEASON IS OPEN",
       "description": "`[SEASON]` is officially underway.",
       "color": 12398649,
       "footer": {
@@ -25,7 +25,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

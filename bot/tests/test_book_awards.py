@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline tests for DBL Bucks (/book) and the annual Awards Ballot (/awards).
+"""Offline tests for PSBL Bucks (/book) and the annual Awards Ballot (/awards).
 
 The pure logic runs everywhere. The Discord flows at the bottom (lines posted,
 bets placed and refused, Weeks settled, the Sharp role, ballots cast, closed
@@ -67,7 +67,7 @@ def line(spread: float = -6.5, away: str = "a", home: str = "h") -> book.Line:
     return book.Line(f"{away}@{home}", away, away.upper(), home, home.upper(), spread)
 
 
-# ============================================================== DBL Bucks
+# ============================================================== PSBL Bucks
 class LineMathTests(unittest.TestCase):
     def test_round_to_the_nearest_half_point(self) -> None:
         cases = {2.25: 2.5, 2.2: 2.0, 2.74: 2.5, 2.75: 3.0, 12.26: 12.5, -2.25: -2.5, -2.2: -2.0, 0.2: 0.0, -0.2: 0.0,
@@ -604,8 +604,8 @@ class AwardsTimingTests(unittest.TestCase):
         self.assertEqual(awards.open_problems("offseason", 2027), [])
         self.assertEqual(awards.open_problems("preseason", 2027), [])  # next Season's league already renewed
         self.assertEqual(awards.open_problems(None, 2027), [])         # Fantrax down: the Commissioner decides
-        self.assertIn("after the DBL Championship", awards.open_problems("playoffs", 2027)[0])
-        self.assertIn("after the DBL Championship", awards.open_problems("regular", 2027)[0])
+        self.assertIn("after the PSBL Championship", awards.open_problems("playoffs", 2027)[0])
+        self.assertIn("after the PSBL Championship", awards.open_problems("regular", 2027)[0])
         self.assertTrue(awards.open_problems("offseason", 27))
         self.assertEqual(season.phase(INFO, datetime(2027, 6, 1, tzinfo=UTC)), "offseason")
 
@@ -674,7 +674,7 @@ class AwardsExportTests(unittest.TestCase):
             merged = awards.write_export(path, second, now + timedelta(days=365))
             on_disk = json.loads(path.read_text(encoding="utf-8"))
             self.assertEqual(on_disk, merged)
-            self.assertEqual(on_disk["format"], "dbl-awards/1")
+            self.assertEqual(on_disk["format"], "psbl-awards/1")
             self.assertEqual(list(on_disk["seasons"]), ["2027", "2028"])
             self.assertFalse(any(p.name.endswith(".tmp") for p in path.parent.iterdir()))
             path.write_text("not json", encoding="utf-8")  # a damaged file is replaced, not fatal
@@ -714,7 +714,7 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual((cfg.book_players, cfg.sharp_role, cfg.awards_ballot_days, cfg.awards_export_path),
                          (("owner",), "💸 Sharp", 7, None))
         problems = "\n".join(cfg.problems)
-        self.assertIn("discord.book_channel_id is not set, so DBL Bucks is off.", problems)
+        self.assertIn("discord.book_channel_id is not set, so PSBL Bucks is off.", problems)
         self.assertIn("hall_of_champions_channel_id is not set", problems)
 
     def test_validation(self) -> None:
@@ -945,7 +945,7 @@ class DiscordFlowTests(unittest.TestCase):
                 clock[0] = season.final_at(week1, NY)                            # final: settle and post Week 2
                 await bot.book_tick(clock[0])
                 titles = [as_dict(m.kw["embed"])["title"] for m in channels[BOOK_CH].sent if "embed" in m.kw]
-                self.assertEqual(titles[-2:], ["DBL BUCKS — WEEK 1 SETTLED", "DBL BUCKS — WEEK 2 LINES"])
+                self.assertEqual(titles[-2:], ["PSBL BUCKS — WEEK 1 SETTLED", "PSBL BUCKS — WEEK 2 LINES"])
                 settled = json.dumps(as_dict(channels[BOOK_CH].sent[-2].kw["embed"]), ensure_ascii=False)
                 self.assertIn("<@7> +60 (1-0-0)", settled)
                 self.assertIn("<@8> -100 (0-1-0)", settled)
@@ -1022,8 +1022,8 @@ class DiscordFlowTests(unittest.TestCase):
                 self.assertEqual(bot.store.book_champions(key), [7])
                 await bot.book_tick(clock[0] + timedelta(minutes=45))            # and then nothing more happens
                 titles = [as_dict(m.kw["embed"])["title"] for m in book_channel.sent if "embed" in m.kw]
-                self.assertEqual(titles, ["DBL BUCKS — WEEK 1 LINES", "DBL BUCKS — WEEK 1 SETTLED",
-                                          "DBL BUCKS — SEASON CHAMPION"])  # each posted once
+                self.assertEqual(titles, ["PSBL BUCKS — WEEK 1 LINES", "PSBL BUCKS — WEEK 1 SETTLED",
+                                          "PSBL BUCKS — SEASON CHAMPION"])  # each posted once
                 self.assertIn("<@7> +60 (1-0-0)", json.dumps(as_dict(book_channel.sent[1].kw["embed"]), ensure_ascii=False))
                 self.assertEqual([m.id for m in sharp.members], [7])
                 board, weeks = bot.book_board(key)
@@ -1053,7 +1053,7 @@ class DiscordFlowTests(unittest.TestCase):
                                       waivers="Franchise 3: Konnor Griffin", deadline="2027-06-05")
                 self.assertIn("Awards Ballot is open", i.followup.sent[-1][0])
                 post = channels[VOTING_CH].sent[-1]
-                self.assertEqual(as_dict(post.kw["embed"])["title"], "DBL AWARDS NIGHT")
+                self.assertEqual(as_dict(post.kw["embed"])["title"], "PSBL AWARDS NIGHT")
                 self.assertTrue(post.kw["view"].is_persistent())
                 row = bot.store.awards_season(2027)
                 nominees = awards.nominees_from_json(row["nominees"])
@@ -1114,7 +1114,7 @@ class DiscordFlowTests(unittest.TestCase):
                 i = FakeInteraction(commish)
                 await results.callback(i)
                 hall = as_dict(channels[HALL_CH].sent[-1].kw["embed"])
-                self.assertEqual(hall["title"], "DBL AWARDS NIGHT: THE WINNERS")
+                self.assertEqual(hall["title"], "PSBL AWARDS NIGHT: THE WINNERS")
                 self.assertIn("**Franchise 4** • 8 points, 1 first-place vote", json.dumps(hall, ensure_ascii=False))
                 self.assertIn("2 of 12 franchises returned a ballot", hall["description"])
                 export = json.loads(Path(bot.cfg.awards_export_path).read_text(encoding="utf-8"))

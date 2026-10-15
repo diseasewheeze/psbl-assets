@@ -18,7 +18,7 @@ var DATA = {
         { label: "PRESIDENTS' TROPHY", prize: "$200", team: "TEAM A" },
         { label: "THIRD PLACE", prize: "$150", team: "TEAM D" },
         { label: "RUNNER-UP", prize: "$350", team: "TEAM C" },
-        { label: "DBL CHAMPION", prize: "$650 AND A BANNER", team: "TEAM B" }
+        { label: "PSBL CHAMPION", prize: "$650 AND A BANNER", team: "TEAM B" }
     ],
     awards: [
         { include: true, name: "BUST OF THE YEAR", about: "THE SEASON'S BIGGEST LETDOWN", shared: false,
@@ -41,8 +41,8 @@ var DATA = {
     ]
 };
 
-DBL.run("10 Awards Night", function () {
-    var B = DBL, D = DATA, folder = B.folder("Awards Night");
+PSBL.run("10 Awards Night", function () {
+    var B = PSBL, D = DATA, folder = B.folder("Awards Night");
 
     // ---- title
     var c = B.comp(folder, "Awards Night - Title", 8);
@@ -58,7 +58,7 @@ DBL.run("10 Awards Night", function () {
 
     // ---- the season's honors
     for (var i = 0; i < D.honors.length; i++) {
-        var h = D.honors[i], champ = h.label === "DBL CHAMPION";
+        var h = D.honors[i], champ = h.label === "PSBL CHAMPION";
         var hc = B.comp(folder, "Honor - " + h.label, 8);
         B.background(hc, champ ? "arena" : "dots");
         B.awardCard(hc, 0, 8, h.label, h.team, h.prize, { y: champ ? 360 : 300, k: champ ? 14 : 12 });

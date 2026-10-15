@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL automation health monitor.
+"""PSBL automation health monitor.
 
 Checks scheduled production workflows for failures and missed schedules, inspects
 The Wire logs for delivery problems, flood-guard activity, and persistent source
@@ -35,8 +35,8 @@ from core.schedule import condition_started_at, current_season, job_active, load
 CONFIG_PATH = ROOT / "health_config.yaml"
 STATE_PATH = ROOT / "state" / "health.json"
 AVATAR = (
-    "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/"
-    "discord/webhooks/avatar/dbl-webhook-avatar-512.png?v=8bit-1"
+    "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/"
+    "discord/webhooks/avatar/psbl-webhook-avatar-512.png?v=8bit-1"
 )
 
 BAD_CONCLUSIONS = {
@@ -96,7 +96,7 @@ def github_headers(token: str) -> dict[str, str]:
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
-        "User-Agent": "DBL-Automation-Health/1.0",
+        "User-Agent": "PSBL-Automation-Health/1.0",
     }
 
 
@@ -107,10 +107,10 @@ def api_get(session: requests.Session, api_base: str, path: str, **params: Any) 
 
 
 def is_automatic_live_run(row: dict[str, Any]) -> bool:
-    """True for production runs: GitHub cron runs or DBL Scheduler live dispatches.
+    """True for production runs: GitHub cron runs or PSBL Scheduler live dispatches.
 
-    The DBL Scheduler starts workflows through workflow_dispatch with
-    mode=live, and every DBL workflow's run-name ends in "— <mode>". Manual
+    The PSBL Scheduler starts workflows through workflow_dispatch with
+    mode=live, and every PSBL workflow's run-name ends in "— <mode>". Manual
     preview/test/shadow runs are therefore excluded without reading logs.
     """
     if row.get("event") == "schedule":
@@ -199,7 +199,7 @@ def inspect_wire_logs(
     except Exception as exc:
         key, value = issue(
             "wire-log-read",
-            "DBL Wire Engine",
+            "PSBL Wire Engine",
             "Health monitor could not inspect the latest Wire log",
             str(exc),
             latest_url,
@@ -210,7 +210,7 @@ def inspect_wire_logs(
     if "DELIVERY ERROR" in latest_log or "NOT POSTED" in latest_log:
         key, value = issue(
             "wire-delivery",
-            "DBL Wire Engine",
+            "PSBL Wire Engine",
             "Discord delivery problem detected",
             "The latest Wire run logged DELIVERY ERROR or NOT POSTED.",
             latest_url,
@@ -220,7 +220,7 @@ def inspect_wire_logs(
     if "RATE-GUARD SUPPRESSED" in latest_log:
         key, value = issue(
             "wire-rate-guard",
-            "DBL Wire Engine",
+            "PSBL Wire Engine",
             "Wire roundup overflowed",
             "The latest Wire run had more overflow stories than fit in a roundup post, so some were not shown. Review the feed burst; a parser change can expose a large backlog.",
             latest_url,
@@ -254,7 +254,7 @@ def inspect_wire_logs(
         detail = errors_per_run[0].get(source, "Repeated source fetch error")
         key, value = issue(
             f"wire-source:{source.lower()}",
-            "DBL Wire Engine",
+            "PSBL Wire Engine",
             f"Persistent source failure: {source}",
             f"The source failed in {threshold} consecutive Wire runs. Latest error: {detail}",
             latest_url,
@@ -586,12 +586,12 @@ def discord_payload(
     test: bool = False,
 ) -> dict[str, Any]:
     settings = cfg.get("settings") or {}
-    username = str(settings.get("username") or "DBL Systems Desk")
+    username = str(settings.get("username") or "PSBL Systems Desk")
 
     if test:
-        title = "[TEST] DBL Automation Health"
+        title = "[TEST] PSBL Automation Health"
         description = (
-            "Controlled webhook test for the private DBL automation-health feed. "
+            "Controlled webhook test for the private PSBL automation-health feed. "
             "No health state is changed by this test."
         )
         color = int(str(settings.get("test_color", "0x0C2340")), 0)
@@ -627,11 +627,11 @@ def discord_payload(
             )
 
         if new_issues:
-            title = "DBL Automation Alert"
+            title = "PSBL Automation Alert"
             description = "The automation monitor detected a new production issue."
             color = int(str(settings.get("alert_color", "0xC73E3A")), 0)
         else:
-            title = "DBL Automation Recovery"
+            title = "PSBL Automation Recovery"
             description = "Previously reported automation issue(s) have cleared."
             color = int(str(settings.get("recovery_color", "0x2E7D32")), 0)
 

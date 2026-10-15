@@ -36,7 +36,7 @@ from .shared import picktrades
 from core import mlb_people as mp  # noqa: E402  (path set up by .shared)
 from core import season  # noqa: E402
 
-FOOTER = "DBL LEAGUE BOT • TRADE CHECK"
+FOOTER = "PSBL LEAGUE BOT • TRADE CHECK"
 # The deadline Week is the last regular Week minus 2 (Week 20 of 22), as in
 # automation/commissioner/tasks.yaml (trade_deadline_weeks_before_end).
 DEADLINE_WEEKS_BEFORE_END = 2

@@ -30,7 +30,7 @@ from history.store import Archive  # noqa: E402
 
 NOW = datetime(2026, 10, 22, 12, tzinfo=timezone.utc)
 SECTION_PAGES = [f"{key}/index.html" for key, _ in build_site.SECTIONS]
-OWN_SITE = "https://dbl-history.pages.dev"
+OWN_SITE = "https://psbl-history.pages.dev"
 
 
 def read(out: Path) -> dict[str, str]:
@@ -49,7 +49,7 @@ class SiteTests(unittest.TestCase):
         pages = build_site.build(archive, self.out, records=records, league=league or {"rivals": []}, now=NOW)
         for page in ["index.html", *SECTION_PAGES, "404.html"]:
             self.assertIn(page, pages)
-        for asset in ("site.css", "favicon.png", "apple-touch-icon.png", "social-card.png", "DBL_Constitution.pdf",
+        for asset in ("site.css", "favicon.png", "apple-touch-icon.png", "social-card.png", "PSBL_Constitution.pdf",
                       "fonts/jersey10.woff", "fonts/silkscreen.woff", "fonts/pixelifysans.woff",
                       "sprites/b.svg", "sprites/jersey.svg", "sprites/resurfacer.svg"):
             self.assertTrue((self.out / "assets" / asset).is_file(), asset)
@@ -100,7 +100,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('<span class="art-no">Article XX</span>', con)                 # pixel article headings
         self.assertIn('<strong class="sec-no">1.1</strong>', con)                      # section number chips
         self.assertIn('<div class="qr"><ul>', con)                                     # the Quick Reference panel
-        self.assertIn('href="/assets/DBL_Constitution.pdf?v=', con)
+        self.assertIn('href="/assets/PSBL_Constitution.pdf?v=', con)
         self.assertIn('<span class="zam"></span>', home)                               # the ice resurfacer on the rink
         css = (self.out / "assets" / "site.css").read_text()
         self.assertIn(":has(#article-i-league-identity-and-purpose:target)", css)
@@ -155,7 +155,7 @@ class SiteTests(unittest.TestCase):
             "steal": {"name": "Test Player13 (C, EDM)", "round": 2, "in_round": 3, "overall": 7, "franchise": "North Stars",
                       "value": 300.0, "gp": 100, "points": 60, "rank": 1}, "miss": None, "pickup": None, "development": None})
         records = Records(th.HISTORY)
-        pages = self.build(root, records, {"rivals": [["north", "west"]], "history_site": {"url": "https://dbl-history.pages.dev"}})
+        pages = self.build(root, records, {"rivals": [["north", "west"]], "history_site": {"url": "https://psbl-history.pages.dev"}})
         self.standalone_checks(pages)
         home = pages["index.html"]
         self.assertIn("$435", home)
@@ -171,12 +171,12 @@ class SiteTests(unittest.TestCase):
         self.assertIn("/assets/logos/north.png?v=", north)
         self.assertIn("Presidents&#x27; Trophy", pages["franchises/south/index.html"])
         self.assertIn("Championships</dt><dd>2 (2027, 2028)", north)
-        self.assertIn('<link rel="canonical" href="https://dbl-history.pages.dev/franchises/north/">', north)
-        self.assertIn('content="https://dbl-history.pages.dev/assets/social-card.png"', north)
+        self.assertIn('<link rel="canonical" href="https://psbl-history.pages.dev/franchises/north/">', north)
+        self.assertIn('content="https://psbl-history.pages.dev/assets/social-card.png"', north)
         sitemap = (self.out / "sitemap.xml").read_text()
-        self.assertIn("<loc>https://dbl-history.pages.dev/seasons/2027/</loc>", sitemap)
+        self.assertIn("<loc>https://psbl-history.pages.dev/seasons/2027/</loc>", sitemap)
         self.assertNotIn("404", sitemap)
-        self.assertIn("Sitemap: https://dbl-history.pages.dev/sitemap.xml", (self.out / "robots.txt").read_text())
+        self.assertIn("Sitemap: https://psbl-history.pages.dev/sitemap.xml", (self.out / "robots.txt").read_text())
         css = (self.out / "assets" / "site.css").read_text()
         self.assertIn(".f-north{--fc:#1D4E89;--fc2:#F4EFE4;--fc-ink:#F4EFE4}", css)
         jersey = (self.out / "assets" / "sprites" / "jersey-north.svg").read_text()   # team colors live on the jersey
@@ -187,10 +187,10 @@ class SiteTests(unittest.TestCase):
         self.assertIn('class="bracket', pages["seasons/2027/index.html"])
 
     def test_site_address_must_be_a_plain_https_domain(self) -> None:
-        for bad in ("http://dbl-history.pages.dev", "https://dbl-history.pages.dev/history", "dbl-history.pages.dev"):
+        for bad in ("http://psbl-history.pages.dev", "https://psbl-history.pages.dev/history", "psbl-history.pages.dev"):
             with self.assertRaises(ValueError, msg=bad):
                 build_site.site_url({"history_site": {"url": bad}})
-        self.assertEqual(build_site.site_url({"history_site": {"url": "https://www.dbl-history.pages.dev/"}}), "https://www.dbl-history.pages.dev")
+        self.assertEqual(build_site.site_url({"history_site": {"url": "https://www.psbl-history.pages.dev/"}}), "https://www.psbl-history.pages.dev")
         self.assertEqual(build_site.site_url({}), "")
 
     def test_text_is_escaped(self) -> None:
@@ -235,7 +235,7 @@ class ConstitutionChangelogTests(unittest.TestCase):
         for name, data in bc.build_discord():
             committed = (REPO / "templates" / "constitution" / name).read_text(encoding="utf-8")
             self.assertEqual(json.dumps(data, indent=2, ensure_ascii=False) + "\n", committed, name)
-        self.assertEqual(bc.build_markdown(), (REPO / "constitution" / "DBL_Constitution.md").read_text(encoding="utf-8"))
+        self.assertEqual(bc.build_markdown(), (REPO / "constitution" / "PSBL_Constitution.md").read_text(encoding="utf-8"))
 
     def test_committed_changelog_is_current(self) -> None:
         self.assertEqual(bc.build_changelog(cs.AMENDMENTS), (REPO / "constitution" / "CHANGELOG.md").read_text(encoding="utf-8"))

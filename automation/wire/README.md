@@ -1,10 +1,10 @@
 # The Wire
 
 ## Goal
-A reliable, low-noise MLB news pipeline for the Dynasty Baseball League Discord server.
+A reliable, low-noise MLB news pipeline for the Pitch Slapped Baseball League Discord server.
 
 ## How it runs
-The DBL Scheduler starts the Wire every 15 minutes in **live** mode (`automation/scheduler/schedule.yaml`). Manual runs from the Actions tab default to **shadow** mode, which never posts.
+The PSBL Scheduler starts the Wire every 15 minutes in **live** mode (`automation/scheduler/schedule.yaml`). Manual runs from the Actions tab default to **shadow** mode, which never posts.
 
 Safeguards:
 - persistent dedupe for 30 days (at most 5,000 remembered stories)
@@ -34,7 +34,7 @@ Disabled until a shadow run shows they work: ESPN MLB (empty on 2026-10-15), r/b
 Details and the check dates are in `sources.yaml` and `source-matrix.md`.
 
 ## Transactions come from MLB's own log
-`wire.py` reads `https://statsapi.mlb.com/api/v1/transactions` (today and yesterday, league time) through `automation/core/mlb_people.py`. Injured-list moves and rehab assignments post to `🏥│injury-report`; roster moves post to `🔄│mlb-transactions`. A trade is one post naming every player in it. A minor-league contract, or a plain "signed" record (after the MLB Draft these are mostly draft picks), posts only when the player is on a DBL roster. Status changes that aren't injured-list moves are left out.
+`wire.py` reads `https://statsapi.mlb.com/api/v1/transactions` (today and yesterday, league time) through `automation/core/mlb_people.py`. Injured-list moves and rehab assignments post to `🏥│injury-report`; roster moves post to `🔄│mlb-transactions`. A trade is one post naming every player in it. A minor-league contract, or a plain "signed" record (after the MLB Draft these are mostly draft picks), posts only when the player is on a PSBL roster. Status changes that aren't injured-list moves are left out.
 
 Because the official log is the one source for `🔄│mlb-transactions`, other outlets' transaction headlines are recorded but not posted (`PRIMARY-SOURCE SKIP` in the log), so a move is announced once. An outlet's injury story about a player the log has just placed on the injured list is skipped too, unless it reports something worse (surgery, a longer absence).
 
@@ -51,8 +51,8 @@ Transaction headlines are recognized by action words ("traded", "signs", "design
 ## Breaking-news standard
 Hard to trigger on purpose: a season-ending or months-long injury (including Tommy John surgery), a major suspension, a retirement, a manager or GM firing, or a trade the headline itself calls a blockbuster, from an official or Tier 1 source. Routine signings, call-ups, short injuries, lineups, rumors, analysis and recaps never go there.
 
-## DBL roster tags
-Stories about a player on a DBL roster show which DBL team owns him (`roster.py`):
+## PSBL roster tags
+Stories about a player on a PSBL roster show which PSBL team owns him (`roster.py`):
 - MLB transaction records carry the player's MLB club(s) and position, which separate players who share a name (two Will Smiths, several Luis Garcias). A traded player matches either club in the move.
 - Headlines are scanned for full names of rostered players; a name any other MLB player shares is not tagged from a headline alone.
 - Anything ambiguous is left untagged: a missing tag is better than a wrong one.
@@ -70,4 +70,4 @@ Discord webhook URLs are credentials and live only in GitHub Actions Secrets:
 - `LEAGUE_WEBHOOK_MEDIA`
 
 ## Maintenance
-GitHub's built-in cron is best-effort, so the Wire is started by the DBL Scheduler, driven by an external timer (`automation/scheduler/README.md`). Automation Health alerts if the Wire has not had a live run in 60 minutes. GitHub may disable scheduled workflows in a public repository after long inactivity, so check the Actions tab in the offseason.
+GitHub's built-in cron is best-effort, so the Wire is started by the PSBL Scheduler, driven by an external timer (`automation/scheduler/README.md`). Automation Health alerts if the Wire has not had a live run in 60 minutes. GitHub may disable scheduled workflows in a public repository after long inactivity, so check the Actions tab in the offseason.

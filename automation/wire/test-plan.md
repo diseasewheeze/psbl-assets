@@ -6,7 +6,7 @@
 ## Before enabling a new source
 1. Load the feed by hand and confirm it has current items.
 2. Add it to `sources.yaml` with `baseline_first: true`.
-3. Run DBL Wire Engine manually in `shadow` mode (add `include_discovery` for a discovery source) and read the routing in the log.
+3. Run PSBL Wire Engine manually in `shadow` mode (add `include_discovery` for a discovery source) and read the routing in the log.
 4. Enable it. Its first live run only records what is already there.
 
 ## Routing examples

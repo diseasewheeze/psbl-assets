@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline tests for the DBL League Bot's league commands.
+"""Offline tests for the PSBL League Bot's league commands.
 
 Everything runs from the Fantrax samples in automation/tests/fixtures and
 fake MLB, Fantrax and League Ledger sources; nothing touches the network.
@@ -107,11 +107,11 @@ def named_players() -> dict:
 EVENTS = {
     "settings": {"timezone": "America/New_York", "default_channel": "league-calendar"},
     "events": [
-        {"id": "dues-deadline", "enabled": True, "title": "DBL Dues Deadline", "starts_at": "2027-06-30T23:59:00",
+        {"id": "dues-deadline", "enabled": True, "title": "PSBL Dues Deadline", "starts_at": "2027-06-30T23:59:00",
          "channel": "league-calendar", "description": "League dues must be paid by this deadline."},
-        {"id": "opening-night", "enabled": True, "title": "DBL Opening Night", "starts_at": "2027-10-07T19:00:00"},
-        {"id": "trade-deadline", "enabled": True, "title": "DBL Trade Deadline", "starts_at": "2027-02-21T23:59:59"},
-        {"id": "playoffs-begin", "enabled": True, "title": "DBL Playoffs Begin", "starts_at": "2027-03-08T19:00:00"},
+        {"id": "opening-night", "enabled": True, "title": "PSBL Opening Night", "starts_at": "2027-10-07T19:00:00"},
+        {"id": "trade-deadline", "enabled": True, "title": "PSBL Trade Deadline", "starts_at": "2027-02-21T23:59:59"},
+        {"id": "playoffs-begin", "enabled": True, "title": "PSBL Playoffs Begin", "starts_at": "2027-03-08T19:00:00"},
         {"id": "past", "enabled": True, "title": "Already happened", "starts_at": "2026-01-01T12:00:00"},
         {"id": "off", "enabled": False, "title": "Disabled", "starts_at": "2026-12-01T12:00:00"},
         {"id": "undated", "enabled": True, "title": "No date", "starts_at": None},
@@ -384,7 +384,7 @@ class MinorLookupTests(unittest.TestCase):
     def test_prospect_without_mlb_time_is_eligible(self) -> None:
         e, msg = minor.lookup(self.mlb, "Logan Reddemann", None)
         self.assertIsNone(msg)
-        self.assertIn("**DBL minor-eligible: YES**", e["description"])
+        self.assertIn("**PSBL minor-eligible: YES**", e["description"])
         self.assertIn("COL, ACL Rockies", e["description"])
         self.assertIn("no MLB debut yet", e["description"])
         text = json.dumps(e)
@@ -394,14 +394,14 @@ class MinorLookupTests(unittest.TestCase):
 
     def test_over_the_at_bat_limit(self) -> None:
         e, _ = minor.lookup(self.mlb, "Konnor Griffin", None)
-        self.assertIn("**DBL minor-eligible: NO**", e["description"])
+        self.assertIn("**PSBL minor-eligible: NO**", e["description"])
         self.assertIn(f"312 career MLB at-bats (limit {AB})", json.dumps(e))
         self.assertIn("WHY NOT", json.dumps(e))
 
     def test_at_bats_faced_as_a_pitcher_do_not_count(self) -> None:
         e, _ = minor.lookup(self.mlb, "Prospect Pitcher", None)
         text = json.dumps(e)
-        self.assertIn("**DBL minor-eligible: YES**", e["description"])
+        self.assertIn("**PSBL minor-eligible: YES**", e["description"])
         self.assertIn(f"**0** of {AB}", text)
         self.assertIn(f"Within {mp.innings_text(3)} innings of a limit", text)
 
@@ -418,7 +418,7 @@ class MinorLookupTests(unittest.TestCase):
         self.assertIn("More than one player", msg)
         self.assertIn("team: LAD", msg)
         e, _ = minor.lookup(self.mlb, "Luis Garcia", "LAD")
-        self.assertIn("**DBL minor-eligible: NO**", e["description"])
+        self.assertIn("**PSBL minor-eligible: NO**", e["description"])
 
 
 # ------------------------------------------------------------------- /myteam
@@ -489,7 +489,7 @@ class TeamTests(unittest.TestCase):
         self.assertIn("Fantrax team: **Test**", e["description"])
         for expected in (f"Active {FULL}/{FULL}", f"Reserve 8/{sport.BENCH}", f"Minors 10/{sport.MINORS}",
                          f"IL 0/{sport.INJURED_LIST}", "FAAB: check Fantrax",
-                         "Paid through: Season 2027", "DBL Trade Deadline", "2029 2nd to Test 7", "Week 2 vs"):
+                         "Paid through: Season 2027", "PSBL Trade Deadline", "2029 2nd to Test 7", "Week 2 vs"):
             self.assertIn(expected, text)
         self.assertEqual(e["fields"][-1]["value"].count("<t:"), 4)  # next 2 deadlines, F and R each
         self.assertTrue(embeds.fits([e]))

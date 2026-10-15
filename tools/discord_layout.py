@@ -1,4 +1,4 @@
-"""How DBL Discord messages lay out on every screen.
+"""How PSBL Discord messages lay out on every screen.
 
 Discord wraps text to the width it has, so the same message can look different
 on a wide desktop, on desktop with the member list open, on a tablet and on a

@@ -1,5 +1,5 @@
-name: DBL Scheduler
-run-name: DBL Scheduler — ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'dry-run' || 'live' }}
+name: PSBL Scheduler
+run-name: PSBL Scheduler — ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && 'dry-run' || 'live' }}
 
 # The one place automation timing lives. See automation/scheduler/README.md.
 #
@@ -25,7 +25,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: dbl-scheduler
+  group: psbl-scheduler
   cancel-in-progress: false
 
 jobs:

@@ -1,11 +1,11 @@
-name: DBL History Site
-run-name: DBL History Site — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL History Site
+run-name: PSBL History Site — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Builds the league history website (tools/build_site.py) from main plus the
 # archive on the automation-state branch, and publishes it to Cloudflare Pages
 # as a standalone site: visitors only ever see the site's own address.
 # Timing lives in automation/scheduler/schedule.yaml (daily, after the
-# archive); the DBL Scheduler starts this workflow with mode=live.
+# archive); the PSBL Scheduler starts this workflow with mode=live.
 #
 # One-time setup (README, "History website"): repository secrets
 # CLOUDFLARE_API_TOKEN (permission: Account > Cloudflare Pages > Edit) and
@@ -26,7 +26,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: dbl-history-site
+  group: psbl-history-site
   cancel-in-progress: false
 
 jobs:
@@ -93,7 +93,7 @@ jobs:
             echo "::error::Add the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets first (README, History website)."
             exit 1
           fi
-          PROJECT=$(python -c "import sys; sys.path.insert(0, 'automation'); from core.league import load_league; print((load_league().get('history_site') or {}).get('cloudflare_project') or 'dbl-history')")
+          PROJECT=$(python -c "import sys; sys.path.insert(0, 'automation'); from core.league import load_league; print((load_league().get('history_site') or {}).get('cloudflare_project') or 'psbl-history')")
           echo "Cloudflare Pages project: $PROJECT"
           WRANGLER="npx --yes wrangler@4"
           if ! $WRANGLER pages project list 2>/dev/null | grep -qw "$PROJECT"; then

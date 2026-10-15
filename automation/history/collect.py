@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL League Archive: one daily snapshot that builds the league's permanent history.
+"""PSBL League Archive: one daily snapshot that builds the league's permanent history.
 
 Fantrax's read-only feed has no transaction log, so each run compares today's
 rosters and draft-pick ownership with the last saved snapshot and writes what
@@ -381,7 +381,7 @@ def run(mode: str, *, now: datetime | None = None, fx: Any = None, archive: Arch
     cfg = cfg or load_league()
     tz = timezone_of(cfg)
     now = now or datetime.now(timezone.utc)
-    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="DBL-Archive/1.0")
+    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="PSBL-Archive/1.0")
     archive = archive or Archive()
 
     info = fx.league_info()
@@ -404,7 +404,7 @@ def run(mode: str, *, now: datetime | None = None, fx: Any = None, archive: Arch
         picks = None
 
     label = cfg.get("season_label") or ""
-    print(f"DBL ARCHIVE mode={mode.upper()} season={season} ({label}) teams={len(rosters)} "
+    print(f"PSBL ARCHIVE mode={mode.upper()} season={season} ({label}) teams={len(rosters)} "
           f"rostered={sum(len(r) for r in rosters.values())} picks={len(picks) if picks is not None else 'n/a'}")
 
     since = cal.parse_dt(meta.get("last_snapshot"))

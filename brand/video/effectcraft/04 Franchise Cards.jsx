@@ -27,8 +27,8 @@ var DATA = {
     ]
 };
 
-DBL.run("04 Franchise Cards", function () {
-    var B = DBL, folder = B.folder("Franchise Cards"), cards = [];
+PSBL.run("04 Franchise Cards", function () {
+    var B = PSBL, folder = B.folder("Franchise Cards"), cards = [];
 
     for (var i = 0; i < DATA.franchises.length; i++) {
         var f = DATA.franchises[i];
@@ -64,7 +64,7 @@ DBL.run("04 Franchise Cards", function () {
         var reel = B.comp(folder, "Franchise Cards - All", 4 + cards.length * 8);
         B.background(reel, "charcoal");
         var t = B.text(reel, DATA.reelTitle, { face: "jersey", k: 12, color: "cream", x: 960, y: 420, align: "center", maxW: 1700, shadow: "black" });
-        var s = B.text(reel, "DYNASTY BASEBALL LEAGUE \u2022 EST. 2026", { face: "silk", k: 5, color: "gold", x: 960, y: 600, align: "center" });
+        var s = B.text(reel, "PITCH SLAPPED BASEBALL LEAGUE \u2022 EST. 2026", { face: "silk", k: 5, color: "gold", x: 960, y: 600, align: "center" });
         B.pop(t, 0.3);
         B.blinkIn(s, 0.9);
         B.during(t.concat(s), 0, 4);

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared resilient Discord webhook delivery for DBL automations.
+"""Shared resilient Discord webhook delivery for PSBL automations.
 
 Supports posting a new message and editing a message the same webhook posted
 earlier. Editing lets live views (scoreboard, playoff bracket) stay current in

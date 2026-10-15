@@ -1,4 +1,4 @@
-"""Tiny pixel-art kit for the DBL Discord emoji: a 32 x 32 canvas, shape helpers, an automatic
+"""Tiny pixel-art kit for the PSBL Discord emoji: a 32 x 32 canvas, shape helpers, an automatic
 black keyline, and exporters for 128 x 128 PNG (static) and GIF (animated) emoji.
 
 Colors are one-letter keys (see PAL) or RGB tuples. The league palette is navy, red and white; gold is kept

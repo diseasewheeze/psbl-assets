@@ -171,11 +171,11 @@ class WeeklyReportTests(unittest.TestCase):
 
 
 class RenderTests(unittest.TestCase):
-    ctx = render.Context("DBL Test League", "2027 TEST", 0xBD3039)
+    ctx = render.Context("PSBL Test League", "2027 TEST", 0xBD3039)
 
     def test_final_standings_title(self) -> None:
         body = render.standings(self.ctx, standings_after(22), after_week=22, playoff_cut=6, final=True)
-        self.assertEqual(body["embeds"][0]["title"], "DBL Final Regular-Season Standings")
+        self.assertEqual(body["embeds"][0]["title"], "PSBL Final Regular-Season Standings")
         self.assertIn("Playoff Cut", body["embeds"][0]["fields"][5]["name"])
 
     def test_race_shows_cut_plus_bubble(self) -> None:
@@ -209,7 +209,7 @@ class RenderTests(unittest.TestCase):
 
     def test_competition_desk_identity_and_no_mentions(self) -> None:
         body = render.recap(self.ctx, season.period(INFO, 1), [])
-        self.assertEqual(body["username"], "DBL Competition Desk")
+        self.assertEqual(body["username"], "PSBL Competition Desk")
         self.assertEqual(body["allowed_mentions"], {"parse": []})
 
 

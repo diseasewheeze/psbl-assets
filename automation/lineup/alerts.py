@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL Lineup Alerts: a daily nudge when a starter has no MLB game today.
+"""PSBL Lineup Alerts: a daily nudge when a starter has no MLB game today.
 
 Once a day (about 3:00 PM ET, regular season and playoffs) this checks each
 opted-in owner's Fantrax lineup for today and sends one short message in
@@ -317,7 +317,7 @@ def run(
     secret = str(settings.get("webhook") or DEFAULT_WEBHOOK)
     owners = owner_ids(cfg)
     include_all = all_teams and mode != "live"
-    print(f"DBL LINEUP ALERTS mode={mode.upper()} date={today} opted_in_owners={len(owners)} all_teams={include_all}")
+    print(f"PSBL LINEUP ALERTS mode={mode.upper()} date={today} opted_in_owners={len(owners)} all_teams={include_all}")
 
     if not owners and not include_all:
         print("RESULT: no owners have opted in (league.yaml owners); nothing to check")
@@ -330,7 +330,7 @@ def run(
         print("NOTE    no MLB regular-season games today; nothing to check")
         return 0
 
-    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="DBL-Lineup-Alerts/2.0")
+    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="PSBL-Lineup-Alerts/2.0")
     rosters = fx.rosters()
     players = fx.player_ids()
     print(f"FANTRAX daily lineup period={rosters.get('period')}")

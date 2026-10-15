@@ -1,4 +1,4 @@
-name: DBL Build Discord Assets
+name: PSBL Build Discord Assets
 
 on:
   workflow_dispatch:
@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-build-discord-assets
+  group: psbl-build-discord-assets
   cancel-in-progress: false
 
 jobs:
@@ -50,16 +50,16 @@ jobs:
       - name: Verify required assets and frozen format
         shell: bash
         run: |
-          test -s discord/webhooks/welcome/dbl-welcome-banner.png
-          test -s discord/webhooks/league-office/dbl-constitution-header.png
-          test -s discord/webhooks/league-office/dbl-announcements-header.png
-          test -s discord/webhooks/league-office/dbl-calendar-header.png
-          test -s discord/webhooks/league-office/dbl-ledger-header.png
-          test -s discord/webhooks/league-office/dbl-voting-header.png
-          test -s discord/webhooks/draft-center/dbl-draft-center-header.png
-          test -s discord/webhooks/shared/dbl-generic-header-1600x420.png
-          test -s discord/webhooks/shared/dbl-footer-divider-1600x90.png
-          test -s discord/webhooks/shared/dbl-banner-wordmark.png
+          test -s discord/webhooks/welcome/psbl-welcome-banner.png
+          test -s discord/webhooks/league-office/psbl-constitution-header.png
+          test -s discord/webhooks/league-office/psbl-announcements-header.png
+          test -s discord/webhooks/league-office/psbl-calendar-header.png
+          test -s discord/webhooks/league-office/psbl-ledger-header.png
+          test -s discord/webhooks/league-office/psbl-voting-header.png
+          test -s discord/webhooks/draft-center/psbl-draft-center-header.png
+          test -s discord/webhooks/shared/psbl-generic-header-1600x420.png
+          test -s discord/webhooks/shared/psbl-footer-divider-1600x90.png
+          test -s discord/webhooks/shared/psbl-banner-wordmark.png
 
           python - <<'PY'
           from PIL import Image
@@ -67,13 +67,13 @@ jobs:
           import json
 
           root = Path('.')
-          footer = root / 'discord/webhooks/shared/dbl-footer-divider-1600x90.png'
+          footer = root / 'discord/webhooks/shared/psbl-footer-divider-1600x90.png'
           im = Image.open(footer)
           assert im.mode == 'RGBA', f'footer mode must be RGBA, got {im.mode}'
           alpha = im.getchannel('A')
           assert alpha.getextrema()[0] == 0, 'footer background is not transparent'
 
-          footer_url = 'https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1'
+          footer_url = 'https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1'
           files = sorted((root / 'templates').rglob('*.json'))
           assert files, 'no Discohook JSON templates found'
           # Messages sent back to back (the 📜│constitution channel): only the last
@@ -94,7 +94,7 @@ jobs:
         shell: bash
         run: |
           if git diff --quiet -- \
-            DBL_URL_MAP.txt \
+            PSBL_URL_MAP.txt \
             discord/webhooks \
             templates; then
             echo 'No Discohook asset/template changes to publish.'
@@ -103,7 +103,7 @@ jobs:
 
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add DBL_URL_MAP.txt discord/webhooks templates
+          git add PSBL_URL_MAP.txt discord/webhooks templates
           git commit -m 'assets(discord): publish frozen Phase 2C.6 Discohook format'
 
           for attempt in 1 2 3; do

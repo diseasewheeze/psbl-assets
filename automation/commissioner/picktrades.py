@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL pick-trade alert: tells the commissioner when a draft pick changes owner.
+"""PSBL pick-trade alert: tells the commissioner when a draft pick changes owner.
 
 Constitution Article XII: a franchise may not trade away a future 1st- or
 2nd-round pick unless it is paid through the Season of that pick (12.2, 12.3).
@@ -256,12 +256,12 @@ def build_task(found: list[dict[str, Any]], names: dict[str, str],
 
 def run(mode: str) -> int:
     cfg = load_league()
-    fx = Fantrax(str(cfg["league_id"]), user_agent="DBL-Pick-Trades/1.0")
+    fx = Fantrax(str(cfg["league_id"]), user_agent="PSBL-Pick-Trades/1.0")
     cur = read_picks(fx, cfg)
     names = {r["teamId"]: r["teamName"] for r in normalize_standings(fx.standings())}
     state = load_json(STATE_PATH, {})
     prev = state.get("owners")
-    print(f"DBL PICK TRADES mode={mode.upper()} picks={len(cur)}")
+    print(f"PSBL PICK TRADES mode={mode.upper()} picks={len(cur)}")
     if mode == "preview":
         print("Fantrax team IDs (copy into the ledger's Settings tab):")
         for team_id, team_name in sorted(names.items(), key=lambda kv: kv[1].lower()):

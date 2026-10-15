@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""DBL Probable Pitchers: one live message per game day in ⚾│game-day.
+"""PSBL Probable Pitchers: one live message per game day in ⚾│game-day.
 
 During the regular season and playoffs the scheduler runs this several times
 a day (automation/scheduler/schedule.yaml). The first run of the day (from
 ``post_from``) posts a "Probable Pitchers" message listing every MLB game
 today with both clubs' probable starters as MLB has announced them, or "Not
-announced". Starters on a DBL roster show their DBL team. Later runs edit that
+announced". Starters on a PSBL roster show their PSBL team. Later runs edit that
 same message (edits are silent, nobody is notified) when something changes: a
 late scratch, a doubleheader's second starter named, a postponement. After
 the last game of the day starts, the message is left as it is.
@@ -15,7 +15,7 @@ lineups (9.1). It is information only: Fantrax decides what counts.
 
 Data (all read-only):
   - MLB schedule for today with probable pitchers (automation/core/mlb.py).
-  - Fantrax getTeamRosters + getPlayerIds, for the DBL tags (wire/roster.py
+  - Fantrax getTeamRosters + getPlayerIds, for the PSBL tags (wire/roster.py
     matching by name and club: a name is only tagged when it identifies one
     player). If Fantrax cannot be read, the message posts without tags.
 
@@ -63,14 +63,14 @@ def todays_games(games: list[mlb.Game], day: date) -> list[mlb.Game]:
     return sorted(found, key=lambda g: (g.start or datetime.max.replace(tzinfo=timezone.utc), g.game_number, g.away))
 
 
-# --- DBL rosters ---------------------------------------------------------------
+# --- PSBL rosters ---------------------------------------------------------------
 
 def load_index(fx: Any) -> roster.RosterIndex | None:
     try:
         rosters = fx.rosters()
         players = fx.player_ids()
     except Exception as exc:
-        print(f"ROSTER TAGS WARNING: Fantrax read failed, posting without DBL tags: {exc}")
+        print(f"ROSTER TAGS WARNING: Fantrax read failed, posting without PSBL tags: {exc}")
         return None
     index = roster.build_index(rosters, mlb.normalize_directory(players))
     print(f"ROSTER TAGS: {len(index.rostered_names)} rostered players indexed")
@@ -78,7 +78,7 @@ def load_index(fx: Any) -> roster.RosterIndex | None:
 
 
 def owners(games: list[mlb.Game], index: roster.RosterIndex | None) -> dict[int, str]:
-    """MLB pitcher id -> DBL team, for announced starters on a DBL roster."""
+    """MLB pitcher id -> PSBL team, for announced starters on a PSBL roster."""
     if index is None:
         return {}
     tags: dict[int, str] = {}
@@ -137,7 +137,7 @@ def payload(ctx: render.Context, games: list[mlb.Game], day: date, tags: dict[in
         f"{render._header(ctx)}\n\n"
         f"**{named} of {total} starters announced** • updated <t:{int(now.timestamp())}:R>\n"
         "*Probable starters as MLB has announced them. This message updates until the last game starts. "
-        f"Pitchers on a DBL roster show their DBL team.* Source: [MLB.com]({PAGE_URL.format(day=day.isoformat())})"
+        f"Pitchers on a PSBL roster show their PSBL team.* Source: [MLB.com]({PAGE_URL.format(day=day.isoformat())})"
     )
     title = f"Probable Pitchers — {day.strftime('%A, %B')} {day.day}"
     return render._payload(ctx, title, description, fields[:25], "PROBABLE PITCHERS", source=SOURCE)
@@ -174,7 +174,7 @@ def run(
     day = local.date()
     settings = cfg.get("probable_pitchers") or {}
     secret = str(settings.get("webhook") or DEFAULT_WEBHOOK)
-    print(f"DBL PROBABLE PITCHERS mode={mode.upper()} date={day} local_time={local:%H:%M}")
+    print(f"PSBL PROBABLE PITCHERS mode={mode.upper()} date={day} local_time={local:%H:%M}")
 
     if mode == "live" and local.time() < _post_from(settings):
         print(f"RESULT: before {_post_from(settings):%H:%M}; nothing to post yet")
@@ -195,9 +195,9 @@ def run(
         print("RESULT: every game has started; today's message is final")
         return 0
 
-    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="DBL-Probable-Pitchers/1.0")
+    fx = fx or Fantrax(str(cfg["league_id"]), user_agent="PSBL-Probable-Pitchers/1.0")
     tags = owners(games, load_index(fx))
-    print(f"DBL TAGS starters_on_dbl_rosters={len(tags)}")
+    print(f"PSBL TAGS starters_on_psbl_rosters={len(tags)}")
     try:
         league_name = str(fx.league_info().get("leagueName") or "")
     except Exception:

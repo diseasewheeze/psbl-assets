@@ -1,7 +1,7 @@
 """Discord payloads for the Trade Desk: report card with poll, revisits, deadline-day tracker.
 
 Layouts follow automation/DISCORD_AUTOMATION_STYLE.md: one embed, league and
-season line at the top, vertical fields, no decorative emoji, DBL gold, short
+season line at the top, vertical fields, no decorative emoji, PSBL gold, short
 footer. Text and links only (no images). Every vote and points total is for
 fun: trades are unlimited, never voted on and never reversed because of value
 (Article XI), and nothing here suggests otherwise.
@@ -21,12 +21,12 @@ EVEN = "Even"
 POLL_HOURS = 72
 POLL_ANSWER_MAX = 55         # Discord's limit for a poll answer's text
 POLL_ANSWERS_MAX = 10
-CARD_FOOTER = "DBL TRADE CENTER • JUST FOR FUN: THE VOTE NEVER AFFECTS THE TRADE (ARTICLE XI)"
-REVISIT_FOOTER = "DBL TRADE CENTER • JUST FOR FUN: A TRADE IS NEVER REVERSED BECAUSE OF VALUE (ARTICLE XI)"
-LATE_FOOTER = "DBL TRADE CENTER • AFTER THE TRADE DEADLINE (SECTION 11.6)"
-TRACKER_FOOTER = "DBL LEAGUE OFFICE • LIVE: UPDATED EVERY 15 MINUTES"
-TRACKER_FINAL_FOOTER = "DBL LEAGUE OFFICE • FINAL"
-TRACKER_TITLE = "DBL DEADLINE DAY TRADE CENTER"
+CARD_FOOTER = "PSBL TRADE CENTER • JUST FOR FUN: THE VOTE NEVER AFFECTS THE TRADE (ARTICLE XI)"
+REVISIT_FOOTER = "PSBL TRADE CENTER • JUST FOR FUN: A TRADE IS NEVER REVERSED BECAUSE OF VALUE (ARTICLE XI)"
+LATE_FOOTER = "PSBL TRADE CENTER • AFTER THE TRADE DEADLINE (SECTION 11.6)"
+TRACKER_FOOTER = "PSBL LEAGUE OFFICE • LIVE: UPDATED EVERY 15 MINUTES"
+TRACKER_FINAL_FOOTER = "PSBL LEAGUE OFFICE • FINAL"
+TRACKER_TITLE = "PSBL DEADLINE DAY TRADE CENTER"
 AFTER_DEADLINE = ("That is after the trade deadline, while trading is closed, so the Commissioner reviews it under "
                   "Section 11.6. No poll, and it doesn't count toward this season's trades.")
 AT_DEADLINE = ("Seen in the first check after the trade deadline: the Commissioner checks it was processed in time "
@@ -149,7 +149,7 @@ def report_card(trade: dict[str, Any], cfg: dict[str, Any], *, test: bool = Fals
     fields = [{"name": f"{team_name(trade, t).upper()} RECEIVES", "value": side_text(trade, t), "inline": False}
               for t in trade["teams"]]
     payload: dict[str, Any] = {
-        "username": "DBL Trade Center",
+        "username": "PSBL Trade Center",
         "avatar_url": AVATAR,
         "allowed_mentions": {"parse": []},
         "embeds": [{
@@ -205,8 +205,8 @@ def revisit(trade: dict[str, Any], months: int, sides: dict[str, list[dict[str, 
     description = (f"{header(cfg)}\n"
                    f"The trade between {names}, seen in Fantrax <t:{seen}:D>."
                    + (f" [Original report card]({link})" if link else "") + "\n\n"
-                   f"Fantasy points from MLB regular-season games from {first} through {last}, scored with DBL "
-                   "values. Every game counts, even if a player has since moved to another DBL team.")
+                   f"Fantasy points from MLB regular-season games from {first} through {last}, scored with PSBL "
+                   "values. Every game counts, even if a player has since moved to another PSBL team.")
     fields = []
     for t in trade["teams"]:
         lines = sides.get(t) or []
@@ -234,7 +234,7 @@ def revisit(trade: dict[str, Any], months: int, sides: dict[str, list[dict[str, 
     if tally:
         fields.append({"name": "THE ORIGINAL VOTE", "value": _clip(tally_text(tally)), "inline": False})
     return {
-        "username": "DBL Trade Center",
+        "username": "PSBL Trade Center",
         "avatar_url": AVATAR,
         "allowed_mentions": {"parse": []},
         "embeds": [{
@@ -316,7 +316,7 @@ def tracker(cfg: dict[str, Any], deadline: datetime, trades_today: list[dict[str
             break
         shown -= 1
     return {
-        "username": "DBL League Office",
+        "username": "PSBL League Office",
         "avatar_url": AVATAR,
         "allowed_mentions": {"parse": []},
         "embeds": [embed],

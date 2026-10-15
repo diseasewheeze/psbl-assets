@@ -12,8 +12,8 @@ var DATA = {
     kind: "playoff"
 };
 
-DBL.run("06 Clinched", function () {
-    var B = DBL, D = DATA;
+PSBL.run("06 Clinched", function () {
+    var B = PSBL, D = DATA;
     var KINDS = {
         playoff: ["CLINCHED", "A PLAYOFF SPOT", "stamp-green.png", "green"],
         bye: ["CLINCHED", "A FIRST-ROUND BYE", "stamp-green.png", "green"],
@@ -30,7 +30,7 @@ DBL.run("06 Clinched", function () {
     var stamp = B.image(c, k[2], 960, 600, { center: true });
     var word = B.text(c, k[0], { face: "jersey", k: 12, color: k[3], x: 960, y: 500, align: "center", maxW: 700 });
     var sub = B.text(c, k[1], { face: "silk", k: 5, color: k[3], x: 960, y: 646, align: "center", maxW: 720 });
-    var race = B.text(c, "DBL PLAYOFF RACE", { face: "silk", k: 5, color: "muted", x: 960, y: 900, align: "center" });
+    var race = B.text(c, "PSBL PLAYOFF RACE", { face: "silk", k: 5, color: "muted", x: 960, y: 900, align: "center" });
     B.slideIn(team, 0.05, 0, -300, 4);
     B.pop(stamp.concat(word), 0.45);           // lands on the effect's hit
     B.blinkIn(sub, 0.9);

@@ -1,4 +1,4 @@
-"""Shared DBL Discohook message format (one place for the rules).
+"""Shared PSBL Discohook message format (one place for the rules).
 
 Every send is ONE Discord message:
 - The channel's header banner embed (if it has one), then ONE text embed.
@@ -40,15 +40,15 @@ import discord_channels as channels
 import discord_layout as layout
 import posted_messages as posted
 
-BASE = "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/"
-FOOTER_BASE_URL = BASE + "shared/dbl-footer-divider-1600x90.png"
+BASE = "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/"
+FOOTER_BASE_URL = BASE + "shared/psbl-footer-divider-1600x90.png"
 # Cache-busting version for the hosted artwork. Discord caches images by URL, so bump
 # ASSET_VERSION whenever tools/build_discord_assets.py changes the art, then run
 # tools/normalize_discohook_templates.py.
-ASSET_VERSION = "8bit-1"
+ASSET_VERSION = "8bit-sox-1"
 FOOTER_URL = FOOTER_BASE_URL + "?v=" + ASSET_VERSION
 HEADER_VERSION = "?v=" + ASSET_VERSION
-HEADER_COLOR = int("2B2D31", 16)
+HEADER_COLOR = int("0C2340", 16)
 ZWSP = "\u200b"
 MAX_EMBEDS = 10
 MAX_CHARS = 6000
@@ -111,28 +111,28 @@ def divider_name(title: str) -> str:
 
 # Each category folder has one header image. League Office has one header per channel.
 CATEGORY_HEADERS = {
-    "the-wire": "the-wire/dbl-the-wire-header.png",
-    "league-competition": "league-competition/dbl-competition-header.png",
-    "general-managers": "general-managers/dbl-general-managers-header.png",
-    "trade-center": "trade-center/dbl-trade-center-header.png",
-    "scouting": "scouting/dbl-scouting-header.png",
-    "waiver-wire": "waiver-wire/dbl-waiver-wire-header.png",
-    "commissioners-office": "commissioners-office/dbl-commissioners-office-header.png",
-    "franchise-hq": "franchise-hq/dbl-franchise-hq-header.png",
-    "draft-center": "draft-center/dbl-draft-center-header.png",
+    "the-wire": "the-wire/psbl-the-wire-header.png",
+    "league-competition": "league-competition/psbl-competition-header.png",
+    "general-managers": "general-managers/psbl-general-managers-header.png",
+    "trade-center": "trade-center/psbl-trade-center-header.png",
+    "scouting": "scouting/psbl-scouting-header.png",
+    "waiver-wire": "waiver-wire/psbl-waiver-wire-header.png",
+    "commissioners-office": "commissioners-office/psbl-commissioners-office-header.png",
+    "franchise-hq": "franchise-hq/psbl-franchise-hq-header.png",
+    "draft-center": "draft-center/psbl-draft-center-header.png",
 }
 LEAGUE_OFFICE_HEADERS = {
-    "01_constitution_channel_intro.json": "league-office/dbl-constitution-header.png",
-    "02_announcements_channel_intro.json": "league-office/dbl-announcements-header.png",
-    "03_calendar_channel_intro.json": "league-office/dbl-calendar-header.png",
-    "04_ledger_channel_intro.json": "league-office/dbl-ledger-header.png",
-    "05_voting_channel_intro.json": "league-office/dbl-voting-header.png",
-    "06_hall_of_champions_channel_intro.json": "league-office/dbl-champions-header.png",
-    "07_league_records_channel_intro.json": "league-office/dbl-records-header.png",
+    "01_constitution_channel_intro.json": "league-office/psbl-constitution-header.png",
+    "02_announcements_channel_intro.json": "league-office/psbl-announcements-header.png",
+    "03_calendar_channel_intro.json": "league-office/psbl-calendar-header.png",
+    "04_ledger_channel_intro.json": "league-office/psbl-ledger-header.png",
+    "05_voting_channel_intro.json": "league-office/psbl-voting-header.png",
+    "06_hall_of_champions_channel_intro.json": "league-office/psbl-champions-header.png",
+    "07_league_records_channel_intro.json": "league-office/psbl-records-header.png",
 }
-GENERIC_HEADER = BASE + "shared/dbl-generic-header-1600x420.png" + HEADER_VERSION
+GENERIC_HEADER = BASE + "shared/psbl-generic-header-1600x420.png" + HEADER_VERSION
 WELCOME = "welcome/01_welcome.json"
-WELCOME_HEADER = "welcome/dbl-welcome-banner.png"
+WELCOME_HEADER = "welcome/psbl-welcome-banner.png"
 
 
 def header_url(rel: str) -> str | None:
@@ -152,8 +152,8 @@ def banner_embed(url: str) -> dict:
 
 def is_banner(embed: dict) -> bool:
     url = str(((embed or {}).get("image") or {}).get("url") or "")
-    return url.startswith(BASE) and ("-header.png" in url or "dbl-welcome-banner.png" in url
-                                     or "dbl-generic-header" in url)
+    return url.startswith(BASE) and ("-header.png" in url or "psbl-welcome-banner.png" in url
+                                     or "psbl-generic-header" in url)
 
 
 def is_divider(embed: dict) -> bool:
@@ -210,7 +210,7 @@ def merge_sections(texts: list[dict]) -> dict:
 
 def apply(embeds: list[dict], banner_url: str | None = None, rel: str | None = None,
           cont: bool | None = None) -> list[dict]:
-    """Return the embeds in the DBL format. Text and order are kept.
+    """Return the embeds in the PSBL format. Text and order are kept.
 
     The final embed's footer text is the last real footer text in the message,
     so merging sections never loses the sign-off. Raises DoesNotFit when the

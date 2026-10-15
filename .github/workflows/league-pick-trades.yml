@@ -1,8 +1,8 @@
-name: DBL Pick Trades
-run-name: DBL Pick Trades — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Pick Trades
+run-name: PSBL Pick Trades — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Private alert when a draft pick changes owner (Constitution Article XII).
-# Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler starts
+# Timing lives in automation/scheduler/schedule.yaml; the PSBL Scheduler starts
 # this workflow with mode=live. Posts go to the Commissioner Desk channel.
 
 on:
@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-pick-trades
+  group: psbl-pick-trades
   cancel-in-progress: false
 
 jobs:
@@ -60,5 +60,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(commissioner): save pick ownership" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/commissioner/state/picktrades.json"

@@ -22,7 +22,7 @@ Types (regular-season weeks only; weeks where nobody scored are ignored):
                       matchups in a row (a tie ends a streak; if several get
                       there the same week, the higher score that week)
   player_multi_homer  first MLB regular-season game in which a player on a
-                      DBL roster hits ``threshold`` home runs (2 = a
+                      PSBL roster hits ``threshold`` home runs (2 = a
                       multi-homer game). Read from the MLB schedule's scoring
                       plays day by day, the morning after; the franchise that
                       rosters the player at that check gets the credit.
@@ -265,7 +265,7 @@ def progress(bounty: Bounty, weeks: dict[int, list[dict]], long_weeks: set[int] 
 # --- Multi-homer game (MLB scoring plays) ---------------------------------------------
 
 def regular_season_nights(info: dict[str, Any], tz: ZoneInfo, last_regular: int) -> tuple[date, date] | None:
-    """First and last MLB game day inside the DBL regular season (local dates).
+    """First and last MLB game day inside the PSBL regular season (local dates).
 
     The last night is the final regular-season week's ``monthly.last_night``.
     """
@@ -324,7 +324,7 @@ def find_multi_homer(
 
     ``fetch(day)`` returns the raw MLB schedule for that day with its scoring
     plays (mlb.SCORES); ``owner_of(name, club)`` returns (teamId, teamName) of
-    the DBL franchise that rosters that player, or None (not rostered or
+    the PSBL franchise that rosters that player, or None (not rostered or
     ambiguous). Stops at a day that cannot be read or still has a game in
     progress, so that day is checked again on the next run. A suspended game
     does not hold the check up: its home runs count once it is completed.

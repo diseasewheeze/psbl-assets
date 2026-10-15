@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Build the DBL Video Kit: templates for FilmCraft, EffectCraft and SoundCraft.
+"""Build the PSBL Video Kit: templates for FilmCraft, EffectCraft and SoundCraft.
 
     python3 tools/build_video_kit.py [--out DIR] [--zip FILE]
 
 Sources (committed):
   brand/video/effectcraft/      the eleven EffectCraft scripts and lib/league.jsxinc
-  brand/video/scripts_snapshot.json   the DBL Video Scripts doc, parsed (times, lines, words)
-  brand/video/b-roll/DBL_Hype_Intro.mp4   the league hype intro, cut into the recruiting trailer
+  brand/video/scripts_snapshot.json   the PSBL Video Scripts doc, parsed (times, lines, words)
+  brand/video/b-roll/PSBL_Hype_Intro.mp4   the league hype intro, cut into the recruiting trailer
   brand/video/READ ME.txt       the kit's instructions
   tools/video_kit_audio.py      music beds, stings and effects (numpy chiptune)
   tools/video_kit_media.py      the sting, outro, wipe, overlays, EffectCraft art and slates
   tools/video_kit_timelines.py  the FilmCraft timelines (.otio)
 
-Output (not committed, rebuilt from the sources): brand/video/build/DBL Video Kit/ and a zip.
+Output (not committed, rebuilt from the sources): brand/video/build/PSBL Video Kit/ and a zip.
 tools/test_video_kit.py checks the result.
 """
 from __future__ import annotations
@@ -33,7 +33,7 @@ import video_kit_timelines as timelines  # noqa: E402
 
 ROOT = HERE.parent
 SRC = ROOT / "brand" / "video"
-KIT_NAME = "DBL Video Kit"
+KIT_NAME = "PSBL Video Kit"
 EC_AUDIO = ["sting-intro.wav", "sfx-alert.wav", "sfx-clinch.wav", "sfx-reveal.wav"]
 FONTS = [("jersey10", ["Jersey10-Regular.ttf"], "Jersey 10"), ("silkscreen", ["Silkscreen-Regular.ttf", "Silkscreen-Bold.ttf"], "Silkscreen")]
 
@@ -50,7 +50,7 @@ def build(out: Path) -> dict:
     # FilmCraft media and the EffectCraft art
     fc, ec = out / "FilmCraft", out / "EffectCraft"
     media.build(fc / "Media", ec / "Images")
-    hype = SRC / "b-roll" / "DBL_Hype_Intro.mp4"
+    hype = SRC / "b-roll" / "PSBL_Hype_Intro.mp4"
     (fc / "Media" / "B-roll").mkdir(parents=True, exist_ok=True)
     shutil.copy2(hype, fc / "Media" / "B-roll" / hype.name)
 
@@ -85,7 +85,7 @@ def build(out: Path) -> dict:
     return report
 
 
-BEDS_NOTE = ("The four music beds come in the second download, \"DBL Video Kit - Music Beds.zip\".\n"
+BEDS_NOTE = ("The four music beds come in the second download, \"PSBL Video Kit - Music Beds.zip\".\n"
              "Unzip it and move the four .wav files into this folder.\n")
 
 
@@ -105,7 +105,7 @@ def zip_kit(out: Path, zpath: Path) -> Path:
     bpath = zpath.with_name(zpath.stem + " - Music Beds.zip")
     with zipfile.ZipFile(bpath, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         for p in sorted(beds.glob("*.wav")):
-            z.write(p, f"DBL Music Beds/{p.name}")
+            z.write(p, f"PSBL Music Beds/{p.name}")
     return bpath
 
 

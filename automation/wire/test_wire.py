@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression checks for DBL The Wire (no network; feedparser is not needed)."""
+"""Offline regression checks for PSBL The Wire (no network; feedparser is not needed)."""
 
 from __future__ import annotations
 
@@ -181,7 +181,7 @@ class TransactionCollectorTests(unittest.TestCase):
         again = wire.transaction_entries(transactions())
         self.assertEqual([e["external_id"] for e in entries], [e["external_id"] for e in again])
 
-    def test_minor_league_deals_and_draft_pick_signings_need_a_dbl_roster(self) -> None:
+    def test_minor_league_deals_and_draft_pick_signings_need_a_psbl_roster(self) -> None:
         self.assertTrue(self.by_name["Brandon Jaenke"]["only_if_rostered"])   # minor league contract
         self.assertTrue(self.by_name["Grant Hill"]["only_if_rostered"])       # plain "signed" record
         self.assertFalse(self.by_name["Jake Rogers"]["only_if_rostered"])
@@ -428,7 +428,7 @@ class WireRoundupTests(unittest.TestCase):
         self.assertEqual(counts["primary_skipped"], 1)
         self.assertEqual(len(state["seen"]), 2)
 
-    def test_minor_league_deals_post_only_for_dbl_players(self) -> None:
+    def test_minor_league_deals_post_only_for_psbl_players(self) -> None:
         state = engine.empty_state()
         nobody, ours = self.official("Brandon Jaenke"), self.official("Grant Hill")
         ours["owners"] = [{"team_id": "t", "team_name": "Alpha", "player": "Grant Hill"}]
@@ -491,11 +491,11 @@ class WireRoundupTests(unittest.TestCase):
         payload, _ = engine.digest_payload("injury-report", [item])
         self.assertIn("[(Report) Player (OF) out](https://example.test/a_(b%29)", payload["embeds"][0]["description"])
 
-    def test_roundup_keeps_dbl_roster_tag(self) -> None:
+    def test_roundup_keeps_psbl_roster_tag(self) -> None:
         item = _candidate(1)
         item["fantasy_owner"] = "Team Example"
         payload, _ = engine.digest_payload("injury-report", [item])
-        self.assertIn("DBL roster:** Team Example", payload["embeds"][0]["description"])
+        self.assertIn("PSBL roster:** Team Example", payload["embeds"][0]["description"])
 
 
 class WireSourceConfigTests(unittest.TestCase):

@@ -1,0 +1,34 @@
+PSBL RAW ASSET URLS
+
+Welcome banner:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/welcome/psbl-welcome-banner.png
+
+Footer divider:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png
+
+Generic header:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-generic-header-1600x420.png
+
+Banner wordmark:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-banner-wordmark.png
+
+Hosting preview:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/PSBL_Phase_2C6_Hosting_Preview.png
+
+Constitution:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-constitution-header.png
+
+Announcements:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-announcements-header.png
+
+Calendar:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-calendar-header.png
+
+Ledger:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-ledger-header.png
+
+Voting:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-voting-header.png
+
+Draft Center:
+https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/draft-center/psbl-draft-center-header.png

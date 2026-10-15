@@ -17,7 +17,7 @@ var DATA = {
         seconds: 4
     },
     titleCard: {
-        eyebrow: "DBL VIDEO",
+        eyebrow: "PSBL VIDEO",
         title: "TITLE GOES HERE",
         sub: "ONE LINE ABOUT THIS VIDEO",
         seconds: 5
@@ -33,8 +33,8 @@ var DATA = {
     }
 };
 
-DBL.run("01 Brand Kit", function () {
-    var B = DBL, folder = B.folder("Brand Kit"), d, c, t;
+PSBL.run("01 Brand Kit", function () {
+    var B = PSBL, folder = B.folder("Brand Kit"), d, c, t;
 
     // ---- Lower third (render with alpha: ProRes 4444)
     d = DATA.lowerThird;

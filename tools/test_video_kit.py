@@ -1,4 +1,4 @@
-"""Checks the built DBL Video Kit (tools/build_video_kit.py), building it first if needed.
+"""Checks the built PSBL Video Kit (tools/build_video_kit.py), building it first if needed.
 
     python3 tools/test_video_kit.py [--kit DIR]
 
@@ -24,8 +24,8 @@ KIT = build_video_kit.SRC / "build" / build_video_kit.KIT_NAME
 NODE = next((p for p in ("/opt/node22/bin/node", "node") if subprocess.run(["which", p], capture_output=True).returncode == 0), "node")
 SCRIPTS = ["01 Brand Kit", "02 Week in 60", "03 Monthly Awards", "04 Franchise Cards", "05 Trade Alert", "06 Clinched",
            "07 Playoff Bracket", "08 Champion Banner", "09 Countdown", "10 Awards Night", "11 Explainer Cards"]
-TIMELINES = ["DBL Hype Trailer", "DBL Talking Head", "DBL Screen Tutorial", "DBL Explainer", "DBL Week in 60",
-             "DBL Monthly Awards", "DBL Playoff Show", "DBL Season in Review", "DBL Awards Night"]
+TIMELINES = ["PSBL Hype Trailer", "PSBL Talking Head", "PSBL Screen Tutorial", "PSBL Explainer", "PSBL Week in 60",
+             "PSBL Monthly Awards", "PSBL Playoff Show", "PSBL Season in Review", "PSBL Awards Night"]
 
 
 def probe(path: Path) -> dict:
@@ -84,21 +84,21 @@ class Kit(unittest.TestCase):
                     self.assertLessEqual(secs(m["marked_range"]["start_time"]), max(lengths) + 1e-6, f"{tl['name']}: {m['name']}")
 
     def test_media_movies(self):
-        sting = probe(self.fc / "Media" / "Stings" / "dbl-intro-sting.mp4")["streams"][0]
+        sting = probe(self.fc / "Media" / "Stings" / "psbl-intro-sting.mp4")["streams"][0]
         self.assertEqual((sting["codec_name"], sting["width"], sting["height"], sting["r_frame_rate"], sting["nb_frames"]),
                          ("h264", 1920, 1080, "30/1", "90"))
-        wipe = probe(self.fc / "Media" / "Transitions" / "dbl-pixel-wipe.mov")["streams"][0]
+        wipe = probe(self.fc / "Media" / "Transitions" / "psbl-pixel-wipe.mov")["streams"][0]
         self.assertEqual(wipe["codec_name"], "prores")
         self.assertIn("yuva", wipe["pix_fmt"])
         self.assertEqual(wipe["nb_frames"], "20")
-        broll = probe(self.fc / "Media" / "B-roll" / "DBL_Hype_Intro.mp4")
+        broll = probe(self.fc / "Media" / "B-roll" / "PSBL_Hype_Intro.mp4")
         self.assertAlmostEqual(float(broll["format"]["duration"]), 75.2, places=1)
 
     # ---------------------------------------------------------------- SoundCraft
     def test_audio_files(self):
         for folder, names in (("Beds", ["bed-hype-45s", "bed-week-60s", "bed-tutorial-loop", "bed-awards-loop"]),
                               ("Stings and Effects", ["sting-intro", "sting-outro", "sfx-whoosh", "sfx-alert", "sfx-clinch", "sfx-reveal"]),
-                              ("Soundboard", ["dbl-draft-horn", "dbl-final-buzzer", "dbl-gavel", "dbl-goal-horn", "dbl-on-the-clock", "dbl-trade-alert"])):
+                              ("Soundboard", ["psbl-draft-horn", "psbl-final-buzzer", "psbl-gavel", "psbl-goal-horn", "psbl-on-the-clock", "psbl-trade-alert"])):
             for n in names:
                 with wave.open(str(KIT / "SoundCraft" / folder / f"{n}.wav")) as w:
                     self.assertEqual((w.getframerate(), w.getsampwidth(), w.getnchannels()), (48000, 2, 2), n)
@@ -124,7 +124,7 @@ class Kit(unittest.TestCase):
                 self.assertTrue(scene["comps"], name)
                 self.assertTrue(all(Path(p).resolve().is_relative_to(self.ec.resolve()) for p in scene["imports"]), name)
                 for comp in scene["comps"]:
-                    self.assertTrue(comp["folder"].startswith("DBL Video Kit"), comp["name"])
+                    self.assertTrue(comp["folder"].startswith("PSBL Video Kit"), comp["name"])
                     for L in comp["layers"]:
                         self.assertLess(L["inPoint"], L["outPoint"], f"{comp['name']}: {L['name']}")
 

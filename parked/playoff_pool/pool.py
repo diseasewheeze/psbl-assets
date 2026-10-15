@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL Playoff Pool: a free NHL playoff box pool for the owners, in 🏒│game-day.
+"""PSBL Playoff Pool: a free NHL playoff box pool for the owners, in 🏒│game-day.
 
 Just for fun: no money and no effect on the fantasy league. The prize is the
 Pool Shark role for the next season and a line in the league history
@@ -17,7 +17,7 @@ does whatever is due, once:
      the same post (a silent edit).
   2. Standings. After the deadline, read every finished playoff game's
      boxscore (cached in state; the last two nights are re-read to pick up
-     NHL scoring changes), score the picks in entries.yaml the DBL way and
+     NHL scoring changes), score the picks in entries.yaml the PSBL way and
      post the standings once a morning (from standings_time), only when
      something changed.
   3. Final. When the Stanley Cup Final is decided and every game is final,
@@ -206,7 +206,7 @@ def run(
         return 1
     feed = feed or Feed()
     live = mode == "live"
-    print(f"DBL PLAYOFF POOL mode={mode.upper()} year={year} local_time={local:%Y-%m-%d %H:%M}")
+    print(f"PSBL PLAYOFF POOL mode={mode.upper()} year={year} local_time={local:%Y-%m-%d %H:%M}")
 
     state = load_json(state_path, {})
     if state.get("year") != year:

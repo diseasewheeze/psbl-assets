@@ -1,4 +1,4 @@
-"""PSBL animated emoji, group anim_b (21 GIFs): reactions and props. File names keep the dbl_ prefix.
+"""PSBL animated emoji, group anim_b (21 GIFs): reactions and props. File names keep the psbl_ prefix.
 
 Run:  python3 anim_b.py            -> writes every GIF to animated/ and the contact sheet anim_b_sheet.png
       python3 anim_b.py name ...   -> only those emoji (plus a big frame strip in .anim_b_tmp/ for checking)
@@ -259,7 +259,7 @@ def eye(c, ex, ey, pdx=2, lid=0, pdy=1, w=6, h=4, pw=2, ph=2):
 # ----------------------------------------------------------------------------------------------
 # 1. side-eye
 # ----------------------------------------------------------------------------------------------
-@emoji("dbl_sideeye")
+@emoji("psbl_sideeye")
 def sideeye():
     # (lid, pupil x 0..4, suspicious, brow twitch, mouth shift, ms)
     seq = [
@@ -312,7 +312,7 @@ def _palm_over(angle, light=True):
     return r, (pcx, pcy)
 
 
-@emoji("dbl_facepalm")
+@emoji("psbl_facepalm")
 def facepalm():
     ANG = 62
     hand, (pcx, pcy) = _palm_over(ANG)
@@ -416,7 +416,7 @@ def _clap_left(h, ang, inner, py=33):
     return out
 
 
-@emoji("dbl_clap")
+@emoji("psbl_clap")
 def clap():
     h = make_flat_hand(fw=3, tops=(2, 0, 1, 3), palm_y=10, palm_h=6, wrist_h=10)
     # (lean angle, inner edge x, burst stage, ms)
@@ -460,7 +460,7 @@ def arc(c, cx, cy, r, a0, a1, colr, step=1.5):
         c.px(x, y, colr)
 
 
-@emoji("dbl_hello")
+@emoji("psbl_hello")
 def hello():
     h, wx, wy = make_open_hand(fw=4, tops=(2, 0, 1, 5), palm_y=11, palm_h=9, wrist_h=7)
     PX, PY = 16, 34
@@ -526,7 +526,7 @@ def starburst(c, cx, cy, rx, ry, n, inner, colr, phase=0.0):
     c.poly(pts, colr)
 
 
-@emoji("dbl_fistpump")
+@emoji("psbl_fistpump")
 def fistpump():
     # (fist top y, squash, speed lines, burst stage, jitter, ms)
     seq = [
@@ -594,7 +594,7 @@ def die(c, cx, cy, value, ang, half=5.5, pip="K", face="W", side="S"):
         c.rect(int(math.floor(x)), int(math.floor(y)), 2, 2, pip)
 
 
-@emoji("dbl_dice")
+@emoji("psbl_dice")
 def dice():
     # per frame: (die A: x, y, value, angle) (die B: ...)
     ya = [-1, 6, 12, 17, 12, 15, 17, 16, 17, 17, 17, 17, 17, 17]
@@ -635,7 +635,7 @@ def ball(c, x, y, colr, r=2):
     put(c, b, x - r - 1, y - r - 1)
 
 
-@emoji("dbl_lottery")
+@emoji("psbl_lottery")
 def lottery():
     CX, CY, R = 12, 12, 11
     cols = ["R", "B", "E", "V", "F", "P", "L"]
@@ -708,7 +708,7 @@ POP_B = ["WW..", "WWCW", ".CYW", "..C."]
 POP_C = [".W.", "WWC", "CY."]
 
 
-@emoji("dbl_popcorn")
+@emoji("psbl_popcorn")
 def popcorn():
     n = 12
     # kernels: (phase, start x, vx, vy, sprite)
@@ -780,7 +780,7 @@ def fire(c, x0, x1, base, f, n, height=13.0, seed=0):
             tongue(c, cx, base, h * s, 7.5 * (0.5 + 0.5 * s) if layer else 8.0, sway * s, colr)
 
 
-@emoji("dbl_dumpsterfire")
+@emoji("psbl_dumpsterfire")
 def dumpsterfire():
     n = 12
     frames, durs = [], []
@@ -825,7 +825,7 @@ def dumpsterfire():
 # ----------------------------------------------------------------------------------------------
 # 14. typing
 # ----------------------------------------------------------------------------------------------
-@emoji("dbl_typing")
+@emoji("psbl_typing")
 def typing():
     # each dot hops in turn: offsets per frame for dots 0..2 (negative = up), plus dot shade
     hop = [0, -2, -3, -2, 0]
@@ -888,7 +888,7 @@ def puff(c, x, y, r, colr="W", shade="S"):
             c.px(x + dx, y + dy, shade)
 
 
-@emoji("dbl_rocket")
+@emoji("psbl_rocket")
 def rocket():
     rk = sprite(ROCKET)
     # (rocket bottom y, flame length, shake, smoke stage, ms)
@@ -1043,13 +1043,13 @@ def chart_emoji(pts, colr, fillc, crash=False):
     return frames, durs
 
 
-@emoji("dbl_stonks")
+@emoji("psbl_stonks")
 def stonks():
     pts = [(4, 25), (9, 19), (12, 22), (17, 14), (20, 17), (25, 9), (27, 6)]
     return chart_emoji(pts, "E", "e")
 
 
-@emoji("dbl_tank")
+@emoji("psbl_tank")
 def tank():
     pts = [(4, 6), (9, 11), (12, 8), (17, 16), (20, 13), (25, 22), (27, 25)]
     return chart_emoji(pts, "R", None, crash=True)
@@ -1067,7 +1067,7 @@ def star_pts(cx, cy, ro, ri, rot=-90):
     return pts
 
 
-@emoji("dbl_spotlight")
+@emoji("psbl_spotlight")
 def spotlight():
     PX, PY = 7, 25           # lamp pivot
     SX, SY = 22, 9           # star
@@ -1137,7 +1137,7 @@ def spotlight():
 # ----------------------------------------------------------------------------------------------
 # 19. fireworks
 # ----------------------------------------------------------------------------------------------
-@emoji("dbl_fireworks")
+@emoji("psbl_fireworks")
 def fireworks():
     CX, CY = 16, 12
     cols = ["R", "G", "L", "E", "P", "V", "F", "W", "R", "G", "L", "E"]
@@ -1217,7 +1217,7 @@ MIC = [
 ]
 
 
-@emoji("dbl_micdrop")
+@emoji("psbl_micdrop")
 def micdrop():
     mic = sprite(MIC)
     fist = make_fist(w=11, h=9, wrist=0)
@@ -1282,7 +1282,7 @@ def micdrop():
 # ----------------------------------------------------------------------------------------------
 # 21. white flag
 # ----------------------------------------------------------------------------------------------
-@emoji("dbl_whiteflag")
+@emoji("psbl_whiteflag")
 def whiteflag():
     n = 10
     fist = make_fist(w=9, h=8, wrist=3)
@@ -1339,7 +1339,7 @@ def ballot(check_stage):
     return p
 
 
-@emoji("dbl_vote")
+@emoji("psbl_vote")
 def vote():
     # (ballot y (top), check stage, box squash, sparkle, ms)
     seq = [(2, 0, 0, 0, 110), (2, 1, 0, 0, 80), (2, 2, 0, 0, 90), (1, 2, 0, 0, 100), (4, 2, 0, 0, 70),
@@ -1419,7 +1419,7 @@ def ghost(c, x, y, phase, look=0):
     c.rect(cx - 1 + look, y + 12, 2, 2, "K")
 
 
-@emoji("dbl_ghosted")
+@emoji("psbl_ghosted")
 def ghosted():
     # (fade level, y offset, dots shown, look, ms)
     seq = [(0.25, 7, 0, 0, 90), (0.5, 6, 0, 0, 90), (0.75, 5, 0, 0, 90), (1, 4, 0, 0, 100),
@@ -1489,7 +1489,7 @@ def skull(c, dx, jaw, eyes):
     c.px(x0 + 14, 16, "K"); c.px(x0 + 17, 16, "K")
 
 
-@emoji("dbl_skull")
+@emoji("psbl_skull")
 def skull_emoji():
     # (jaw, eyes, shake, ms)
     seq = [(0, "dark", 0, 110), (2, "dark", 0, 70), (4, "glow", 1, 70), (1, "dark", 0, 70),
@@ -1548,7 +1548,7 @@ def letter(ch, squash=0):
     return s
 
 
-@emoji("dbl_lfg")
+@emoji("psbl_lfg")
 def lfg():
     XS = {"L": 1, "F": 11, "G": 21}
     BASE = 7           # letter top when landed (18 tall -> bottom at 24)
@@ -1622,11 +1622,11 @@ def preview(name, frames, durations):
 # The GIF starts on a key frame so the still that Discord shows (picker, reduced motion) reads as the
 # idea; the loop order is unchanged, only where it begins.
 START = {
-    "dbl_sideeye": 4, "dbl_facepalm": 6, "dbl_clap": 2, "dbl_hello": 2, "dbl_fistpump": 8,
-    "dbl_kneeslide": 9, "dbl_glassbang": 1, "dbl_boardcheck": 4, "dbl_rat": 6, "dbl_dice": 9,
-    "dbl_lottery": 11, "dbl_typing": 2, "dbl_rocket": 5, "dbl_stonks": 11, "dbl_tank": 12,
-    "dbl_spotlight": 8, "dbl_fireworks": 7, "dbl_micdrop": 3, "league_bot": 3, "dbl_ghosted": 7,
-    "dbl_skull": 2, "dbl_lfg": 12,
+    "psbl_sideeye": 4, "psbl_facepalm": 6, "psbl_clap": 2, "psbl_hello": 2, "psbl_fistpump": 8,
+    "psbl_kneeslide": 9, "psbl_glassbang": 1, "psbl_boardcheck": 4, "psbl_rat": 6, "psbl_dice": 9,
+    "psbl_lottery": 11, "psbl_typing": 2, "psbl_rocket": 5, "psbl_stonks": 11, "psbl_tank": 12,
+    "psbl_spotlight": 8, "psbl_fireworks": 7, "psbl_micdrop": 3, "league_bot": 3, "psbl_ghosted": 7,
+    "psbl_skull": 2, "psbl_lfg": 12,
 }
 
 

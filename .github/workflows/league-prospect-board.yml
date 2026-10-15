@@ -1,5 +1,5 @@
-name: DBL Prospect Board
-run-name: DBL Prospect Board — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Prospect Board
+run-name: PSBL Prospect Board — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Private prospect board (MLB's ranked draft prospects) for Commissioner Desk.
 # Timing lives in automation/scheduler/schedule.yaml, where the job is switched
@@ -20,7 +20,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-prospect-board
+  group: psbl-prospect-board
   cancel-in-progress: false
 
 jobs:
@@ -59,5 +59,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(commissioner): save prospect board" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/commissioner/state/prospects.json"

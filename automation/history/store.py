@@ -3,7 +3,7 @@
 The archive lives on the ``automation-state`` branch under ``archive/`` and is
 restored into ``archive/`` at the repository root (git-ignored on main) when a
 workflow runs. One folder per Fantrax season, keyed by Fantrax's
-``seasonYear`` (DBL Season 2027 = 2027-28 = seasonYear 2027), so renewing the
+``seasonYear`` (PSBL Season 2027 = 2027-28 = seasonYear 2027), so renewing the
 league in Fantrax never overwrites an earlier season:
 
   archive/players.json               Fantrax player id -> name, position, MLB team

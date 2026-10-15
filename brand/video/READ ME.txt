@@ -1,8 +1,8 @@
-DBL VIDEO KIT
+PSBL VIDEO KIT
 ==============
 
 Everything the league's videos are built from, for FilmCraft, EffectCraft and SoundCraft. The
-words for every video are in the "DBL Video Scripts" doc; this kit holds the pieces those
+words for every video are in the "PSBL Video Scripts" doc; this kit holds the pieces those
 scripts name.
 
   FilmCraft/     Nine timeline files (.otio) with one ready-made sequence per script, and the
@@ -16,11 +16,11 @@ scripts name.
 
 BEFORE YOU START (ONCE)
 -----------------------
-1. Unzip the kit somewhere it can stay, for example Documents/DBL Video Kit. The timelines find
+1. Unzip the kit somewhere it can stay, for example Documents/PSBL Video Kit. The timelines find
    their media by where it sits next to them, so keep the four folders together and don't
    rename anything inside them.
-   The music beds come as a second download, "DBL Video Kit - Music Beds.zip". Unzip it and
-   move its four .wav files into DBL Video Kit/SoundCraft/Beds.
+   The music beds come as a second download, "PSBL Video Kit - Music Beds.zip". Unzip it and
+   move its four .wav files into PSBL Video Kit/SoundCraft/Beds.
 2. Install the fonts. Open Fonts, double-click each .ttf file and choose Install (Mac: Install
    Font). Then quit and reopen EffectCraft and FilmCraft so they see the fonts.
 3. Make a Renders folder inside EffectCraft. Every graphic you render goes there.
@@ -29,16 +29,16 @@ BEFORE YOU START (ONCE)
 
 THE VOICE SESSION IN SOUNDCRAFT (ONCE)
 --------------------------------------
-1. Open SoundCraft and choose File > New... Name the session DBL Voiceover, set 48 kHz,
+1. Open SoundCraft and choose File > New... Name the session PSBL Voiceover, set 48 kHz,
    24-bit, WAV, and save it in the kit's SoundCraft folder.
 2. Track > New... Add 1 mono audio track and name it VO.
 3. Track > New... again. Add 2 stereo audio tracks and name them MUSIC and SFX.
 4. On the VO track, choose your microphone as the input and click the track's record-enable
    button.
-5. File > Save As Template... and save it as DBL Voiceover in the SoundCraft folder.
+5. File > Save As Template... and save it as PSBL Voiceover in the SoundCraft folder.
 
 Recording a voice track (each video):
-1. File > Open > Session... and pick the DBL Voiceover template. Then File > Save Session As...
+1. File > Open > Session... and pick the PSBL Voiceover template. Then File > Save Session As...
    with the video's name, for example Week in 60 - Week 05.
 2. Optional: File > Import > Video... brings in the EffectCraft render so you can talk to the
    picture, and File > Import > Audio... puts the music bed on MUSIC so you hear the pace.
@@ -50,7 +50,7 @@ Recording a voice track (each video):
 
 MAKING A VIDEO (EVERY TIME)
 ---------------------------
-1. Open the script in the DBL Video Scripts doc and fill in its [brackets].
+1. Open the script in the PSBL Video Scripts doc and fill in its [brackets].
 2. If the video uses EffectCraft graphics (see the list below), build them:
    a. Open the script file, for example EffectCraft/02 Week in 60.jsx, in a plain text editor
       (TextEdit in plain-text mode, Notepad, or any code editor).
@@ -58,7 +58,7 @@ MAKING A VIDEO (EVERY TIME)
       and the commas between lines. Stick to plain keyboard characters.
    c. Save the file.
    d. In EffectCraft: File > Scripts > Run Script File... and choose the file. The new
-      compositions appear in the project's "DBL Video Kit" folder. A message lists them.
+      compositions appear in the project's "PSBL Video Kit" folder. A message lists them.
    e. Open each one and play it through to check it.
 3. Render each composition: select it, Composition > Add to Render Queue. In the Render Queue,
    click Output To and save into EffectCraft/Renders, then set the Output Module:
@@ -68,7 +68,7 @@ MAKING A VIDEO (EVERY TIME)
    Then click Render.
 4. Record the voice in SoundCraft (above).
 5. In FilmCraft: File > Import... and choose the timeline file in FilmCraft/, for example
-   DBL Week in 60.otio. Its sequences appear in the project. Double-click the one you're
+   PSBL Week in 60.otio. Its sequences appear in the project. Double-click the one you're
    making. If FilmCraft asks to link media, point it at the kit's FilmCraft/Media folder.
 6. Fill it in. Each dark slate with a dashed border is a placeholder that says what goes there.
    Drag your render, camera clip or screen recording onto the same track at the same spot and
@@ -87,35 +87,35 @@ whooshes. Move anything you like; nothing is locked.
 
 WHICH PIECES EACH VIDEO USES
 ----------------------------
-Recruiting trailer       DBL Hype Trailer > Recruiting Trailer. Already cut from the hype intro;
+Recruiting trailer       PSBL Hype Trailer > Recruiting Trailer. Already cut from the hype intro;
                          it only needs your voice.
-Startup Draft hype       DBL Hype Trailer > Startup Draft Hype. EffectCraft: 11 Explainer Cards
+Startup Draft hype       PSBL Hype Trailer > Startup Draft Hype. EffectCraft: 11 Explainer Cards
                          (set "Startup Draft Hype Cards", alpha), 09 Countdown, 04 Franchise Cards.
-Opening night            DBL Hype Trailer > Opening Night. 11 (Opening Night Cards, alpha), 04.
-Trade deadline day       DBL Hype Trailer > Trade Deadline Day. 11 (Trade Deadline Cards, alpha),
+Opening night            PSBL Hype Trailer > Opening Night. 11 (Opening Night Cards, alpha), 04.
+Trade deadline day       PSBL Hype Trailer > Trade Deadline Day. 11 (Trade Deadline Cards, alpha),
                          05 Trade Alert for each big deal.
-Championship hype        DBL Hype Trailer > Championship Hype. 11 (Championship Hype Cards,
+Championship hype        PSBL Hype Trailer > Championship Hype. 11 (Championship Hype Cards,
                          alpha), 04, 07 Playoff Bracket, 09.
-Commissioner welcome     DBL Talking Head > Commissioner Welcome. 01 Brand Kit (lower third, end
+Commissioner welcome     PSBL Talking Head > Commissioner Welcome. 01 Brand Kit (lower third, end
                          card).
-Winter Meetings recap,   DBL Talking Head. 01 Brand Kit lower third.
+Winter Meetings recap,   PSBL Talking Head. 01 Brand Kit lower third.
 Wooden Spoon preview
-Owner spotlight          DBL Talking Head > Owner Spotlight. 04 Franchise Cards.
-Server tour              DBL Screen Tutorial > Server Tour. 01 Brand Kit section titles.
-How-tos (ten of them)    DBL Screen Tutorial > How-to - ... 11 Explainer Cards (set "How-to
+Owner spotlight          PSBL Talking Head > Owner Spotlight. 04 Franchise Cards.
+Server tour              PSBL Screen Tutorial > Server Tour. 01 Brand Kit section titles.
+How-tos (ten of them)    PSBL Screen Tutorial > How-to - ... 11 Explainer Cards (set "How-to
                          Cards" makes one card per comp).
-Draft order draw         DBL Screen Tutorial > Draft Order Draw. 11 (How-to Cards), 01 end card.
-Explainers (six)         DBL Explainer. 11 Explainer Cards: one set per explainer, timed to its
+Draft order draw         PSBL Screen Tutorial > Draft Order Draw. 11 (How-to Cards), 01 end card.
+Explainers (six)         PSBL Explainer. 11 Explainer Cards: one set per explainer, timed to its
                          script, so the render drops in at 0:00.
-Week in 60 Seconds       DBL Week in 60. 02 Week in 60.
-Monthly awards           DBL Monthly Awards. 03 Monthly Awards.
+Week in 60 Seconds       PSBL Week in 60. 02 Week in 60.
+Monthly awards           PSBL Monthly Awards. 03 Monthly Awards.
 Trade alert              05 Trade Alert renders the whole clip with its sound. No timeline.
 Clinched / eliminated    06 Clinched renders the whole clip with its sound. No timeline.
-Bracket reveal, round    DBL Playoff Show. 07 Playoff Bracket, 08 Champion Banner, 01 Brand Kit.
+Bracket reveal, round    PSBL Playoff Show. 07 Playoff Bracket, 08 Champion Banner, 01 Brand Kit.
 previews, champion,
 third place
-Season in review         DBL Season in Review. 01 Brand Kit, 02, 05, 07, 08.
-Awards Night             DBL Awards Night. 10 Awards Night builds every graphic in program order.
+Season in review         PSBL Season in Review. 01 Brand Kit, 02, 05, 07, 08.
+Awards Night             PSBL Awards Night. 10 Awards Night builds every graphic in program order.
 Franchise intro cards    04 Franchise Cards renders each card with its sound. No timeline.
 
 
@@ -125,7 +125,7 @@ THE WEEKLY ROUTINE (WEEK IN 60, ABOUT 20 MINUTES)
    the numbers into DATA in EffectCraft/02 Week in 60.jsx and save.
 2. EffectCraft: run the script, check "Week in 60 - Week NN", render it as H.264.
 3. SoundCraft: record the Week in 60 script (File > Import > Video... the render to talk to it).
-4. FilmCraft: import DBL Week in 60.otio (or reuse last week's project), drop the render on V1
+4. FilmCraft: import PSBL Week in 60.otio (or reuse last week's project), drop the render on V1
    at 0:00 and the voice on A1 at 0:00, export, post.
 
 

@@ -1,4 +1,4 @@
-# DBL league history that the Fantrax feed cannot know.
+# PSBL league history that the Fantrax feed cannot know.
 #
 # Maintained by the Commissioner. The history site, the Dynasty Pot graphic and
 # the franchise cards read this file; the regression tests check it on every
@@ -18,7 +18,7 @@
 #   colors:    up to 3 hex colors, primary first, in quotes
 #   logo:      optional .png path in this repository, e.g. brand/franchises/rink-rats.png
 #   team_ids:  every Fantrax team ID this franchise has used, in quotes. Run the
-#              DBL Pick Trades workflow in preview mode to print them. If a
+#              PSBL Pick Trades workflow in preview mode to print them. If a
 #              team's ID is not listed, it is matched by its Fantrax team name.
 #
 # Example:

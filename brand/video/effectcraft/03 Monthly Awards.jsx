@@ -14,14 +14,14 @@ var DATA = {
     managerOfTheMonth: { team: "TEAM B", detail: "325.00 POINTS", owner: "OWNER NAME" }
 };
 
-DBL.run("03 Monthly Awards", function () {
-    var B = DBL, D = DATA;
+PSBL.run("03 Monthly Awards", function () {
+    var B = PSBL, D = DATA;
     var c = B.comp(B.folder("Monthly Awards"), "Monthly Awards - " + D.month, 60);
     B.background(c, "dots");
 
     // ---- 0:00 open (the title slams with the intro sting's hit at 0.5 s)
     var trophy = B.image(c, "trophy.png", 960, 300, { center: true, scale: 200 });
-    var eb = B.text(c, "DBL MONTHLY AWARDS", { face: "silk", k: 6, color: "gold", x: 960, y: 470, align: "center" });
+    var eb = B.text(c, "PSBL MONTHLY AWARDS", { face: "silk", k: 6, color: "gold", x: 960, y: 470, align: "center" });
     var big = B.text(c, D.month, { face: "jersey", k: 16, color: "cream", x: 960, y: 540, align: "center", maxW: 1600, shadow: "black" });
     B.pop(trophy, B.f(3));
     B.blinkIn(eb, B.f(9));

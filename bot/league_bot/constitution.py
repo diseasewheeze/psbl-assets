@@ -17,7 +17,7 @@ from typing import Any
 from . import embeds as E
 from .shared import build_constitution
 
-FOOTER = "DBL CONSTITUTION"
+FOOTER = "PSBL CONSTITUTION"
 MAX_RESULTS = 3
 SECTION_LINE = re.compile(r"^\*\*(\d+)\.(\d+)\*\* (.*)$", re.S)
 SECTION_QUERY = re.compile(r"^(?:section|sec\.?|§|rule)?\s*(\d{1,2})\s*\.\s*(\d{1,2})$", re.I)

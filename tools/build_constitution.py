@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Build every published copy of the DBL Constitution from constitution_source.py.
+"""Build every published copy of the PSBL Constitution from constitution_source.py.
 
 Outputs
 - templates/constitution/NN_*.json   Discohook messages (one JSON per Discord message)
-- constitution/DBL_Constitution.md
+- constitution/PSBL_Constitution.md
 - constitution/CHANGELOG.md   every adopted amendment by date (from S.AMENDMENTS), newest first
-- constitution/DBL_Constitution_discohook_backup.json   all messages in one Discohook backup
-- constitution/DBL_Constitution.pdf   (when --pdf is given)
+- constitution/PSBL_Constitution_discohook_backup.json   all messages in one Discohook backup
+- constitution/PSBL_Constitution.pdf   (when --pdf is given)
 
 Usage: python3 tools/build_constitution.py [--pdf]
 """
@@ -161,7 +161,7 @@ def build_changelog(amendments: list[dict]) -> str:
     """constitution/CHANGELOG.md: every change to the Constitution, newest first, by date."""
     md = [
         "<!-- Generated from tools/constitution_source.py (AMENDMENTS) by tools/build_constitution.py. Do not edit by hand. -->",
-        "# DBL Constitution — Changelog",
+        "# PSBL Constitution — Changelog",
         "",
         "Every change to the Constitution, newest first. Amendments are identified by the date they were adopted.",
         "",
@@ -230,7 +230,7 @@ def make_embeds() -> list[dict]:
     # quick reference + allocation
     qr = "\n".join(f"• **{k}:** {v}" for k, v in S.QUICK_REFERENCE)
     embeds.append({
-        "title": "DBL CONSTITUTION — QUICK REFERENCE",
+        "title": "PSBL CONSTITUTION — QUICK REFERENCE",
         "description": f"**{S.EDITION}**\n\n{qr}",
         "color": GOLD, "footer": {"text": S.FOOTER},
     })
@@ -291,7 +291,7 @@ def build_discord() -> list[tuple[str, dict]]:
 
 # -------------------------------------------------------------------- Markdown
 def build_markdown() -> str:
-    md = [f"# DBL Constitution — {S.EDITION}", "", f"*{S.TAGLINE}*", ""]
+    md = [f"# PSBL Constitution — {S.EDITION}", "", f"*{S.TAGLINE}*", ""]
     md += ["## Quick Reference", ""] + [f"- **{k}:** {v}" for k, v in S.QUICK_REFERENCE] + [""]
     md += ["## Annual Financial Allocation", "", "| Allocation | Amount |", "|---|---:|"]
     md += [f"| {k} | ${v:,} |" for k, v in S.ALLOCATION] + [f"| **Total** | **${S.ALLOCATION_TOTAL:,}** |", ""]
@@ -376,7 +376,7 @@ def build_pdf(path: Path) -> None:
     def label(text: str, color: str = "#FFFFFF", size: float = 7) -> str:
         return f'<font name="Label-Bold" size="{size}" color="{color}">{text.upper()}</font>'
 
-    wordmark = ROOT / "brand" / "source" / "dbl-wordmark-white.png"
+    wordmark = ROOT / "brand" / "source" / "psbl-wordmark-white.png"
 
     def sprite(c, rows, x, y, s):
         """Draw a pixel sprite with its bottom-left corner at (x, y), s points per pixel."""
@@ -436,25 +436,25 @@ def build_pdf(path: Path) -> None:
         c.setFillColor(GOLDC); c.circle(cx, base_y + half, 5, stroke=0, fill=1)
         sprite(c, BALL, 1.0 * inch, field_y + 0.3 * inch, 3.2)
         c.setFillColor(GOLDC); c.setFont("Label-Bold", 9); c.drawString(1.0 * inch, 0.82 * inch, "FANTRAX RUNS THE GAME.  DISCORD RUNS THE LEAGUE.")
-        c.setFillColor(CREAM); c.setFont("Label", 7.5); c.drawString(1.0 * inch, 0.6 * inch, "DYNASTY BASEBALL LEAGUE  •  EST. 2026")
+        c.setFillColor(CREAM); c.setFont("Label", 7.5); c.drawString(1.0 * inch, 0.6 * inch, "PITCH SLAPPED BASEBALL LEAGUE  •  EST. 2026")
 
     def on_page(c, d):
         c.setFillColor(BLACK); c.rect(0, H - 0.82 * inch, W, 0.82 * inch, stroke=0, fill=1)
         c.setFillColor(GOLDC); c.rect(0, H - 0.82 * inch - 4, W, 4, stroke=0, fill=1)
         sprite(c, BALL, LM, H - 0.68 * inch, 2.2)
         c.setFillColor(CREAM); c.setFont("Label-Bold", 7.5)
-        c.drawString(LM + 40, H - 0.47 * inch, "DBL  /  CONSTITUTION")
+        c.drawString(LM + 40, H - 0.47 * inch, "PSBL  /  CONSTITUTION")
         c.setFillColor(GOLDC); c.drawRightString(W - RM, H - 0.47 * inch, S.EDITION.upper())
         for i in range(int((W - LM - RM) // 8)):  # a stepped pixel rule
             c.setFillColor(GOLDC if i % 2 == 0 else colors.HexColor("#D9545C"))
             c.rect(LM + i * 8, 0.72 * inch, 8, 2.5, stroke=0, fill=1)
         c.setFillColor(GRAY); c.setFont("Label", 7)
-        c.drawString(LM, 0.52 * inch, "DYNASTY BASEBALL LEAGUE  •  EST. 2026")
+        c.drawString(LM, 0.52 * inch, "PITCH SLAPPED BASEBALL LEAGUE  •  EST. 2026")
         c.setFont("Pix", 14); c.setFillColor(INK)
         c.drawRightString(W - RM, 0.5 * inch, f"PAGE {d.page}")
 
     doc = BaseDocTemplate(str(path), pagesize=letter, leftMargin=LM, rightMargin=RM, topMargin=1.1 * inch, bottomMargin=0.95 * inch,
-                          title="DBL Constitution", author="Dynasty Baseball League")
+                          title="PSBL Constitution", author="Pitch Slapped Baseball League")
     frame = Frame(LM, 0.95 * inch, W - LM - RM, H - 2.05 * inch, id="f", leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
     doc.addPageTemplates([PageTemplate(id="cover", frames=[frame], onPage=on_cover),
                           PageTemplate(id="page", frames=[frame], onPage=on_page)])
@@ -490,7 +490,7 @@ def build_pdf(path: Path) -> None:
 
     # glance page
     story += heading_rule("Constitution at a Glance", "League reference")
-    story += [Paragraph("Core settings, financial structure, and league architecture for the DBL Constitution.", sub), stat_bar(), Spacer(1, 14)]
+    story += [Paragraph("Core settings, financial structure, and league architecture for the PSBL Constitution.", sub), stat_bar(), Spacer(1, 14)]
     story += [Paragraph("Quick Reference", h_sec)]
     story += [label_table([[Paragraph(label(k), small), Paragraph(md(v), small)] for k, v in S.QUICK_REFERENCE], 1.3 * inch), Spacer(1, 10)]
     al_head = [Paragraph("Annual Financial Allocation", h_sec),
@@ -515,7 +515,7 @@ def build_pdf(path: Path) -> None:
 
     # TOC
     story += heading_rule("Table of Contents")
-    story += [Paragraph(f"{len(S.ARTICLES)} articles define the DBL's competitive rules, financial structure, governance, and long-term franchise protections.", sub)]
+    story += [Paragraph(f"{len(S.ARTICLES)} articles define the PSBL's competitive rules, financial structure, governance, and long-term franchise protections.", sub)]
     toc_rows = [[Paragraph(f'<font name="Pix" size="14" color="#BD3039">{a["num"]}</font>', ParagraphStyle("tn", alignment=1, leading=13.5)),
                  Paragraph(a["title"], toc_s)] for a in S.ARTICLES]
     tt = Table(toc_rows, colWidths=[0.55 * inch, cw - 0.55 * inch])
@@ -605,12 +605,12 @@ def main() -> None:
             assert len(e.get("title", "")) <= 256
         print(f"{name}: {len(data['embeds'])} embeds, {counted} chars")
 
-    (OUT_DOCS / "DBL_Constitution.md").write_text(build_markdown(), encoding="utf-8")
+    (OUT_DOCS / "PSBL_Constitution.md").write_text(build_markdown(), encoding="utf-8")
     (OUT_DOCS / "CHANGELOG.md").write_text(build_changelog(S.AMENDMENTS), encoding="utf-8")
     backup = {"messages": [{"data": d} for _, d in msgs]}
-    (OUT_DOCS / "DBL_Constitution_discohook_backup.json").write_text(json.dumps(backup, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    (OUT_DOCS / "PSBL_Constitution_discohook_backup.json").write_text(json.dumps(backup, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     if "--pdf" in sys.argv:
-        build_pdf(OUT_DOCS / "DBL_Constitution.pdf")
+        build_pdf(OUT_DOCS / "PSBL_Constitution.pdf")
     print(f"Built {len(msgs)} Discord messages for the Constitution.")
 
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL dormancy guard: keeps GitHub from silently switching the schedules off.
+"""PSBL dormancy guard: keeps GitHub from silently switching the schedules off.
 
 GitHub disables scheduled workflows in a public repository after 60 days with
 no repository activity. This guard (which has no schedule of its own, so it
@@ -117,7 +117,7 @@ def run(mode: str, gh: GitHub | None = None, now: datetime | None = None) -> int
     by_hand = manually_disabled(workflows)
     last_commit = gh.last_commit_at()
     quiet = (now - last_commit).days
-    print(f"DBL DORMANCY mode={mode.upper()} workflows={len(workflows)} disabled_for_inactivity={len(off)} last_main_commit={last_commit.date()} ({quiet} days ago)")
+    print(f"PSBL DORMANCY mode={mode.upper()} workflows={len(workflows)} disabled_for_inactivity={len(off)} last_main_commit={last_commit.date()} ({quiet} days ago)")
     if by_hand:
         print("Disabled by hand (left alone): " + ", ".join(by_hand))
     reenabled: list[str] = []

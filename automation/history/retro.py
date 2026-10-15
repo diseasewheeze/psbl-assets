@@ -32,10 +32,10 @@ from core.league import AVATAR, color_value
 from history.context import LeagueHistory, ordinal
 
 FOOTER_DIVIDER = (
-    "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/"
-    "discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+    "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/"
+    "discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-1"
 )
-MEASURE = ("MLB regular-season stats since the draft, scored the DBL way (Article VIII): every hitting and "
+MEASURE = ("MLB regular-season stats since the draft, scored the PSBL way (Article VIII): every hitting and "
            "pitching category, from MLB's season totals.")
 
 
@@ -181,7 +181,7 @@ def slot(row: dict[str, Any]) -> str:
 
 def output_text(row: dict[str, Any]) -> str:
     unit = "MLB game" if row["gp"] == 1 else "MLB games"
-    return f"{row['value']:g} DBL points in {row['gp']} {unit}"
+    return f"{row['value']:g} PSBL points in {row['gp']} {unit}"
 
 
 def highlight_lines(report: dict[str, Any]) -> list[tuple[str, str]]:
@@ -194,14 +194,14 @@ def highlight_lines(report: dict[str, Any]) -> list[tuple[str, str]]:
                 else "Not enough MLB games yet."))
     out.append(("BEST UNDRAFTED PICKUP", f"**{p['name']}**, added by {p['franchise']} on {p['added']} and still rostered: "
                 f"{output_text(p)}." if p else "No undrafted pickup has produced yet."))
-    out.append(("BEST DEVELOPMENT", f"**{d['name']}**, {slot(d)} by {d['franchise']}: {d['before']:g} DBL points the season "
+    out.append(("BEST DEVELOPMENT", f"**{d['name']}**, {slot(d)} by {d['franchise']}: {d['before']:g} PSBL points the season "
                 f"before the draft, {d['latest']:g} in {season_label(d['latest_season'])}." if d
                 else "No drafted player has a later MLB season to compare yet."))
     return out
 
 
 def title(report: dict[str, Any]) -> str:
-    return f"{report['year']} DBL {report['kind']}: Retrospective"
+    return f"{report['year']} PSBL {report['kind']}: Retrospective"
 
 
 def render_text(report: dict[str, Any]) -> str:
@@ -225,7 +225,7 @@ def payload(report: dict[str, Any], league: dict[str, Any], *, test: bool = Fals
         "description": f"How the {report['year']} draft has turned out so far. {rated}.",
         "color": color_value(league.get("color")),
         "fields": fields,
-        "footer": {"text": "DBL DRAFT CENTER • FANTRAX AND MLB DATA"},
+        "footer": {"text": "PSBL DRAFT CENTER • FANTRAX AND MLB DATA"},
         "image": {"url": FOOTER_DIVIDER},
     }
-    return {"username": "DBL Draft Center", "avatar_url": AVATAR, "allowed_mentions": {"parse": []}, "embeds": [embed]}
+    return {"username": "PSBL Draft Center", "avatar_url": AVATAR, "allowed_mentions": {"parse": []}, "embeds": [embed]}

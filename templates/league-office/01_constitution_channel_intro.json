@@ -1,17 +1,17 @@
 {
   "embeds": [
     {
-      "color": 2829617,
+      "color": 795456,
       "footer": {
         "text": "​"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/league-office/dbl-constitution-header.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/league-office/psbl-constitution-header.png?v=8bit-sox-1"
       }
     },
     {
-      "title": "DBL CONSTITUTION",
-      "description": "The Constitution is the controlling rules document of the Dynasty Baseball League. Every owner accepts it as a condition of joining and is responsible for knowing it.",
+      "title": "PSBL CONSTITUTION",
+      "description": "The Constitution is the controlling rules document of the Pitch Slapped Baseball League. Every owner accepts it as a condition of joining and is responsible for knowing it.",
       "color": 12398649,
       "fields": [
         {

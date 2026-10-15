@@ -1,9 +1,9 @@
-name: DBL Dormancy Guard
-run-name: DBL Dormancy Guard — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Dormancy Guard
+run-name: PSBL Dormancy Guard — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Keeps GitHub from silently switching the scheduled workflows off after 60
 # days without repository activity. It deliberately has no `schedule:` trigger
-# of its own, so GitHub cannot disable it that way. The DBL Scheduler starts
+# of its own, so GitHub cannot disable it that way. The PSBL Scheduler starts
 # it daily, and a second cron-job.org job (see automation/scheduler/README.md)
 # starts it directly in case the scheduler itself has been disabled.
 
@@ -22,7 +22,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-dormancy-guard
+  group: psbl-dormancy-guard
   cancel-in-progress: false
 
 jobs:
@@ -61,5 +61,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(health): save dormancy warning state" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/health/state/dormancy.json"

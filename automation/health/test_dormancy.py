@@ -37,8 +37,8 @@ class FakeGitHub:
 
 
 WF = [
-    {"id": 1, "name": "DBL Scheduler", "state": "disabled_inactivity"},
-    {"id": 2, "name": "DBL Wire Engine", "state": "active"},
+    {"id": 1, "name": "PSBL Scheduler", "state": "disabled_inactivity"},
+    {"id": 2, "name": "PSBL Wire Engine", "state": "active"},
     {"id": 3, "name": "Old thing", "state": "disabled_manually"},
 ]
 
@@ -55,7 +55,7 @@ class RuleTests(unittest.TestCase):
         self.assertTrue(dormancy.should_warn(NOW - timedelta(days=50), NOW, (NOW - timedelta(days=8)).isoformat()))
 
     def test_message_has_no_bullets(self):
-        task = dormancy.build_task(["DBL Scheduler"], [], 50)
+        task = dormancy.build_task(["PSBL Scheduler"], [], 50)
         self.assertNotIn("•", "\n".join(task["items"]))
         self.assertIn("about 10 days away", "\n".join(task["items"]))
 
@@ -81,7 +81,7 @@ class RunTests(unittest.TestCase):
         gh = FakeGitHub(WF, 5)
         code, posts, _ = self._run(gh)
         self.assertEqual((code, gh.enabled, len(posts)), (0, [1], 1))
-        self.assertIn("DBL Scheduler", posts[0]["embeds"][0]["description"])
+        self.assertIn("PSBL Scheduler", posts[0]["embeds"][0]["description"])
 
     def test_preview_changes_nothing(self):
         gh = FakeGitHub(WF, 50)

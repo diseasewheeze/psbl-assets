@@ -20,7 +20,7 @@ field reads as empty or zero instead of failing. Tests use the synthetic
 fixture automation/tests/fixtures/nhl_playoffs_synthetic.json.
 
 Game logs (/player/{id}/game-log/{season}/3) are not used: they have no hits
-or blocked shots, which DBL scores.
+or blocked shots, which PSBL scores.
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ import time
 from typing import Any, Callable
 
 API = "https://api-web.nhle.com/v1"
-USER_AGENT = "DBL-Playoff-Pool/1.0 (+https://github.com/diseasewheeze/dbl-assets)"
+USER_AGENT = "PSBL-Playoff-Pool/1.0 (+https://github.com/diseasewheeze/psbl-assets)"
 MIN_GAP = 0.4  # seconds between requests; the NHL API answers 429 when hit too fast
 ATTEMPTS = 4
 

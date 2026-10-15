@@ -1,5 +1,5 @@
-name: DBL Fantrax Probe
-run-name: DBL Fantrax Probe
+name: PSBL Fantrax Probe
+run-name: PSBL Fantrax Probe
 
 on:
   workflow_dispatch:

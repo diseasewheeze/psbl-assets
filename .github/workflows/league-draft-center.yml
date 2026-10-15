@@ -1,5 +1,5 @@
-name: DBL Draft Center
-run-name: DBL Draft Center — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Draft Center
+run-name: PSBL Draft Center — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Countdown, draft-order reveal and round-by-round recap, plus a private
 # Commissioner Desk alert when a pick clock runs out. No on-the-clock or
@@ -32,7 +32,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-draft-center
+  group: psbl-draft-center
   cancel-in-progress: false
 
 jobs:
@@ -79,5 +79,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(draft): save Draft Center state" \
-            "DBL Draft Automation" \
+            "PSBL Draft Automation" \
             "automation/draft/state/draft.json"

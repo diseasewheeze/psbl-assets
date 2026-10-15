@@ -1,4 +1,4 @@
-"""Discord layer for the DBL League Bot (discord.py 2.x).
+"""Discord layer for the PSBL League Bot (discord.py 2.x).
 
 Slash commands:
   /proposal new            post a written amendment proposal (20.2)
@@ -12,12 +12,12 @@ Slash commands:
   /panel draw              Commissioner or an Assistant draws a Review Panel (19.4)
   /rule                    look up the Constitution by section, article or keyword
   /deadlines               the next League Calendar dates
-  /minor                   is a player DBL minor-eligible (Article VII)
+  /minor                   is a player PSBL minor-eligible (Article VII)
   /myteam                  your franchise at a glance (private)
   /tradecheck              Constitution compliance for a proposed trade (never value)
   /pickem leaderboard      Pick'em season standings
   /book lines|bet|mybets|leaderboard
-                           DBL Bucks: play-money bets against the spread on
+                           PSBL Bucks: play-money bets against the spread on
                            matchups the bettor's franchise isn't in
   /awards open|nominate|close|results|status
                            the annual Awards Ballot (5-3-1), after the Championship
@@ -25,7 +25,7 @@ Slash commands:
 Ballots are buttons on the vote post. They are private, can be changed until
 the vote closes, and close automatically after the window. The same one-minute
 ticker posts, locks and scores the weekly Pick'em, posts, locks and settles
-DBL Bucks Weeks, and closes the Awards Ballot at its deadline.
+PSBL Bucks Weeks, and closes the Awards Ballot at its deadline.
 
 League logic lives in the pure modules next to this one (rules, constitution,
 deadlines, minor, team, trade, pickem, book, awards); blocking reads (Fantrax,
@@ -72,7 +72,7 @@ def fantrax_phase() -> tuple[str | None, datetime | None]:
         from core.fantrax import Fantrax
         from core.league import load_league
 
-        info = Fantrax(str(load_league()["league_id"]), user_agent="DBL-LeagueBot/1.0").league_info()
+        info = Fantrax(str(load_league()["league_id"]), user_agent="PSBL-LeagueBot/1.0").league_info()
         now = utcnow()
         phase = season.phase(info, now)
         weeks = season.periods(info)
@@ -357,7 +357,7 @@ class VoteBot(discord.Client):
         self.ticker.start()
 
     async def on_ready(self) -> None:
-        log.info("DBL League Bot logged in as %s; %d open votes", self.user, len(self.store.open_votes()))
+        log.info("PSBL League Bot logged in as %s; %d open votes", self.user, len(self.store.open_votes()))
         for problem in self.cfg.problems:
             log.warning("Config: %s", problem)
         if self.cfg.suggestions_forum_id:
@@ -394,8 +394,8 @@ class VoteBot(discord.Client):
         if self.cfg.book_channel_id and (self._book_after is None or now >= self._book_after):
             try:
                 await self.book_tick(now)
-            except Exception:  # never let DBL Bucks stop the vote ticker
-                log.exception("DBL Bucks check failed; trying again in 15 minutes")
+            except Exception:  # never let PSBL Bucks stop the vote ticker
+                log.exception("PSBL Bucks check failed; trying again in 15 minutes")
                 self._book_after = now + PICKEM_RETRY
         for row in self.store.awards_due_to_close(now):
             try:
@@ -621,7 +621,7 @@ class VoteBot(discord.Client):
 
     # -- season roles --------------------------------------------------------
     async def award_season_role(self, role_name: str, winners: list[int], reason: str) -> str | None:
-        """Give a season role (the DBL Bucks Sharp role) to the winners and take it from last Season's holders.
+        """Give a season role (the PSBL Bucks Sharp role) to the winners and take it from last Season's holders.
 
         Needs Manage Roles, with the bot's own role above this one. Returns what
         went wrong, or None when every change went through.
@@ -649,12 +649,12 @@ class VoteBot(discord.Client):
                 problems.append(f"couldn't give it to {uid} ({exc.status})")
         return "; ".join(problems) or None
 
-    # -- DBL Bucks ----------------------------------------------------------
+    # -- PSBL Bucks ----------------------------------------------------------
     def book_player(self, member: Any) -> tuple[rules.Franchise | None, str | None]:
         """The bettor's franchise (to keep them off its matchup), or why they can't play."""
         if not self.cfg.book_role_ids & self.role_ids(member):
             who = " or ".join({"owner": "Franchise Owners", "co_owner": "Co-Owners"}[p] for p in self.cfg.book_players)
-            return None, f"DBL Bucks is for {who or 'members with a franchise role'}."
+            return None, f"PSBL Bucks is for {who or 'members with a franchise role'}."
         return rules.team_member(self.role_ids(member), self.cfg.book_role_ids, self.franchises(), needs_fantrax=True)
 
     @staticmethod
@@ -703,7 +703,7 @@ class VoteBot(discord.Client):
         return [app_commands.Choice(name=embeds.clip(f"{line.label(s)} ({s})", 100), value=s) for s in book.SIDES]
 
     async def book_tick(self, now: datetime) -> None:
-        """Post lines, lock and settle DBL Bucks Weeks on Pick'em's Fantrax calendar (pickem.plan)."""
+        """Post lines, lock and settle PSBL Bucks Weeks on Pick'em's Fantrax calendar (pickem.plan)."""
         info = await asyncio.to_thread(self.data.league_info)
         league_id = await asyncio.to_thread(getattr, self.data, "league_id")
         key = pickem.season_key(league_id, info)
@@ -729,7 +729,7 @@ class VoteBot(discord.Client):
         msg = await channel.send(embed=discord.Embed.from_dict(embed))
         self.store.add_book_week(key, number, [line.as_dict() for line in lines], locks_at=week.start, now=now)
         self.store.set_book_message(key, number, msg.channel.id, msg.id)
-        log.info("DBL Bucks Week %s lines posted", number)
+        log.info("PSBL Bucks Week %s lines posted", number)
 
     async def book_settle(self, key: str, info: dict[str, Any], number: int, now: datetime) -> None:
         row = self.store.book_week(key, number)
@@ -750,12 +750,12 @@ class VoteBot(discord.Client):
             embed = book.settlement_embed(number, lines, found, settled, board, pickem.season_label(key))
             await channel.send(embed=discord.Embed.from_dict(embed))
         self.store.set_book_status(key, number, "settled", results={k: list(v) for k, v in found.items()}, now=now)
-        log.info("DBL Bucks Week %s settled", number)
+        log.info("PSBL Bucks Week %s settled", number)
 
     async def book_crown_if_due(self, key: str, info: dict[str, Any]) -> None:
         """Crown the Sharp once the last regular-season Week is settled.
 
-        Checked at the end of every DBL Bucks tick rather than inside the
+        Checked at the end of every PSBL Bucks tick rather than inside the
         settlement, so a crowning that failed part way (a Discord error) is
         retried on later ticks until it is stored. Does nothing once this
         season's champions are stored.
@@ -781,9 +781,9 @@ class VoteBot(discord.Client):
         problem = None
         if leaders and self.cfg.sharp_role:
             problem = await self.award_season_role(self.cfg.sharp_role, leaders,
-                                                   f"DBL Bucks {pickem.season_label(key)} profit leader")
+                                                   f"PSBL Bucks {pickem.season_label(key)} profit leader")
         if problem:
-            log.warning("DBL Bucks: the %s role: %s", self.cfg.sharp_role, problem)
+            log.warning("PSBL Bucks: the %s role: %s", self.cfg.sharp_role, problem)
         channel = await self.channel(self.cfg.book_channel_id)
         if channel is not None and leaders:
             embed = book.sharp_embed(self.cfg.sharp_role or "Sharp", leaders, board, pickem.season_label(key))
@@ -892,7 +892,7 @@ class VoteBot(discord.Client):
         franchise = app_commands.Group(name="franchise", description="Franchise status", guild_only=True)
         panel = app_commands.Group(name="panel", description="Review Panel (19.4)", guild_only=True)
         pickem_group = app_commands.Group(name="pickem", description="Weekly Pick'em", guild_only=True)
-        book_group = app_commands.Group(name="book", description="DBL Bucks: play-money bets on matchups you're not in",
+        book_group = app_commands.Group(name="book", description="PSBL Bucks: play-money bets on matchups you're not in",
                                         guild_only=True)
         awards_group = app_commands.Group(name="awards", description="The annual Awards Ballot (5-3-1)", guild_only=True)
         kinds = [app_commands.Choice(name="Material Amendment", value="amendment"),
@@ -1064,15 +1064,15 @@ class VoteBot(discord.Client):
                 embed = pickem.leaderboard_embed(board, pickem.season_label(key), weeks)
             await interaction.response.send_message(embed=discord.Embed.from_dict(embed))
 
-        # -- DBL Bucks: /book ------------------------------------------------
+        # -- PSBL Bucks: /book ------------------------------------------------
         open_book_week = bot.open_book_week
 
-        @book_group.command(name="lines", description="This Week's DBL Bucks lines (play money)")
+        @book_group.command(name="lines", description="This Week's PSBL Bucks lines (play money)")
         async def book_lines(interaction: discord.Interaction) -> None:
             row = bot.store.latest_book_week()
             if row is None:
                 await interaction.response.send_message(
-                    "No DBL Bucks lines have been posted yet. They post when the previous Week is final.",
+                    "No PSBL Bucks lines have been posted yet. They post when the previous Week is final.",
                     ephemeral=True)
                 return
             locks = parse(row["locks_at"])
@@ -1086,7 +1086,7 @@ class VoteBot(discord.Client):
             embed = book.lines_embed(number, bot.book_lines_of(row), locks, pickem.season_label(row["season"]))
             await interaction.response.send_message(state, embed=discord.Embed.from_dict(embed), ephemeral=True)
 
-        @book_group.command(name="bet", description="Bet DBL Bucks on a matchup your franchise isn't in (0 removes a bet)")
+        @book_group.command(name="bet", description="Bet PSBL Bucks on a matchup your franchise isn't in (0 removes a bet)")
         @app_commands.describe(matchup="A matchup on this Week's board (never your own)",
                                side="The team you're backing, with its spread",
                                amount="Bucks on this bet; 100 a Week in all, unused Bucks don't carry over. 0 removes it")
@@ -1128,7 +1128,7 @@ class VoteBot(discord.Client):
         async def book_bet_side(interaction: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
             return bot.book_side_choices(str(getattr(interaction.namespace, "matchup", "") or ""))
 
-        @book_group.command(name="mybets", description="Your DBL Bucks bets this Week and your season profit (private)")
+        @book_group.command(name="mybets", description="Your PSBL Bucks bets this Week and your season profit (private)")
         async def book_mybets(interaction: discord.Interaction) -> None:
             f, why = bot.book_player(interaction.user)
             if f is None:
@@ -1136,7 +1136,7 @@ class VoteBot(discord.Client):
                 return
             row = bot.store.latest_book_week()
             if row is None:
-                await interaction.response.send_message("No DBL Bucks Week has been posted yet.", ephemeral=True)
+                await interaction.response.send_message("No PSBL Bucks Week has been posted yet.", ephemeral=True)
                 return
             key, number = row["season"], int(row["period"])
             locks = parse(row["locks_at"])
@@ -1154,7 +1154,7 @@ class VoteBot(discord.Client):
                          f"rank {rank} of {len(board)}.")
             await interaction.response.send_message(text, ephemeral=True)
 
-        @book_group.command(name="leaderboard", description="DBL Bucks season profit standings")
+        @book_group.command(name="leaderboard", description="PSBL Bucks season profit standings")
         async def book_leaderboard(interaction: discord.Interaction) -> None:
             key = bot.store.latest_book_season()
             if key is None:
@@ -1379,7 +1379,7 @@ class VoteBot(discord.Client):
                                                     ephemeral=ephemeral)
 
         @app_commands.command(name="minor",
-                              description="Is a player DBL minor-eligible? Career MLB at-bats and innings (Article VII)")
+                              description="Is a player PSBL minor-eligible? Career MLB at-bats and innings (Article VII)")
         @app_commands.describe(player="Player name, e.g. Konnor Griffin",
                                team="MLB team if two players share the name, e.g. LAD",
                                ephemeral="Only you see the answer")

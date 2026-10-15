@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Start the DBL League Bot.
+"""Start the PSBL League Bot.
 
 Environment:
   DISCORD_TOKEN              bot token from the Discord Developer Portal (required)
@@ -30,21 +30,21 @@ def main() -> int:
     for problem in cfg.problems:
         logging.warning("Config: %s", problem)
     if os.environ.get("LEAGUE_CHECK"):
-        print(f"DBL League Bot config OK with {len(cfg.problems)} warning(s); {len(cfg.franchises)} franchises.")
+        print(f"PSBL League Bot config OK with {len(cfg.problems)} warning(s); {len(cfg.franchises)} franchises.")
         return 0
     token = os.environ.get("DISCORD_TOKEN", "").strip()
     if not token:
-        logging.error("DBL League Bot: DISCORD_TOKEN is not set.")
+        logging.error("PSBL League Bot: DISCORD_TOKEN is not set.")
         return 1
 
     from league_bot.app import VoteBot  # needs discord.py
     from league_bot.store import Store
 
     if not os.environ.get("LEAGUE_LEDGER_CLEARANCE_CSV", "").strip():
-        logging.warning("DBL League Bot: LEAGUE_LEDGER_CLEARANCE_CSV is not set; /myteam and /tradecheck "
+        logging.warning("PSBL League Bot: LEAGUE_LEDGER_CLEARANCE_CSV is not set; /myteam and /tradecheck "
                         "can't read the League Ledger's paid-through Seasons.")
     store = Store(os.environ.get("LEAGUE_DB_PATH") or "/data/league_bots.db")
-    logging.info("Starting the DBL League Bot")
+    logging.info("Starting the PSBL League Bot")
     VoteBot(cfg, store).run(token, log_handler=None)
     return 0
 

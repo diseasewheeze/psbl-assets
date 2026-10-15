@@ -5,7 +5,7 @@
       "description": "**`[FRANCHISE]`** finishes last in Season `[YEAR]` and takes home the Spoon.",
       "color": 795456,
       "footer": {
-        "text": "DBL RECORDS DEPARTMENT"
+        "text": "PSBL RECORDS DEPARTMENT"
       },
       "fields": [
         {
@@ -20,7 +20,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

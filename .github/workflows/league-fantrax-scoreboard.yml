@@ -1,8 +1,8 @@
-name: DBL Fantrax Scoreboard
-run-name: DBL Fantrax Scoreboard — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Fantrax Scoreboard
+run-name: PSBL Fantrax Scoreboard — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # One live-updating scoreboard message per week.
-# Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler starts
+# Timing lives in automation/scheduler/schedule.yaml; the PSBL Scheduler starts
 # this workflow with mode=live hourly during the regular season and playoffs.
 
 on:
@@ -24,7 +24,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-fantrax-scoreboard
+  group: psbl-fantrax-scoreboard
   cancel-in-progress: false
 
 jobs:
@@ -68,5 +68,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(fantrax): save scoreboard state" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/competition/state/scoreboard.json"

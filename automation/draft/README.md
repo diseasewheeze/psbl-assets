@@ -1,4 +1,4 @@
-# DBL Draft Center
+# PSBL Draft Center
 
 Discord coverage for the Startup Draft (Article XIII) and the Annual Draft
 (Article XIV), driven by Fantrax's own draft data.
@@ -51,17 +51,17 @@ channels each need one:
 
 1. In Discord, open **`📢│draft-announcements`** → the gear icon (**Edit Channel**)
    → **Integrations** → **Webhooks** → **New Webhook**. Name it
-   `DBL Draft Center` and click **Copy Webhook URL**.
-2. On GitHub: **dbl-assets** → **Settings** → **Secrets and variables** →
+   `PSBL Draft Center` and click **Copy Webhook URL**.
+2. On GitHub: **psbl-assets** → **Settings** → **Secrets and variables** →
    **Actions** → **New repository secret**. Name: `LEAGUE_WEBHOOK_DRAFT_ANNOUNCEMENTS`,
    value: the URL you copied. **Add secret**.
 3. Repeat for **`📋│draft-results`** with the name `LEAGUE_WEBHOOK_DRAFT_RESULTS`.
-4. Check it: **Actions** → **DBL Draft Center** → **Run workflow** with mode
+4. Check it: **Actions** → **PSBL Draft Center** → **Run workflow** with mode
    `test`. You should see clearly labeled `[TEST]` posts: an announcement and
    the draft order in `📢│draft-announcements`, Round 1 in `📋│draft-results`, a
    completion post, and a sample timeout alert in Commissioner Desk.
 
-## Manual runs (Actions tab → DBL Draft Center)
+## Manual runs (Actions tab → PSBL Draft Center)
 
 - `preview`: prints in the log what a live run would post right now.
 - `test`: posts `[TEST]` samples of each post type. Nothing is recorded.

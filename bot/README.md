@@ -1,6 +1,6 @@
-# DBL League Bot
+# PSBL League Bot
 
-An always-on Discord bot for the league. It runs league votes by the Constitution's rules (one vote per franchise, cast by the Franchise Owner), answers rules and eligibility questions, shows each franchise its own Fantrax picture, checks trades for compliance, and runs three just-for-fun games: a weekly Pick'em, the DBL Bucks play-money sportsbook and the annual Awards Ballot. It stays off until owners join; the Constitution blocks amendment votes until the Offseason after Season 2027 (20.1).
+An always-on Discord bot for the league. It runs league votes by the Constitution's rules (one vote per franchise, cast by the Franchise Owner), answers rules and eligibility questions, shows each franchise its own Fantrax picture, checks trades for compliance, and runs three just-for-fun games: a weekly Pick'em, the PSBL Bucks play-money sportsbook and the annual Awards Ballot. It stays off until owners join; the Constitution blocks amendment votes until the Offseason after Season 2027 (20.1).
 
 Fantrax is only ever read, never written. The bot posts nothing that Fantrax already sends (lineups, trades, waivers, draft picks).
 
@@ -32,7 +32,7 @@ Fantrax is only ever read, never written. The bot posts nothing that Fantrax alr
 | --- | --- | --- |
 | `/rule <query>` | Anyone | The Constitution by section (`12.4`), article (`XII`, `Article 12`) or keyword (`prepayment`, up to 3 best matches). Public by default; `ephemeral: True` shows it only to you |
 | `/deadlines` | Anyone | The next 3 dates on the League Calendar (`automation/league-office/events.yaml`, enabled and dated events only), in each member's own time zone. Private Commissioner Desk reminders are never shown |
-| `/minor <player>` | Anyone | Career MLB regular-season at-bats (as a hitter) and innings pitched against the rookie limits (130 at-bats, 50 innings) and **DBL minor-eligible: YES/NO** (7.2, 7.3). Add `team: LAD` when two players share a name |
+| `/minor <player>` | Anyone | Career MLB regular-season at-bats (as a hitter) and innings pitched against the rookie limits (130 at-bats, 50 innings) and **PSBL minor-eligible: YES/NO** (7.2, 7.3). Add `team: LAD` when two players share a name |
 | `/myteam` | Franchise Owner or Co-Owner | Private. Roster counts against the 6.1 limits (active lineup, reserve, minors, IL, from `automation/core/sport.py`), future picks owned and traded away, paid-through Season from the League Ledger, this Week's opponent and score, and the next 2 deadlines. FAAB isn't in Fantrax's data feed, so it says "check Fantrax" |
 | `/tradecheck` | Franchise Owner, Co-Owner or Commissioner | Compliance only, never value: future 1st and 2nd prepayment (12.2 to 12.4), roster limits after the trade (6.1) with incoming players placed by position (6.2), the trade window (11.6), and a reminder of what it can't detect (11.3, 11.4, 11.5). Private by default; `post: True` posts it in the channel |
 | `/pickem leaderboard` | Anyone | Pick'em season standings |
@@ -52,7 +52,7 @@ Each Fantrax Week, owners pick the winner of every matchup.
 
 Regular-season Weeks only; Fantrax's schedule has seeds, not teams, for playoff Weeks. Who plays is set by `pickem.players` in config.yaml (`owner`, `co_owner` or both). Picks are stored on the Railway volume.
 
-### DBL Bucks
+### PSBL Bucks
 
 A play-money sportsbook in **⚾│game-day** (`book_channel_id`). Owners bet against the spread on the matchups their own franchise isn't playing in.
 
@@ -76,7 +76,7 @@ Regular-season Weeks only. Bets, lines and results are stored on the Railway vol
 
 ### Awards Ballot
 
-After the DBL Championship, owners vote on the Season's awards with a ranked ballot.
+After the PSBL Championship, owners vote on the Season's awards with a ranked ballot.
 
 | Command | Who | What it does |
 | --- | --- | --- |
@@ -110,7 +110,7 @@ Awards carry no money and change nothing in the standings or the draft.
 
 ```json
 {
-  "format": "dbl-awards/1",
+  "format": "psbl-awards/1",
   "updated_at": "2028-04-20T15:00:00+00:00",
   "seasons": {
     "2027": {
@@ -149,37 +149,37 @@ Awards carry no money and change nothing in the standings or the draft.
 ## Setup (when owners have joined)
 
 **1. Create the bot in Discord**
-1. Go to discord.com/developers/applications, click **New Application** and name it "DBL League Bot".
-2. In **Bot**, upload `brand/kit/02_avatars_icons/dbl-bot-avatar-round-512.png`, click **Reset Token** and copy the token. Keep it private.
+1. Go to discord.com/developers/applications, click **New Application** and name it "PSBL League Bot".
+2. In **Bot**, upload `brand/kit/02_avatars_icons/psbl-bot-avatar-round-512.png`, click **Reset Token** and copy the token. Keep it private.
 3. On the same page, turn on **Server Members Intent**. Panel draws need it to see who holds each franchise role.
 4. In **OAuth2 > URL Generator**, tick the scopes `bot` and `applications.commands`. Then tick the permissions View Channels, Send Messages, Send Messages in Threads, Embed Links, Attach Files, Read Message History, Manage Threads, Manage Roles and Mention Everyone. Mention Everyone lets the bot ping franchise roles that aren't mentionable; Manage Threads lets it tag suggestion threads; Manage Roles lets it move the **💸 Sharp** role; Attach Files sends the Awards export.
-5. Open the generated URL and add the bot to the DBL server.
+5. Open the generated URL and add the bot to the PSBL server.
 
 **2. Fill in `bot/config.yaml`**
 1. In Discord, go to **User Settings > Advanced** and turn on **Developer Mode**.
 2. Copy these IDs into config.yaml: the server, **🗳️│league-voting**, **⚖️│rulings-log**, the Commissioner role, the Assistant Commissioner role (optional), the Franchise Owner role and the Co-Owner role.
 3. Copy the IDs of the Pick'em channel (`pickem_channel_id`) and the **💡│league-suggestions** forum (`suggestions_forum_id`).
-4. For DBL Bucks and the Awards Ballot, copy **⚾│game-day** into `book_channel_id` and **🏆│hall-of-champions** into `hall_of_champions_channel_id`. `awards_ballot_channel_id` is optional (blank posts the ballot in **🗳️│league-voting**). Create a role named exactly **💸 Sharp** (or change `book.sharp_role`) and drag the bot's own role above it in **Server Settings > Roles**, or Discord won't let the bot assign it.
+4. For PSBL Bucks and the Awards Ballot, copy **⚾│game-day** into `book_channel_id` and **🏆│hall-of-champions** into `hall_of_champions_channel_id`. `awards_ballot_channel_id` is optional (blank posts the ballot in **🗳️│league-voting**). Create a role named exactly **💸 Sharp** (or change `book.sharp_role`) and drag the bot's own role above it in **Server Settings > Roles**, or Discord won't let the bot assign it.
 5. Optional: `scheduled_for_vote_tag_id`, the ID of the forum's **🗳️ SENT TO VOTE** tag, added to a suggestion when it becomes a proposal. Discord can't copy a tag's ID, so start the bot once with `suggestions_forum_id` set: its log lists the forum's tags as `Name (ID)`.
-6. Replace the 12 placeholder franchises with real names, each franchise's role ID and its `fantrax_team_id`. The IDs in the file are the 2026-27 test league's; when the real league exists, run the **DBL Pick Trades** workflow in preview mode to list them. Mark your own franchise `commissioner: true`.
+6. Replace the 12 placeholder franchises with real names, each franchise's role ID and its `fantrax_team_id`. The IDs in the file are the 2026-27 test league's; when the real league exists, run the **PSBL Pick Trades** workflow in preview mode to list them. Mark your own franchise `commissioner: true`.
 7. Set `amendment_votes_from` to the day after the Season 2027 Championship ends. Add each Season's dues deadline under `dues_deadlines`.
 8. Optional settings: `book.players` (who bets: `owner`, `co_owner` or both; default owners only), `book.sharp_role`, `awards.ballot_days` (default 7, at most 30) and `awards.export_path`.
 9. Check it with `LEAGUE_CHECK=1 python3 bot/main.py`. The check should report 0 warnings. At startup the bot also warns if a `fantrax_team_id` isn't a team in the Fantrax league.
 
 **3. Deploy on Railway (about $5 a month on the Hobby plan)**
-1. In Railway, click **New Project > Deploy from GitHub repo** and pick `diseasewheeze/dbl-assets`.
+1. In Railway, click **New Project > Deploy from GitHub repo** and pick `diseasewheeze/psbl-assets`.
 2. In the service's **Settings**, set **Config file path** to `bot/railway.json`. That file sets the install command and `python bot/main.py` as the start command.
 3. In **Variables**, add:
    - `DISCORD_TOKEN`: the token from step 1
    - `LEAGUE_DB_PATH` = `/data/league_bots.db`
    - `LEAGUE_LEDGER_CLEARANCE_CSV`: the published-CSV link of the League Ledger's Pick Clearance tab, the same value as the GitHub secret of that name. It powers "Paid through" in `/myteam` and the prepayment check in `/tradecheck`.
-4. Right-click the service, choose **Attach Volume** and mount it at `/data`. Without a volume, votes, Pick'em picks, DBL Bucks bets, Awards ballots and the Awards export are lost on every redeploy.
-5. Deploy. The log should say "DBL League Bot logged in as …", and the slash commands appear in the server within a minute.
+4. Right-click the service, choose **Attach Volume** and mount it at `/data`. Without a volume, votes, Pick'em picks, PSBL Bucks bets, Awards ballots and the Awards export are lost on every redeploy.
+5. Deploy. The log should say "PSBL League Bot logged in as …", and the slash commands appear in the server within a minute.
 
 ## How it reads league data
 
-- **Fantrax** (read-only): the season calendar and schedule (`getLeagueInfo`), rosters (`getTeamRosters`), draft picks (`getDraftPicks`), player names (`getPlayerIds`), live and final scores (`getMatchupScores`, also for DBL Bucks lines and settlement) and standings (`getStandings`, for the Awards Ballot's Comeback and Bust), through the shared client in `automation/core/`. Reads are cached for 3 to 30 minutes (player names for 12 hours) and run off the event loop, so a slow Fantrax never freezes the bot.
-- **Power Rankings math:** DBL Bucks reuses the recent-form window and placeholder-week handling of `automation/competition/weekly.py`.
+- **Fantrax** (read-only): the season calendar and schedule (`getLeagueInfo`), rosters (`getTeamRosters`), draft picks (`getDraftPicks`), player names (`getPlayerIds`), live and final scores (`getMatchupScores`, also for PSBL Bucks lines and settlement) and standings (`getStandings`, for the Awards Ballot's Comeback and Bust), through the shared client in `automation/core/`. Reads are cached for 3 to 30 minutes (player names for 12 hours) and run off the event loop, so a slow Fantrax never freezes the bot.
+- **Power Rankings math:** PSBL Bucks reuses the recent-form window and placeholder-week handling of `automation/competition/weekly.py`.
 - **MLB Stats API:** player search and career totals for `/minor`, through `automation/core/mlb_people.py`, cached for hours.
 - **League Calendar:** `automation/league-office/events.yaml`, read the same way as the League Office automation.
 - The bot's league logic lives in plain modules next to `app.py` (`constitution`, `deadlines`, `minor`, `team`, `trade`, `pickem`, `book`, `awards`), so it is tested without Discord.
@@ -188,4 +188,4 @@ Awards carry no money and change nothing in the standings or the draft.
 
 - `python bot/tests/test_bot.py` runs the voting rules, storage, embed and config tests offline. The Discord command tests (every command registers, ballot and Pick'em views build) run where `discord.py` is installed, which includes the regression-tests workflow.
 - `python bot/tests/test_league_features.py` tests `/rule`, `/deadlines`, `/minor`, `/myteam`, `/tradecheck`, Pick'em and the data caching against the Fantrax samples in `automation/tests/fixtures/`, with no network.
-- `python bot/tests/test_book_awards.py` tests DBL Bucks (line math, locking, the own-matchup ban, settlement with pushes and ties, the weekly reset, the leaderboard, the Sharp role, failed posts retried without settling twice) and the Awards Ballot (nominations and the Commissioner's recusal, ballot rules and the self-vote ban, 5-3-1 tallies and tie-breaks, closing, the results post and export). Its Discord flow tests run a whole DBL Bucks season and Awards Ballot through the slash commands where `discord.py` is installed.
+- `python bot/tests/test_book_awards.py` tests PSBL Bucks (line math, locking, the own-matchup ban, settlement with pushes and ties, the weekly reset, the leaderboard, the Sharp role, failed posts retried without settling twice) and the Awards Ballot (nominations and the Commissioner's recusal, ballot rules and the self-vote ban, 5-3-1 tallies and tie-breaks, closing, the results post and export). Its Discord flow tests run a whole PSBL Bucks season and Awards Ballot through the slash commands where `discord.py` is installed.

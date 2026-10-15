@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DBL History Posts: post league-history graphics and reports to Discord (manual workflow).
+"""PSBL History Posts: post league-history graphics and reports to Discord (manual workflow).
 
 Items:
   dynasty-pot      the Dynasty Pot graphic (balance and every franchise's titles this
@@ -49,7 +49,7 @@ def webhook(cfg: dict[str, Any], name: str) -> str:
 
 
 def wrap_message(username: str, embed: dict[str, Any]) -> dict[str, Any]:
-    """One message in the DBL format: the card, then the footer text and gold divider on the final embed."""
+    """One message in the PSBL format: the card, then the footer text and gold divider on the final embed."""
     return {"username": username, "avatar_url": AVATAR, "allowed_mentions": {"parse": []}, "embeds": fmt.apply([embed])}
 
 
@@ -69,12 +69,12 @@ def dynasty_message(summary: dict[str, Any], *, test: bool = False) -> dict[str,
             {"name": "THIS SEASON ADDED", "value": added_text, "inline": False},
             {"name": "CHAMPIONSHIP COUNTS THIS CYCLE", "value": "\n".join(counts) or "No championships yet this cycle.", "inline": False},
             {"name": "CYCLE STARTED", "value": f"Season {summary['cycle_started']}", "inline": False},
-            {"name": "TO WIN", "value": f"{summary['titles_to_win']} DBL Championships in the same active cycle (Article IV).", "inline": False},
+            {"name": "TO WIN", "value": f"{summary['titles_to_win']} PSBL Championships in the same active cycle (Article IV).", "inline": False},
         ],
         "image": {"url": "attachment://dynasty-pot.png"},
-        "footer": {"text": "DBL LEAGUE LEDGER"},
+        "footer": {"text": "PSBL LEAGUE LEDGER"},
     }
-    return wrap_message("DBL League Ledger", embed)
+    return wrap_message("PSBL League Ledger", embed)
 
 
 def card_message(profile: dict[str, Any], filename: str, *, test: bool = False) -> dict[str, Any]:
@@ -92,9 +92,9 @@ def card_message(profile: dict[str, Any], filename: str, *, test: bool = False) 
         "description": "\n".join(lines),
         "color": RED,
         "image": {"url": f"attachment://{filename}"},
-        "footer": {"text": "DBL FRANCHISE HQ"},
+        "footer": {"text": "PSBL FRANCHISE HQ"},
     }
-    return wrap_message("DBL Franchise HQ", embed)
+    return wrap_message("PSBL Franchise HQ", embed)
 
 
 def card_filename(profile: dict[str, Any]) -> str:

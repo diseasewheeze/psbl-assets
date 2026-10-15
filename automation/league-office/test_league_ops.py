@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline regression checks for DBL League Office time handling."""
+"""Offline regression checks for PSBL League Office time handling."""
 
 from __future__ import annotations
 
@@ -48,7 +48,7 @@ class LeagueOfficeTimeTests(unittest.TestCase):
     def test_late_start_payload_does_not_claim_future_time(self) -> None:
         starts = datetime(2027, 1, 15, 20, 0, tzinfo=self.tz)
         now = starts + timedelta(hours=2)
-        event = {"title": "DBL Test", "description": "", "priority": "normal"}
+        event = {"title": "PSBL Test", "description": "", "priority": "normal"}
         channel = {"label": "LEAGUE CALENDAR", "color": 0xC68F15}
         payload = league_ops.build_payload(
             event,
@@ -66,7 +66,7 @@ class ReminderPileUpTests(unittest.TestCase):
         self.starts = datetime(2027, 1, 15, 20, 0, tzinfo=self.tz)
         self.event = {
             "id": "trade-deadline",
-            "title": "DBL Trade Deadline",
+            "title": "PSBL Trade Deadline",
             "reminders": ["1d", "3h", "1h", "start"],
             "announcement_reminders": ["1d", "1h"],
         }

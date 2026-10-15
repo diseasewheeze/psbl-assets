@@ -27,7 +27,7 @@ Needs a source with `breaking_allowed: true` (MLB.com) and a high-impact headlin
 - a concrete absence: "out for the Twins' next two games", "will miss his next start"
 
 ## 🔄│mlb-transactions
-MLB's official log: recalls, options, contract selections, designations for assignment, outrights, trades, releases, waiver claims and signings. A minor-league contract or a plain draft-pick signing posts only for a player on a DBL roster.
+MLB's official log: recalls, options, contract selections, designations for assignment, outrights, trades, releases, waiver claims and signings. A minor-league contract or a plain draft-pick signing posts only for a player on a PSBL roster.
 
 Other outlets' headlines with transaction actions (traded, signs, designated for assignment, optioned, recalled, called up, claimed, released, opts out, exercises an option, extension) are routed here and then recorded without posting. Analysis keeps a headline in MLB News: questions, "why/how/what/should" openers, trade targets, values and rumors, "interested in", "pursued", grading a trade.
 

@@ -1,9 +1,9 @@
-name: DBL Fantrax Playoffs
-run-name: DBL Fantrax Playoffs — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: PSBL Fantrax Playoffs
+run-name: PSBL Fantrax Playoffs — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
 # Live playoff bracket. Seeds are saved automatically after the final
 # regular-season week. Timing lives in automation/scheduler/schedule.yaml; the
-# DBL Scheduler starts this workflow with mode=live hourly during playoff weeks.
+# PSBL Scheduler starts this workflow with mode=live hourly during playoff weeks.
 
 on:
   workflow_dispatch:
@@ -29,7 +29,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-fantrax-playoffs
+  group: psbl-fantrax-playoffs
   cancel-in-progress: false
 
 jobs:
@@ -75,5 +75,5 @@ jobs:
         run: |
           bash automation/tools/state_branch.sh save \
             "chore(fantrax): save playoff state" \
-            "DBL Fantrax Automation" \
+            "PSBL Fantrax Automation" \
             "automation/playoffs/state/playoff.json"

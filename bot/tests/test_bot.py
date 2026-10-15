@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline tests for the DBL League Bot's voting rules (no Discord connection needed)."""
+"""Offline tests for the PSBL League Bot's voting rules (no Discord connection needed)."""
 
 from __future__ import annotations
 

@@ -42,7 +42,7 @@ FIXTURES = Path(__file__).resolve().parent / "fixtures"
 INFO = json.loads((FIXTURES / "league_info_2026_test.json").read_text())
 RAW_STANDINGS = json.loads((FIXTURES / "standings_week0.json").read_text())
 MLB_INFO = fx.MLB_INFO
-CTX = render.Context("DBL Test League", "2027 TEST", 0xBD3039)
+CTX = render.Context("PSBL Test League", "2027 TEST", 0xBD3039)
 COMP = {"report_time": "08:00", "playoff_race_start_week": 16, "bubble_depth": 3}
 
 
@@ -388,7 +388,7 @@ class PreviewEdgeTests(DeskBase):
         self.assertTrue(body["embeds"][0]["description"].endswith(
             "\n\n*This week's matchups with each team's current Fantrax standing and record. "
             "The scoreboard will track scoring once the week is underway.*"))
-        self.assertTrue(any("every DBL roster is empty" in n for n in d.notes))
+        self.assertTrue(any("every PSBL roster is empty" in n for n in d.notes))
         self.assertEqual(self.mlb_calls, [])  # no MLB call needed
 
     def test_failures_never_break_the_preview(self) -> None:
@@ -396,7 +396,7 @@ class PreviewEdgeTests(DeskBase):
         for d in (self.make(FakeFantrax(2, rosters=rosters, players=players, info=MLB_INFO), fail_schedule=True),
                   self.make(FakeFantrax(2, info=MLB_INFO))):  # Fantrax rosters down
             body = d.build("preview", 3, self.MONDAY)
-            self.assertEqual(body["embeds"][0]["title"], "DBL Week 3 Matchup Preview")
+            self.assertEqual(body["embeds"][0]["title"], "PSBL Week 3 Matchup Preview")
             self.assertNotIn("Projected", json.dumps(body))
             self.assertTrue(any("schedule edge left out" in n for n in d.notes))
 
@@ -406,7 +406,7 @@ class PreviewEdgeTests(DeskBase):
         rosters, players = rosters_for(MLB_INFO, 3, ["NYY"])
         sent, out = self.live(self.make(FakeFantrax(2, rosters=rosters, players=players, info=MLB_INFO),
                                         fail_schedule=True), self.MONDAY)
-        self.assertIn(("LEAGUE_WEBHOOK_SCOREBOARD", "DBL Week 3 Matchup Preview"), sent)
+        self.assertIn(("LEAGUE_WEBHOOK_SCOREBOARD", "PSBL Week 3 Matchup Preview"), sent)
         self.assertIn("NOTE    preview week 3: schedule edge left out", out)
         self.assertIn("ERROR   games week 3", out)  # the grid itself still reports the MLB failure
 
@@ -494,7 +494,7 @@ class MonthlyAwardTests(unittest.TestCase):
         body = render.monthly_awards(CTX, groups[0], season.period(INFO, 1), monthly.monthly_awards(MONTH))
         embed = body["embeds"][0]
         fields = {f["name"]: f["value"] for f in embed["fields"]}
-        self.assertEqual(embed["title"], "DBL Monthly Awards — October 2026")
+        self.assertEqual(embed["title"], "PSBL Monthly Awards — October 2026")
         self.assertEqual(list(fields), ["Manager of the Month", "Best Record of the Month", "Biggest Single Week",
                                         "Hard Luck", "The Role"])
         self.assertEqual(fields["Manager of the Month"], "**Team B** — 325.00 pts")
@@ -505,7 +505,7 @@ class MonthlyAwardTests(unittest.TestCase):
                                              "month's award. The Commissioner assigns the role.")
         self.assertIn("Weeks 1–3: the fantasy weeks that ended in October", embed["description"])
         self.assertEqual(embed["footer"]["text"], "MONTHLY AWARDS • FANTRAX READ-ONLY DATA")
-        self.assertEqual(body["username"], "DBL Competition Desk")
+        self.assertEqual(body["username"], "PSBL Competition Desk")
         self.assertEqual(body["allowed_mentions"], {"parse": []})
         final = render.monthly_awards(CTX, groups[-1], season.period(INFO, 21), monthly.monthly_awards(
             {1: week(("A", 100, "B", 90), ("C", 100, "D", 90))}))
@@ -573,7 +573,7 @@ class MonthlyDeskTests(DeskBase):
         state = self.state()
         self.assertEqual((state["recap_week"], state["monthly_week"]), (5, 0))
         sent, _ = self.live(self.make(FakeFantrax(5), state), morning_of_end(5, 20))
-        self.assertEqual(sent, [("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Monthly Awards — October 2026")])
+        self.assertEqual(sent, [("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Monthly Awards — October 2026")])
         self.assertEqual(self.state()["monthly_week"], 4)
         sent, _ = self.live(self.make(FakeFantrax(5), self.state()), morning_of_end(6))
         self.assertNotIn("Monthly", " ".join(t for _, t in sent))
@@ -593,7 +593,7 @@ class MonthlyDeskTests(DeskBase):
         self.assertEqual(d.default_week("monthly", morning_of_end(6)), 4)   # October, complete
         self.assertEqual(d.default_week("monthly", morning_of_end(3)), 3)   # October to date
         title = d.build("monthly", 6, morning_of_end(7))["embeds"][0]["title"]
-        self.assertEqual(title, "DBL Monthly Awards — November 2026 (Month to Date)")
+        self.assertEqual(title, "PSBL Monthly Awards — November 2026 (Month to Date)")
         self.assertIsNone(d.build("monthly", 23, morning_of_end(23)))  # playoffs: no monthly awards
 
 
@@ -781,10 +781,10 @@ class BountyDeskTests(DeskBase):
         self.state_path.write_text(json.dumps(self.base_state()))
         weeks = {2: big_week(2), 3: big_week(3, 480.0)}
         sent, out = self.live(self.make(self.fantrax(2, weeks)), self.MON_WEEK2)
-        self.assertIn(("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Bounty Claimed — The 450 Club"), sent)
+        self.assertIn(("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Bounty Claimed — The 450 Club"), sent)
         titles = [t for _, t in sent]
-        self.assertLess(titles.index("DBL Power Rankings — After Week 2"),
-                        titles.index("DBL Bounty Claimed — The 450 Club"))
+        self.assertLess(titles.index("PSBL Power Rankings — After Week 2"),
+                        titles.index("PSBL Bounty Claimed — The 450 Club"))
         state = self.state()
         claim = state["bounties"]["claimed"]["big-week-450"]
         self.assertEqual((claim["week"], claim["detail"]), (2, "460.00 points in Week 2"))
@@ -815,7 +815,7 @@ class BountyDeskTests(DeskBase):
         self.state_path.write_text(json.dumps(state))
         fantrax = self.fantrax(2, rosters=fx.rosters(), players=fx.player_ids())
         sent, _ = self.live(self.make(fantrax, state), fx.et(2027, 4, 15, 8))
-        self.assertEqual(sent, [("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Bounty Claimed — First Multi-Homer Game")])
+        self.assertEqual(sent, [("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Bounty Claimed — First Multi-Homer Game")])
         saved = self.state()["bounties"]
         self.assertEqual(saved["feat_through"], "2027-04-13")
         self.assertEqual(saved["claimed"]["first-multi-homer"]["teams"], [{"teamId": "t1", "teamName": "Test 1"}])
@@ -872,7 +872,7 @@ class BountyDeskTests(DeskBase):
         self.assertEqual(d.default_week("bounties", fx.et(2027, 4, 20, 8)), 3)
         body = d.build("bounties", 3, fx.et(2027, 4, 20, 8))
         embed = body["embeds"][0]
-        self.assertEqual(embed["title"], "DBL Bounty Board")
+        self.assertEqual(embed["title"], "PSBL Bounty Board")
         board = embed["fields"][0]["value"]
         for title in ("First Multi-Homer Game", "The 450 Club", "Six Straight", "Eight Thousand"):
             self.assertIn(f"**{title}**", board)
@@ -918,7 +918,7 @@ class AllItemsTests(DeskBase):
             d = self.make(FakeFantrax(3, info=MLB_INFO))
             d.ctx.test = True
             self.assertEqual(desk.run("test", ["monthly", "bounties"], 3, False, desk=d), 0)
-        self.assertEqual(sent, ["[TEST] DBL Monthly Awards — April 2027 (Month to Date)", "[TEST] DBL Bounty Board"])
+        self.assertEqual(sent, ["[TEST] PSBL Monthly Awards — April 2027 (Month to Date)", "[TEST] PSBL Bounty Board"])
         self.assertFalse(self.state_path.exists())
 
     def test_workflow_offers_the_new_items(self) -> None:

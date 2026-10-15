@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""PSBL animated emoji, group anim_c (18 GIFs): the ballpark set. File names keep the dbl_ prefix.
+"""PSBL animated emoji, group anim_c (18 GIFs): the ballpark set. File names keep the psbl_ prefix.
 
-    python3 anim_c.py              # writes animated/dbl_<name>.gif for all 18 + anim_c_sheet.png
+    python3 anim_c.py              # writes animated/psbl_<name>.gif for all 18 + anim_c_sheet.png
     python3 anim_c.py swing homer  # just those (no sheet)
 
 Drawn on the 32 x 32 pix.Canvas and exported x4, like anim_a.py and anim_b.py (whose helpers it uses).
@@ -971,7 +971,7 @@ START = {"drag": 3, "homer": 9, "paint": 11, "foulpole": 5, "heater": 9, "bunt":
 
 
 def main(argv):
-    want = [a.replace("dbl_", "") for a in argv]
+    want = [a.replace("psbl_", "") for a in argv]
     paths = []
     for name, fn in EMOJI.items():
         if want and name not in want:
@@ -979,11 +979,11 @@ def main(argv):
         frames, durs = fn()
         k = START.get(name, 0)
         frames, durs = frames[k:] + frames[:k], list(durs[k:]) + list(durs[:k])
-        path = OUT / f"dbl_{name}.gif"
+        path = OUT / f"psbl_{name}.gif"
         pix.save_gif(frames, path, durs)
         ds = gif_info(path)
         ok = 8 <= len(ds) <= 24 and all(60 <= d <= 140 for d in ds)
-        print(f"{'ok ' if ok else 'BAD'} dbl_{name}.gif  frames={len(ds):2d}  ms={sum(ds):5d}  "
+        print(f"{'ok ' if ok else 'BAD'} psbl_{name}.gif  frames={len(ds):2d}  ms={sum(ds):5d}  "
               f"size={path.stat().st_size / 1024:5.1f} KB")
         paths.append(path)
     if not want:

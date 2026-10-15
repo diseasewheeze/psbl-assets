@@ -10,5 +10,5 @@ automation/*/state/
 /site/
 automation/history/out/
 
-# Built DBL Video Kit (tools/build_video_kit.py)
+# Built PSBL Video Kit (tools/build_video_kit.py)
 brand/video/build/

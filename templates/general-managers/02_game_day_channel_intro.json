@@ -1,20 +1,20 @@
 {
   "embeds": [
     {
-      "color": 2829617,
+      "color": 795456,
       "footer": {
         "text": "​"
       },
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/general-managers/dbl-general-managers-header.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/general-managers/psbl-general-managers-header.png?v=8bit-sox-1"
       }
     },
     {
-      "title": "DBL GAME DAY",
-      "description": "Live reaction for MLB games and DBL matchups.",
+      "title": "PSBL GAME DAY",
+      "description": "Live reaction for MLB games and PSBL matchups.",
       "color": 12398649,
       "footer": {
-        "text": "DBL GENERAL MANAGERS"
+        "text": "PSBL GENERAL MANAGERS"
       },
       "fields": [
         {
@@ -24,12 +24,12 @@
         },
         {
           "name": "PROBABLE PITCHERS",
-          "value": "Each game day from late morning, one message lists every game's probable starters and tags pitchers on DBL rosters. It updates quietly when a team changes its starter.",
+          "value": "Each game day from late morning, one message lists every game's probable starters and tags pitchers on PSBL rosters. It updates quietly when a team changes its starter.",
           "inline": false
         },
         {
           "name": "PICK'EM",
-          "value": "From Season 2027 the DBL League Bot posts each Week's matchups here. Pick the winners before the Week starts; a season leaderboard keeps score.",
+          "value": "From Season 2027 the PSBL League Bot posts each Week's matchups here. Pick the winners before the Week starts; a season leaderboard keeps score.",
           "inline": false
         },
         {
@@ -39,7 +39,7 @@
         }
       ],
       "image": {
-        "url": "https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/shared/dbl-footer-divider-1600x90.png?v=8bit-1"
+        "url": "https://raw.githubusercontent.com/diseasewheeze/psbl-assets/main/discord/webhooks/shared/psbl-footer-divider-1600x90.png?v=8bit-sox-1"
       }
     }
   ]

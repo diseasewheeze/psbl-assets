@@ -1,6 +1,6 @@
-# DBL Scheduler
+# PSBL Scheduler
 
-One dispatcher that decides when every DBL automation runs.
+One dispatcher that decides when every PSBL automation runs.
 
 ## Why this exists
 
@@ -8,7 +8,7 @@ GitHub's built-in `schedule:` cron is best-effort. In this repository's first
 days it ran the 15-minute Wire only every 3–7 hours, ran daily jobs up to
 7 hours late, and skipped some days entirely. Every automation was affected.
 
-Instead of each workflow keeping its own cron, the **DBL Scheduler** workflow
+Instead of each workflow keeping its own cron, the **PSBL Scheduler** workflow
 runs every 15 minutes and starts whatever is due, always in `live` mode:
 
 - **Primary trigger:** an external timer (cron-job.org) calls GitHub's API
@@ -59,26 +59,26 @@ repository, and a free cron-job.org job that uses it.
 1. On GitHub, open your profile picture → **Settings** → **Developer settings**
    (bottom of the left sidebar) → **Personal access tokens** →
    **Fine-grained tokens** → **Generate new token**.
-2. **Token name:** `DBL Scheduler timer`.
+2. **Token name:** `PSBL Scheduler timer`.
 3. **Expiration:** the longest offered (up to 1 year). Put a reminder on your
    calendar a week before it expires. If it lapses, the health monitor will
-   report "DBL Scheduler — Workflow appears stale".
+   report "PSBL Scheduler — Workflow appears stale".
 4. **Resource owner:** `diseasewheeze` (the organization).
-5. **Repository access:** **Only select repositories** → `dbl-assets`.
+5. **Repository access:** **Only select repositories** → `psbl-assets`.
 6. **Permissions** → **Repository permissions** → **Actions** → **Read and write**.
    Leave everything else as is (GitHub adds read-only Metadata automatically).
 7. Click **Generate token** and copy it. GitHub only shows it once.
 
-This token can start and read workflow runs in `dbl-assets` and nothing
+This token can start and read workflow runs in `psbl-assets` and nothing
 else: no code, no secrets, no other repositories. You can revoke it from the
 same page at any time.
 
 ### 2. Create the cron-job.org job
 
 1. Sign in at https://cron-job.org and choose **Create cronjob**.
-2. **Title:** `DBL Scheduler`.
+2. **Title:** `PSBL Scheduler`.
 3. **URL:**
-   `https://api.github.com/repos/diseasewheeze/dbl-assets/actions/workflows/league-scheduler.yml/dispatches`
+   `https://api.github.com/repos/diseasewheeze/psbl-assets/actions/workflows/league-scheduler.yml/dispatches`
 4. **Execution schedule:** every 15 minutes.
 5. Open the **Advanced** tab:
    - **Request method:** `POST`
@@ -95,8 +95,8 @@ same page at any time.
 
 ### 3. Confirm it is working
 
-In the repository's **Actions** tab, **DBL Scheduler** should show a run
-named `DBL Scheduler — live` every 15 minutes. Open one. The log lists every
+In the repository's **Actions** tab, **PSBL Scheduler** should show a run
+named `PSBL Scheduler — live` every 15 minutes. Open one. The log lists every
 job as `STARTED` or `WAIT` with the reason, for example:
 
 ```
@@ -108,7 +108,7 @@ WAIT    standings: slot Fri 07:30 EDT already ran
 
 GitHub switches off scheduled workflows in a public repository after 60 days
 with no repository activity. The scheduler has a `schedule:` backup trigger, so
-it could be switched off in a quiet stretch such as the offseason. The **DBL
+it could be switched off in a quiet stretch such as the offseason. The **PSBL
 Dormancy Guard** workflow has no `schedule:` trigger, so GitHub cannot switch it
 off that way. It re-enables any workflow GitHub disabled for inactivity and
 warns the Commissioner Desk when `main` has had no commit for 45 days.
@@ -116,8 +116,8 @@ warns the Commissioner Desk when `main` has had no commit for 45 days.
 The scheduler starts the guard daily. In case the scheduler itself is the thing
 that was switched off, add a second cron-job.org job (same token as above):
 
-- **Title:** `DBL Dormancy Guard`
-- **URL:** `https://api.github.com/repos/diseasewheeze/dbl-assets/actions/workflows/league-dormancy-guard.yml/dispatches`
+- **Title:** `PSBL Dormancy Guard`
+- **URL:** `https://api.github.com/repos/diseasewheeze/psbl-assets/actions/workflows/league-dormancy-guard.yml/dispatches`
 - **Schedule:** once a day
 - **Method and headers:** as for the scheduler job
 - **Request body:** `{"ref":"main","inputs":{"mode":"live"}}`
@@ -130,7 +130,7 @@ Healthchecks.io check covers that gap: every live scheduler run pings it, and if
 the pings stop it emails you (and optionally posts in Discord).
 
 1. Sign up at https://healthchecks.io (free plan: 20 checks, no card).
-2. **Add Check**. Name it `DBL Scheduler`.
+2. **Add Check**. Name it `PSBL Scheduler`.
    - **Schedule:** Simple. **Period** 15 minutes, **Grace time** 1 hour. You are
      alerted after about 75 minutes with no run, which rides out GitHub's
      occasional late starts without crying wolf.
@@ -152,10 +152,10 @@ Without the secret the step just logs that it skipped.
 | Symptom | Likely cause | Fix |
 | --- | --- | --- |
 | cron-job.org shows 401 | Token expired, revoked, or pasted wrong | Create a new token and update the `Authorization` header |
-| cron-job.org shows 403 | Token is missing **Actions: Read and write** or not scoped to `dbl-assets` | Edit the token's permissions |
+| cron-job.org shows 403 | Token is missing **Actions: Read and write** or not scoped to `psbl-assets` | Edit the token's permissions |
 | cron-job.org shows 404 | Wrong URL, or the scheduler is not on `main` yet | Check the URL; merge the scheduler PR |
 | cron-job.org shows 422 | Request body missing or not JSON | Body must be exactly `{"ref":"main"}` |
-| Health alert: "DBL Scheduler — Workflow appears stale" | External timer stopped; only GitHub's late backup cron is running | Check the cron-job.org job history |
+| Health alert: "PSBL Scheduler — Workflow appears stale" | External timer stopped; only GitHub's late backup cron is running | Check the cron-job.org job history |
 | Scheduler log shows `RETRY …` | GitHub answered one request with a 5xx or dropped the connection | Nothing; the job is checked or started at the next run |
 | Scheduler log shows `ERROR … dispatch failed` | Bad token or permissions, or a workflow lost its `mode` input | Read the error text in the log |
 | Healthchecks.io says the check is down | No live scheduler run for over an hour | Check cron-job.org history and the Actions tab; a GitHub outage clears itself |

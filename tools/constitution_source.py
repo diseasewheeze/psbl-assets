@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Single source of truth for the DBL Constitution text.
+"""Single source of truth for the PSBL Constitution text.
 
 Everything published from the constitution (Discohook messages, Markdown copy,
 PDF) is generated from this file by tools/build_constitution.py. Edit the text
@@ -27,7 +27,7 @@ _spec.loader.exec_module(sport)  # type: ignore[union-attr]
 
 EDITION = "Preliminary Draft"
 TAGLINE = "A permanent framework for competition, governance, and long-term franchise management."
-FOOTER = "DBL CONSTITUTION • PRELIMINARY DRAFT"
+FOOTER = "PSBL CONSTITUTION • PRELIMINARY DRAFT"
 
 # Adopted amendments, oldest first. Amendments are identified by the date they
 # were adopted; never give them version numbers. When an amendment passes
@@ -115,7 +115,7 @@ QUICK_REFERENCE = [
 ]
 
 ALLOCATION = [
-    ("DBL Champion", 850),
+    ("PSBL Champion", 850),
     ("Runner-Up", 450),
     ("Third Place", 200),
     ("Presidents' Trophy", 250),
@@ -137,7 +137,7 @@ DATE_RULES = [
     ("Playoffs", "Four consecutive Weeks after Week 22: Quarterfinals, Semifinals, then the two-week Championship, ending with the last day of the MLB regular season."),
     ("Waiver processing", "Daily at about 11:00 AM ET; Fantrax system behavior controls."),
     ("Lineup locks", "About one minute before each player's MLB game; Fantrax system behavior controls."),
-    ("Prizes and Season Ledger", "Within 30 days after the DBL Championship concludes (Article III)."),
+    ("Prizes and Season Ledger", "Within 30 days after the PSBL Championship concludes (Article III)."),
     ("Amendment votes", "Offseason only, and always before the dues deadline of the Season they first apply to (Article XX)."),
 ]
 
@@ -152,10 +152,10 @@ ARTICLES = [
     {
         "num": "I", "title": "League Identity and Purpose", "callout": None,
         "blocks": [
-            ("p", "The Dynasty Baseball League (DBL) is a 12-franchise dynasty fantasy baseball league established in 2026. Its inaugural season is Season 2027. It is designed around long-term roster construction, prospect development, active trading, daily competition, and permanent league history."),
+            ("p", "The Pitch Slapped Baseball League (PSBL) is a 12-franchise dynasty fantasy baseball league established in 2026. Its inaugural season is Season 2027. It is designed around long-term roster construction, prospect development, active trading, daily competition, and permanent league history."),
             ("p", "Fantrax is the authoritative platform for gameplay, rosters, scoring, transactions, standings, draft results, and playoff results. Discord is the league's communication, governance, trade-market, scouting, recordkeeping, and community platform."),
-            ("p", "The DBL is intended to reward sustained franchise management. Rebuilding, prospect accumulation, veteran contention windows, and aggressive trading are legitimate strategies when conducted in good faith and within this Constitution."),
-            ("p", "**Definitions.** **Season** means the MLB regular season a DBL season covers, identified by its year (Season 2027 is the 2027 MLB season). **Active Season** runs from the first lineup lock of Week 1 through the final scoring period of the DBL Championship; **Offseason** is every other time. **Week** means a Fantrax scoring week. **Annual Draft** means the draft held in an Offseason for the next Season, identified by the year it is held (the 2028 Annual Draft supplies Season 2028). **Franchise** means a team with one league vote; **Owner** means a person who manages it. **League Ledger** means the Commissioner's record of dues, prepayments, operating expenses, prizes, and the Dynasty Pot; its summary, the Season Ledger, is published in the league-ledger channel."),
+            ("p", "The PSBL is intended to reward sustained franchise management. Rebuilding, prospect accumulation, veteran contention windows, and aggressive trading are legitimate strategies when conducted in good faith and within this Constitution."),
+            ("p", "**Definitions.** **Season** means the MLB regular season a PSBL season covers, identified by its year (Season 2027 is the 2027 MLB season). **Active Season** runs from the first lineup lock of Week 1 through the final scoring period of the PSBL Championship; **Offseason** is every other time. **Week** means a Fantrax scoring week. **Annual Draft** means the draft held in an Offseason for the next Season, identified by the year it is held (the 2028 Annual Draft supplies Season 2028). **Franchise** means a team with one league vote; **Owner** means a person who manages it. **League Ledger** means the Commissioner's record of dues, prepayments, operating expenses, prizes, and the Dynasty Pot; its summary, the Season Ledger, is published in the league-ledger channel."),
             ("p", "**Material Amendment** means any change to dues, prizes, the financial allocation, scoring, roster or minor-league rules, trade, pick, or prepayment rules, playoff or draft-order formats, voting thresholds, or Commissioner powers, and any other change that alters franchise rights or obligations. Clerical corrections, platform-conformance fixes, and League Calendar dates are not Material Amendments."),
             ("p", "**Labor stoppage before launch.** If an MLB lockout or strike is in effect on December 2, 2026, the day after MLB's labor agreement expires, the inaugural Season becomes Season 2028. Every date, draft, and Season number in this Constitution that is tied to the inaugural Season then moves one year later, and no dues are collected for Season 2027."),
         ],
@@ -184,28 +184,28 @@ ARTICLES = [
             ("p", "The League Services Allocation is the league service fee. It is paid to the Commissioner for recurring league administration, setup, records, Discord infrastructure, automation maintenance, league communications, and related management duties. Any increase to the League Services Allocation is a Material Amendment. On any vote that changes the League Services Allocation, the Commissioner's franchise does not vote and approval requires at least 8 of the other 11 franchises."),
             ("p", "The League Operating Reserve may be used only for Fantrax Premium, League Bot hosting, and other disclosed, authorized league operating costs. Any portion of the $200 reserve remaining after the Season's authorized expenses are settled is added to the Dynasty Pot."),
             ("p", "Guaranteed competitive prizes will not be reduced during an Active Season to cover an unanticipated operating overage. Any additional assessment or material change to the annual allocation requires league approval under this Constitution."),
-            ("p", "Prizes are paid after the competition that earns them is final, and no later than 30 days after the DBL Championship concludes. Within the same period the Commissioner publishes a Season Ledger in the League Ledger channel showing dues received, prizes paid, operating reserve spending, the League Services Allocation, and the Dynasty Pot balance."),
+            ("p", "Prizes are paid after the competition that earns them is final, and no later than 30 days after the PSBL Championship concludes. Within the same period the Commissioner publishes a Season Ledger in the League Ledger channel showing dues received, prizes paid, operating reserve spending, the League Services Allocation, and the Dynasty Pot balance."),
             ("p", "Annual dues are non-refundable once the Annual Draft has begun (the Startup Draft for Season 2027), except that if the league dissolves before the Season, Article XX requires a distribution or refund. Future-season prepayments attached to a franchise are non-refundable if an owner voluntarily leaves the league."),
         ],
     },
     {
         "num": "IV", "title": "Dynasty Pot",
-        "callout": ("DYNASTY POT", "The first franchise to win three DBL Championships in the same active cycle wins the entire accumulated pot."),
+        "callout": ("DYNASTY POT", "The first franchise to win three PSBL Championships in the same active cycle wins the entire accumulated pot."),
         "blocks": [
-            ("p", "The DBL maintains a rolling Dynasty Pot designed to reward sustained championship success across multiple Seasons. The first Dynasty Pot cycle begins with Season 2027."),
+            ("p", "The PSBL maintains a rolling Dynasty Pot designed to reward sustained championship success across multiple Seasons. The first Dynasty Pot cycle begins with Season 2027."),
             ("p", "At least $300 from each Season's dues is added to the Dynasty Pot. Any unused portion of the annual League Operating Reserve is also added to the Dynasty Pot after the Season's authorized expenses are settled."),
-            ("p", "The first franchise to win three DBL Championships during the same active Dynasty Pot cycle wins the entire accumulated Dynasty Pot. Championships do not need to be consecutive."),
+            ("p", "The first franchise to win three PSBL Championships during the same active Dynasty Pot cycle wins the entire accumulated Dynasty Pot. Championships do not need to be consecutive."),
             ("p", "Championship credit belongs to the franchise, not the individual owner. An ownership change does not erase a franchise's championship count within the active cycle."),
             ("p", "The base Dynasty Pot contribution for the Season in which a franchise wins its third championship is added to the pot before the payout is calculated. The payout is made after the championship result is final and the Season's financial obligations are reconciled."),
-            ("p", "After the Dynasty Pot is paid, the active balance returns to zero, every franchise's championship counter resets to zero, and a new cycle begins. Historical championships remain permanently recorded in DBL history."),
+            ("p", "After the Dynasty Pot is paid, the active balance returns to zero, every franchise's championship counter resets to zero, and a new cycle begins. Historical championships remain permanently recorded in PSBL history."),
             ("p", "The Dynasty Pot balance and each franchise's championship count are reported in the Season Ledger."),
-            ("p", "If the DBL permanently dissolves before the Dynasty Pot is won, remaining Dynasty Pot funds are distributed equally among the active, fully paid franchises after any authorized outstanding league expenses are satisfied."),
+            ("p", "If the PSBL permanently dissolves before the Dynasty Pot is won, remaining Dynasty Pot funds are distributed equally among the active, fully paid franchises after any authorized outstanding league expenses are satisfied."),
         ],
     },
     {
         "num": "V", "title": "Format, Schedule, and Calendar", "callout": None,
         "blocks": [
-            ("p", "The DBL uses Head-to-Head Points scoring with daily lineups."),
+            ("p", "The PSBL uses Head-to-Head Points scoring with daily lineups."),
             ("p", "The regular season consists of 22 fantasy Weeks. Each franchise plays every other franchise twice. The league does not use divisions or conferences. Week 1 opens with MLB's Opening Night and may run longer than one calendar week. If Fantrax combines the All-Star break with an adjacent week, that scoring period counts as one Week. If Fantrax's MLB calendar cannot fit 22 regular-season Weeks and the four playoff Weeks, or MLB shortens its schedule, the Commissioner shortens the regular season to fit and announces it before Week 1 as a platform-conformance correction."),
             ("p", "Individual players lock at approximately one minute before their MLB game begins, subject to Fantrax system behavior and the league's configured lineup settings."),
             ("p", "**Dates are set by formula.** MLB and Fantrax schedules change every Season, so this Constitution defines deadlines and key dates as an anchor event plus an offset rather than as fixed calendar dates. The League Calendar converts those formulas into exact dates and times each Season."),
@@ -229,17 +229,17 @@ ARTICLES = [
     {
         "num": "VII", "title": "Minor-League Eligibility", "callout": None,
         "blocks": [
-            ("p", f"The DBL maintains {sport.MINORS} minor-league roster spots."),
+            ("p", f"The PSBL maintains {sport.MINORS} minor-league roster spots."),
             ("p", f"A player is minor-eligible while he has no more than **{sport.MINORS_MAX_AB} career MLB regular-season at-bats** and no more than **{_IP_LIMIT} career MLB regular-season innings pitched**. These are MLB's rookie limits; MLB's count of days on an active roster is not used, and there is no age limit. A two-way player must stay within both limits."),
             ("p", "Career totals keep accumulating during the Season. Eligibility is measured from MLB's official career statistics; at-bats count only from a player's own plate appearances. The Commissioner's determination, aided by the league's eligibility check, is final."),
             ("p", "Once a minor-league player passes either limit, the franchise has three calendar days after notice from the Commissioner or Fantrax to promote, trade, drop, or otherwise remove the player from the minor slot."),
-            ("p", "Promotion does not permanently burn minor eligibility. A player who still satisfies the DBL minor rules may later return to a minor slot where Fantrax permits."),
+            ("p", "Promotion does not permanently burn minor eligibility. A player who still satisfies the PSBL minor rules may later return to a minor slot where Fantrax permits."),
         ],
     },
     {
         "num": "VIII", "title": "Scoring", "callout": None,
         "blocks": [
-            ("p", "The DBL scoring system rewards what players control: getting on base, hitting for power, running, missing bats, and preventing runs. Categories not listed below are disabled unless this Constitution is formally amended."),
+            ("p", "The PSBL scoring system rewards what players control: getting on base, hitting for power, running, missing bats, and preventing runs. Categories not listed below are disabled unless this Constitution is formally amended."),
             ("scoring",),
             ("p", "Partial innings score by the out: each out recorded is one point, so a full inning is three. Quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not separately scored. Fantrax's final stat corrections control."),
         ],
@@ -249,7 +249,7 @@ ARTICLES = [
         "blocks": [
             ("p", "Lineups are set daily. Managers are responsible for maintaining legal, reasonably competitive active lineups throughout the Season."),
             ("p", f"A franchise may receive credit for a maximum of {_STARTS} pitcher starts during a normal fantasy Week. A start counts when a pitcher in an active lineup slot starts an MLB game."),
-            ("p", f"The two-week DBL Championship permits a maximum of {_STARTS * 2} credited pitcher starts across the full championship period. Any other Week longer than one calendar week, such as Week 1 or a scoring period that includes the All-Star break, uses the same rule: {_STARTS} credited starts and {_ADDS} acquisitions for each calendar week it spans."),
+            ("p", f"The two-week PSBL Championship permits a maximum of {_STARTS * 2} credited pitcher starts across the full championship period. Any other Week longer than one calendar week, such as Week 1 or a scoring period that includes the All-Star break, uses the same rule: {_STARTS} credited starts and {_ADDS} acquisitions for each calendar week it spans."),
             ("p", "Fantrax enforcement settings govern the technical application of the pitcher-start limit. A manager may not intentionally exploit a platform timing or scoring behavior to obtain credit beyond the constitutional maximum."),
         ],
     },
@@ -285,7 +285,7 @@ ARTICLES = [
             ("p", "Required prepayment is cumulative. Example: during Season 2027, a franchise that has paid for Season 2027 and wishes to trade its 2030 first- or second-round pick must first be paid for Seasons 2028, 2029, and 2030."),
             ("p", "The required payment must be received and confirmed by the Commissioner in the League Ledger before the trade processes in Fantrax. If multiple franchises in the same trade trigger this rule, each affected franchise must satisfy its own prepayment requirement."),
             ("p", "Fantrax processes trades without Commissioner approval and does not check this rule, and Fantrax acceptance does not override it. If a trade processes before every required payment is confirmed, the Commissioner reverses the entire trade in Fantrax and notifies the franchises involved. The same trade may be made again once the payment is confirmed."),
-            ("p", "Prepaid dues attach to the franchise, not the individual owner. If an owner leaves the DBL, those funds remain with the franchise and a replacement owner inherits the benefit of the paid Seasons."),
+            ("p", "Prepaid dues attach to the franchise, not the individual owner. If an owner leaves the PSBL, those funds remain with the franchise and a replacement owner inherits the benefit of the paid Seasons."),
             ("p", "Trading a future third-, fourth-, or fifth-round pick does not trigger additional prepayment beyond any dues otherwise owed."),
         ],
     },
@@ -303,12 +303,12 @@ ARTICLES = [
     {
         "num": "XIV", "title": "Annual Draft and Draft Order", "callout": None,
         "blocks": [
-            ("p", "The annual DBL draft is 5 rounds and is linear rather than snake. Each franchise therefore holds the same draft position in every round unless a pick has been traded. The first Annual Draft is the 2028 Annual Draft."),
+            ("p", "The annual PSBL draft is 5 rounds and is linear rather than snake. Each franchise therefore holds the same draft position in every round unless a pick has been traded. The first Annual Draft is the 2028 Annual Draft."),
             ("p", "The Annual Draft begins between January 20 and February 10 of each Offseason, announced at least 30 days ahead (Article V), so that the previous summer's MLB draftees and the new international signings are in the player pool."),
             ("p", "The draft uses an 8-hour pick clock with a midnight–8:00 AM ET pause. Managers are encouraged to maintain queues. Timeout handling may use Fantrax queue, auto-draft, or temporary-skip tools as announced before the draft."),
-            ("p", "The player pool is not restricted to a draft class. Any unowned player in the Fantrax player pool who satisfies DBL minor-league eligibility for the Season that Annual Draft supplies may be selected."),
+            ("p", "The player pool is not restricted to a draft class. Any unowned player in the Fantrax player pool who satisfies PSBL minor-league eligibility for the Season that Annual Draft supplies may be selected."),
             ("p", "Draft order is based on the results of the Season just completed. Picks 1.01 through 1.06 belong to the six non-playoff franchises and are ordered by ascending Potential Points / Max Points For, with the lowest total receiving 1.01. Potential Points is Fantrax's measure of the points a franchise would have scored with its best possible lineup each Week, using its active and reserve players; players in minor-league and IL slots are not counted. Ties are broken under Section 15.5."),
-            ("p", "Picks 1.07 and 1.08 belong to the two Quarterfinal losers, with the lower regular-season seed selecting earlier. Pick 1.09 belongs to the fourth-place finisher. Pick 1.10 belongs to the third-place finisher. Pick 1.11 belongs to the Runner-Up. Pick 1.12 belongs to the DBL Champion."),
+            ("p", "Picks 1.07 and 1.08 belong to the two Quarterfinal losers, with the lower regular-season seed selecting earlier. Pick 1.09 belongs to the fourth-place finisher. Pick 1.10 belongs to the third-place finisher. Pick 1.11 belongs to the Runner-Up. Pick 1.12 belongs to the PSBL Champion."),
             ("p", "The same order repeats in Rounds 2 through 5. The consolation bracket does not alter annual draft position."),
         ],
     },
@@ -324,11 +324,11 @@ ARTICLES = [
     },
     {
         "num": "XVI", "title": "Playoffs and Consolation",
-        "callout": ("POSTSEASON", "Six playoff teams. Top two seeds receive byes. The DBL Championship is a two-week cumulative matchup."),
+        "callout": ("POSTSEASON", "Six playoff teams. Top two seeds receive byes. The PSBL Championship is a two-week cumulative matchup."),
         "blocks": [
-            ("p", "Six franchises qualify for the DBL Championship Playoffs, ranked by final regular-season standings. Seeds 1 and 2 receive first-round byes."),
-            ("p", "**Quarterfinals:** Seed 3 vs. Seed 6 and Seed 4 vs. Seed 5. **Semifinals:** Seed 1 and Seed 2 join the four-team field; the playoff bracket reseeds after each round, with the highest remaining seed facing the lowest remaining seed. Quarterfinals and Semifinals are one fantasy Week each. The **DBL Championship** is a two-week cumulative matchup."),
-            ("p", "The two Semifinal losers play a third-place matchup during the same two-week period as the DBL Championship. The winner receives third place and the $200 third-place prize. The Commissioner enters this matchup in Fantrax once the Semifinals are final."),
+            ("p", "Six franchises qualify for the PSBL Championship Playoffs, ranked by final regular-season standings. Seeds 1 and 2 receive first-round byes."),
+            ("p", "**Quarterfinals:** Seed 3 vs. Seed 6 and Seed 4 vs. Seed 5. **Semifinals:** Seed 1 and Seed 2 join the four-team field; the playoff bracket reseeds after each round, with the highest remaining seed facing the lowest remaining seed. Quarterfinals and Semifinals are one fantasy Week each. The **PSBL Championship** is a two-week cumulative matchup."),
+            ("p", "The two Semifinal losers play a third-place matchup during the same two-week period as the PSBL Championship. The winner receives third place and the $200 third-place prize. The Commissioner enters this matchup in Fantrax once the Semifinals are final."),
             ("p", "If Fantrax cannot technically stage the third-place matchup, the fallback is the Semifinal loser who scores the most fantasy points during the same two-week championship period. If the fallback total is exactly tied, the higher playoff seed receives third place."),
             ("p", "If any playoff, third-place, or consolation matchup ends in an exact tie, the higher seed advances or wins."),
             ("p", "The playoffs end with the last day of the MLB regular season (Article V)."),
@@ -376,7 +376,7 @@ ARTICLES = [
             ("p", "**Timing.** An approved amendment takes effect for the next Season, or on the later date it states. To apply to a Season it must be approved before that Season's dues deadline, so every owner knows the rules before paying."),
             ("p", "Amendments do not retroactively alter completed competition, previously earned prizes, or finalized transactions."),
             ("p", "**Records.** Official amendment results, effective dates, championship history, Presidents' Trophy winners, Dynasty Pot status, dues status, and other permanent league records are maintained in Discord and/or the league's designated archival system. Each adopted text of this Constitution is dated and posted, and prior texts are archived."),
-            ("p", "**Dissolution.** If the DBL permanently dissolves, authorized outstanding league expenses are settled first. Remaining prize funds or other Season-specific funds are distributed according to the results already earned where reasonably possible. Any remaining Dynasty Pot balance is distributed equally among active, fully paid franchises as provided in Article IV. If the DBL dissolves before a Season's first lineup lock, that Season's dues not yet spent on authorized expenses are refunded to the franchises that paid them."),
+            ("p", "**Dissolution.** If the PSBL permanently dissolves, authorized outstanding league expenses are settled first. Remaining prize funds or other Season-specific funds are distributed according to the results already earned where reasonably possible. Any remaining Dynasty Pot balance is distributed equally among active, fully paid franchises as provided in Article IV. If the PSBL dissolves before a Season's first lineup lock, that Season's dues not yet spent on authorized expenses are refunded to the franchises that paid them."),
             ("p", "The latest published text of this Constitution is the controlling league document. Upon adoption of the Charter, all prior working drafts are superseded except as historical records."),
             ("history", [("Preliminary Draft", "Working draft for review; not yet adopted. It becomes the Charter when the Commissioner finalizes it before owners are invited.")]),
         ],

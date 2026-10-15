@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline checks for the DBL Morning Recap.
+"""Offline checks for the PSBL Morning Recap.
 
 MLB data (tests/mlb_fixtures.py) is SYNTHETIC, hand-built in the shapes checked
 live: Tuesday Apr 13, 2027 has 16 finals (a CHC-STL doubleheader with game 2 in
@@ -47,7 +47,7 @@ class FakeFantrax:
         self.player_reads = 0
 
     def league_info(self) -> dict:
-        return {"leagueName": "DBL Test League"}
+        return {"leagueName": "PSBL Test League"}
 
     def rosters(self) -> dict:
         if self.fail:
@@ -149,7 +149,7 @@ class LineTests(unittest.TestCase):
 
 
 class SummaryTests(unittest.TestCase):
-    look = morning.Look("DBL Test League", "2027 TEST", 0xBD3039)
+    look = morning.Look("PSBL Test League", "2027 TEST", 0xBD3039)
 
     def test_one_message_for_a_full_night(self):
         tuesday = night()
@@ -157,10 +157,10 @@ class SummaryTests(unittest.TestCase):
         self.assertEqual(len(messages), 1)
         body = messages[0]
         self.assertEqual(body["allowed_mentions"], {"parse": []})
-        self.assertEqual(body["username"], "DBL News Wire")
+        self.assertEqual(body["username"], "PSBL News Wire")
         embed = body["embeds"][0]
         self.assertEqual(embed["title"], "LAST NIGHT IN MLB — Tuesday, April 13")
-        self.assertTrue(embed["description"].startswith("**DBL Test League** • 2027 TEST\n*16 games final."))
+        self.assertTrue(embed["description"].startswith("**PSBL Test League** • 2027 TEST\n*16 games final."))
         self.assertEqual(embed["footer"]["text"], "MORNING RECAP • MLB DATA")
         self.assertEqual(embed["color"], 0xBD3039)
         self.assertEqual(len(embed["description"].split("\n\n", 1)[1].splitlines()), 16)
@@ -200,7 +200,7 @@ class SummaryTests(unittest.TestCase):
 
 
 class ReelTests(unittest.TestCase):
-    look = morning.Look("DBL Test League", "2027 TEST", 0xBD3039)
+    look = morning.Look("PSBL Test League", "2027 TEST", 0xBD3039)
 
     def reel(self):
         finals = night().finals
@@ -228,7 +228,7 @@ class ReelTests(unittest.TestCase):
         messages = morning.reel_messages(self.look, self.reel(), MORNING)
         self.assertEqual(len(messages), 1)
         embed = messages[0]["embeds"][0]
-        self.assertEqual(embed["title"], "THE DBL HOME RUN REEL")
+        self.assertEqual(embed["title"], "THE PSBL HOME RUN REEL")
         self.assertEqual([f["name"] for f in embed["fields"]], ["Test 1", "Test 2"])  # most home runs first
         self.assertEqual(embed["footer"]["text"], "MORNING RECAP • MLB AND FANTRAX DATA")
         self.assertEqual(messages[0]["allowed_mentions"], {"parse": []})
@@ -238,7 +238,7 @@ class ReelTests(unittest.TestCase):
         client = FakeFantrax(EMPTY_ROSTERS)
         idx, out = quiet(morning.load_index, client)
         self.assertIsNone(idx)
-        self.assertIn("no players on DBL rosters", out)
+        self.assertIn("no players on PSBL rosters", out)
         self.assertEqual(client.player_reads, 0)
         reel = morning.build_reel(night().finals, {}, idx)
         self.assertTrue(reel.empty)
@@ -334,7 +334,7 @@ class RunTests(unittest.TestCase):
     def test_posts_everything_once(self):
         code, out, posted = self.run_mode()
         self.assertEqual(code, 0, out)
-        self.assertEqual(self.titles(posted), ["LAST NIGHT IN MLB — Tuesday, April 13", "THE DBL HOME RUN REEL"])
+        self.assertEqual(self.titles(posted), ["LAST NIGHT IN MLB — Tuesday, April 13", "THE PSBL HOME RUN REEL"])
         self.assertEqual(self.fetched[0], "https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2027-04-13"
                                           "&endDate=2027-04-13&hydrate=linescore,decisions,scoringplays")
         self.assertEqual(len(self.fetched), 1 + 16)  # the schedule, then each final's content
@@ -347,7 +347,7 @@ class RunTests(unittest.TestCase):
         self.assertIn("already posted", out)
 
     def test_failed_post_is_retried_without_repeats(self):
-        fail_reel = lambda body, n: body["embeds"][0]["title"] == "THE DBL HOME RUN REEL"  # noqa: E731
+        fail_reel = lambda body, n: body["embeds"][0]["title"] == "THE PSBL HOME RUN REEL"  # noqa: E731
         code, out, posted = self.run_mode(fail_on=fail_reel)
         self.assertEqual(code, 1)
         self.assertIn("retried next run", out)
@@ -357,7 +357,7 @@ class RunTests(unittest.TestCase):
 
         code, _, posted = self.run_mode()
         self.assertEqual(code, 0)
-        self.assertEqual(self.titles(posted), ["THE DBL HOME RUN REEL"])
+        self.assertEqual(self.titles(posted), ["THE PSBL HOME RUN REEL"])
 
     def test_fantrax_outage_posts_the_scores_and_retries_the_reel(self):
         code, out, posted = self.run_mode(client=FakeFantrax(fail=True))
@@ -369,7 +369,7 @@ class RunTests(unittest.TestCase):
         self.assertEqual((code, posted), (1, []))
         code, _, posted = self.run_mode()
         self.assertEqual(code, 0)
-        self.assertEqual(self.titles(posted), ["THE DBL HOME RUN REEL"])
+        self.assertEqual(self.titles(posted), ["THE PSBL HOME RUN REEL"])
         saved = json.loads(self.state.read_text())["dates"]["2027-04-13"]
         self.assertEqual((saved["reel"], saved["complete"]), (1, True))
 
@@ -457,7 +457,7 @@ class ConfigTests(unittest.TestCase):
         schedule = yaml.safe_load((HERE.parent / "scheduler" / "schedule.yaml").read_text(encoding="utf-8"))
         job = next(j for j in schedule["jobs"] if j["id"] == "morning-recap")
         self.assertEqual((job["workflow"], job["daily_at"]), ("league-morning-recap.yml", ["08:30"]))
-        self.assertNotIn("phases", job)  # all year: the MLB postseason runs past the DBL season
+        self.assertNotIn("phases", job)  # all year: the MLB postseason runs past the PSBL season
         health = yaml.safe_load((HERE.parent / "health" / "health_config.yaml").read_text(encoding="utf-8"))
         self.assertIn("league-morning-recap.yml", [w["file"] for w in health["workflows"]])
         workflow = (repo / ".github" / "workflows" / "league-morning-recap.yml").read_text(encoding="utf-8")

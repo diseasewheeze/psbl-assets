@@ -1,4 +1,4 @@
-"""Read-only Fantrax client and normalizers shared by DBL automations.
+"""Read-only Fantrax client and normalizers shared by PSBL automations.
 
 Uses Fantrax's public league endpoints. Nothing here writes to Fantrax.
 """
@@ -23,7 +23,7 @@ def raise_if_error(endpoint: str, body: Any) -> Any:
 
 
 class Fantrax:
-    def __init__(self, league_id: str, *, user_agent: str = "DBL-Automation/2.0", timeout: int = 30) -> None:
+    def __init__(self, league_id: str, *, user_agent: str = "PSBL-Automation/2.0", timeout: int = 30) -> None:
         self.league_id = league_id
         self.timeout = timeout
         self.session = requests.Session()
