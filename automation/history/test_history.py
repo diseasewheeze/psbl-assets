@@ -276,13 +276,13 @@ class RivalTests(Fixture):
 # --- draft retrospectives ----------------------------------------------------------
 
 def stats_for(values: dict[str, tuple[float, float, float]]) -> dict[str, dict]:
-    """player -> (value 2027-28 [before], value 2028-29, value 2029-30)."""
+    """player -> (value in Season 2027 [before], value in 2028, value in 2029)."""
     out = {}
     for pid, (before, first, latest) in values.items():
-        out[pid] = {"goalie": False, "seasons": {
-            20272028: {"gp": 10, "points": before / 5, "value": before},
-            20282029: {"gp": 40, "points": first / 5, "value": first},
-            20292030: {"gp": 60, "points": latest / 5, "value": latest}}}
+        out[pid] = {"mlb_id": 1, "seasons": {
+            2027: {"gp": 10, "value": before},
+            2028: {"gp": 40, "value": first},
+            2029: {"gp": 60, "value": latest}}}
     return out
 
 
@@ -299,7 +299,7 @@ class RetroTests(Fixture):
     def test_highlights(self) -> None:
         r = self.report()
         self.assertEqual(r["kind"], "Annual Draft")
-        self.assertEqual(r["since_season"], "2028-29")
+        self.assertEqual(r["since_season"], "2028")         # the 2028 draft supplies Season 2028
         self.assertEqual(r["steal"]["player"], "p13")       # 7th overall, best output
         self.assertEqual(r["miss"]["player"], "p7")         # least output in round 1
         self.assertEqual(r["development"]["player"], "p8")  # 10 the season before, 190 latest
@@ -310,63 +310,64 @@ class RetroTests(Fixture):
     def test_text_and_discord_payload(self) -> None:
         r = self.report()
         text = retro.render_text(r)
-        self.assertIn("Biggest Steal: Test Player13 (C, EDM), 2.03 (7th overall) by North Stars", text)
-        self.assertIn("Not matched to an NHL player (1)", text)
+        self.assertIn(f"Biggest Steal: {self.hist.player('p13')}, 2.03 (7th overall) by North Stars: "
+                      "300 DBL points in 100 MLB games", text)
+        self.assertIn("Not matched to an MLB player (1)", text)
         payload = retro.payload(r, self.league, test=True)
         embed = payload["embeds"][0]
         self.assertTrue(embed["title"].startswith("[TEST] 2028 DBL Annual Draft"))
         self.assertEqual([f["name"] for f in embed["fields"]][:4],
                          ["BIGGEST STEAL", "BIGGEST MISS", "BEST UNDRAFTED PICKUP", "BEST DEVELOPMENT"])
+        self.assertEqual(embed["footer"]["text"], "DBL DRAFT CENTER • FANTRAX AND MLB DATA")
         self.assertEqual(payload["allowed_mentions"], {"parse": []})
         self.assertNotIn("━", json.dumps(payload))
 
     def test_no_stats_yet(self) -> None:
         r = retro.build_report(self.hist, self.hist.drafts()[2028], {})
         self.assertIsNone(r["steal"])
-        self.assertIn("Not enough NHL games yet.", retro.render_text(r))
+        self.assertIn("Not enough MLB games yet.", retro.render_text(r))
 
-    def test_nhl_season_scoring(self) -> None:
-        landing = {"seasonTotals": [
-            {"season": 20282029, "leagueAbbrev": "NHL", "gameTypeId": 2, "gamesPlayed": 40, "goals": 10, "assists": 20, "shots": 100, "points": 30},
-            {"season": 20282029, "leagueAbbrev": "NHL", "gameTypeId": 2, "gamesPlayed": 30, "goals": 2, "assists": 3, "shots": 40, "points": 5},
-            {"season": 20282029, "leagueAbbrev": "NHL", "gameTypeId": 3, "gamesPlayed": 9, "goals": 9, "assists": 9, "shots": 9},
-            {"season": 20272028, "leagueAbbrev": "AHL", "gameTypeId": 2, "gamesPlayed": 70, "goals": 30},
-        ]}
-        seasons = retro.season_stats(landing, goalie=False)
-        self.assertEqual(list(seasons), [20282029])
-        self.assertEqual(seasons[20282029]["gp"], 70)
-        self.assertAlmostEqual(seasons[20282029]["value"], 12 * 5 + 23 * 2.95 + 140 * 0.55)
-        goalie = retro.season_stats({"seasonTotals": [{"season": 20282029, "leagueAbbrev": "NHL", "gameTypeId": 2,
-                                                       "gamesPlayed": 10, "gamesStarted": 9, "shotsAgainst": 300,
-                                                       "goalsAgainst": 25}]}, goalie=True)
-        self.assertAlmostEqual(goalie[20282029]["value"], 9 * 6.5 + 275 * 0.49 - 25 * 5)
+    def test_mlb_seasons_are_scored_the_league_way(self) -> None:
+        from core import mlb_people as mp
+        from core import sport
+        raw = json.loads((AUTOMATION / "tests" / "fixtures" / "mlb_people_year_by_year.json").read_text(encoding="utf-8"))
+        soto = next(p for p in raw["people"] if p["id"] == 665742)
+        seasons = retro.season_stats(mp.seasons_of(soto))
+        combined = next(s["stat"] for s in soto["stats"][0]["splits"] if s.get("numTeams"))
+        self.assertEqual(sorted(seasons), [2021, 2022])
+        self.assertEqual(seasons[2022]["gp"], 153)                       # one combined line for a traded season
+        self.assertAlmostEqual(seasons[2022]["value"], sport.hitting_points(combined))
+        two_way = retro.season_value({"hitting": {"gamesPlayed": 150, "hits": 1, "homeRuns": 1},
+                                      "pitching": {"gamesPlayed": 20, "outs": 3, "strikeOuts": 2}})
+        self.assertEqual(two_way["gp"], 150)
+        self.assertAlmostEqual(two_way["value"], sport.hitting_points({"hits": 1, "homeRuns": 1})
+                               + sport.pitching_points({"outs": 3, "strikeOuts": 2}))
 
     def test_fetch_stats_matches_like_the_minor_eligibility_watch(self) -> None:
-        index = retro.minors.Index()
-        index.add({"id": 8478402, "first": "Test", "last": "Player7", "birthDate": "2008-01-01", "team": "EDM"})
+        from core import mlb_people as mp
+        people = {9001: {"id": 9001, "fullName": "Test Player7", "active": True, "primaryPosition": {"abbreviation": "SS"},
+                         "currentTeam": {"id": 118},
+                         "stats": [{"group": {"displayName": "hitting"}, "type": {"displayName": "yearByYear"},
+                                    "splits": [{"season": "2028", "sport": {"id": 1}, "gameType": "R",
+                                                "team": {"id": 118}, "stat": {"gamesPlayed": 5, "hits": 3, "rbi": 2}}]}]}}
+        calls = []
 
-        class Session:
-            headers: dict = {}
+        def fetch(url, params):
+            calls.append(url)
+            if url.endswith("/people/search"):
+                q = mp.norm_name(params["names"])
+                return {"people": [p for p in people.values() if mp.norm_name(p["fullName"]) == q]}
+            ids = {int(x) for x in params["personIds"].split(",")}
+            self.assertIn("yearByYear", params["hydrate"])
+            return {"people": [p for i, p in people.items() if i in ids]}
 
-            def get(self, url, params=None, timeout=None):
-                class R:
-                    status_code = 200
-
-                    def json(self):
-                        return {"seasonTotals": [{"season": 20282029, "leagueAbbrev": "NHL", "gameTypeId": 2,
-                                                  "gamesPlayed": 5, "goals": 1, "assists": 1, "shots": 10}]}
-
-                    def raise_for_status(self):
-                        return None
-                return R()
-
-        self.hist.players["p8"] = {"name": "Unknown, Somebody", "position": "D", "team": "EDM"}
-        with patch.object(retro.minors, "MIN_GAP", 0), patch.object(retro.minors, "search_player", lambda *a: None):
-            stats, unmatched = retro.fetch_stats(self.hist, ["p7", "p8"], Session(), index)
+        self.hist.players["p8"] = {"name": "Unknown, Somebody", "position": "SS", "team": "KC"}
+        stats, unmatched = retro.fetch_stats(self.hist, ["p7", "p8"], mp.MlbApi(fetch))
         self.assertEqual(list(stats), ["p7"])
-        self.assertEqual(stats["p7"]["nhl_id"], 8478402)
-        self.assertEqual(stats["p7"]["seasons"][20282029]["gp"], 5)
+        self.assertEqual(stats["p7"]["mlb_id"], 9001)
+        self.assertEqual(stats["p7"]["seasons"][2028]["gp"], 5)
         self.assertEqual(unmatched, ["Unknown, Somebody"])
+        self.assertEqual(sum(1 for c in calls if c.endswith("/people")), 1)   # season totals in one batch
 
 
 # --- profiles, graphics and posts --------------------------------------------------

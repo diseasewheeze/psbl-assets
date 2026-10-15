@@ -5,9 +5,9 @@ Items:
   dynasty-pot      the Dynasty Pot graphic (balance and every franchise's titles this
                    cycle) in one 💰│league-ledger message, in the ledger's Dynasty Pot
                    update format (templates/league-office/45_ledger_dynasty_pot.json)
-  franchise-cards  one card per franchise to 🏒│franchise-directory, one message each
-  draft-retro      the retrospective of a saved draft to 📋│draft-results; reads NHL
-                   stats, so it takes a few minutes for a 36-round draft
+  franchise-cards  one card per franchise to 🏟️│franchise-directory, one message each
+  draft-retro      the retrospective of a saved draft to 📋│draft-results; reads MLB
+                   stats, so it takes a few minutes for a large startup draft
 
 Modes:
   preview  build everything, write the images to --out and print the messages; posts nothing
@@ -36,7 +36,7 @@ from history.records import money  # noqa: E402
 
 OUT_DIR = Path(__file__).resolve().parent / "out"
 LEDGER_COLOR = 13012757      # the League Ledger's record gold (templates/league-office/4x_ledger_*.json)
-GOLD = 16758812
+RED = 12398649              # league red #BD3039 (franchise cards)
 DEFAULT_WEBHOOKS = {
     "dynasty_pot": "LEAGUE_WEBHOOK_LEAGUE_LEDGER",
     "franchise_directory": "LEAGUE_WEBHOOK_FRANCHISE_DIRECTORY",
@@ -90,7 +90,7 @@ def card_message(profile: dict[str, Any], filename: str, *, test: bool = False) 
     embed = {
         "title": ("[TEST] " if test else "") + profile["name"].upper(),
         "description": "\n".join(lines),
-        "color": GOLD,
+        "color": RED,
         "image": {"url": f"attachment://{filename}"},
         "footer": {"text": "DBL FRANCHISE HQ"},
     }
@@ -167,7 +167,7 @@ def run_retro(mode: str, hist: LeagueHistory, cfg: dict[str, Any], year: int | N
         return 1
     ids = [str(p["player"]) for p in draft.get("picks") or [] if p.get("player")]
     ids += [str(e["player"]) for e in retro.candidates_for_pickup(hist, draft)]
-    print(f"Reading NHL stats for {len(ids)} players...")
+    print(f"Reading MLB stats for {len(ids)} players...")
     stats, unmatched = retro.fetch_stats(hist, ids)
     report = retro.build_report(hist, draft, stats, unmatched)
     print(retro.render_text(report))
