@@ -2,15 +2,19 @@
 
 How matching works:
 - Fantrax's getTeamRosters gives player IDs per DBL team; getPlayerIds gives
-  every NHL player's name ("Last, First"), NHL team and position.
-- Several real players share a name (two Sebastian Ahos, two Elias
-  Petterssons on the same NHL team, two Jack Hugheses). A story is only
-  tagged when the player can be identified unambiguously:
-    * Injury report entries carry the player's NHL team and position, so
-      those are used to pick the right player.
+  every MLB player's name ("Last, First"), MLB team and position.
+- Several real players share a name (two Will Smiths, several Luis Garcias).
+  A story is only tagged when the player can be identified unambiguously:
+    * MLB transaction entries carry the player's MLB team(s) and position, so
+      those pick the right player. A traded player may still show his old club
+      in Fantrax, so every club in the move counts.
     * Headlines are scanned for full names of rostered players. If another
-      NHL player shares that name, the headline is not tagged.
+      MLB player shares that name, the headline is not tagged.
 - Wrong tags are worse than missing tags, so anything ambiguous is skipped.
+
+Team codes go through core/mlb_people.team_code (MLB's own abbreviations, with
+the other common spellings mapped onto them), and positions are grouped as
+pitchers (P) or hitters (H).
 
 Owner pings (opt-in) are configured in automation/league.yaml under
 ``owners`` and ``wire_pings``.
@@ -19,45 +23,45 @@ Owner pings (opt-in) are configured in automation/league.yaml under
 from __future__ import annotations
 
 import re
-import unicodedata
+import sys
 from dataclasses import dataclass, field
-from typing import Any
+from pathlib import Path
+from typing import Any, Iterable
 
-# Common alternate NHL team codes -> Fantrax's codes.
-TEAM_ALIASES = {
-    "NJ": "NJD", "TB": "TBL", "LA": "LAK", "SJ": "SJS", "VEG": "VGK", "LV": "VGK",
-    "WAS": "WSH", "MON": "MTL", "CLB": "CBJ", "CLS": "CBJ", "NAS": "NSH", "UTAH": "UTA",
-    "UHC": "UTA", "WIN": "WPG", "CAL": "CGY", "NYIS": "NYI",
-}
-FORWARD = {"C", "LW", "RW", "F"}
+if str(Path(__file__).resolve().parents[1]) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from core import mlb_people as mp  # noqa: E402
+
+PITCHER = "P"
+HITTER = "H"
+HITTER_POSITIONS = frozenset({"C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "OF", "IF", "INF", "DH", "UT", "UTIL"})
 
 
 def normalize_player_name(value: str) -> str:
-    raw = str(value or "").strip()
-    if raw.count(",") == 1:
-        last, first = (part.strip() for part in raw.split(",", 1))
-        if last and first:
-            raw = f"{first} {last}"
-    text = unicodedata.normalize("NFKD", raw)
-    text = "".join(ch for ch in text if not unicodedata.combining(ch))
-    text = text.lower().replace("’", "'")
-    text = re.sub(r"\b(jr|sr|ii|iii|iv)\.?\b", "", text)
-    return re.sub(r"[^a-z0-9]+", " ", text).strip()
+    """'Witt Jr., Bobby' and 'Bobby Witt Jr.' -> 'bobby witt'."""
+    return mp.norm_name(value)
 
 
 def normalize_team(code: Any) -> str:
-    text = str(code or "").strip().upper()
-    return TEAM_ALIASES.get(text, text)
+    """An MLB club in MLB's own abbreviation ('ARI' -> 'AZ'); other text comes back upper-cased."""
+    return mp.team_code(code)
 
 
 def position_group(position: Any) -> str:
+    """P for pitchers, H for hitters, "" for two-way players and blanks.
+
+    The first listed position decides ("SP,RP" -> P, "2B,SS" -> H). A code
+    that is neither is returned as it is, so it still only matches itself.
+    """
     text = str(position or "").upper()
-    first = text.split(",")[0].strip()
-    if first in FORWARD:
-        return "F"
-    if first in ("D", "G"):
-        return first
-    return ""
+    first = re.split(r"[,/ ]+", text.strip())[0] if text.strip() else ""
+    if not first or first == mp.TWO_WAY:
+        return ""
+    if first in mp.PITCHER_POSITIONS:
+        return PITCHER
+    if first in HITTER_POSITIONS:
+        return HITTER
+    return first
 
 
 @dataclass
@@ -80,20 +84,21 @@ class RosterIndex:
     def empty(self) -> bool:
         return not self.rostered_names
 
-    def match(self, name: str, team: str = "", position: str = "") -> Player | None:
-        """Identify one player by name, narrowed by NHL team and position.
+    def match(self, name: str, team: str = "", position: str = "", teams: Iterable[str] = ()) -> Player | None:
+        """Identify one player by name, narrowed by MLB team(s) and pitcher or hitter.
 
         Returns the rostered player, or None if not rostered or ambiguous.
         """
         candidates = list(self.by_name.get(normalize_player_name(name), []))
         if not candidates:
             return None
-        team_code, group = normalize_team(team), position_group(position)
-        if team_code and len(candidates) > 1:
-            by_team = [p for p in candidates if p.team == team_code]
+        codes = {normalize_team(t) for t in (team, *teams) if t}
+        group = position_group(position)
+        if codes and len(candidates) > 1:
+            by_team = [p for p in candidates if p.team in codes]
             candidates = by_team or candidates
         if group and len(candidates) > 1:
-            by_pos = [p for p in candidates if p.group == group]
+            by_pos = [p for p in candidates if p.group in (group, "")]
             candidates = by_pos or candidates
         if len(candidates) != 1:
             return None
@@ -158,20 +163,28 @@ def build_index(rosters: dict[str, Any], players: dict[str, Any]) -> RosterIndex
 
 def display_name(player: Player) -> str:
     """Fantrax lists names as "Last, First"; show "First Last"."""
-    if player.name.count(",") == 1:
-        last, first = (part.strip() for part in player.name.split(",", 1))
-        return f"{first} {last}"
-    return player.name
+    return mp.display_name(player.name)
 
 
 def tag_candidates(candidates: list[dict], index: RosterIndex) -> int:
-    """Attach DBL roster info to candidates in place. Returns tagged count."""
+    """Attach DBL roster info to candidates in place. Returns tagged count.
+
+    A structured entry (an MLB transaction) names its players with their MLB
+    teams and positions; a trade names every player in it. Any other story is
+    tagged from the full names in its headline.
+    """
     tagged = 0
     for candidate in candidates:
-        if candidate.get("player"):
-            player = index.match(candidate["player"], candidate.get("team", ""), candidate.get("position", ""))
-            matches = [player] if player else []
-            show_player = False
+        named = candidate.get("players") or ([{"player": candidate["player"], "team": candidate.get("team", ""),
+                                               "position": candidate.get("position", "")}]
+                                             if candidate.get("player") else [])
+        if named:
+            matches = []
+            for p in named:
+                found = index.match(p.get("player", ""), p.get("team", ""), p.get("position", ""), p.get("teams") or ())
+                if found and found not in matches:
+                    matches.append(found)
+            show_player = len(named) > 1
         else:
             matches = index.scan(candidate.get("title", ""))
             show_player = True
@@ -207,10 +220,6 @@ def owner_mentions(candidate: dict, league: dict[str, Any]) -> list[str]:
 
 def load_index(league: dict[str, Any]) -> RosterIndex | None:
     """Fetch rosters and the player directory from Fantrax (None on failure)."""
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     from core.fantrax import Fantrax
 
     fx = Fantrax(str(league.get("league_id") or ""), user_agent="DBL-Wire-Roster/2.0", timeout=20)

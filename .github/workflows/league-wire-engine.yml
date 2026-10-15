@@ -41,8 +41,9 @@ jobs:
       RESET_STATE: ${{ github.event_name == 'workflow_dispatch' && inputs.reset_state || false }}
       INCLUDE_DISCOVERY: ${{ github.event_name == 'workflow_dispatch' && inputs.include_discovery || false }}
       LEAGUE_WEBHOOK_BREAKING_NEWS: ${{ secrets.LEAGUE_WEBHOOK_BREAKING_NEWS }}
-      LEAGUE_WEBHOOK_NHL_NEWS: ${{ secrets.LEAGUE_WEBHOOK_NHL_NEWS }}
+      LEAGUE_WEBHOOK_MLB_NEWS: ${{ secrets.LEAGUE_WEBHOOK_MLB_NEWS }}
       LEAGUE_WEBHOOK_INJURY_REPORT: ${{ secrets.LEAGUE_WEBHOOK_INJURY_REPORT }}
+      LEAGUE_WEBHOOK_MLB_TRANSACTIONS: ${{ secrets.LEAGUE_WEBHOOK_MLB_TRANSACTIONS }}
       LEAGUE_WEBHOOK_PROSPECT_WIRE: ${{ secrets.LEAGUE_WEBHOOK_PROSPECT_WIRE }}
       LEAGUE_WEBHOOK_MEDIA: ${{ secrets.LEAGUE_WEBHOOK_MEDIA }}
 

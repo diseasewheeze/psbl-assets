@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""DBL Phase 2D.1C — The Wire routing, dedupe and Discord delivery engine.
+"""DBL The Wire: routing, dedupe, roster tags and Discord delivery.
 
 Architecture:
   GitHub Actions = brain
   Discord webhooks = delivery
-  Native integrations = preferred where superior (PuckPedia transactions)
-  Discord bot = deferred to a later interactive phase
+  MLB's official transaction log = the one source for mlb-transactions
+  (wire.py's mlb_transactions collector); other outlets' transaction
+  headlines are recorded but not posted, so a move is announced once
 """
 
 from __future__ import annotations
@@ -39,22 +40,23 @@ CONFIG = ROOT / "sources.yaml"
 STATE_DIR = ROOT / "state"
 STATE_TTL_HOURS = 24 * 30
 FUZZY_DEDUPE_WINDOW_HOURS = 48
-# Daily Faceoff posts one detailed item per injured player. Another source's
-# injury story about the same player within this window repeats it.
+# MLB's transaction log posts each injured-list move with the player's name.
+# Another source's injury story about the same player within this window
+# repeats it, unless it says something worse (ESCALATION_TERMS).
 SAME_PLAYER_WINDOW_HOURS = 12
-# The same news from two outlets in NHL News / Breaking News: titles sharing
-# most of their words within this window. Measured on Sep 30-Oct 7 stories:
-# about 7 repeats a week caught, no unrelated pair matched.
+# The same news from two outlets in MLB News / Breaking News: titles sharing
+# most of their words within this window.
 SAME_STORY_WINDOW_HOURS = 6
 SAME_STORY_MIN_OVERLAP = 0.40
 SAME_STORY_MIN_SHARED = 3
-STORY_CHANNELS = {"nhl-news", "breaking-news"}
+STORY_CHANNELS = {"mlb-news", "breaking-news"}
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with", "at", "by", "from",
     "as", "is", "are", "be", "was", "his", "her", "their", "its", "it", "after", "vs", "has",
-    "have", "he", "will", "into", "over", "up", "out", "off", "this", "that", "nhl", "new",
+    "have", "he", "will", "into", "over", "up", "out", "off", "this", "that", "mlb", "new",
 }
-DFO_SOURCE = "daily_faceoff_injuries"
+STRUCTURED_SOURCE = "mlb_transactions"
+DEFAULT_COLOR = 0xBD3039  # league red
 DEFAULT_MAX_SOURCE_ITEMS = 15
 MAX_SOURCE_WORKERS = 4
 
@@ -68,44 +70,44 @@ MAX_LIVE_POSTS_PER_CHANNEL = 3
 # Leave headroom under Discord's 4096-character embed description limit.
 DIGEST_MAX_CHARS = 3900
 
-# Channels handled primarily by a superior native integration. The GitHub engine
-# still collects/classifies/dedupes these stories, but does not post them live.
-NATIVE_PRIMARY_CHANNELS = {"nhl-transactions"}
+# Channels with one primary source: other sources' stories routed there are
+# recorded in the dedupe state but not posted (logged as PRIMARY-SOURCE SKIP).
+COLLECTOR_PRIMARY = {"mlb-transactions": STRUCTURED_SOURCE}
 
 WEBHOOK_ENV = {
     "breaking-news": "LEAGUE_WEBHOOK_BREAKING_NEWS",
-    "nhl-news": "LEAGUE_WEBHOOK_NHL_NEWS",
+    "mlb-news": "LEAGUE_WEBHOOK_MLB_NEWS",
     "injury-report": "LEAGUE_WEBHOOK_INJURY_REPORT",
-    "nhl-transactions": "LEAGUE_WEBHOOK_NHL_TRANSACTIONS",
+    "mlb-transactions": "LEAGUE_WEBHOOK_MLB_TRANSACTIONS",
     "prospect-wire": "LEAGUE_WEBHOOK_PROSPECT_WIRE",
     "media": "LEAGUE_WEBHOOK_MEDIA",
 }
 
 CHANNEL_LABELS = {
     "breaking-news": "🚨 BREAKING NEWS",
-    "nhl-news": "📰 NHL NEWS",
+    "mlb-news": "📰 MLB NEWS",
     "injury-report": "🏥 INJURY REPORT",
-    "nhl-transactions": "🔄 NHL TRANSACTIONS",
+    "mlb-transactions": "🔄 MLB TRANSACTIONS",
     "prospect-wire": "🌱 PROSPECT WIRE",
     "media": "🎧 PODCASTS",
 }
 
 CHANNEL_TITLES = {
     "breaking-news": "Breaking News",
-    "nhl-news": "NHL News",
+    "mlb-news": "MLB News",
     "injury-report": "Injury Report",
-    "nhl-transactions": "NHL Transactions",
+    "mlb-transactions": "MLB Transactions",
     "prospect-wire": "Prospect Wire",
     "media": "New Podcast Episodes",
 }
 
 CHANNEL_COLORS = {
     "breaking-news": 0xC73E3A,
-    "nhl-news": 0xFFB81C,
+    "mlb-news": DEFAULT_COLOR,
     "injury-report": 0xD97706,
-    "nhl-transactions": 0xFFB81C,
+    "mlb-transactions": DEFAULT_COLOR,
     "prospect-wire": 0xC68F15,
-    "media": 0xFFB81C,
+    "media": DEFAULT_COLOR,
 }
 
 WEBHOOK_AVATAR = (
@@ -179,24 +181,23 @@ def prune_state(state: dict) -> None:
     state["seen"] = kept[-5000:]
 
 
-NHL_NICKNAMES = {
-    "ducks", "bruins", "sabres", "flames", "hurricanes", "blackhawks", "avalanche", "blue",
-    "jackets", "stars", "red", "wings", "oilers", "panthers", "kings", "wild", "canadiens",
-    "habs", "predators", "devils", "islanders", "rangers", "senators", "flyers", "penguins",
-    "sharks", "kraken", "blues", "lightning", "leafs", "maple", "mammoth", "utah", "canucks",
-    "knights", "golden", "capitals", "caps", "jets",
+MLB_NICKNAMES = {
+    "angels", "astros", "athletics", "a's", "blue", "jays", "braves", "brewers", "cardinals", "cubs",
+    "d-backs", "diamondbacks", "dodgers", "giants", "guardians", "mariners", "marlins", "mets",
+    "nationals", "nats", "orioles", "padres", "phillies", "pirates", "rangers", "rays", "red", "reds",
+    "rockies", "royals", "sox", "tigers", "twins", "white", "yankees",
 }
 ROLE_WORDS = {
-    "goalie", "goaltender", "netminder", "defenseman", "defenceman", "d", "f", "g", "c",
-    "forward", "center", "winger", "captain", "rookie", "prospect", "star", "veteran",
+    "pitcher", "starter", "reliever", "closer", "catcher", "infielder", "outfielder", "shortstop",
+    "slugger", "lefty", "righty", "ace", "rhp", "lhp", "c", "1b", "2b", "3b", "ss", "lf", "cf", "rf",
+    "of", "dh", "sp", "rp", "captain", "rookie", "prospect", "star", "veteran",
 }
-# Words that make another outlet's story news beyond Daily Faceoff's item
-# ("day-to-day" then "out six weeks"); such a story is never treated as a repeat.
+# Words that make another outlet's story news beyond the official injured-list
+# move ("10-day IL" then "out six weeks"); such a story is never treated as a repeat.
 ESCALATION_TERMS = (
-    "exit", "exits", "left", "leaves", "helped off", "stretcher", "surgery", "ltir",
-    "injured reserve", "placed on ir", "week", "weeks", "month", "months", "season",
-    "torn", "tear", "fracture", "fractured", "broken", "concussion", "indefinitely",
-    "career", "retire", "suspend",
+    "exit", "exits", "left", "leaves", "helped off", "carted off", "surgery", "tommy john", "60-day",
+    "week", "weeks", "month", "months", "season", "torn", "tear", "fracture", "fractured", "broken",
+    "concussion", "indefinitely", "setback", "career", "retire", "suspend",
 )
 
 
@@ -208,14 +209,13 @@ def redact(text: object) -> str:
     return _WEBHOOK_PATH.sub(r"\1***", str(text))
 
 
-def dfo_player(title_norm: str) -> tuple[str, str] | None:
-    """(first name, last name) from a Daily Faceoff title such as "sam montembeault (mtl) — ...".
+def structured_player(prior: dict) -> tuple[str, str] | None:
+    """(first name, last name) of the player an official injured-list record named.
 
     Last names shorter than five letters are skipped as too common.
     """
-    if " (" not in title_norm:
-        return None
-    words = title_norm.split(" (", 1)[0].split()
+    words = wire.normalize(str(prior.get("player") or "")).replace(".", "").split()
+    words = [w for w in words if w not in ("jr", "sr", "ii", "iii", "iv")]
     if len(words) < 2 or len(words[-1]) < 5:
         return None
     return words[0], words[-1]
@@ -226,13 +226,13 @@ def mentions_player(title_norm: str, first: str, last: str) -> bool:
 
     The word before the last name must look like his first name (same first
     three letters, so "Sam" matches "Samuel"), or be a team name, a role
-    ("goalie"), a possessive or a colon; or the name opens the title.
+    ("pitcher"), a possessive or a colon; or the name opens the title.
     """
     for match in re.finditer(rf"(?<![a-z-]){re.escape(last)}(?![a-z])", title_norm):
         before = title_norm[: match.start()].split()
         prev = before[-1] if before else ""
         if (not prev or prev.endswith((":", "'", "'s")) or prev in ROLE_WORDS
-                or prev in NHL_NICKNAMES or prev.startswith(first[:3])):
+                or prev in MLB_NICKNAMES or prev.startswith(first[:3])):
             return True
     return False
 
@@ -261,6 +261,10 @@ def duplicate_reason(candidate: dict, state: dict) -> str | None:
     for prior in reversed(state.get("seen", [])):
         if candidate["key"] == prior.get("key"):
             return "same-source-id"
+        if candidate.get("structured"):
+            # Official records are told apart by their own ids only: two moves can
+            # read alike ("recalled RHP X from ...") and both be real.
+            continue
         if candidate.get("dedupe_by_url", True) and url and url == prior.get("url"):
             return "same-url"
         if fp == prior.get("fingerprint"):
@@ -269,11 +273,11 @@ def duplicate_reason(candidate: dict, state: dict) -> str | None:
         seen_at = parse_seen_time(prior.get("seen_at", ""))
         if seen_at and now - seen_at > timedelta(hours=FUZZY_DEDUPE_WINDOW_HOURS):
             continue
-        if candidate["channel"] == "injury-report" and candidate.get("source_id") != DFO_SOURCE \
-                and prior.get("source_id") == DFO_SOURCE and prior.get("channel") == "injury-report" \
+        if candidate["channel"] == "injury-report" and candidate.get("source_id") != STRUCTURED_SOURCE \
+                and prior.get("source_id") == STRUCTURED_SOURCE and prior.get("channel") == "injury-report" \
                 and seen_at and now - seen_at <= timedelta(hours=SAME_PLAYER_WINDOW_HOURS):
             prior_title = prior.get("title_norm", "")
-            player = dfo_player(prior_title)
+            player = structured_player(prior)
             if player and mentions_player(title_norm, *player) and not escalates(title_norm, prior_title):
                 return f"same-player:{player[1]}"
         if candidate["channel"] in STORY_CHANNELS and prior.get("channel") in STORY_CHANNELS \
@@ -282,7 +286,7 @@ def duplicate_reason(candidate: dict, state: dict) -> str | None:
                 and seen_at and now - seen_at <= timedelta(hours=SAME_STORY_WINDOW_HOURS) \
                 and same_story(title_norm, prior.get("title_norm", "")):
             return "same-story"
-        if candidate["channel"] == prior.get("channel"):
+        if candidate["channel"] == prior.get("channel") and not prior.get("structured"):
             prior_title = prior.get("title_norm", "")
             if prior_title:
                 ratio = SequenceMatcher(None, title_norm, prior_title).ratio()
@@ -302,6 +306,9 @@ def remember(candidate: dict, state: dict) -> dict:
         "tier": candidate["tier"],
         "seen_at": iso_now(),
     }
+    if candidate.get("structured"):
+        record["structured"] = True
+        record["player"] = candidate.get("player", "")
     state.setdefault("seen", []).append(record)
     return record
 
@@ -330,7 +337,8 @@ def baseline_new_sources(candidates: list[dict], cfg: dict, state: dict) -> list
 
 def build_candidate(source: dict, entry: dict) -> dict:
     title = entry.get("title", "(untitled)")
-    channel = wire.route(title, source)
+    channel = entry.get("channel") or wire.route(title, source)
+    structured = bool(entry.get("structured"))
     return {
         "key": stable_key(source.get("id", "source"), entry),
         "title": title,
@@ -342,9 +350,13 @@ def build_candidate(source: dict, entry: dict) -> dict:
         "tier": int(source.get("tier", 9)),
         "channel": channel,
         "discovery_only": bool(source.get("discovery_only", False)),
-        "dedupe_by_url": bool(source.get("dedupe_by_url", True)),
+        "dedupe_by_url": bool(source.get("dedupe_by_url", True)) and not structured,
+        "structured": structured,
+        "only_if_rostered": bool(entry.get("only_if_rostered")),
         "player": entry.get("player", ""),
         "team": entry.get("team", ""),
+        "teams": list(entry.get("teams") or []),
+        "players": list(entry.get("players") or []),
         "status": entry.get("status", ""),
         "position": entry.get("position", ""),
         "fantasy_owner": "",
@@ -397,6 +409,12 @@ def fetch_candidates(config: dict, include_discovery: bool = False) -> list[dict
     return candidates
 
 
+def primary_skip(candidate: dict) -> bool:
+    """True when another source is the one that posts in this candidate's channel."""
+    primary = COLLECTOR_PRIMARY.get(candidate["channel"])
+    return bool(primary) and candidate.get("source_id") != primary
+
+
 def enrich_ownership(candidates: list[dict], config: dict, state: dict) -> None:
     """Tag new stories with the DBL team that rosters the player.
 
@@ -408,7 +426,7 @@ def enrich_ownership(candidates: list[dict], config: dict, state: dict) -> None:
         return
     fresh = [
         c for c in candidates
-        if not c["discovery_only"] and c["channel"] not in NATIVE_PRIMARY_CHANNELS
+        if not c["discovery_only"] and not primary_skip(c)
         and duplicate_reason(c, state) is None
     ]
     if not fresh:
@@ -465,7 +483,7 @@ def discord_payload(candidate: dict) -> dict:
         "title": candidate["title"][:256],
         "url": candidate.get("link", "") or None,
         "description": description[:4096],
-        "color": CHANNEL_COLORS.get(channel, 0xFFB81C),
+        "color": CHANNEL_COLORS.get(channel, DEFAULT_COLOR),
         "footer": {"text": f"{CHANNEL_LABELS.get(channel, channel)} • DBL THE WIRE"},
     }
     if timestamp:
@@ -529,7 +547,7 @@ def digest_payload(channel: str, items: list[dict]) -> tuple[dict, int]:
     embed = {
         "title": f"{heading} — {count} more {noun}",
         "description": description[:4096],
-        "color": CHANNEL_COLORS.get(channel, 0xFFB81C),
+        "color": CHANNEL_COLORS.get(channel, DEFAULT_COLOR),
         "footer": {"text": f"{CHANNEL_LABELS.get(channel, channel)} • DBL THE WIRE • ROUNDUP"},
         "timestamp": now_utc().isoformat(),
     }
@@ -651,7 +669,8 @@ def main() -> int:
     print(
         f"SUMMARY mode={args.mode} posted={counts['posted']} shadowed={counts['shadowed']} "
         f"duplicates={counts['duplicates']} discovery={counts['discovery']} "
-        f"native_skipped={counts['native_skipped']} digested={counts['digested']} "
+        f"primary_skipped={counts['primary_skipped']} unrostered_skipped={counts['unrostered_skipped']} "
+        f"digested={counts['digested']} "
         f"digest_posts={counts['digest_posts']} suppressed={counts['suppressed']} "
         f"state={state_path.name}"
     )
@@ -669,8 +688,8 @@ def process_candidates(candidates: list[dict], state: dict, mode: str) -> dict[s
     those stories are retried on the next run instead of being lost.
     """
     counts = {
-        "posted": 0, "shadowed": 0, "duplicates": 0, "discovery": 0,
-        "native_skipped": 0, "digested": 0, "digest_posts": 0, "suppressed": 0,
+        "posted": 0, "shadowed": 0, "duplicates": 0, "discovery": 0, "primary_skipped": 0,
+        "unrostered_skipped": 0, "digested": 0, "digest_posts": 0, "suppressed": 0,
     }
     posted_by_channel: dict[str, int] = {}
     overflow: dict[str, list[tuple[dict, dict]]] = {}
@@ -693,6 +712,11 @@ def process_candidates(candidates: list[dict], state: dict, mode: str) -> dict[s
             counts["duplicates"] += 1
             continue
 
+        if candidate.get("only_if_rostered") and not candidate.get("owners"):
+            remember(candidate, state)  # a minor-league deal or draft-pick signing for nobody on a DBL roster
+            counts["unrostered_skipped"] += 1
+            continue
+
         if mode == "shadow":
             owner_note = f" [DBL roster: {candidate['fantasy_owner']}]" if candidate.get("fantasy_owner") else ""
             print(f"SHADOW {prefix}: {candidate['title']}{owner_note}")
@@ -700,10 +724,10 @@ def process_candidates(candidates: list[dict], state: dict, mode: str) -> dict[s
             counts["shadowed"] += 1
             continue
 
-        if candidate["channel"] in NATIVE_PRIMARY_CHANNELS:
-            print(f"NATIVE-PRIMARY SKIP {prefix}: {candidate['title']}")
+        if primary_skip(candidate):
+            print(f"PRIMARY-SOURCE SKIP {prefix}: {candidate['title']}")
             remember(candidate, state)
-            counts["native_skipped"] += 1
+            counts["primary_skipped"] += 1
             continue
 
         channel_count = posted_by_channel.get(candidate["channel"], 0)

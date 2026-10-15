@@ -1,97 +1,73 @@
-# DBL Phase 2D.1 — The Wire Automation Architecture
+# The Wire
 
 ## Goal
-Run a reliable, low-noise NHL news pipeline for the Dynasty Baseball League Discord server.
+A reliable, low-noise MLB news pipeline for the Dynasty Baseball League Discord server.
 
-## Current production state
-The Wire is **live** on GitHub Actions. Scheduled runs occur four times per hour at `:03`, `:18`, `:33`, and `:48` UTC-minute positions. Manual runs default to `shadow` mode for safe testing.
+## How it runs
+The DBL Scheduler starts the Wire every 15 minutes in **live** mode (`automation/scheduler/schedule.yaml`). Manual runs from the Actions tab default to **shadow** mode, which never posts.
 
-Production safeguards include:
-- persistent deduplication with a 30-day / 5,000-item cap
-- fuzzy duplicate suppression
-- baseline-first live initialization
-- per-run and per-channel flood guards, with overflow combined into one roundup post per channel
-- source-level failures that do not crash the whole Wire
-- limited parallel source collection
-- one retry for transient source failures
-- Discord retry handling for HTTP 429 and 5xx responses
-- `allowed_mentions` disabled on automated posts
-- Automation Health monitoring for stale runs, persistent source failures, and roundups that overflow in consecutive runs
-- resilient Git state persistence with pull/rebase/retry handling
+Safeguards:
+- persistent dedupe for 30 days (at most 5,000 remembered stories)
+- fuzzy duplicate suppression, and one post per story when two outlets carry it
+- a silent baseline on the first live run, and for every new source (`baseline_first: true`)
+- per-run and per-channel flood guards, with the overflow combined into one roundup post per channel
+- one failing source never stops the others; transient failures are retried once
+- Discord retries on HTTP 429 and 5xx; `allowed_mentions` off except opted-in owner pings
+- Automation Health watches for stale runs, persistent source failures and roundups that overflow in consecutive runs
 
-## Discord destinations
-- `🚨│breaking-news` — only major, time-sensitive NHL developments.
-- `📰│nhl-news` — broader national NHL news that does not fit a more specific desk.
-- `🏥│injury-report` — injury, IR/LTIR, surgery, return and availability updates. When the player is on a DBL roster, the post identifies the owning DBL team and, if that owner opted in, mentions them.
-- `🔄│nhl-transactions` — trades, signings, waivers, recalls, assignments and contract moves. **PuckPedia is the active primary live source for this channel.**
-- `🌱│prospect-wire` — prospects, AHL, NCAA, CHL, international development and draft-related updates.
-- `💬│news-desk` — human discussion only; no automation.
+## Discord channels
+- `🚨│breaking-news`: only major, time-sensitive MLB developments.
+- `📰│mlb-news`: national MLB news that fits no more specific channel.
+- `🏥│injury-report`: injured-list placements, activations and transfers, rehab assignments, surgeries and availability news.
+- `🔄│mlb-transactions`: recalls, options, contract selections, designations for assignment, outrights, trades, releases, waiver claims and signings, from MLB's official transaction log.
+- `🌱│prospect-wire`: prospects, the minor leagues, the MLB Draft and debuts.
+- `📸│media`: one post per new fantasy baseball podcast episode.
+- `💬│news-desk`: people only; no automation.
 
-## Active source stack
-### Primary live sources
-- NHL.com Latest News
-- Sportsnet NHL RSS
-- Daily Faceoff Injury Report
-- American Hockey League RSS
-- The Hockey Writers Prospects RSS
-- DobberProspects RSS
+## Sources
+Live: MLB Transactions (MLB Stats API), MLB.com News, MLB Trade Rumors, FanGraphs Prospects, Prospects Live, and five podcasts (Fantasy Baseball Today, Prospects Live Podcast, Locked On Fantasy Baseball, Pitcher List Fantasy Baseball, In This League Fantasy Baseball).
 
-### Discovery / corroboration sources
-- CBS Sports NHL
-- Elite Prospects transaction feeds
-- Pro Hockey Rumors
-- USCHO
-- r/hockey
+Discovery only (manual runs with `include_discovery`): CBS Sports MLB.
 
-ESPN NHL is currently disabled because repeated scheduled probes returned an empty feed.
+Disabled until a shadow run shows they work: ESPN MLB (empty on 2026-10-15), r/baseball (not reachable from the 2026-10-15 check), MiLB.com News (stale since 2025).
 
-## Native transaction integration
-PuckPedia's Discord integration is active and is preferred for live NHL transaction posts. The Wire still classifies transaction events for dedupe/diagnostics but suppresses true transaction-event delivery to avoid duplicate posts. General analysis that merely mentions a trade or contract is routed back to NHL News instead of being silently discarded.
+Details and the check dates are in `sources.yaml` and `source-matrix.md`.
+
+## Transactions come from MLB's own log
+`wire.py` reads `https://statsapi.mlb.com/api/v1/transactions` (today and yesterday, league time) through `automation/core/mlb_people.py`. Injured-list moves and rehab assignments post to `🏥│injury-report`; roster moves post to `🔄│mlb-transactions`. A trade is one post naming every player in it. A minor-league contract, or a plain "signed" record (after the MLB Draft these are mostly draft picks), posts only when the player is on a DBL roster. Status changes that aren't injured-list moves are left out.
+
+Because the official log is the one source for `🔄│mlb-transactions`, other outlets' transaction headlines are recorded but not posted (`PRIMARY-SOURCE SKIP` in the log), so a move is announced once. An outlet's injury story about a player the log has just placed on the injured list is skipped too, unless it reports something worse (surgery, a longer absence).
 
 ## Routing priority
-Each item should normally post to one channel only:
+Each story posts to one channel:
 1. Breaking News
 2. Injury Report
-3. NHL Transactions
+3. MLB Transactions
 4. Prospect Wire
-5. NHL News
+5. MLB News
 
-Transaction classification intentionally uses action-oriented patterns instead of broad words such as `trade`, `contract`, or `extension`, so analysis headlines are not incorrectly swallowed by the native transaction route.
+Transaction headlines are recognized by action words ("traded", "signs", "designated for assignment", "recalled"), not by broad nouns such as "trade" or "contract", so analysis and rumor pieces stay in MLB News. See `routing-rules.md`.
 
 ## Breaking-news standard
-Breaking News is intentionally hard to trigger. Examples include:
-- major NHL trade involving an established fantasy asset
-- season-ending or indefinite injury to a significant player
-- major suspension
-- retirement of a significant active player
-- head coach / general manager firing or hiring with league-wide impact
-- major league rule or schedule development
+Hard to trigger on purpose: a season-ending or months-long injury (including Tommy John surgery), a major suspension, a retirement, a manager or GM firing, or a trade the headline itself calls a blockbuster, from an official or Tier 1 source. Routine signings, call-ups, short injuries, lineups, rumors, analysis and recaps never go there.
 
-Routine signings, recalls, minor injuries, daily lineup notes, rumors, analysis, opinion and game recaps do not belong in Breaking News.
+## DBL roster tags
+Stories about a player on a DBL roster show which DBL team owns him (`roster.py`):
+- MLB transaction records carry the player's MLB club(s) and position, which separate players who share a name (two Will Smiths, several Luis Garcias). A traded player matches either club in the move.
+- Headlines are scanned for full names of rostered players; a name any other MLB player shares is not tagged from a headline alone.
+- Anything ambiguous is left untagged: a missing tag is better than a wrong one.
+- Fantrax is read only when a run has new stories. If it can't be read, stories post without tags.
+
+Owner pings are opt-in (`owners` and `wire_pings` in `automation/league.yaml`): only listed owners, only for their own players, only in `🏥│injury-report`.
 
 ## Security
-Discord webhook URLs are credentials and belong only in GitHub Actions Secrets. The repository should never contain webhook URLs, Fantrax passwords, session cookies, or other account credentials.
-
-Current webhook secret names:
+Discord webhook URLs are credentials and live only in GitHub Actions Secrets:
 - `LEAGUE_WEBHOOK_BREAKING_NEWS`
-- `LEAGUE_WEBHOOK_NHL_NEWS`
+- `LEAGUE_WEBHOOK_MLB_NEWS`
 - `LEAGUE_WEBHOOK_INJURY_REPORT`
-- `LEAGUE_WEBHOOK_NHL_TRANSACTIONS`
+- `LEAGUE_WEBHOOK_MLB_TRANSACTIONS`
 - `LEAGUE_WEBHOOK_PROSPECT_WIRE`
-
-## Fantrax enrichment
-The public read-only Fantrax endpoints tag Wire stories on every channel with the DBL team that rosters the player (`roster.py`):
-
-- Injury entries carry the player's NHL team and position, which separate players who share a name (for example the two Sebastian Ahos, or the two Elias Petterssons who are both Canucks).
-- Headlines are scanned for full names of rostered players. A name shared with any other NHL player is not tagged from a headline alone.
-- Ambiguous matches are skipped: a missing tag is better than a wrong one.
-- Fantrax is only queried when a run has new stories to post. If Fantrax cannot be read, stories post without tags.
-
-Owner pings are opt-in and configured in `automation/league.yaml` (`owners`, `wire_pings`). Only listed owners can be mentioned, only for their own players, and only in the Injury Report.
-
-League transaction history is authentication-gated by Fantrax and is not currently ingested by the Wire.
+- `LEAGUE_WEBHOOK_MEDIA`
 
 ## Maintenance
-GitHub's built-in cron is best-effort rather than real-time, so the Wire is started by the DBL Scheduler, which is driven by an external timer (see `automation/scheduler/README.md`). Automation Health alerts if the Wire has not had a live run in 60 minutes.
-
-GitHub may disable scheduled workflows in public repositories after long periods of repository inactivity, so the DBL repository should still be checked during the offseason.
+GitHub's built-in cron is best-effort, so the Wire is started by the DBL Scheduler, driven by an external timer (`automation/scheduler/README.md`). Automation Health alerts if the Wire has not had a live run in 60 minutes. GitHub may disable scheduled workflows in a public repository after long inactivity, so check the Actions tab in the offseason.

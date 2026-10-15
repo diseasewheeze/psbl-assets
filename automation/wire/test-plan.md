@@ -1,35 +1,25 @@
-# DBL Phase 2D.1 Test Plan
+# The Wire: Test Plan
 
-## Dry-run acceptance test
-Before any Discord webhook is activated, the collector must:
+## Automated checks
+`python automation/wire/test_wire.py` runs offline in the regression workflow (and locally without feedparser): headline routing, feed-noise filters, MLB transaction routing against a fixture in MLB's shape (`automation/tests/fixtures/mlb_transactions_2026-07-28.json`), roster tags for players who share a name, dedupe across outlets, flood guards and roundups, and the source registry.
 
-1. Fetch ESPN NHL RSS successfully.
-2. Fetch Sportsnet NHL RSS successfully.
-3. Attempt r/hockey RSS with a descriptive User-Agent.
-4. Print each new headline with its source and intended DBL channel.
-5. Never send a Discord message in dry-run mode.
-6. Never expose webhook secrets in logs.
+## Before enabling a new source
+1. Load the feed by hand and confirm it has current items.
+2. Add it to `sources.yaml` with `baseline_first: true`.
+3. Run DBL Wire Engine manually in `shadow` mode (add `include_discovery` for a discovery source) and read the routing in the log.
+4. Enable it. Its first live run only records what is already there.
 
-## Routing test cases
-Expected outcomes:
+## Routing examples
+- `Braves ace to undergo Tommy John surgery` → `breaking-news` from MLB.com; otherwise `injury-report`
+- `Pasquantino lands on 10-day IL with wrist soreness` → `injury-report`
+- `Rays call up top prospect Carson Williams` → `mlb-transactions` (recorded; MLB's log posts the move)
+- `Konnor Griffin makes MLB debut for Pirates` → `prospect-wire`
+- `Grading the trade that sent Logan O'Hoppe to the Rangers` → `mlb-news`
 
-- `Star player out indefinitely after surgery` → `breaking-news` from Tier 1; otherwise `injury-report`
-- `Player listed day-to-day` → `injury-report`
-- `Team recalls prospect from AHL` → `nhl-transactions` because transaction priority is above prospect
-- `Top prospect dominates World Juniors` → `prospect-wire`
-- `Team signs depth forward to one-year deal` → `nhl-transactions`
-- `NHL game recap` → `nhl-news`
-- `Reddit rumor: superstar trade imminent` → never `breaking-news`; default/suppress depending on future trust filter
-
-## Live-test sequence for Phase 2D.2
-1. Create a private temporary Discord test channel or use a temporary webhook.
-2. Add only one test webhook secret.
-3. Run the workflow manually.
-4. Confirm formatting and source links.
-5. Confirm no duplicates.
-6. Add remaining channel secrets.
-7. Run manual full-routing test.
-8. Enable scheduling only after all tests pass.
+## Live check after a change
+1. Run in `shadow` mode and read the `SHADOW` lines.
+2. Let the next scheduled live run post; check formatting, links and roster tags in Discord.
+3. Watch the `SUMMARY` line for `SOURCE ERROR`, `DELIVERY ERROR` and `RATE-GUARD SUPPRESSED`.
 
 ## Offseason check
-Scheduled workflows in a public GitHub repository can be disabled after 60 days with no repository activity. Check Actions before each season.
+Scheduled workflows in a public repository can be disabled after 60 days without repository activity. Check the Actions tab before each season.

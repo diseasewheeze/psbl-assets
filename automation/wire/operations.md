@@ -1,163 +1,98 @@
-# DBL The Wire — Operations
+# The Wire: Operations
 
-## Locked architecture
+## Architecture
 
-**GitHub Actions = brain**  
-**Discord webhooks = delivery**  
-**Native integrations = use when superior**  
-**Discord bot = save for a later interactive phase**
+**GitHub Actions = brain**
+**Discord webhooks = delivery**
+**MLB's official transaction log = the one source for `🔄│mlb-transactions`**
 
-## Production status
+## Files
 
-The Wire is in production.
+- `wire.py`: source collectors (RSS feeds and MLB's transaction log) and the headline classifier.
+- `engine.py`: source order, routing, persistent dedupe, shadow and live modes, flood guards and Discord delivery. The workflow's entry point.
+- `roster.py`: DBL roster tags (name, MLB team, pitcher or hitter) and opt-in owner pings.
+- `sources.yaml`: the source registry.
+- `state/shadow.json`, `state/live.json`: dedupe state, kept on the `automation-state` branch.
+- `.github/workflows/league-wire-engine.yml`: started in live mode every 15 minutes by the DBL Scheduler.
+- MLB reads go through `automation/core/mlb_people.py`.
 
-- The DBL Scheduler starts the Wire every 15 minutes in **live mode** (see `automation/scheduler/README.md`).
-- Manual runs still default to **shadow mode** for safe testing.
-- Live state has already been baselined, so activation does not replay the current feed backlog.
-- PuckPedia native Discord delivery is active for `🔄│nhl-transactions`.
-- Controlled webhook delivery tests passed for `🚨│breaking-news`, `📰│nhl-news`, `🏥│injury-report`, and `🌱│prospect-wire`.
+## Live sources by channel
 
-## What is implemented
+### 🚨│breaking-news / 📰│mlb-news
+- MLB.com News, Tier 0, may post Breaking News.
+- MLB Trade Rumors (FeedBurner address), Tier 1. Its transaction headlines are recorded but not posted.
 
-- `wire.py` — source collectors + classifier.
-- `engine.py` — source precedence, routing, persistent dedupe, shadow/live modes, Discord webhook delivery and production flood guards. Entry point for the workflow.
-- `roster.py` — DBL roster tags (name + NHL team + position matching) and opt-in owner pings.
-- `sources.yaml` — source registry and authority levels.
-- `state/shadow.json` — persistent shadow-mode dedupe state.
-- `state/live.json` — persistent live-mode dedupe state.
-- `.github/workflows/league-wire-engine.yml` — the Wire workflow; started in live mode every 15 minutes by the DBL Scheduler.
-- Daily Faceoff dedicated injury parser.
-- Live Discord delivery code using repository Actions Secrets.
+CBS Sports MLB stays discovery only: its feed mixes betting promos and other sports into MLB headlines.
 
-## Current live candidates
+### 🏥│injury-report
+- MLB Transactions: injured-list placements, activations, transfers, and rehab assignments, each with the player's name, club and position.
+- MLB.com and MLB Trade Rumors headlines with injury words.
 
-### 🚨 breaking-news / 📰 nhl-news
-- NHL.com — Tier 0 official.
-- Sportsnet — Tier 1 national.
+### 🔄│mlb-transactions
+- MLB Transactions only (`https://statsapi.mlb.com/api/v1/transactions?sportId=1`, today and yesterday). A trade is one post with every player in it. A minor-league contract or a plain draft-pick signing posts only when the player is on a DBL roster (`unrostered_skipped` in the summary otherwise).
 
-CBS Sports remains discovery/corroboration because its NHL RSS includes promotional/cross-sport noise.
+### 🌱│prospect-wire
+- FanGraphs Prospects.
+- Prospects Live.
 
-### 🏥 injury-report
-- Daily Faceoff dedicated Injury Report page — primary fantasy injury feed.
-- NHL.com / Sportsnet can also classify injury headlines.
-- NHL.com `Status Report:` headlines are treated as injury/status items.
-- Phrases such as `not expected to play`, `will miss`, `expected to miss`, `ruled out`, and `unavailable` route to Injury Report.
-
-The Daily Faceoff parser follows each player-news link in document order and reads the associated position, team, Injury label, status headline, source and timestamp until the next player card. This avoids relying on Daily Faceoff CSS classes or a specific card wrapper.
-
-### 🔄 nhl-transactions
-- **PuckPedia native Discord integration is the primary live delivery source for trades, signings and waivers.**
-- The GitHub engine still classifies and dedupes NHL transaction stories for monitoring, but `nhl-transactions` is marked as a native-primary channel and the engine does not post those items live by default.
-- Elite Prospects transaction feeds stay discovery/cross-check only to avoid bookkeeping noise and duplicate posts.
-- The GitHub transaction webhook mapping remains available as a fallback if the native policy is deliberately changed later.
-
-### 🌱 prospect-wire
-- American Hockey League official RSS.
-- The Hockey Writers Prospects.
-- DobberProspects.
-
-USCHO remains discovery-only until NHL-prospect/entity filtering is added; the raw feed is too broad for automatic dynasty posting.
+### 📸│media
+- Fantasy Baseball Today, Prospects Live Podcast, Locked On Fantasy Baseball, Pitcher List Fantasy Baseball, In This League Fantasy Baseball.
 
 ## Dedupe behavior
 
-The engine keeps mode-specific persistent state for **30 days**.
+State is kept per mode for **30 days**. Exact repeats are suppressed for the whole window by source id, canonical URL and normalized headline. Near-duplicate headlines are suppressed for **48 hours** within one channel, and the same story from two outlets in MLB News or Breaking News for **6 hours**.
 
-Exact repeats are suppressed for that full retention window using:
+Official transaction records are compared only by their own ids: two real moves can read almost alike ("Reds recalled RHP X from Louisville Bats"). A move MLB lists twice under different ids is posted once. Within **12 hours** of an official injured-list record, another outlet's injury story about the same player is skipped unless it reports something worse (surgery, weeks or months out, the 60-day list).
 
-1. source/external ID,
-2. canonical URL where appropriate,
-3. normalized headline fingerprint.
+Sources are processed by trust tier, official first.
 
-Near-duplicate/fuzzy headline matching is limited to **48 hours** within the same target channel. This prevents repeated coverage of the same event from flooding Discord while still allowing a materially new development days later.
+## Flood guards
 
-Daily Faceoff injury events intentionally do **not** dedupe by URL because multiple distinct injury updates can share the same player/profile URL. Their event ID uses player + update text + timestamp.
+Individual posts per run are capped at **6 in total** and **3 per channel**. Stories over either limit are logged as `RATE-GUARD ROUNDUP` and combined into **one roundup post per channel** ("Injury Report — 7 more updates"), each line with its link, source and DBL roster tag. Nothing is silently dropped:
 
-Sources are processed by trust tier so official/Tier 0 material is considered before lower-tier coverage in the same run.
+- Roundup stories are remembered only after the roundup is delivered; a failed roundup (`ROUNDUP NOT POSTED`) is retried next run.
+- If a roundup would exceed Discord's embed size, the rest is counted as "+N more not shown" and logged as `RATE-GUARD SUPPRESSED`. Automation Health alerts if that happens in consecutive runs.
 
-## Production flood guards
-
-To protect Discord from a malformed feed, parser change, or sudden backlog, individual story posts are capped at:
-
-- **6 total individual posts per run**, and
-- **3 individual posts to any single channel per run**.
-
-Stories over either limit are logged as `RATE-GUARD ROUNDUP` and combined into **one roundup post per channel** ("Injury Report — 7 more updates"), listing each headline with its link, source, and DBL roster tag. Nothing is silently dropped:
-
-- Roundup stories are remembered only after the roundup is delivered. If the roundup fails (`ROUNDUP NOT POSTED`), those stories are retried on the next run.
-- If a roundup would exceed Discord's embed size, the remainder is counted as "+N more not shown" and logged as `RATE-GUARD SUPPRESSED`. Automation Health alerts if that happens in consecutive runs.
-
-This guard does not affect PuckPedia's separate native transaction delivery.
+Stories about rostered players get the individual posts first.
 
 ## Shadow mode
 
-Manual workflow runs default to `shadow` mode and expose two extra controls:
+Manual runs default to `shadow` and offer two extra controls:
 
-- `reset_state` — clears the selected mode's dedupe state before that run; use only for testing/calibration.
-- `include_discovery` — temporarily includes CBS, Elite Prospects, Pro Hockey Rumors, USCHO and Reddit discovery sources in the manual run.
+- `reset_state`: clears the chosen mode's dedupe state first (testing only).
+- `include_discovery`: also reads the discovery sources for that run.
 
-Shadow mode:
-
-- fetches enabled live-candidate sources,
-- classifies and routes stories,
-- prints what **would** be sent,
-- never calls Discord webhooks,
-- records dedupe state so repeated stories disappear from later shadow runs.
+Shadow mode fetches, classifies and routes, prints what **would** be posted, never calls Discord, and records dedupe state so repeats disappear from later shadow runs.
 
 ## Live safety rail
 
-The first invocation of `engine.py --mode live` establishes a baseline and sends **zero** Discord messages. This prevents the server from being flooded with whatever happens to be present in each feed at activation time.
-
-That baseline has been completed for the current production state.
-
-For channels handled by a native-primary integration, such as `nhl-transactions`, later live runs log those events as `NATIVE-PRIMARY SKIP`, record them in dedupe state, and do not send a competing GitHub webhook post.
+The first `--mode live` run on an empty state records everything and posts nothing. After that, a source marked `baseline_first: true` gets the same treatment on its own first live run (`NEW SOURCE BASELINE` in the log), so adding a feed never replays its backlog. Every source in `sources.yaml` is marked that way, so the move from the old feeds starts quietly.
 
 ## Discord webhook secrets
 
-Create one Discord webhook per automated Wire channel, then add these under:
-
-`GitHub → dbl-assets → Settings → Secrets and variables → Actions → New repository secret`
-
-Required secret names:
+One Discord webhook per automated channel, stored under
+`GitHub → dbl-assets → Settings → Secrets and variables → Actions`:
 
 - `LEAGUE_WEBHOOK_BREAKING_NEWS`
-- `LEAGUE_WEBHOOK_NHL_NEWS`
+- `LEAGUE_WEBHOOK_MLB_NEWS`
 - `LEAGUE_WEBHOOK_INJURY_REPORT`
-- `LEAGUE_WEBHOOK_NHL_TRANSACTIONS`
+- `LEAGUE_WEBHOOK_MLB_TRANSACTIONS`
 - `LEAGUE_WEBHOOK_PROSPECT_WIRE`
+- `LEAGUE_WEBHOOK_MEDIA`
 
-Never commit webhook URLs into repository files.
-
-The transaction webhook is retained as a fallback. While PuckPedia is the native primary, the GitHub engine will not use it for ordinary transaction delivery.
-
-## PuckPedia native integration
-
-For `🔄│nhl-transactions`:
-
-1. Discord → channel settings / Server Settings → Integrations → Webhooks.
-2. Create a webhook dedicated to PuckPedia in `🔄│nhl-transactions`.
-3. Copy the webhook URL.
-4. In PuckPedia, open the Discord webhook notification setup page.
-5. Paste the webhook URL and add it.
-6. Confirm the PuckPedia welcome/test post appears in `🔄│nhl-transactions`.
-
-Keep this native integration separate from the DBL News Wire webhook identity.
+Never commit webhook URLs.
 
 ## Production monitoring
 
-For normal operation, watch the summary line of scheduled `DBL Wire Engine` runs. Expected quiet runs usually look similar to:
+A quiet scheduled run looks like:
 
-`SUMMARY mode=live posted=0 ... duplicates=<many> ... digested=0 digest_posts=0 suppressed=0`
+`SUMMARY mode=live posted=0 ... duplicates=<many> ... primary_skipped=0 unrostered_skipped=<some> digested=0 digest_posts=0 suppressed=0`
 
-Important conditions to investigate:
+Investigate:
 
-- repeated `SOURCE ERROR` messages,
-- `DELIVERY ERROR`,
-- `NOT POSTED`,
+- repeated `SOURCE ERROR` lines (a feed moved, or MLB's API answered with something unexpected),
+- `DELIVERY ERROR` or `NOT POSTED`,
 - unexpected `RATE-GUARD SUPPRESSED` counts,
 - an unusual burst of posts in Discord.
 
-Manual shadow mode can always be used to inspect current routing without sending messages.
-
-## Why no Discord bot yet
-
-The Wire is a one-way ingestion and delivery problem. Webhooks require no bot process, gateway connection, intents, or always-on bot hosting. A custom bot should be introduced later only when the DBL needs interactive Discord behavior such as slash commands, role workflows, buttons, league queries, draft interaction, or moderation.
+A shadow run shows the current routing without posting anything.

@@ -3,209 +3,131 @@ fantrax:
   # from automation/league.yaml; owner pings are configured there too.
   roster_enrichment: true
 
+# Every feed below was loaded on 2026-10-15 and showed current items, unless a
+# note says otherwise. A source marked baseline_first: true posts nothing on
+# its first live run (its current items are only remembered), so adding one
+# never floods a channel with old stories.
 sources:
-  # PRIMARY NHL NEWS
-  - id: nhl_latest
-    name: NHL.com Latest News
-    type: html
-    parser: nhl_news
-    url: https://www.nhl.com/news/
+  # OFFICIAL TRANSACTIONS: the one source that posts in mlb-transactions.
+  # Injured-list moves and rehab assignments go to injury-report.
+  - id: mlb_transactions
+    name: MLB Transactions
+    type: mlb_transactions
+    url: https://statsapi.mlb.com/api/v1/transactions
+    tier: 0
+    breaking_allowed: false
+    discovery_only: false
+    enabled: true
+    lookback_days: 1
+    max_items: 60
+    baseline_first: true
+    role: primary-official-transactions
+    note: MLB Stats API transaction log (sportId=1). Each move is posted once by its own record; a trade is one post naming every player in it. Players are tagged by name and MLB team.
+
+  # PRIMARY MLB NEWS
+  - id: mlb_news
+    name: MLB.com News
+    type: rss
+    url: https://www.mlb.com/feeds/news/rss.xml
     tier: 0
     breaking_allowed: true
     discovery_only: false
     enabled: true
     max_items: 10
+    baseline_first: true
     role: primary-official-news
 
-  - id: sportsnet_nhl
-    name: Sportsnet NHL
+  - id: mlb_trade_rumors
+    name: MLB Trade Rumors
     type: rss
-    url: https://www.sportsnet.ca/hockey/nhl/feed/
+    url: https://feeds.feedburner.com/MlbTradeRumors
     tier: 1
-    breaking_allowed: true
+    breaking_allowed: false
     discovery_only: false
     enabled: true
     max_items: 10
-    role: primary-national-news
+    baseline_first: true
+    role: primary-transactions-free-agency-news
+    note: The site's own /feed address served a copy frozen in January 2018 on 2026-10-15; the FeedBurner address is current. Its transaction headlines are recorded but not posted (MLB Transactions posts the move).
 
-  - id: cbs_nhl
-    name: CBS Sports NHL
+  - id: cbs_mlb
+    name: CBS Sports MLB
     type: rss
-    url: https://www.cbssports.com/rss/headlines/nhl
+    url: https://www.cbssports.com/rss/headlines/mlb
     tier: 1
     breaking_allowed: false
     discovery_only: true
     enabled: true
     max_items: 10
     role: corroboration-national-news
-    note: Feed is healthy but mixes promo/cross-sport noise. Manual discovery only.
+    note: Healthy feed, but it mixes betting promos and other sports into MLB headlines. Manual discovery only.
 
-  # INJURIES / PLAYER STATUS
-  - id: daily_faceoff_injuries
-    name: Daily Faceoff Injury Report
-    type: html
-    parser: daily_faceoff_injuries
-    url: https://www.dailyfaceoff.com/hockey-player-news/injuries
-    tier: 1
-    breaking_allowed: false
-    discovery_only: false
-    enabled: true
-    force_channel: injury-report
-    dedupe_by_url: false
-    max_items: 15
-    role: primary-fantasy-injury-feed
-    note: Dedicated injury page. Event identity uses player + update + timestamp, not the shared page/player URL. Wire posts tag the owning DBL team when the player can be identified by name, NHL team and position.
-
-  # TRANSACTIONS / ROSTER MOVEMENT
-  # PuckPedia native Discord integration is the active live transaction source.
-  # Elite Prospects feeds remain discovery/cross-check only.
-  - id: eliteprospects_nhl_transactions
-    name: Elite Prospects NHL Transactions
+  - id: espn_mlb
+    name: ESPN MLB
     type: rss
-    url: https://www.eliteprospects.com/rss/league/nhl/transactions
+    url: https://www.espn.com/espn/rss/mlb/news
     tier: 1
     breaking_allowed: false
     discovery_only: true
-    enabled: true
-    force_channel: nhl-transactions
-    max_items: 10
-    role: transaction-cross-check
-
-  - id: eliteprospects_recalls
-    name: Elite Prospects Recalls and Reassignments
-    type: rss
-    url: https://www.eliteprospects.com/rss/transfers/up-down
-    tier: 1
-    breaking_allowed: false
-    discovery_only: true
-    enabled: true
-    force_channel: nhl-transactions
-    max_items: 10
-    role: recalls-assignments-cross-check
-
-  - id: eliteprospects_extensions
-    name: Elite Prospects Contract Extensions
-    type: rss
-    url: https://www.eliteprospects.com/rss/transfers/extension
-    tier: 1
-    breaking_allowed: false
-    discovery_only: true
-    enabled: true
-    force_channel: nhl-transactions
-    max_items: 10
-    role: contract-extensions-cross-check
-
-  - id: pro_hockey_rumors
-    name: Pro Hockey Rumors
-    type: rss
-    url: https://www.prohockeyrumors.com/feed
-    tier: 2
-    breaking_allowed: false
-    discovery_only: true
-    enabled: true
-    max_items: 10
-    role: transactions-free-agency-discovery
+    enabled: false
+    note: Returned an empty body on 2026-10-15. Re-check with a manual shadow run before enabling.
 
   # PROSPECT / DEVELOPMENT COVERAGE
-  - id: ahl_official
-    name: American Hockey League
+  - id: fangraphs_prospects
+    name: FanGraphs Prospects
     type: rss
-    url: https://theahl.com/feed
-    tier: 1
-    breaking_allowed: false
-    discovery_only: false
-    enabled: true
-    force_channel: prospect-wire
-    max_items: 8
-    role: official-ahl-news
-
-  - id: thw_prospects
-    name: The Hockey Writers Prospects
-    type: rss
-    url: https://thehockeywriters.com/category/prospects/feed
+    url: https://blogs.fangraphs.com/category/prospects/feed/
     tier: 2
     breaking_allowed: false
     discovery_only: false
     enabled: true
     force_channel: prospect-wire
-    max_items: 8
+    max_items: 6
+    baseline_first: true
     role: prospect-analysis
 
-  - id: dobber_prospects
-    name: DobberProspects
+  - id: prospects_live
+    name: Prospects Live
     type: rss
-    url: https://dobberprospects.com/feed/
+    url: https://www.prospectslive.com/feed/
     tier: 2
     breaking_allowed: false
     discovery_only: false
     enabled: true
     force_channel: prospect-wire
-    max_items: 8
-    role: fantasy-prospect-analysis
+    max_items: 6
+    baseline_first: true
+    role: dynasty-prospect-analysis
 
-  - id: uscho
-    name: USCHO College Hockey
+  - id: milb_news
+    name: MiLB.com News
     type: rss
-    url: https://www.uscho.com/feed/
-    tier: 2
-    breaking_allowed: false
-    discovery_only: true
-    enabled: true
-    force_channel: prospect-wire
-    max_items: 8
-    role: ncaa-discovery
-    note: Healthy feed but too broad for live dynasty posting without NHL-prospect/entity filtering.
-
-  - id: college_hockey_news
-    name: College Hockey News
-    type: html
-    parser: college_hockey_news
-    url: https://www.collegehockeynews.com/news/
+    url: https://www.milb.com/feeds/news/rss.xml
     tier: 1
     breaking_allowed: false
     discovery_only: true
     enabled: false
-    specialty: prospect
-    role: ncaa-news
-    note: Strong candidate; exact RSS/parser will be finalized separately.
+    force_channel: prospect-wire
+    note: Loads, but its newest item on 2026-10-15 was from August 2025. Not posted while it is stale.
 
-  # BROAD / DISCOVERY
-  - id: thw_global
-    name: The Hockey Writers Global
+  # COMMUNITY / DISCOVERY
+  - id: reddit_baseball
+    name: r/baseball
     type: rss
-    url: https://thehockeywriters.com/feed/
-    tier: 2
-    breaking_allowed: false
-    discovery_only: true
-    enabled: false
-    role: broad-discovery
-
-  - id: reddit_hockey
-    name: r/hockey
-    type: rss
-    url: https://www.reddit.com/r/hockey/.rss
+    url: https://www.reddit.com/r/baseball/.rss
     tier: 3
     breaking_allowed: false
     discovery_only: true
-    enabled: true
+    enabled: false
     max_items: 10
     role: community-discovery
+    note: Not verified; reddit.com could not be reached from the 2026-10-15 check. Discovery only (reporter-attributed posts) once a manual shadow run shows it loads.
 
-  - id: espn_nhl
-    name: ESPN NHL
+  # PODCASTS: one post per new episode in 📸│media
+  - id: pod_fantasy_baseball_today
+    name: Fantasy Baseball Today (CBS Sports)
     type: rss
-    url: https://www.espn.com/espn/rss/nhl/news
-    tier: 1
-    breaking_allowed: false
-    discovery_only: true
-    enabled: false
-    note: Disabled after repeated empty feed results on 2026-09-30.
-
-  # PODCASTS: one post per new episode in 📸│media (feed URLs from Apple Podcasts, 2026-10-06)
-  - id: pod_apples_ginos
-    name: Apples & Ginos Fantasy Hockey Podcast
-    type: rss
-    url: https://anchor.fm/s/7215b61c/podcast/rss
+    url: https://rss.amperwave.net/v2/feed/audacynetwork/d4bae8cf54f36afd204b93ed7355d137
     tier: 2
     breaking_allowed: false
     discovery_only: false
@@ -215,10 +137,10 @@ sources:
     baseline_first: true
     role: podcast-episodes
 
-  - id: pod_keeping_karlsson
-    name: Keeping Karlsson Fantasy Hockey Podcast
+  - id: pod_prospects_live
+    name: Prospects Live Podcast (dynasty)
     type: rss
-    url: https://feeds.simplecast.com/FxLigH_r
+    url: https://www.spreaker.com/show/3147987/episodes/feed
     tier: 2
     breaking_allowed: false
     discovery_only: false
@@ -228,10 +150,10 @@ sources:
     baseline_first: true
     role: podcast-episodes
 
-  - id: pod_rotowire_hockey
-    name: RotoWire Fantasy Hockey Podcast
+  - id: pod_locked_on_fantasy_baseball
+    name: Locked On Fantasy Baseball
     type: rss
-    url: https://feeds.simplecast.com/jmDAyEW0
+    url: https://feeds.simplecast.com/4vzt_3en
     tier: 2
     breaking_allowed: false
     discovery_only: false
@@ -241,10 +163,10 @@ sources:
     baseline_first: true
     role: podcast-episodes
 
-  - id: pod_nhl_fantasy_on_ice
-    name: NHL Fantasy on Ice
+  - id: pod_pitcher_list
+    name: Pitcher List Fantasy Baseball
     type: rss
-    url: https://audioboom.com/channels/4975974.rss
+    url: https://feeds.simplecast.com/Rbrm7xIB
     tier: 2
     breaking_allowed: false
     discovery_only: false
@@ -254,10 +176,10 @@ sources:
     baseline_first: true
     role: podcast-episodes
 
-  - id: pod_prospects2pros
-    name: Prospects2Pros (dynasty prospects)
+  - id: pod_in_this_league
+    name: In This League Fantasy Baseball
     type: rss
-    url: https://media.rss.com/prospects2pros/feed.xml
+    url: https://www.spreaker.com/show/3691391/episodes/feed
     tier: 2
     breaking_allowed: false
     discovery_only: false
@@ -266,20 +188,13 @@ sources:
     force_channel: media
     baseline_first: true
     role: podcast-episodes
-
-integrations:
-  - id: puckpedia_discord
-    name: PuckPedia Discord Integration
-    type: native-discord-webhook
-    target: nhl-transactions
-    status: active
-    note: Primary live source for NHL trades, signings, waivers, and roster movement. The Wire suppresses true transaction-event posts to avoid duplicates.
 
 planned_sources:
-  - id: hockey_news_latest
-    name: The Hockey News Latest News
-    type: html-or-rss
+  - id: baseball_america
+    name: Baseball America
+    type: rss
     status: candidate
+    note: Its feed refused automated reads on 2026-10-15 (robots rules).
 
   - id: x_reporters
     name: Selected X reporter accounts
