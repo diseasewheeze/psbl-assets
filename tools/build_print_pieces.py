@@ -258,7 +258,7 @@ def welcome_packet(art) -> Doc:
     b.T(pg, 72, 82, 360, 228, ("CoverTitle", "OWNER"), ("CoverTitle", "WELCOME"), ("CoverTitle", "PACKET"))
     b.T(pg, 72, 306, 380, 70, ("CoverSub", "Everything a founding owner needs: how the league works, where the money goes, "
                                            "your first week and where to find it all in Discord."))
-    b.T(pg, 72, 390, 480, 14, ("CoverLine", "SEASON 2027–28 • 12 FRANCHISES • EST. 2026"))
+    b.T(pg, 72, 390, 480, 14, ("CoverLine", "SEASON 2027 • 12 FRANCHISES • EST. 2026"))
 
     # 2 Welcome letter
     pg = b.page()
@@ -269,9 +269,9 @@ def welcome_packet(art) -> Doc:
     b.T(pg, 106, 162, 400, 56, ("H1", "WELCOME TO THE PSBL"))
     pg.items += [Box(106, 214, 8, 8, "Red"), Box(118, 217, 388, 2, "Red")]
     b.T(pg, 106, 232, 400, 380,
-        ("Letter", "You're one of twelve founding owners in a dynasty league built to last: a Startup Draft in 2027, "
-                   "an inaugural season in 2027–28, and a record book that starts with your name in it."),
-        ("Letter", "The PSBL runs on two things. **Fantrax** is where the hockey happens: rosters, lineups, scoring, trades "
+        ("Letter", "You're one of twelve founding owners in a dynasty league built to last: a Startup Draft in early 2027, "
+                   "an inaugural season that opens with MLB's Opening Night, and a record book that starts with your name in it."),
+        ("Letter", "The PSBL runs on two things. **Fantrax** is where the baseball happens: rosters, lineups, scoring, trades "
                    "and standings. **Discord** is the league office and the clubhouse: news, rulings, votes, trade talk and "
                    "a fair amount of chirping. The **Constitution** sits over both, and it's short enough to read in one sitting. "
                    "Please do."),
@@ -293,8 +293,8 @@ def welcome_packet(art) -> Doc:
     bg(pg, LETTER)
     header(b, pg, "01 • THE LEAGUE", "AT A GLANCE")
     tw = (CW - 24) / 3
-    for i, (big, label) in enumerate([("12", "FRANCHISES"), ("$150", "DUES A SEASON"), ("22", "WEEKS • H2H POINTS"),
-                                      ("6", "PLAYOFF TEAMS"), ("$1,000", "FAAB A SEASON"), ("36", "ROSTER SPOTS + 5 IR")]):
+    for i, (big, label) in enumerate([("12", "FRANCHISES"), ("$200", "DUES A SEASON"), ("22", "WEEKS • H2H POINTS"),
+                                      ("6", "PLAYOFF TEAMS"), ("$1,000", "FAAB A SEASON"), ("41", "ROSTER SPOTS + 4 IL")]):
         tile(b, pg, M + (i % 3) * (tw + 12), 134 + (i // 3) * 82, tw, 70, big, label)
     b.T(pg, M, 290, COL, 420,
         ("H2", "FORMAT"),
@@ -302,19 +302,19 @@ def welcome_packet(art) -> Doc:
                  "other franchise twice. No divisions, no conferences."),
         ("Body", "Weeks run Monday to Sunday, and every league time is Eastern Time."),
         ("H2", "THE ROSTER"),
-        (rows, "**Active**\t20"), ("Small", "3 C • 3 LW • 3 RW • 3 F • 6 D • 2 G. The F slot takes any forward."),
-        (rows, "**Reserve**\t6"), (rows, "**Minors**\t10"), (rows, "**Injured reserve**\tup to 5"),
-        (rows_b, "Controlled spots, not counting IR\t36"),
+        (rows, "**Active**\t18"), ("Small", "C • 1B • 2B • 3B • SS • 3 OF • 2 UTIL • 5 SP • 3 RP. UTIL takes any hitter."),
+        (rows, "**Reserve**\t8"), (rows, "**Minors**\t15"), (rows, "**Injured list**\tup to 4"),
+        (rows_b, "Controlled spots, not counting IL\t41"),
         ("Small", "An illegal roster has to be fixed within 24 hours of notice (6.4)."))
     b.T(pg, COL2, 290, COL, 330,
         ("H2", "MINORS"),
-        ("Bullet", "Age 25 or younger on the first day of the NHL regular season, as Fantrax calculates it. A birthday "
-                   "during the season doesn't change it."),
-        ("Bullet", "Skaters qualify through 100 career NHL regular-season games. Goalies qualify through 50."),
-        ("Bullet", "When Fantrax flags a minor as ineligible, you have 3 days to promote, trade or drop him."),
+        ("Bullet", "No more than 130 career MLB at-bats and no more than 50 career MLB innings pitched: MLB's rookie "
+                   "limits. There is no age limit."),
+        ("Bullet", "Career totals keep counting during the season, and a two-way player has to stay under both."),
+        ("Bullet", "Once a minor passes either limit, you have 3 days after notice to promote, trade or drop him."),
         ("Bullet", "Promotion doesn't burn eligibility. A player who still qualifies can go back down."),
         ("H2", "LINEUPS"),
-        ("Body", "Set your lineup every day. Each player locks about one minute before his NHL game. Keep it legal and "
+        ("Body", "Set your lineup every day. Each player locks about one minute before his MLB game. Keep it legal and "
                  "reasonably competitive all season (9.1)."))
     callout(b, pg, COL2, 628, COL, 96, "THE CONSTITUTION CONTROLS",
             "This packet is the short version. When the two disagree, the Constitution wins (2.6). Read it in {ch:constitution}.")
@@ -330,15 +330,15 @@ def welcome_packet(art) -> Doc:
         ("Bullet", "Hidden bids in $1 steps, and $0 bids are allowed. A tie goes to the earliest bid."),
         ("Bullet", "Claims process daily around 11:00 AM ET. There are no first-come, first-served adds."),
         ("Bullet", "Up to 5 acquisitions per Week. Trades, draft picks and drops don't count."),
-        ("H2", "GOALIE STARTS"),
-        ("Body", "A maximum of **4 goalie starts** count each Week, and 8 across the two-week Championship. The live "
+        ("H2", "PITCHER STARTS"),
+        ("Body", "A maximum of **7 pitcher starts** count each Week, and 14 across the two-week Championship. The live "
                  "scoreboard shows how many each team has used. Using a timing quirk to get credit past the maximum isn't "
                  "allowed (9.4)."),
         ("H2", "TRADES"),
         ("Bullet", "Unlimited, with no league vote and no veto."),
         ("Bullet", "Trade players, picks in the next three Annual Drafts (all five rounds) and current-season FAAB."),
         ("Bullet", "No conditional picks, cash, loans, rentals or side deals."),
-        ("Bullet", "**Deadline:** Sunday 11:59 PM ET at the end of Week 20. Trading reopens the day after the Stanley Cup Final."),
+        ("Bullet", "**Deadline:** Sunday 11:59 PM ET at the end of Week 20. Trading reopens the day after the World Series."),
         ("Bullet", "Report a misclick or platform error within 48 hours."))
     b.T(pg, COL2, 128, COL, 400,
         ("H2", "PLAYOFFS"),
@@ -362,36 +362,36 @@ def welcome_packet(art) -> Doc:
     bg(pg, LETTER)
     header(b, pg, "03 • POINTS AND DOLLARS", "SCORING AND THE MONEY")
     b.T(pg, M, 128, COL, 370,
-        ("H2", "SKATERS"),
-        (rows, "Goal\t+5.00"), (rows, "Assist\t+2.95"), (rows, "Shot on goal\t+0.55"), (rows, "Block\t+0.35"),
-        (rows, "Hit\t+0.20"), (rows, "Penalty minute\t−0.54"),
-        ("H2", "GOALIES"),
-        (rows, "Game started\t+6.50"), (rows, "Save\t+0.49"), (rows, "Goal against\t−5.00"), (rows, "Goal\t+5.00"),
-        (rows, "Assist\t+2.95"),
-        ("Small", "Not scored: wins, shutouts, plus/minus, power-play bonuses, game-winning goals and faceoffs."))
+        ("H2", "HITTERS"),
+        (rows, "Single / double / triple / homer\t+1 / 2 / 3 / 4"), (rows, "Run • RBI • walk • HBP\t+1 each"),
+        (rows, "Stolen base\t+2"), (rows, "Caught stealing\t−1"), (rows, "Strikeout\t−0.5"),
+        ("H2", "PITCHERS"),
+        (rows, "Inning pitched (1 per out)\t+3"), (rows, "Strikeout\t+1.25"), (rows, "Hit, walk or HBP allowed\t−1 each"),
+        (rows, "Earned run\t−2"), (rows, "Win / loss\t+2 / −1"), (rows, "Save / hold\t+6 / +4"),
+        ("Small", "Not scored: quality starts, complete games, shutouts, blown saves or bonuses."))
     b.T(pg, COL2, 128, COL, 390,
-        ("H2", "WHERE THE $1,800 GOES"),
-        (rows, "PSBL Champion\t$650"), (rows, "Runner-Up\t$350"), (rows, "Third Place\t$150"),
-        (rows, "Presidents' Trophy\t$200"), (rows, "Dynasty Pot\t$200"), (rows, "Operating Reserve\t$150"),
-        (rows, "League Services\t$100"), (rows_b, "12 franchises × $150\t$1,800"),
-        ("Small", "The Operating Reserve pays for Fantrax Premium and other approved costs, and whatever is left joins the "
+        ("H2", "WHERE THE $2,400 GOES"),
+        (rows, "PSBL Champion\t$850"), (rows, "Runner-Up\t$450"), (rows, "Third Place\t$200"),
+        (rows, "Presidents' Trophy\t$250"), (rows, "Dynasty Pot\t$300"), (rows, "Operating Reserve\t$200"),
+        (rows, "League Services\t$150"), (rows_b, "12 franchises × $200\t$2,400"),
+        ("Small", "The Operating Reserve pays for Fantrax Premium, League Bot hosting and other approved costs, and whatever is left joins the "
                   "Dynasty Pot. League Services is the Commissioner's allocation for running the league (3.6)."),
         ("H2", "DUES"),
-        ("Body", "$150 per franchise, due before each season's draft, paid through Fantrax Treasurer. A payment counts once "
+        ("Body", "$200 per franchise, due before each season's draft, paid through Fantrax Treasurer. A payment counts once "
                  "the Commissioner confirms it in the League Ledger. Prizes are paid within 30 days after the Championship, "
                  "with a Season Ledger in {ch:league-ledger}."))
     callout(b, pg, M, 466, COL, 124, "THE DYNASTY POT",
             "The first franchise to win **three PSBL Championships** in the same cycle takes the whole pot. They don't "
-            "have to be in a row. It grows by at least $200 every season, then resets once it's won.")
+            "have to be in a row. It grows by at least $300 every season, then resets once it's won.")
     callout(b, pg, COL2, 466, COL, 124, "PAY FIRST, THEN TRADE",
             "To trade away a future 1st- or 2nd-round pick, your dues must be paid and confirmed through that pick's "
             "season first, or the whole trade is reversed (Article XII). Picks in rounds 3 to 5 need no prepayment.")
     b.T(pg, M, 604, CW, 18, ("H2", "SCORING IN ACTION"))
     tw = (CW - 36) / 4
-    for i, (big, label, note) in enumerate([("+15.90", "A BIG NIGHT", "2 goals, 1 assist, 5 shots and a hit"),
-                                            ("+2.57", "THE GRINDER", "3 shots, 4 blocks, 3 hits, 2 PIM"),
-                                            ("+11.20", "A SOLID START", "30 saves, 2 goals against"),
-                                            ("−14.19", "A ROUGH NIGHT", "19 saves, 6 goals against")]):
+    for i, (big, label, note) in enumerate([("+16.50", "A BIG DAY", "2 homers, a single, a walk, 3 runs, 4 RBI, 1 K"),
+                                            ("+8.00", "TABLE SETTER", "Single, double, walk, steal and 2 runs"),
+                                            ("+18.75", "QUALITY START", "6 IP, 5 H, 2 ER, 1 BB, 7 K and a win"),
+                                            ("−8.25", "A ROUGH OUTING", "4 IP, 8 H, 6 ER, 3 BB, 3 K and a loss")]):
         tile(b, pg, M + i * (tw + 12), 626, tw, 100, big, label, note)
     footer(b, pg, foot, 5)
 
@@ -403,12 +403,12 @@ def welcome_packet(art) -> Doc:
         b.P("Check", "**Accept your Fantrax invite** and claim your franchise.", "box"),
         b.P("Check", "**Start in** {ch:welcome} and pick your notification roles under Channels & Roles.", "box"),
         b.P("Check", "**Read the Constitution** in {ch:constitution}. Joining the league means accepting it.", "box"),
-        b.P("Check", "**Pay your $150 dues** through Fantrax Treasurer before the deadline on {ch:league-calendar}.", "box"),
+        b.P("Check", "**Pay your $200 dues** through Fantrax Treasurer before the deadline on {ch:league-calendar}.", "box"),
         b.P("Check", "**Name your franchise:** a city and a team name, a short abbreviation and your colors. "
                      "It goes up in {ch:franchise-directory}.", "box"),
         b.P("Check", "**Turn on Fantrax app notifications** for trades, claims and lineup problems.", "box"),
         b.P("Check", "**Opt in to Lineup Alerts.** Ask the Commissioner, and {ch:lineup-alerts} will tell you when a "
-                     "starter has no game but a reserve does.", "box"),
+                     "hitter is off or a pitcher isn't starting but a reserve is.", "box"),
         b.P("Check", "**Watch your inbox** for Last Call, the league's weekly email.", "box"),
         b.P("Check", "**Say hello** in {ch:gm-lounge}.", "box"),
         b.P("Check", "**Build your draft queue** before the Startup Draft.", "box"))
@@ -418,13 +418,13 @@ def welcome_packet(art) -> Doc:
     x = M + 300
     b.T(pg, x, 128, 204, 20, ("H2", "KEY DATES"))
     dates = [("Dues deadline", "At least 30 days' notice, and before the Startup Draft."),
-             ("Startup Draft", "14 to 21 days after the NHL Entry Draft ends."),
+             ("Startup Draft", "Late January, done at least 7 days before Week 1."),
              ("Roster compliance", "Announced before the draft."),
-             ("Week 1", "With the NHL's opening night."),
+             ("Week 1", "With MLB's Opening Night."),
              ("Trade deadline", "Sunday 11:59 PM ET, end of Week 20."),
              ("Regular season ends", "Sunday 11:59 PM ET, end of Week 22."),
              ("Playoffs", "Four Weeks: Quarterfinals, Semifinals and a two-week Championship."),
-             ("Trading reopens", "The day after the Stanley Cup Final.")]
+             ("Trading reopens", "The day after the World Series.")]
     y0, step = 152, 66
     pg.items.append(Box(x + 3, y0 + 4, 2, step * (len(dates) - 1), "OffWhiteDark"))
     for i, (title, note) in enumerate(dates):
@@ -445,10 +445,10 @@ def welcome_packet(art) -> Doc:
         "league-calendar": "Every date and deadline", "league-ledger": "Dues, prizes and the Dynasty Pot",
         "league-voting": "Formal franchise votes", "hall-of-champions": "Every champion and award",
         "league-records": "League history and milestones",
-        "breaking-news": "News that changes a decision now", "nhl-news": "The daily NHL feed",
-        "injury-report": "Injury updates", "nhl-transactions": "Real NHL roster moves", "prospect-wire": "Prospect news",
+        "breaking-news": "News that changes a decision now", "mlb-news": "The daily MLB feed",
+        "injury-report": "Injury updates", "mlb-transactions": "Real MLB roster moves", "prospect-wire": "Prospect news",
         "news-desk": "Talk about the news",
-        "gm-lounge": "The clubhouse", "game-day": "Live games, goalies, Pick'em", "chirps-and-memes": "Friendly trash talk",
+        "gm-lounge": "The clubhouse", "game-day": "Live games, probables, Pick'em", "chirps-and-memes": "Friendly trash talk",
         "off-topic": "Everything else", "media": "Clips, photos and graphics",
         "trade-block": "What you'll move", "looking-to-acquire": "What you're hunting for",
         "trade-discussion": "Ideas and valuations", "completed-trades": "The record of every trade",
@@ -495,7 +495,6 @@ def welcome_packet(art) -> Doc:
         ("Body", "**Bounties.** One-time season goals. The first franchise to reach one takes the Bounty Hunter role."),
         ("Body", "**Pick'em.** Pick each Week's winners in {ch:game-day}. A season leaderboard keeps score."),
         ("Body", "**PSBL Bucks.** A play-money sportsbook on PSBL matchups. The season's top earner is the Sharp."),
-        ("Body", "**NHL Playoff Pool.** A free box pool once the fantasy season ends. The winner is the Pool Shark."),
         ("Body", "**The Wooden Spoon (proposed).** Last place holds the Spoon for the offseason and writes the next "
                  "season's preview. Owners decide whether it happens."),
         ("Small", "All of it is for bragging rights: no money, no picks, no FAAB."))
@@ -533,11 +532,11 @@ def draft_sheet(art) -> Doc:
     pg.items.append(Pic(-9, -9, 630, 630 * 352 / 1664, art["band"]))
     b.T(pg, 70, 32, 400, 14, ("KickerRed", "DRAFT-DAY CHEAT SHEET • SEASON 2027"))
     b.T(pg, 70, 42, 400, 56, ("H1Light", "STARTUP DRAFT"))
-    b.T(pg, 70, 88, 400, 16, ("CoverLine", "36 ROUNDS • SLOW SNAKE • 12 FRANCHISES"))
+    b.T(pg, 70, 88, 400, 16, ("CoverLine", "41 ROUNDS • SLOW SNAKE • 12 FRANCHISES"))
     top = 140
     b.T(pg, c1, top, w3, 440,
         ("H2", "HOW IT WORKS"),
-        ("Bullet3", "36 rounds, slow snake, with a 4-hour pick clock."),
+        ("Bullet3", "41 rounds, slow snake, with a 2-hour pick clock. Major leaguers and prospects go in the same draft."),
         ("Bullet3", "The clock pauses every night from midnight to 8:00 AM ET. You can still pick; the timer just stops."),
         ("Bullet3", "Draft order comes from a random draw, posted in Discord before the draft."),
         ("Bullet3", "Set a queue. After two expired clocks the Commissioner may switch on auto-draft until you're back."),
@@ -551,34 +550,33 @@ def draft_sheet(art) -> Doc:
         ("Body3", "{ch:draft-results} the board"))
     b.T(pg, c2, top, w3, 440,
         ("H2", "WHAT YOU'RE FILLING"),
-        (r3, "C • LW • RW\t3 each"), (r3, "F (any forward)\t3"), (r3, "D\t6"), (r3, "G\t2"), (r3, "Reserve\t6"),
-        (r3, "Minors\t10"), (r3b, "Rounds = spots\t36"),
-        ("Small3", "Up to 5 IR spots sit on top and don't count."),
+        (r3, "C • 1B • 2B • 3B • SS\t1 each"), (r3, "OF\t3"), (r3, "UTIL (any hitter)\t2"), (r3, "SP\t5"), (r3, "RP\t3"),
+        (r3, "Reserve\t8"), (r3, "Minors\t15"), (r3b, "Rounds = spots\t41"),
+        ("Small3", "Up to 4 IL spots sit on top and don't count."),
         ("H2", "MINORS"),
-        ("Bullet3", "25 or younger on NHL opening day, as Fantrax calculates it."),
-        ("Bullet3", "Skaters: 100 career NHL games or fewer. Goalies: 50."),
+        ("Bullet3", "130 career MLB at-bats or fewer, and 50 career MLB innings or fewer."),
+        ("Bullet3", "No age limit. Draft prospects for those 15 spots."),
         ("H2", "SNAKE MATH"),
         ("Body3", "**Odd rounds:** pick = (round − 1) × 12 + slot."),
         ("Body3", "**Even rounds:** pick = round × 12 − slot + 1."),
         ("Small3", "Slots 1 and 12 pick back to back at the turns."))
     b.T(pg, c3, top, w3, 440,
         ("H2", "SCORING"),
-        (r3, "Goal\t+5.00"), (r3, "Assist\t+2.95"), (r3, "Shot on goal\t+0.55"), (r3, "Block\t+0.35"),
-        (r3, "Hit\t+0.20"), (r3, "Penalty minute\t−0.54"),
-        (r3, "Goalie start\t+6.50"), (r3, "Save\t+0.49"), (r3, "Goal against\t−5.00"),
+        (r3, "1B / 2B / 3B / HR\t1 / 2 / 3 / 4"), (r3, "R • RBI • BB • HBP\t+1"), (r3, "SB / CS\t+2 / −1"), (r3, "Hitter K\t−0.5"),
+        (r3, "Out pitched\t+1"), (r3, "Pitcher K\t+1.25"), (r3, "H, BB, HB allowed\t−1"), (r3, "Earned run\t−2"),
+        (r3, "W / L\t+2 / −1"), (r3, "SV / HLD\t+6 / +4"),
         ("H2", "WHAT DRIVES VALUE"),
-        ("Bullet3", "A goal is worth about 1.7 assists."),
-        ("Bullet3", "Five shots (2.75) nearly match an assist."),
-        ("Bullet3", "3 blocks and 3 hits add 1.65 a night."),
-        ("Bullet3", "A fighting major costs 2.70."),
-        ("Bullet3", "30 saves on 32 shots: +11.20. A 19-save, 6-goal night: −14.19."),
-        ("Bullet3", "Only 4 goalie starts count a Week."),
-        ("Small3", "No wins, shutouts, plus/minus or power-play bonuses."))
+        ("Bullet3", "A homer is worth at least 6: 4, plus the run and an RBI."),
+        ("Bullet3", "A walk counts the same as a single; a steal the same as a double."),
+        ("Bullet3", "An average start scores about 11. 6 IP, 2 ER, 7 K and a win: +18.75."),
+        ("Bullet3", "Closers and setup men both count: saves +6, holds +4."),
+        ("Bullet3", "Only 7 pitcher starts count a Week."),
+        ("Small3", "No quality starts, shutouts, blown saves or bonuses."))
     callout(b, pg, M, 584, COL, 128, "PICKS AND TRADES",
             "Trade freely, no vetoes. To trade away a future 1st or 2nd, your dues must be paid through that pick's "
             "season first, or the trade is reversed. No conditional picks.", style="CalloutBody")
     callout(b, pg, COL2, 584, COL, 128, "THE ANNUAL DRAFT AFTER THIS",
-            "From 2028: 5 rounds, linear, an 8-hour clock, minors-eligible players only. Non-playoff teams pick first, "
+            "From 2028, each January or February: 5 rounds, linear, an 8-hour clock, minors-eligible players only. Non-playoff teams pick first, "
             "by lowest Potential Points.", style="CalloutBody")
     footer(b, pg, "PSBL • STARTUP DRAFT CHEAT SHEET", 1)
 
@@ -591,27 +589,29 @@ def draft_sheet(art) -> Doc:
     b.T(pg, 330, 70, 60, 14, (fl, "FRANCHISE"))
     b.T(pg, 488, 70, 30, 14, (fl, "SLOT"))
     pg.items += [Box(388, 79, 94, 0.75, "Charcoal"), Box(516, 79, 42, 0.75, "Charcoal")]
-    b.T(pg, M, 90, CW, 22, ("Track", "**C** {box}  {box}  {box}   **LW** {box}  {box}  {box}   **RW** {box}  {box}  {box}   "
-                                    "**F** {box}  {box}  {box}   **D** {box}  {box}  {box}  {box}  {box}  {box}   **G** {box}  {box}"))
-    b.T(pg, M, 110, CW, 22, ("Track", "**RES** {box}  {box}  {box}  {box}  {box}  {box}   "
-                                     "**MINORS** {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}"))
-    cols = [("RD", 28), ("PICK", 38), ("PLAYER", 190), ("POS", 40), ("NHL", 44), ("NOTES", 164)]
-    ty, rh = 142, 16.0
+    b.T(pg, M, 88, CW, 22, ("Track", "**C** {box}   **1B** {box}   **2B** {box}   **3B** {box}   **SS** {box}   "
+                                    "**OF** {box}  {box}  {box}   **UTIL** {box}  {box}"))
+    b.T(pg, M, 106, CW, 22, ("Track", "**SP** {box}  {box}  {box}  {box}  {box}   **RP** {box}  {box}  {box}   "
+                                     "**RES** {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}"))
+    b.T(pg, M, 124, CW, 22, ("Track", "**MINORS** {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}  {box}"))
+    b.add_style(PStyle("TableNumTight", "Pixelify Sans", "SemiBold", 8.5, 14, "Charcoal", align="center"))
+    cols = [("RD", 28), ("PICK", 38), ("PLAYER", 190), ("POS", 40), ("TEAM", 44), ("NOTES", 164)]
+    ty, rh, rounds = 150, 14.0, 41
     pg.items.append(Box(M, ty, CW, 18, "Charcoal"))
     x = M
     for label, w in cols:
         b.T(pg, x + 5, ty + 2, w - 6, 14, ("TableHead", label))
         x += w
     rows_top = ty + 18
-    for i in range(36):
+    for i in range(rounds):
         if i % 2:
             pg.items.append(Box(M, rows_top + i * rh, CW, rh, "OffWhiteDark"))
     x = M
     for label, w in cols[:-1]:
         x += w
-        pg.items.append(Box(x, rows_top, 0.5, rh * 36, "Mist"))
-    pg.items.append(Box(M, rows_top + rh * 36, CW, 1, "Charcoal"))
-    pg.items.append(Frame(M, rows_top - 4.5, 28, rh * 36 + 6, [b.P("TableNum", str(i + 1)) for i in range(36)]))
+        pg.items.append(Box(x, rows_top, 0.5, rh * rounds, "Mist"))
+    pg.items.append(Box(M, rows_top + rh * rounds, CW, 1, "Charcoal"))
+    pg.items.append(Frame(M, rows_top - 3.5, 28, rh * rounds + 6, [b.P("TableNumTight", str(i + 1)) for i in range(rounds)]))
     footer(b, pg, "PSBL • STARTUP DRAFT CHEAT SHEET", 2)
     return b.doc
 
@@ -654,8 +654,8 @@ def awards_program(art) -> Doc:
     y += 6
     b.T(pg, m, y, cw, 16, ("H2", "THE SEASON'S HONORS"))
     y += 24
-    for label, note in [("PSBL CHAMPION", "$650"), ("RUNNER-UP", "$350"), ("THIRD PLACE", "$150"),
-                        ("PRESIDENTS' TROPHY", "$200"), ("CONSOLATION CHAMPION", "+$50 FAAB")]:
+    for label, note in [("PSBL CHAMPION", "$850"), ("RUNNER-UP", "$450"), ("THIRD PLACE", "$200"),
+                        ("PRESIDENTS' TROPHY", "$250"), ("CONSOLATION CHAMPION", "+$50 FAAB")]:
         b.T(pg, m, y, 150, 14, ("FieldLabel", label))
         b.T(pg, m + cw - 70, y, 70, 14, ("FieldNote", note))
         pg.items.append(Box(m, y + 21, cw, 0.75, "Charcoal"))
@@ -702,7 +702,7 @@ def awards_program(art) -> Doc:
     pg.items += [Box(-9, 452, W + 18, H - 452 + 9, "Charcoal"), Box(-9, 452, W + 18, 3, "Red"),
                  Pic(m, 478, 56, 64.5, art["bmark"])]
     b.T(pg, m + 72, 478, cw - 72, 40, ("Signoff", "SEE YOU AT THE DRAFT"))
-    b.T(pg, m + 72, 512, cw - 72, 40, ("SmallLight", "Trading reopens the day after the Stanley Cup Final."))
+    b.T(pg, m + 72, 512, cw - 72, 40, ("SmallLight", "Trading reopens the day after the World Series."))
     return b.doc
 
 
