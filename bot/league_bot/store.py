@@ -1,4 +1,4 @@
-"""SQLite storage for proposals, votes, ballots, Pick'em, Playoff Pool picks, DBL Bucks, the Awards Ballot and the audit trail.
+"""SQLite storage for proposals, votes, ballots, Pick'em, DBL Bucks, the Awards Ballot and the audit trail.
 
 On Railway the database lives on a volume (LEAGUE_DB_PATH, default
 /data/league_bots.db) so votes survive restarts and redeploys.
@@ -84,21 +84,6 @@ CREATE TABLE IF NOT EXISTS pickem_picks (
     team_id TEXT NOT NULL,
     picked_at TEXT NOT NULL,
     PRIMARY KEY (season, period, user_id, matchup)
-);
-CREATE TABLE IF NOT EXISTS pool_picks (
-    year INTEGER NOT NULL,
-    franchise TEXT NOT NULL,
-    box INTEGER NOT NULL,
-    player_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    picked_at TEXT NOT NULL,
-    PRIMARY KEY (year, franchise, box)
-);
-CREATE TABLE IF NOT EXISTS pool_entries (
-    year INTEGER NOT NULL,
-    franchise TEXT NOT NULL,
-    completed_at TEXT,
-    PRIMARY KEY (year, franchise)
 );
 CREATE TABLE IF NOT EXISTS book_weeks (
     season TEXT NOT NULL,
@@ -348,85 +333,6 @@ class Store:
     def latest_pickem_season(self) -> str | None:
         row = self.db.execute("SELECT season FROM pickem_weeks ORDER BY posted_at DESC LIMIT 1").fetchone()
         return row["season"] if row else None
-
-    # -- Playoff Pool --------------------------------------------------------
-    def pool_pick(self, year: int, franchise: str, box: int, player_id: int, user_id: int, *, now: datetime,
-                  box_count: int) -> int:
-        """Record or replace one box's pick. Returns how many boxes the entry has.
-
-        The first time an entry has every box filled, that moment is its entry
-        time (the pool's last tiebreak); later changes keep it.
-        """
-        self.db.execute(
-            "INSERT INTO pool_picks (year, franchise, box, player_id, user_id, picked_at) VALUES (?, ?, ?, ?, ?, ?) "
-            "ON CONFLICT(year, franchise, box) DO UPDATE SET player_id=excluded.player_id, "
-            "user_id=excluded.user_id, picked_at=excluded.picked_at",
-            (year, franchise, box, player_id, user_id, iso(now)))
-        count = int(self.db.execute("SELECT COUNT(*) FROM pool_picks WHERE year=? AND franchise=?",
-                                    (year, franchise)).fetchone()[0])
-        self.db.execute("INSERT OR IGNORE INTO pool_entries (year, franchise, completed_at) VALUES (?, ?, NULL)",
-                        (year, franchise))
-        if count >= box_count:
-            self.db.execute("UPDATE pool_entries SET completed_at=? WHERE year=? AND franchise=? "
-                            "AND completed_at IS NULL", (iso(now), year, franchise))
-        self.db.commit()
-        self.log(user_id, "pool_pick", {"year": year, "franchise": franchise, "box": box, "player": player_id},
-                 now=now)
-        return count
-
-    def pool_picks(self, year: int, franchise: str, *, before: datetime | None = None) -> dict[int, int]:
-        """Box number -> NHL player id: the franchise's current picks.
-
-        With ``before`` (the pick deadline), the picks in place at the deadline
-        instead. Only each box's latest pick is kept here, so a box changed at
-        or after the deadline falls back to its last earlier pick from the audit
-        trail (every pick is logged there), and a box first filled at or after
-        the deadline is left empty.
-        """
-        rows = self.db.execute("SELECT box, player_id, picked_at FROM pool_picks WHERE year=? AND franchise=?",
-                               (year, franchise)).fetchall()
-        picks = {int(r["box"]): int(r["player_id"]) for r in rows
-                 if before is None or parse(r["picked_at"]) < before}
-        late = {int(r["box"]) for r in rows} - set(picks)
-        if late:
-            picks.update(self._pool_picks_before(year, franchise, late, before))
-        return picks
-
-    def _pool_picks_before(self, year: int, franchise: str, boxes: set[int], before: datetime) -> dict[int, int]:
-        """The last pick made before ``before`` in each of ``boxes``, from the audit trail."""
-        found: dict[int, tuple[datetime, int]] = {}
-        for row in self.db.execute("SELECT at, detail FROM audit WHERE action='pool_pick' ORDER BY id").fetchall():
-            d = json.loads(row["detail"] or "{}")
-            at = parse(row["at"])
-            if d.get("year") != year or d.get("franchise") != franchise or d.get("box") not in boxes or at >= before:
-                continue
-            if d["box"] not in found or at >= found[d["box"]][0]:
-                found[int(d["box"])] = (at, int(d["player"]))
-        return {box: player for box, (_, player) in found.items()}
-
-    def pool_late_picks(self, year: int, deadline: datetime) -> list[tuple[str, int]]:
-        """[(franchise, box)] whose stored pick was made at or after the deadline (left out of the export)."""
-        rows = self.db.execute("SELECT franchise, box, picked_at FROM pool_picks WHERE year=? ORDER BY franchise, box",
-                               (year,)).fetchall()
-        return [(r["franchise"], int(r["box"])) for r in rows if parse(r["picked_at"]) >= deadline]
-
-    def pool_entries(self, year: int, deadline: datetime | None = None
-                     ) -> list[tuple[str, dict[int, int], datetime | None]]:
-        """[(franchise, box -> player id, entry time or None)], complete entries first, earliest first.
-
-        With ``deadline``, only picks made before it count (pool_picks), and an
-        entry first completed at or after it was incomplete when picks locked,
-        so it has no entry time.
-        """
-        rows = self.db.execute("SELECT franchise, completed_at FROM pool_entries WHERE year=?", (year,)).fetchall()
-        out = []
-        for r in rows:
-            entered = parse(r["completed_at"])
-            if deadline is not None and entered is not None and entered >= deadline:
-                entered = None
-            out.append((r["franchise"], self.pool_picks(year, r["franchise"], before=deadline), entered))
-        out = [row for row in out if row[1]]
-        return sorted(out, key=lambda r: (r[2] is None, r[2].isoformat() if r[2] else "", r[0]))
 
     # -- DBL Bucks --------------------------------------------------------
     def add_book_week(self, season: str, period: int, lines: list[dict[str, Any]], *,

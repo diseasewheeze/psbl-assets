@@ -4,11 +4,19 @@ Checks
   (a) Article XII: a team giving a future 1st- or 2nd-round pick must be paid
       through that pick's Season in the League Ledger (12.2 to 12.4), using
       picktrades.py's Pick Clearance parser and verdict.
-  (b) 6.1 roster limits after the trade. Incoming players are assumed to
-      fill open active spots first, then reserve, unless the owner lists them for minors.
+  (b) 6.1 roster limits after the trade (sport.LINEUP, BENCH, MINORS and
+      INJURED_LIST). An incoming player goes into the active lineup when an
+      open slot fits his positions (6.2, sport.SLOT_ACCEPTS; teammates may
+      shift to make room, as Fantrax allows), otherwise to reserve, unless the
+      owner lists him for minors. The check also says when a team would be
+      left with nobody who can play a lineup position.
   (c) 11.6 trade window: closed from the deadline (end of Week 20, Sunday
-      11:59 PM ET) until the day after the Stanley Cup Final.
+      11:59 PM ET) until the day after the World Series.
   (d) A reminder of what the bot can't detect (11.3, 11.4, 11.5).
+
+Positions are Fantrax's: the player directory (getPlayerIds) plus the slot a
+player holds today. How Fantrax writes multi-position players ("2B,SS") is
+assumed until the league's own feed can be checked.
 """
 
 from __future__ import annotations
@@ -23,9 +31,10 @@ from . import deadlines
 from . import embeds as E
 from . import team as T
 from .league_data import Clearance
-from .shared import minors, picktrades
+from .shared import picktrades
 
-from core import season  # noqa: E402  (path set up by .shared)
+from core import mlb_people as mp  # noqa: E402  (path set up by .shared)
+from core import season  # noqa: E402
 
 FOOTER = "DBL LEAGUE BOT • TRADE CHECK"
 # The deadline Week is the last regular Week minus 2 (Week 20 of 22), as in
@@ -42,8 +51,9 @@ CANT_CHECK = (
     "• Required prepayment must be confirmed in the League Ledger before the trade processes (12.4)."
 )
 ASSUMED = (
-    "Incoming players fill open active spots first, then reserve, unless listed in to_minors. Outgoing players leave the slot Fantrax shows "
-    "today. Position limits and minor eligibility aren't checked (use /minor)."
+    "An incoming player takes an open active slot his positions fit (6.2; teammates may shift to make room), "
+    "otherwise reserve, unless listed in to_minors. Outgoing players leave the slot Fantrax shows today. "
+    "Positions are Fantrax's. Minor eligibility isn't checked (use /minor)."
 )
 
 
@@ -80,29 +90,32 @@ def roster_players(rosters: dict[str, Any] | None, team_id: str, player_ids: dic
         info = (player_ids or {}).get(str(item.get("id"))) or {}
         out.append({"id": str(item.get("id")), "name": str(info.get("name") or ""),
                     "position": str(item.get("position") or info.get("position") or ""),
+                    "positions": T.positions(info.get("position"), item.get("position")),
                     "status": T.status_key(item)})
     return out
 
 
 def display_name(fantrax_name: str) -> str:
-    first, last = minors().fantrax_name(fantrax_name)
-    return f"{first} {last}".strip()
+    return mp.display_name(fantrax_name)
+
+
+def _key(text: str) -> str:
+    return mp.norm_name(text).replace(" ", "")
 
 
 def match_players(text: str | None, players: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[str], list[str]]:
     """Match typed names to a roster: (found, not on the roster, ambiguous)."""
-    m = minors()
     found, missing, ambiguous = [], [], []
     for query in split_list(text):
-        q = m.norm(query)
+        q = _key(query)
         exact, by_last = [], []
         for p in players:
             if not p["name"]:
                 continue
-            first, last = m.fantrax_name(p["name"])
-            if q in (m.norm(first + last), m.norm(last + first)):
+            first, last = mp.split_name(p["name"])
+            if q in (_key(first + last), _key(last + first)):
                 exact.append(p)
-            elif q == m.norm(last):
+            elif q == _key(last):
                 by_last.append(p)
         hits = exact or by_last
         if len(hits) == 1:
@@ -127,7 +140,7 @@ def trade_deadline(info: dict[str, Any] | None, tz: ZoneInfo) -> datetime | None
 def trade_window(now: datetime, deadline: datetime | None, reopens: datetime | None,
                  season_over: bool = False) -> tuple[str, str]:
     """(open | closed | unknown, explanation) for 11.6."""
-    rule = "Trading closes at the end of Week 20 and reopens the day after the Stanley Cup Final ends (11.6)."
+    rule = "Trading closes at the end of Week 20 and reopens the day after the World Series ends (11.6)."
     if deadline is None:
         return "unknown", "The bot couldn't read the Fantrax calendar, so it can't check the deadline. " + rule
     if now < deadline:
@@ -139,10 +152,10 @@ def trade_window(now: datetime, deadline: datetime | None, reopens: datetime | N
         return "closed", f"**Closed** since the deadline {E.stamp(deadline)}. Trading reopens {E.when(reopens)} (11.6)."
     if season_over:
         return "unknown", (f"The deadline passed {E.stamp(deadline)} and the Fantrax season is over. Trading reopens "
-                           "the day after the Stanley Cup Final ends, when the Commissioner renews the league; that "
+                           "the day after the World Series ends, when the Commissioner renews the league; that "
                            "date isn't on the League Calendar yet, so the bot can't confirm it (11.6).")
-    return "closed", (f"**Closed** since the deadline {E.stamp(deadline)}. Trading reopens the day after the Stanley "
-                      "Cup Final ends; that date isn't on the League Calendar yet (11.6).")
+    return "closed", (f"**Closed** since the deadline {E.stamp(deadline)}. Trading reopens the day after the World "
+                      "Series ends; that date isn't on the League Calendar yet (11.6).")
 
 
 # ------------------------------------------------------------------ checks
@@ -161,6 +174,9 @@ class Side:
     prepay: list[tuple[str, str]] = field(default_factory=list)   # (paid | unpaid | unknown, line)
     before: dict[str, int] | None = None
     after: dict[str, int] | None = None
+    roster: list[dict[str, Any]] | None = None
+    placed: dict[str, str] = field(default_factory=dict)   # incoming player id -> active, reserve or minors
+    empty_slots: list[str] = field(default_factory=list)   # lineup positions nobody left can play
 
 
 @dataclass
@@ -238,6 +254,7 @@ def check(*, a: Side, b: Side, rosters: dict[str, Any] | None, player_ids: dict[
     for side in (a, b):
         side.picks_out, side.unread_picks = parse_picks(side.picks_text)
         players = roster_players(rosters, side.team_id, player_ids)
+        side.roster = players
         if side.players_text.strip():
             if players is None:
                 result.notes.append(f"Couldn't read {side.franchise}'s roster from Fantrax, so its players weren't checked.")
@@ -250,8 +267,8 @@ def check(*, a: Side, b: Side, rosters: dict[str, Any] | None, player_ids: dict[
     if picks_raw is None and (a.picks_out or b.picks_out):
         result.notes.append("Couldn't read draft picks from Fantrax, so pick ownership wasn't checked.")
 
-    # Incoming players fill open active spots first, then reserve, unless the
-    # receiving owner would put them in minors.
+    # An incoming player takes an open active slot his positions fit, otherwise
+    # reserve, unless the receiving owner would put him in minors.
     to_minors_ids: set[str] = set()
     for query in split_list(to_minors):
         found, _, _ = match_players(query, a.players_out + b.players_out)
@@ -264,17 +281,29 @@ def check(*, a: Side, b: Side, rosters: dict[str, Any] | None, player_ids: dict[
         if side.before is None:
             continue
         after = dict(side.before)
+        leaving = {p["id"] for p in side.players_out}
         for p in side.players_out:
             after[p["status"]] = after.get(p["status"], 0) - 1
+        staying = [p for p in side.roster or [] if p["id"] not in leaving]
+        starters = [p["positions"] for p in staying if p["status"] == "active"]
+        starting = T.lineup_size(starters)
         for p in incoming:
             if p["id"] in to_minors_ids:
                 slot = "minors"
-            elif after.get("active", 0) < T.LIMITS["active"]:
-                slot = "active"  # an open active spot is filled first (6.1)
+            elif T.lineup_size(starters + [p["positions"]]) > starting:
+                slot = "active"  # an open slot fits him, perhaps after a teammate shifts (6.2)
+                starters.append(p["positions"])
+                starting += 1
             else:
                 slot = "reserve"
+            side.placed[p["id"]] = slot
             after[slot] = after.get(slot, 0) + 1
         side.after = after
+        if side.players_out or incoming:
+            pool = [p["positions"] for p in staying if p["status"] in ("active", "reserve")]
+            pool += [p["positions"] for p in incoming if side.placed.get(p["id"]) != "minors"]
+            if pool and all(pool):   # only when every player's positions are known
+                side.empty_slots = T.empty_slots(pool)
     return result
 
 
@@ -334,6 +363,9 @@ def embed(c: TradeCheck) -> dict[str, Any]:
             rosters.append(line)
     if any(side.after and T.over_limits(side.after) for side in (c.a, c.b)):
         rosters.append("A team over a limit must fix it within 24 hours of notice (6.4).")
+    for side in (c.a, c.b):
+        if side.empty_slots:
+            rosters.append(f"**{side.franchise}:** nobody left who can play {', '.join(side.empty_slots)} (6.2).")
     assumed = ASSUMED
     if c.to_minors_unmatched:
         assumed += " Not part of this trade, ignored for minors: " + ", ".join(c.to_minors_unmatched) + "."

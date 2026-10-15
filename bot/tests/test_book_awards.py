@@ -376,24 +376,24 @@ BUST = awards.BY_KEY["bust"]
 class NomineeTests(unittest.TestCase):
     def test_parse_hand_typed_nominees(self) -> None:
         found, errors = awards.parse_nominees(
-            TRADE, "F3 + F7: Hughes for a 2029 1st; f2, F9: Aho swap\nNobody + F4: x; F5: solo trade", NAMES)
+            TRADE, "F3 + F7: Griffin for a 2029 1st; f2, F9: Soto swap\nNobody + F4: x; F5: solo trade", NAMES)
         self.assertEqual([(n.id, n.label, n.franchises) for n in found],
-                         [("trade-1", "Hughes for a 2029 1st", ("F3", "F7")), ("trade-2", "Aho swap", ("F2", "F9"))])
+                         [("trade-1", "Griffin for a 2029 1st", ("F3", "F7")), ("trade-2", "Soto swap", ("F2", "F9"))])
         self.assertEqual(len(errors), 2)
         self.assertIn("start with the franchise name", errors[0])
         self.assertIn("name both franchises", errors[1])
-        waiver, errors = awards.parse_nominees(awards.BY_KEY["waiver"], "F4: Quinn Hughes off waivers; F6", NAMES,
+        waiver, errors = awards.parse_nominees(awards.BY_KEY["waiver"], "F4: Konnor Griffin off waivers; F6", NAMES,
                                                start=4)
-        self.assertEqual([(n.id, n.label) for n in waiver], [("waiver-4", "Quinn Hughes off waivers"), ("waiver-5", "F6")])
+        self.assertEqual([(n.id, n.label) for n in waiver], [("waiver-4", "Konnor Griffin off waivers"), ("waiver-5", "F6")])
         self.assertEqual(errors, [])
         self.assertEqual(waiver[0].subtitle, "F4")
         self.assertEqual(waiver[1].subtitle, "")
 
     def test_franchise_names_with_separators_match_whole(self) -> None:
-        names = ["Pucks, Pints & Co", "Ice Dogs"]
-        self.assertEqual(awards.match_franchises("pucks, pints & co", names), ["Pucks, Pints & Co"])
-        self.assertEqual(awards.match_franchises("Ice Dogs + Pucks, Pints & Co", names), None)
-        self.assertEqual(awards.match_franchises("Ice Dogs", names), ["Ice Dogs"])
+        names = ["Bats, Brews & Co", "Sand Gnats"]
+        self.assertEqual(awards.match_franchises("bats, brews & co", names), ["Bats, Brews & Co"])
+        self.assertEqual(awards.match_franchises("Sand Gnats + Bats, Brews & Co", names), None)
+        self.assertEqual(awards.match_franchises("Sand Gnats", names), ["Sand Gnats"])
 
     def test_gm_of_the_year_is_every_active_franchise(self) -> None:
         nominees = awards.gm_nominees(league("F5"))
@@ -477,7 +477,7 @@ class BallotTests(unittest.TestCase):
             self.assertNotIn(self.trades[0], awards.options_for(TRADE, self.trades, partner))
         self.assertEqual(awards.choose({}, 1, self.trades[0].id, TRADE, self.trades, "F4"), ({1: "trade-1"}, None))
         # Waiver Steal: no points for your own pickup.
-        pickups, _ = awards.parse_nominees(WAIVER, "F2: Quinn Hughes; F5: a goalie", NAMES)
+        pickups, _ = awards.parse_nominees(WAIVER, "F2: Konnor Griffin; F5: a closer", NAMES)
         _, error = awards.choose({}, 1, pickups[0].id, WAIVER, pickups, "F2")
         self.assertEqual(error, "You can't vote for your own franchise's pickup for Waiver Steal of the Year.")
         self.assertEqual(awards.options_for(WAIVER, pickups, "F2"), [pickups[1]])
@@ -568,7 +568,7 @@ class TallyTests(unittest.TestCase):
         })
         self.assertEqual({row.nominee.id: row.points for row in r.rows if row.points}, {"trade-2": 3, "trade-3": 5})
         self.assertEqual(r.ballots, 2)
-        pickups = [awards.Nominee("waiver-1", "Hughes", ("F2",)), awards.Nominee("waiver-2", "Goalie", ("F3",))]
+        pickups = [awards.Nominee("waiver-1", "Griffin", ("F2",)), awards.Nominee("waiver-2", "Closer", ("F3",))]
         r = awards.tally(WAIVER, pickups, {"F2": {1: "waiver-1", 2: "waiver-2"}, "F3": {1: "waiver-1"}})
         self.assertEqual([(row.nominee.id, row.points) for row in r.rows], [("waiver-1", 5), ("waiver-2", 3)])
         busts = [awards.Nominee("bust-1", "F2", ("F2",))]
@@ -1050,7 +1050,7 @@ class DiscordFlowTests(unittest.TestCase):
                 self.assertIn("can't nominate their own franchise (Franchise 1)", i.followup.sent[-1][0])
                 i = FakeInteraction(commish)
                 await opener.callback(i, season=2027, trades="Franchise 2 + Franchise 3: swap; Franchise 5 + Franchise 6: deal",
-                                      waivers="Franchise 3: Quinn Hughes", deadline="2027-06-05")
+                                      waivers="Franchise 3: Konnor Griffin", deadline="2027-06-05")
                 self.assertIn("Awards Ballot is open", i.followup.sent[-1][0])
                 post = channels[VOTING_CH].sent[-1]
                 self.assertEqual(as_dict(post.kw["embed"])["title"], "DBL AWARDS NIGHT")

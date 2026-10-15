@@ -14,8 +14,9 @@ FAAB is not in Fantrax's feed.
 from __future__ import annotations
 
 import logging
+import re
 from datetime import datetime
-from typing import Any, Callable
+from typing import Any, Callable, Iterable
 from zoneinfo import ZoneInfo
 
 from . import deadlines
@@ -24,13 +25,18 @@ from .league_data import Clearance
 from .shared import picktrades
 
 from core import season  # noqa: E402  (path set up by .shared)
+from core import sport  # noqa: E402
 from core.fantrax import schedule_for  # noqa: E402
 
-# Section 6.1 roster limits by Fantrax status.
-LIMITS = {"active": 20, "reserve": 6, "minors": 10, "ir": 5}
-LABELS = {"active": "Active", "reserve": "Reserve", "minors": "Minors", "ir": "IR"}
+# Section 6.1 roster limits by Fantrax status, from the league's rules module.
+LIMITS = {"active": sum(sport.LINEUP.values()), "reserve": sport.BENCH, "minors": sport.MINORS,
+          "ir": sport.INJURED_LIST}
+LABELS = {"active": "Active", "reserve": "Reserve", "minors": "Minors", "ir": "IL"}
 STATUS = {"ACTIVE": "active", "RESERVE": "reserve", "MINORS": "minors", "MINOR": "minors",
-          "IR": "ir", "INJURED_RESERVE": "ir"}
+          "IR": "ir", "IL": "ir", "INJURED_RESERVE": "ir", "INJURED_LIST": "ir"}
+# The active lineup's slots, one entry per slot (sport.LINEUP, Section 6.2).
+SLOTS = tuple(slot for slot, count in sport.LINEUP.items() for _ in range(count))
+SLOT_NAMES = {"UT": "UTIL", "U": "UTIL", "UTIL": "UTIL", "UTILITY": "UTIL"}
 ROUND = {1: "1st", 2: "2nd", 3: "3rd", 4: "4th", 5: "5th"}
 FOOTER = "DBL LEAGUE BOT • ONLY YOU CAN SEE THIS"
 log = logging.getLogger("league.bot")
@@ -76,6 +82,44 @@ def roster_counts(rosters: dict[str, Any] | None, team_id: str) -> dict[str, int
 def over_limits(counts: dict[str, int]) -> dict[str, int]:
     """Status -> how many over its 6.1 limit."""
     return {k: counts.get(k, 0) - limit for k, limit in LIMITS.items() if counts.get(k, 0) > limit}
+
+
+def positions(*values: Any) -> frozenset[str]:
+    """A player's positions from Fantrax text such as "2B,SS" or a slot name ("UT" is the UTIL slot)."""
+    out = set()
+    for value in values:
+        for code in re.split(r"[,/ ]+", str(value or "").upper()):
+            if code:
+                out.add(SLOT_NAMES.get(code, code))
+    return frozenset(out)
+
+
+def lineup_size(players: Iterable[frozenset[str]]) -> int:
+    """How many of these players can be in the active lineup at once.
+
+    Each player may fill a slot his positions fit (sport.slot_fits, sport.SLOT_ACCEPTS); the count is a
+    maximum matching, so a player who can play two positions goes wherever he lets the most players start.
+    """
+    players = list(players)
+    holder: dict[int, int] = {}   # slot index -> player index
+
+    def place(i: int, seen: set[int]) -> bool:
+        for s, slot in enumerate(SLOTS):
+            if s in seen or not sport.slot_fits(slot, players[i]):
+                continue
+            seen.add(s)
+            if s not in holder or place(holder[s], seen):
+                holder[s] = i
+                return True
+        return False
+
+    return sum(1 for i in range(len(players)) if place(i, set()))
+
+
+def empty_slots(players: Iterable[frozenset[str]]) -> list[str]:
+    """Lineup slots none of these players can fill, in lineup order."""
+    players = list(players)
+    return [slot for slot in sport.LINEUP if not any(sport.slot_fits(slot, p) for p in players)]
 
 
 def roster_text(counts: dict[str, int], separator: str = "\n") -> str:

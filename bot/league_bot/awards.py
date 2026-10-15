@@ -144,8 +144,8 @@ def parse_nominees(award: Award, text: str, names: list[str], *, start: int = 1)
     """Nominees typed by hand, one per line or separated by semicolons.
 
     Each starts with its franchise(s), then an optional colon and description:
-    ``Franchise 3: Quinn Hughes off waivers`` or, for a trade,
-    ``Franchise 3 + Franchise 7: Hughes for a 2029 1st``.
+    ``Franchise 3: Konnor Griffin off waivers`` or, for a trade,
+    ``Franchise 3 + Franchise 7: Griffin for a 2029 1st``.
     """
     out: list[Nominee] = []
     errors: list[str] = []

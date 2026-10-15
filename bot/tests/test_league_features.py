@@ -37,8 +37,8 @@ UTC = timezone.utc
 NY = ZoneInfo("America/New_York")
 
 # Fantrax team IDs in the test league (draft_picks_test.json order).
-TEST = "gb4or3npmumb3mgv"      # "Test": 20 active, 6 reserve, 10 minors
-TEST3 = "2tml63mumumuxoqh"     # "Test 3": 20 active, 16 reserve (over the limit)
+TEST = "gb4or3npmumb3mgv"      # "Test": a full lineup, 8 reserve, 10 minors (baseball_rosters)
+TEST3 = "2tml63mumumuxoqh"     # "Test 3": a full lineup, 18 reserve (over the limit)
 TEST4 = "8j6llh6gmumuxose"
 TEST6 = "gobvt8opmumuxoxm"
 TEST7 = "qqpqauuamumuxp03"
@@ -51,23 +51,56 @@ def fixture(name: str):
 
 
 INFO = fixture("league_info_2026_test.json")
-ROSTERS = fixture("team_rosters_sample_test.json")
 PICKS = fixture("draft_picks_test.json")
+LINEUP_SLOTS = [slot for slot, count in sport.LINEUP.items() for _ in range(count)]
+FANTRAX_SLOT = {"UTIL": "UT"}   # assumed: the name Fantrax gives the utility slot
+RESERVE_POSITIONS = ("OF", "1B", "SP", "RP", "2B", "3B")
+
+
+def baseball_rosters() -> dict:
+    """The live Fantrax roster sample with baseball slots: each team's ACTIVE players fill the lineup
+    (sport.LINEUP) in order, the rest of them become RESERVE, and reserves and minors get baseball positions."""
+    raw = copy.deepcopy(fixture("team_rosters_sample_test.json"))
+    for roster in raw["rosters"].values():
+        active = reserve = 0
+        for item in roster["rosterItems"]:
+            if item["status"] == "ACTIVE" and active < len(LINEUP_SLOTS):
+                item["position"] = FANTRAX_SLOT.get(LINEUP_SLOTS[active], LINEUP_SLOTS[active])
+                active += 1
+            elif item["status"] in ("ACTIVE", "RESERVE"):
+                item["status"] = "RESERVE"
+                item["position"] = RESERVE_POSITIONS[reserve % len(RESERVE_POSITIONS)]
+                reserve += 1
+            else:
+                item["position"] = "SS"
+    return raw
+
+
+ROSTERS = baseball_rosters()
+FULL = len(LINEUP_SLOTS)
 SCORES_2 = normalize_scores(fixture("matchup_scores_period2_test.json"))
 
 
 def named_players() -> dict:
-    """getPlayerIds-style names for the sample rosters (the live sample has no names for most of them)."""
+    """getPlayerIds-style names and positions for the sample rosters (SYNTHETIC; the live sample has no names)."""
     out = {}
     for roster in ROSTERS["rosters"].values():
         for i, item in enumerate(roster["rosterItems"]):
             out[item["id"]] = {"fantraxId": item["id"], "name": f"Player{i}, {roster['teamName'].replace(' ', '')}",
-                               "position": item["position"], "team": "EDM"}
-    out["04lcs"]["name"] = "Hughes, Quinn"      # Test, ACTIVE D
-    out["05ogy"]["name"] = "Celebrini, Macklin"  # Test, MINORS
-    out["061a2"]["name"] = "Pettersson, Elias"   # Test 3, RESERVE
-    out["01mzc"]["name"] = "Pettersson, Marcus"  # Test 3, ACTIVE
-    out["03e1n"]["name"] = "Aho, Sebastian"      # Test 3, ACTIVE
+                               "position": item["position"], "team": "KC"}
+
+    def name(pid, full, position, team):
+        out[pid].update(name=full, position=position, team=team)
+
+    name("04lcs", "Smith, Will", "C", "LAD")              # Test, ACTIVE in the C slot (its only catcher)
+    name("03v70", "Witt Jr., Bobby", "SS", "KC")           # Test, ACTIVE at SS
+    name("04xec", "Garcia Jr., Luis", "2B,SS", "WSH")      # Test, ACTIVE in a UTIL slot; can move to SS
+    name("05ogy", "Griffin, Konnor", "SS", "PIT")          # Test, MINORS
+    name("061a2", "Smith, Dominic", "1B", "ATL")           # Test 3, RESERVE
+    name("061im", "Smith, Cam", "OF", "HOU")               # Test 3, RESERVE
+    name("01mzc", "Raleigh, Cal", "C", "SEA")              # Test 3, ACTIVE at C
+    name("03e1n", "Alonso, Pete", "1B", "NYM")             # Test 3, ACTIVE at 1B
+    name("0045j", "Soto, Juan", "OF", "NYM")               # Test 3, ACTIVE in the OF
     return out
 
 
@@ -390,11 +423,17 @@ class MinorLookupTests(unittest.TestCase):
 
 # ------------------------------------------------------------------- /myteam
 class TeamTests(unittest.TestCase):
+    def test_limits_come_from_the_rules_module(self) -> None:
+        self.assertEqual(team.LIMITS, {"active": sum(sport.LINEUP.values()), "reserve": sport.BENCH,
+                                       "minors": sport.MINORS, "ir": sport.INJURED_LIST})
+        self.assertEqual(list(team.SLOTS), LINEUP_SLOTS)
+        self.assertEqual(team.LABELS["ir"], "IL")
+
     def test_roster_counts_against_limits(self) -> None:
-        self.assertEqual(team.roster_counts(ROSTERS, TEST), {"active": 20, "reserve": 6, "minors": 10, "ir": 0})
+        self.assertEqual(team.roster_counts(ROSTERS, TEST), {"active": FULL, "reserve": 8, "minors": 10, "ir": 0})
         over = team.roster_counts(ROSTERS, TEST3)
-        self.assertEqual(team.over_limits(over), {"reserve": 10})
-        self.assertIn("**Reserve 16/6 (over by 10)**", team.roster_text(over))
+        self.assertEqual(team.over_limits(over), {"reserve": 18 - sport.BENCH})
+        self.assertIn(f"**Reserve 18/{sport.BENCH} (over by {18 - sport.BENCH})**", team.roster_text(over))
         self.assertIsNone(team.roster_counts(ROSTERS, "nobody"))
 
     def test_ir_status_counts(self) -> None:
@@ -448,7 +487,8 @@ class TeamTests(unittest.TestCase):
         text = json.dumps(e)
         self.assertEqual(e["title"], "FRANCHISE 2")
         self.assertIn("Fantrax team: **Test**", e["description"])
-        for expected in ("Active 20/20", "Reserve 6/6", "Minors 10/10", "IR 0/5", "FAAB: check Fantrax",
+        for expected in (f"Active {FULL}/{FULL}", f"Reserve 8/{sport.BENCH}", f"Minors 10/{sport.MINORS}",
+                         f"IL 0/{sport.INJURED_LIST}", "FAAB: check Fantrax",
                          "Paid through: Season 2027", "DBL Trade Deadline", "2029 2nd to Test 7", "Week 2 vs"):
             self.assertIn(expected, text)
         self.assertEqual(e["fields"][-1]["value"].count("<t:"), 4)  # next 2 deadlines, F and R each
@@ -488,11 +528,11 @@ class TradeTests(unittest.TestCase):
 
     def test_match_players(self) -> None:
         players = trade.roster_players(ROSTERS, TEST3, named_players())
-        found, missing, ambiguous = trade.match_players("Elias Pettersson, Aho, Connor McDavid, pettersson", players)
+        found, missing, ambiguous = trade.match_players("Dominic Smith, Alonso, Bobby Witt, smith", players)
         self.assertEqual([p["id"] for p in found], ["061a2", "03e1n"])
-        self.assertEqual(missing, ["Connor McDavid"])
+        self.assertEqual(missing, ["Bobby Witt"])
         self.assertEqual(len(ambiguous), 1)
-        self.assertIn("Elias Pettersson or Marcus Pettersson", ambiguous[0])
+        self.assertIn("Dominic Smith or Cam Smith", ambiguous[0])
 
     def test_prepayment_paid_unpaid_and_round_three(self) -> None:
         c = self.run_check(self.side("Test", TEST, picks="2028 1st, 2027 2nd, 2028 3rd"),
@@ -510,9 +550,9 @@ class TradeTests(unittest.TestCase):
         self.assertEqual([s for s, _ in c.a.prepay], ["unknown"])
         self.assertIn("isn't set up", c.a.prepay[0][1])
         self.assertEqual(c.b.prepay, [])  # rounds 3 to 5 need no prepayment (12.7)
-        self.assertEqual(c.problems(), ["Test 3: Reserve over by 10"])  # already over before the trade
+        self.assertEqual(c.problems(), [f"Test 3: Reserve over by {18 - sport.BENCH}"])  # already over before the trade
         self.assertIn("already over a limit before this trade", json.dumps(trade.embed(c)))
-        c.b.after = {"active": 20, "reserve": 6, "minors": 0, "ir": 0}
+        c.b.after = {key: 0 for key in team.LIMITS}
         self.assertEqual(c.problems(), [])
         self.assertIn("need a manual check", trade.embed(c)["description"])
 
@@ -529,26 +569,42 @@ class TradeTests(unittest.TestCase):
         self.assertEqual(c.a.pick_problems, [])  # owns its own and Test 4's 2028 1st
 
     def test_roster_limits_after_trade(self) -> None:
-        # Test gets two players (one to minors); Test 3 gets one, sending two of its 16 reserves away.
-        c = self.run_check(self.side("Test", TEST, players="Quinn Hughes"),
-                           self.side("Test 3", TEST3, players="Elias Pettersson, Sebastian Aho"),
-                           to_minors="Aho, Wayne Gretzky")
-        # Incoming players fill an open active spot first, then reserve.
-        self.assertEqual(c.a.after, {"active": 20, "reserve": 6, "minors": 11, "ir": 0})
-        self.assertEqual(c.b.after, {"active": 20, "reserve": 15, "minors": 0, "ir": 0})
-        self.assertEqual(c.to_minors_unmatched, ["Wayne Gretzky"])
+        # Test sends its only catcher for a first baseman and Soto (to minors).
+        c = self.run_check(self.side("Test", TEST, players="Will Smith"),
+                           self.side("Test 3", TEST3, players="Dominic Smith, Juan Soto"),
+                           to_minors="Soto, Babe Ruth")
+        # The open slot is C and no first baseman can fill it, so Dominic Smith goes to reserve.
+        self.assertEqual(c.a.placed, {"061a2": "reserve", "0045j": "minors"})
+        self.assertEqual(c.a.after, {"active": FULL - 1, "reserve": 9, "minors": 11, "ir": 0})
+        self.assertEqual(c.a.empty_slots, ["C"])
+        self.assertEqual(c.to_minors_unmatched, ["Babe Ruth"])
+        # Test 3 already has a catcher and nobody else who can play the outfield spot Soto leaves.
+        self.assertEqual(c.b.placed, {"04lcs": "reserve"})
+        self.assertEqual(c.b.after, {"active": FULL - 1, "reserve": 18, "minors": 0, "ir": 0})
         problems = c.problems()
-        self.assertNotIn("Test: Reserve over by 1", problems)
-        self.assertIn("Test: Minors over by 1", problems)
-        self.assertIn("Test 3: Reserve over by 9", problems)
+        self.assertIn(f"Test: Reserve over by {9 - sport.BENCH}", problems)
+        self.assertFalse([p for p in problems if "Minors" in p])   # 11 is within the minors limit
+        self.assertIn(f"Test 3: Reserve over by {18 - sport.BENCH}", problems)
+        self.assertIn("**Test:** nobody left who can play C (6.2).", json.dumps(trade.embed(c), ensure_ascii=False))
 
-    def test_full_rosters_swapping_starters_is_legal(self) -> None:
-        # Two full rosters (20 active / 6 reserve) swap one active player each: legal (6.1).
-        c = self.run_check(self.side("Test", TEST, players="Quinn Hughes"),
-                           self.side("Test 3", TEST3, players="Elias Pettersson"))
-        self.assertEqual(c.a.after["active"], 20)
-        self.assertEqual(c.a.after["reserve"], 6)
+    def test_a_teammate_shifts_so_an_incoming_player_starts(self) -> None:
+        # Test sends its shortstop for an outfielder. Luis Garcia Jr. (2B/SS, in a UTIL slot) moves to SS and
+        # Soto starts at UTIL: Test stays at a full lineup and 8 reserves, all legal (6.1, 6.2).
+        c = self.run_check(self.side("Test", TEST, players="Bobby Witt Jr."),
+                           self.side("Test 3", TEST3, players="Juan Soto"))
+        self.assertEqual(c.a.placed, {"0045j": "active"})
+        self.assertEqual((c.a.after["active"], c.a.after["reserve"]), (FULL, 8))
+        self.assertEqual(c.a.empty_slots, [])
         self.assertFalse([p for p in c.problems() if p.startswith("Test:")])
+        # Test 3 has nobody else for the outfield, so Witt (SS) can't start there.
+        self.assertEqual(c.b.placed, {"03v70": "reserve"})
+
+    def test_lineup_math(self) -> None:
+        hitters = [team.positions("C"), team.positions("SS"), team.positions("2B,SS"), team.positions("UT")]
+        self.assertEqual(team.lineup_size(hitters), 4)
+        self.assertEqual(team.lineup_size([team.positions("C")] * 3), 3)   # C, then both UTIL slots
+        self.assertEqual(team.lineup_size([team.positions("SP")] * 7), sport.LINEUP["SP"])
+        self.assertIn("C", team.empty_slots([team.positions("SS")]))
 
     def test_trade_deadline_from_fantrax(self) -> None:
         deadline = trade.trade_deadline(INFO, NY)
@@ -570,7 +626,7 @@ class TradeTests(unittest.TestCase):
         self.assertEqual(trade.trade_window(deadline + timedelta(days=1), deadline, stale)[0], "closed")
 
     def test_embed_never_grades_value(self) -> None:
-        c = self.run_check(self.side("Test", TEST, players="Quinn Hughes", picks="2027 1st"),
+        c = self.run_check(self.side("Test", TEST, players="Will Smith", picks="2027 1st"),
                            self.side("Test 3", TEST3, picks="2029 1st"))
         e = trade.embed(c)
         text = json.dumps(e).lower()
@@ -583,8 +639,8 @@ class TradeTests(unittest.TestCase):
         self.assertTrue(embeds.fits([e]))
 
     def test_build_end_to_end(self) -> None:
-        a = self.side("Test", TEST, players="Quinn Hughes", picks="2028 2nd")
-        b = self.side("Test 3", TEST3, players="Elias Pettersson")
+        a = self.side("Test", TEST, players="Will Smith", picks="2028 2nd")
+        b = self.side("Test 3", TEST3, players="Dominic Smith")
         e = trade.build(FakeData(), a, b, "", datetime(2026, 11, 1, tzinfo=UTC), NY)
         text = json.dumps(e)
         self.assertIn("NOT PAID", text)
@@ -595,7 +651,7 @@ class TradeTests(unittest.TestCase):
         self.assertIn("Trading reopens <t:", json.dumps(late))
 
     def test_build_with_fantrax_down(self) -> None:
-        a = self.side("Test", TEST, players="Quinn Hughes")
+        a = self.side("Test", TEST, players="Will Smith")
         b = self.side("Test 3", TEST3, picks="2029 1st")
         with self.assertLogs("league.bot", level="WARNING"):
             e = trade.build(FakeData(fail={"league_info", "rosters", "draft_picks"}), a, b, "", DURING_WEEK_2, NY)
@@ -726,7 +782,7 @@ class ConfigAndRoleTests(unittest.TestCase):
         order = list(dict.fromkeys(p["originalOwnerTeamId"] for p in PICKS["futureDraftPicks"]))
         self.assertEqual([f.fantrax_team_id for f in cfg.franchises], order)
         self.assertEqual(cfg.pickem_players, ("owner", "co_owner"))
-        self.assertEqual(cfg.settings.amendment_votes_from.date(), date(2028, 4, 10))
+        self.assertEqual(cfg.settings.amendment_votes_from.date(), date(2027, 9, 27))
         self.assertFalse(rules.fantrax_id_problems(cfg.franchises, team.team_names(INFO)))
         self.assertTrue(any("pickem_channel_id" in p for p in cfg.problems))
 

@@ -1,7 +1,7 @@
 """Code shared with the rest of the repository.
 
 The bot reuses the GitHub automation's read-only Fantrax client and season
-calendar (automation/core), the minor-eligibility and pick-trade helpers
+calendar and the MLB player client (automation/core), the pick-trade helpers
 (automation/commissioner), the power-ranking math (automation/competition),
 the League Office calendar (automation/league-office) and the Constitution
 source (tools/). Railway deploys the whole repository, so
@@ -34,11 +34,6 @@ _on_path(AUTOMATION)  # makes `dbl` (Fantrax client, season calendar) importable
 def _load(folder: Path, name: str) -> ModuleType:
     _on_path(folder)
     return importlib.import_module(name)
-
-
-def minors() -> ModuleType:
-    """automation/commissioner/minors.py (NHL lookups, age and games rules)."""
-    return _load(COMMISSIONER, "minors")
 
 
 def picktrades() -> ModuleType:

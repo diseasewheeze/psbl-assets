@@ -1,6 +1,6 @@
 # DBL League Bot
 
-An always-on Discord bot for the league. It runs league votes by the Constitution's rules (one vote per franchise, cast by the Franchise Owner), answers rules and eligibility questions, shows each franchise its own Fantrax picture, checks trades for compliance, and runs four just-for-fun games: a weekly Pick'em, the DBL Bucks play-money sportsbook, the annual Awards Ballot, and picks for the NHL Playoff Pool. It stays off until owners join; the Constitution blocks amendment votes until the Offseason after Season 2027 (20.1).
+An always-on Discord bot for the league. It runs league votes by the Constitution's rules (one vote per franchise, cast by the Franchise Owner), answers rules and eligibility questions, shows each franchise its own Fantrax picture, checks trades for compliance, and runs three just-for-fun games: a weekly Pick'em, the DBL Bucks play-money sportsbook and the annual Awards Ballot. It stays off until owners join; the Constitution blocks amendment votes until the Offseason after Season 2027 (20.1).
 
 Fantrax is only ever read, never written. The bot posts nothing that Fantrax already sends (lineups, trades, waivers, draft picks).
 
@@ -33,12 +33,12 @@ Fantrax is only ever read, never written. The bot posts nothing that Fantrax alr
 | `/rule <query>` | Anyone | The Constitution by section (`12.4`), article (`XII`, `Article 12`) or keyword (`prepayment`, up to 3 best matches). Public by default; `ephemeral: True` shows it only to you |
 | `/deadlines` | Anyone | The next 3 dates on the League Calendar (`automation/league-office/events.yaml`, enabled and dated events only), in each member's own time zone. Private Commissioner Desk reminders are never shown |
 | `/minor <player>` | Anyone | Career MLB regular-season at-bats (as a hitter) and innings pitched against the rookie limits (130 at-bats, 50 innings) and **DBL minor-eligible: YES/NO** (7.2, 7.3). Add `team: LAD` when two players share a name |
-| `/myteam` | Franchise Owner or Co-Owner | Private. Roster counts against the 6.1 limits, future picks owned and traded away, paid-through Season from the League Ledger, this Week's opponent and score, and the next 2 deadlines. FAAB isn't in Fantrax's data feed, so it says "check Fantrax" |
-| `/tradecheck` | Franchise Owner, Co-Owner or Commissioner | Compliance only, never value: future 1st and 2nd prepayment (12.2 to 12.4), roster limits after the trade (6.1), the trade window (11.6), and a reminder of what it can't detect (11.3, 11.4, 11.5). Private by default; `post: True` posts it in the channel |
+| `/myteam` | Franchise Owner or Co-Owner | Private. Roster counts against the 6.1 limits (active lineup, reserve, minors, IL, from `automation/core/sport.py`), future picks owned and traded away, paid-through Season from the League Ledger, this Week's opponent and score, and the next 2 deadlines. FAAB isn't in Fantrax's data feed, so it says "check Fantrax" |
+| `/tradecheck` | Franchise Owner, Co-Owner or Commissioner | Compliance only, never value: future 1st and 2nd prepayment (12.2 to 12.4), roster limits after the trade (6.1) with incoming players placed by position (6.2), the trade window (11.6), and a reminder of what it can't detect (11.3, 11.4, 11.5). Private by default; `post: True` posts it in the channel |
 | `/pickem leaderboard` | Anyone | Pick'em season standings |
 
 - **Minor eligibility** uses MLB's player search (every level, so a prospect with no MLB time is found too) and career totals, through `automation/core/mlb_people.py`, with the same rule as the nightly minor-eligibility watch (`sport.minor_eligible`). At-bats come from the hitting stats only; the at-bats a pitcher faced never count. There is no age limit. Every answer says "By MLB's official career statistics. The Commissioner's determination is final (7.3)."
-- **Trade check assumptions:** players are typed as names (`Quinn Hughes, Elias Pettersson`) and matched to the giving team's Fantrax roster; picks as `2029 1st, 2028 3rd`. Incoming players fill open active spots first, then reserve, unless listed in `to_minors`. The trade deadline is Sunday 11:59 PM ET at the end of Week 20, from the Fantrax calendar. The reopening date comes from the `commissioner-trading-reopens` event in events.yaml once it has a date.
+- **Trade check assumptions:** players are typed as names (`Bobby Witt Jr., Juan Soto`) and matched to the giving team's Fantrax roster; picks as `2029 1st, 2028 3rd`. An incoming player goes into the active lineup when an open slot fits his positions (`sport.SLOT_ACCEPTS`; a teammate may shift, as Fantrax allows, for example a 2B/SS moving from UTIL to SS), otherwise to reserve, unless listed in `to_minors`. Positions are Fantrax's: the player directory plus the slot a player holds today. The check also notes when a team would be left with nobody who can play a lineup position. The trade deadline is Sunday 11:59 PM ET at the end of Week 20, from the Fantrax calendar. The reopening date comes from the `commissioner-trading-reopens` event in events.yaml once it has a date.
 - **Paid through** comes from the League Ledger's Pick Clearance tab (`LEAGUE_LEDGER_CLEARANCE_CSV`, the same link the Pick Trades alert uses). Without it, the bot says so and asks for a manual check.
 
 ### Pick'em
@@ -52,26 +52,9 @@ Each Fantrax Week, owners pick the winner of every matchup.
 
 Regular-season Weeks only; Fantrax's schedule has seeds, not teams, for playoff Weeks. Who plays is set by `pickem.players` in config.yaml (`owner`, `co_owner` or both). Picks are stored on the Railway volume.
 
-### Playoff Pool
-
-A free NHL playoff box pool after the fantasy season (no money, no effect on the league; the winner gets the Pool Shark role). The GitHub automation runs it: it builds and posts the boxes, scores the picks and posts standings (`automation/playoff_pool/README.md`). The bot only takes picks.
-
-| Command | Who | What it does |
-| --- | --- | --- |
-| `/pool boxes` | Anyone | The 10 boxes and the pick deadline (private by default) |
-| `/pool pick` | Franchise Owner or Co-Owner | Private menus, one per box, four boxes per page. One entry per franchise; picks can change until the first puck drop of the NHL playoffs |
-| `/pool export` | Commissioner | After the deadline only: the picks as `entries.yaml`, the file the automation reads |
-
-- **Boxes** come from the automation's `automation/playoff_pool/state/boxes.json` on the public `automation-state` branch, re-read every 10 minutes (`LEAGUE_POOL_BOXES_URL` overrides the address). A pick made while the bot's copy has no deadline yet re-reads the file first, so a change after the first puck drop is refused.
-- **Bot or DMs:** the bot follows `playoff_pool.entries_via` in `automation/league.yaml`, the same setting as the boxes post. With `bot`, owners use `/pool pick`. With `dm` (the default until the bot is live), `/pool pick` and `/pool export` only reply that entries go by DM to the Commissioner this year, and `/pool boxes` says to DM. One channel per year: `/pool export` replaces `entries.yaml` entirely, so mixing the two would lose the DM'd entries.
-- **Picks** are stored on the Railway volume. The automation can't read the bot's database, so the Commissioner runs `/pool export` and commits the file as `automation/playoff_pool/entries.yaml` before the first standings post.
-- **The Commissioner enters too.** Lock in your own picks with `/pool pick` first, and export only after the deadline: before it the bot refuses, because the file would show you every other franchise's picks while yours could still change.
-- **Only picks made before the deadline count.** If a pick was changed after the first puck drop, the export keeps the pick in place at the deadline (from the audit trail) or leaves the box empty, and its reply lists those picks.
-- An entry's time (the last tiebreak) is when its last box was first filled; an entry completed only after the deadline has none.
-
 ### DBL Bucks
 
-A play-money sportsbook in **🏒│game-day** (`book_channel_id`). Owners bet against the spread on the matchups their own franchise isn't playing in.
+A play-money sportsbook in **⚾│game-day** (`book_channel_id`). Owners bet against the spread on the matchups their own franchise isn't playing in.
 
 **Just for fun.** Bucks are not money. They never affect FAAB, draft picks, lineups, standings or any fantasy result, and they can't be traded, sold or converted into anything (Article XI lists the only assets that change hands). Because nobody can bet on their own matchup, a bet never gives anyone a reason to play a Week differently, and there is nothing to collude over (Article XVII).
 
@@ -108,8 +91,8 @@ After the DBL Championship, owners vote on the Season's awards with a ranked bal
 | Award | Nominees |
 | --- | --- |
 | GM of the Year | Every active franchise. Owner-voted only: nobody picks the field |
-| Trade of the Year | The Season's trades, listed by the Commissioner: `Franchise 3 + Franchise 7: Hughes for a 2029 1st; Franchise 2 + Franchise 9: ...` |
-| Waiver Steal of the Year | Listed by the Commissioner: `Franchise 3: Quinn Hughes; Franchise 5: ...` |
+| Trade of the Year | The Season's trades, listed by the Commissioner: `Franchise 3 + Franchise 7: Griffin for a 2029 1st; Franchise 2 + Franchise 9: ...` |
+| Waiver Steal of the Year | Listed by the Commissioner: `Franchise 3: Konnor Griffin; Franchise 5: ...` |
 | Comeback Franchise | The franchises that climbed the most places in the final regular-season standings since last Season (top 3, ties included), or a list from the Commissioner. Needs last Season's final standings, which the bot saves from Fantrax at each `/awards open`, so it starts with the second Season |
 | Bust of the Year | Listed by the Commissioner (`Franchise 3: the player`); left blank, the biggest falls in the standings since last Season (top 3, ties included) |
 
@@ -176,7 +159,7 @@ Awards carry no money and change nothing in the standings or the draft.
 1. In Discord, go to **User Settings > Advanced** and turn on **Developer Mode**.
 2. Copy these IDs into config.yaml: the server, **🗳️│league-voting**, **⚖️│rulings-log**, the Commissioner role, the Assistant Commissioner role (optional), the Franchise Owner role and the Co-Owner role.
 3. Copy the IDs of the Pick'em channel (`pickem_channel_id`) and the **💡│league-suggestions** forum (`suggestions_forum_id`).
-4. For DBL Bucks and the Awards Ballot, copy **🏒│game-day** into `book_channel_id` and **🏆│hall-of-champions** into `hall_of_champions_channel_id`. `awards_ballot_channel_id` is optional (blank posts the ballot in **🗳️│league-voting**). Create a role named exactly **💸 Sharp** (or change `book.sharp_role`) and drag the bot's own role above it in **Server Settings > Roles**, or Discord won't let the bot assign it.
+4. For DBL Bucks and the Awards Ballot, copy **⚾│game-day** into `book_channel_id` and **🏆│hall-of-champions** into `hall_of_champions_channel_id`. `awards_ballot_channel_id` is optional (blank posts the ballot in **🗳️│league-voting**). Create a role named exactly **💸 Sharp** (or change `book.sharp_role`) and drag the bot's own role above it in **Server Settings > Roles**, or Discord won't let the bot assign it.
 5. Optional: `scheduled_for_vote_tag_id`, the ID of the forum's **🗳️ SENT TO VOTE** tag, added to a suggestion when it becomes a proposal. Discord can't copy a tag's ID, so start the bot once with `suggestions_forum_id` set: its log lists the forum's tags as `Name (ID)`.
 6. Replace the 12 placeholder franchises with real names, each franchise's role ID and its `fantrax_team_id`. The IDs in the file are the 2026-27 test league's; when the real league exists, run the **DBL Pick Trades** workflow in preview mode to list them. Mark your own franchise `commissioner: true`.
 7. Set `amendment_votes_from` to the day after the Season 2027 Championship ends. Add each Season's dues deadline under `dues_deadlines`.
@@ -199,12 +182,10 @@ Awards carry no money and change nothing in the standings or the draft.
 - **Power Rankings math:** DBL Bucks reuses the recent-form window and placeholder-week handling of `automation/competition/weekly.py`.
 - **MLB Stats API:** player search and career totals for `/minor`, through `automation/core/mlb_people.py`, cached for hours.
 - **League Calendar:** `automation/league-office/events.yaml`, read the same way as the League Office automation.
-- **Playoff Pool boxes:** the automation's `boxes.json` on the `automation-state` branch (`raw.githubusercontent.com`), cached for 10 minutes.
-- The bot's league logic lives in plain modules next to `app.py` (`constitution`, `deadlines`, `minor`, `team`, `trade`, `pickem`, `pool`, `book`, `awards`), so it is tested without Discord.
+- The bot's league logic lives in plain modules next to `app.py` (`constitution`, `deadlines`, `minor`, `team`, `trade`, `pickem`, `book`, `awards`), so it is tested without Discord.
 
 ## Tests
 
 - `python bot/tests/test_bot.py` runs the voting rules, storage, embed and config tests offline. The Discord command tests (every command registers, ballot and Pick'em views build) run where `discord.py` is installed, which includes the regression-tests workflow.
-- `python bot/tests/test_pool.py` tests the Playoff Pool commands: reading the boxes, the picks menus' limits, storage, the deadline (including a menu opened before the deadline was published), `entries_via` (bot or DM), the export waiting for the deadline, late picks left out, and the export the automation reads back.
 - `python bot/tests/test_league_features.py` tests `/rule`, `/deadlines`, `/minor`, `/myteam`, `/tradecheck`, Pick'em and the data caching against the Fantrax samples in `automation/tests/fixtures/`, with no network.
 - `python bot/tests/test_book_awards.py` tests DBL Bucks (line math, locking, the own-matchup ban, settlement with pushes and ties, the weekly reset, the leaderboard, the Sharp role, failed posts retried without settling twice) and the Awards Ballot (nominations and the Commissioner's recusal, ballot rules and the self-vote ban, 5-3-1 tallies and tie-breaks, closing, the results post and export). Its Discord flow tests run a whole DBL Bucks season and Awards Ballot through the slash commands where `discord.py` is installed.

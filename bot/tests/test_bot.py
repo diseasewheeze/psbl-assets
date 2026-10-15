@@ -232,10 +232,9 @@ class DiscordSmokeTests(unittest.TestCase):
         from league_bot.app import VoteBot
         bot = VoteBot(load(HERE.parent / "config.yaml"), Store(":memory:"))
         commands = {c.name: c for c in bot.tree.get_commands()}
-        self.assertEqual(set(commands), {"proposal", "vote", "franchise", "panel", "pickem", "pool", "book", "awards",
+        self.assertEqual(set(commands), {"proposal", "vote", "franchise", "panel", "pickem", "book", "awards",
                                          "rule", "deadlines", "minor", "myteam", "tradecheck"})
-        self.assertEqual({c.name for c in commands["pool"].commands}, {"boxes", "pick", "export"})
-        self.assertTrue(commands["pool"].guild_only)
+        self.assertNotIn("pool", commands)   # the playoff pool is parked (parked/playoff_pool)
         self.assertEqual({c.name for c in commands["vote"].commands}, {"open", "elect", "status", "cancel"})
         self.assertEqual({c.name for c in commands["proposal"].commands}, {"new", "from-thread"})
         self.assertEqual({c.name for c in commands["pickem"].commands}, {"leaderboard"})
