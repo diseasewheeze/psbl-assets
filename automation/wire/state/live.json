@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-15T20:34:13.614052Z",
+  "updated_at": "2026-10-15T23:15:46.473280Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -496,6 +496,536 @@
       "source_id": "pod_prospects_live",
       "tier": 2,
       "seen_at": "2026-10-15T20:34:13.614048Z"
+    },
+    {
+      "key": "4f93a9a38a2bf2f62309a313",
+      "url": "https://www.mlb.com/player/689172",
+      "fingerprint": "c2db1b8c0f171d2a",
+      "title_norm": "atlanta braves selected the contract of 2b brett wisely from gwinnett stripers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472601Z",
+      "structured": true,
+      "player": "Brett Wisely"
+    },
+    {
+      "key": "1f5dc4743a49d254f3d57cf4",
+      "url": "https://www.mlb.com/player/680577",
+      "fingerprint": "f51620eabbeda67d",
+      "title_norm": "atlanta braves sent cf dashawn keirsey jr. outright to gwinnett stripers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472638Z",
+      "structured": true,
+      "player": "DaShawn Keirsey Jr."
+    },
+    {
+      "key": "d8e20acd0af4b2f8bbca9fdd",
+      "url": "https://www.mlb.com/player/845037",
+      "fingerprint": "1a19ace149296082",
+      "title_norm": "san diego padres signed free agent rhp tatsuya nogami to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472652Z",
+      "structured": true,
+      "player": "Tatsuya Nogami"
+    },
+    {
+      "key": "4981b80866a751f1828d876b",
+      "url": "https://www.mlb.com/player/663897",
+      "fingerprint": "67d9bfd29fb4ab9a",
+      "title_norm": "atlanta braves sent ss luke williams outright to gwinnett stripers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472664Z",
+      "structured": true,
+      "player": "Luke Williams"
+    },
+    {
+      "key": "4f0286c3ba213d1319369746",
+      "url": "https://www.mlb.com/news/brewers-dodgers-nl-championship-series-game-4-starting-lineups-and-pitching-matchup",
+      "fingerprint": "28e8e3e304921c9c",
+      "title_norm": "brewers-dodgers nlcs game 4 lineups, faq (8 et, fs1/fox one)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472676Z"
+    },
+    {
+      "key": "0c190a781bf61d41f558e5cf",
+      "url": "https://www.mlb.com/news/guardians-win-alcs-game-3-2026",
+      "fingerprint": "478bb914e48c1fdb",
+      "title_norm": "go-ahead hr from unlikely source flips alcs back in guardians' favor",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472689Z"
+    },
+    {
+      "key": "b93622ff3015dc26147dcb8c",
+      "url": "https://www.mlb.com/news/shohei-ohtani-leading-off-in-game-4-of-2026-nlcs-vs-brewers",
+      "fingerprint": "2d99b58fe45cd6c7",
+      "title_norm": "back to basics: ohtani returns to leadoff spot for nlcs game 4",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472699Z"
+    },
+    {
+      "key": "c8ca5be80d4741766647b815",
+      "url": "https://www.mlb.com/news/petey-halpin-go-ahead-homer-guardians-win-game-3-2026-alcs",
+      "fingerprint": "f8a2958c86f7ab2c",
+      "title_norm": "which landed 1st? halpin's epic hr or the 'majestic' bat flip that followed?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472711Z"
+    },
+    {
+      "key": "f1d127f5eb69453dbf109c99",
+      "url": "https://www.mlb.com/news/how-dodgers-pitching-would-line-up-to-make-3-0-comeback",
+      "fingerprint": "1884ec57927bae84",
+      "title_norm": "how dodgers pitching would line up to make historic 3-0 comeback",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472721Z"
+    },
+    {
+      "key": "fd18474f566c0da32bf3a360",
+      "url": "https://www.mlb.com/news/nathaniel-lowe-jo-adell-trades-paying-off-for-guardians-during-alcs-run",
+      "fingerprint": "bebbfa553e4ab052",
+      "title_norm": "guards' rare aggressiveness at deadline paying off during playoff run",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472740Z"
+    },
+    {
+      "key": "80ea446264986e070bbaa173",
+      "url": "https://www.mlb.com/news/brewers-not-playing-small-ball-in-2026-postseason",
+      "fingerprint": "971c4bb50bb8d42a",
+      "title_norm": "brewers are winning with the opposite of small ball",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472749Z"
+    },
+    {
+      "key": "c22b953a9f2849460a872c35",
+      "url": "https://www.mlb.com/news/gavin-williams-strikes-out-nine-in-guardians-alcs-game-3-win",
+      "fingerprint": "901466065ac5e75a",
+      "title_norm": "lifted early out of caution, williams still adds to historic postseason ledger",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472761Z"
+    },
+    {
+      "key": "d30441eff5ea40f8a071790b",
+      "url": "https://www.mlb.com/news/2026-gold-glove-award-finalists",
+      "fingerprint": "19f3422b6078976d",
+      "title_norm": "2026 gold glove award finalists revealed",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472770Z"
+    },
+    {
+      "key": "467fa0056b2a7ee1f4a04fc0",
+      "url": "https://www.mlb.com/news/dave-dombrowski-trea-turner-status-shortstop-entering-2027-phillies",
+      "fingerprint": "5d163cef991982de",
+      "title_norm": "turner must play better shortstop in '27 or change positions, dombrowski says",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-15T23:15:46.472781Z"
+    },
+    {
+      "key": "fa8e8f9f73a3da5b11817edd",
+      "url": "https://www.mlbtraderumors.com/2026/10/preller-stammen-discuss-padres-offseason-rotation-injuries.html",
+      "fingerprint": "960c6386918ba866",
+      "title_norm": "preller, stammen discuss padres' offseason, rotation, injuries",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472792Z"
+    },
+    {
+      "key": "8ec9d3efe2699d0ff0a52add",
+      "url": "https://www.mlbtraderumors.com/2026/10/rockies-fire-pitching-coach-alon-leichman.html",
+      "fingerprint": "bb77f75477a149e0",
+      "title_norm": "rockies fire pitching coach alon leichman",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472800Z"
+    },
+    {
+      "key": "26512d01d4131b9e973b3ee1",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-baltimore-orioles-16.html",
+      "fingerprint": "af63159fc16fbefa",
+      "title_norm": "offseason outlook: baltimore orioles",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472808Z"
+    },
+    {
+      "key": "fc11575a3f9fb5ff4dc98e73",
+      "url": "https://www.mlbtraderumors.com/2026/10/reds-avoid-arbitration-with-oswaldo-cabrera.html",
+      "fingerprint": "ad1d470222e4940b",
+      "title_norm": "reds avoid arbitration with oswaldo cabrera",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472817Z"
+    },
+    {
+      "key": "ff371eec95c986f864630178",
+      "url": "https://www.mlbtraderumors.com/2026/10/two-players-elect-minor-league-free-agency.html",
+      "fingerprint": "af1b85ede6b22340",
+      "title_norm": "two players elect minor league free agency",
+      "channel": "prospect-wire",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472826Z"
+    },
+    {
+      "key": "e557f52559161bacfe8c1cd4",
+      "url": "https://www.mlbtraderumors.com/2026/10/orioles-cade-povich-undergoes-elbow-surgery.html",
+      "fingerprint": "723608052aa2c530",
+      "title_norm": "orioles' cade povich undergoes elbow surgery",
+      "channel": "injury-report",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472835Z"
+    },
+    {
+      "key": "5d8df78a3afd85dd5c3148df",
+      "url": "https://www.mlbtraderumors.com/2026/10/phillies-re-sign-tim-mayza-hire-carlos-mendoza-as-third-base-coach.html",
+      "fingerprint": "cc948d50e186adab",
+      "title_norm": "phillies re-sign tim mayza, hire carlos mendoza as third base coach",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472863Z"
+    },
+    {
+      "key": "5bb8e737c0caaf64e1238034",
+      "url": "https://www.mlbtraderumors.com/2026/10/phillies-reached-out-to-chase-utley-raul-ibanez-in-managerial-search.html",
+      "fingerprint": "70f208150ba8f8fe",
+      "title_norm": "phillies reached out to chase utley, raul ibanez in managerial search",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472874Z"
+    },
+    {
+      "key": "f0156fdb177e3a14f49f2988",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-brewers-up-3-0-bauers-mitchell-williams.html",
+      "fingerprint": "ab56b12c43d6ea6f",
+      "title_norm": "the opener: brewers up 3-0, bauers/mitchell, williams",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472883Z"
+    },
+    {
+      "key": "9b7946bf14470da47942798a",
+      "url": "https://www.mlbtraderumors.com/2026/10/phillies-to-keep-don-mattingly-as-manager.html",
+      "fingerprint": "e0f5a88df907741a",
+      "title_norm": "phillies sign don mattingly to two-year deal",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-15T23:15:46.472897Z"
+    },
+    {
+      "key": "014108978f85d94595036033",
+      "url": "https://blogs.fangraphs.com/boston-smith-caught-kade-anderson-on-the-farm-and-aspires-to-mash-as-a-mariner",
+      "fingerprint": "f46b14aa3db8ef0b",
+      "title_norm": "boston smith caught kade anderson on the farm and aspires to mash as a mariner",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472909Z"
+    },
+    {
+      "key": "278bb4ffe0db38159f869bad",
+      "url": "https://blogs.fangraphs.com/arizona-fall-league-pitcher-scouting-notebook",
+      "fingerprint": "388cb82e9090c044",
+      "title_norm": "arizona fall league pitcher scouting notebook",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472919Z"
+    },
+    {
+      "key": "ae8295f060d1e3bffc60f4d9",
+      "url": "https://blogs.fangraphs.com/arizona-fall-league-position-player-scouting-notebook",
+      "fingerprint": "6be606dc62ff2f29",
+      "title_norm": "arizona fall league position player scouting notebook",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472928Z"
+    },
+    {
+      "key": "c00ee8d45e20e6b4db2a59dd",
+      "url": "https://blogs.fangraphs.com/aidan-miller-is-getting-back-in-the-swing-of-things-in-the-arizona-fall-league",
+      "fingerprint": "71f0de3c6fbad23b",
+      "title_norm": "aidan miller is getting back in the swing of things in the arizona fall league",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472939Z"
+    },
+    {
+      "key": "3157990987204fc9b9620b5a",
+      "url": "https://blogs.fangraphs.com/welcome-to-the-2026-arizona-fall-league-scouting-prep-and-preview",
+      "fingerprint": "f0e5d5a5e57cf699",
+      "title_norm": "welcome to the 2026 arizona fall league: scouting prep and preview",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472949Z"
+    },
+    {
+      "key": "759abdf08bd78e5c42bca2f5",
+      "url": "https://blogs.fangraphs.com/joe-musgrove-thrives-in-rehab-outing-plus-more-arizona-scouting-notes",
+      "fingerprint": "4ea257cfa2ddbad3",
+      "title_norm": "joe musgrove thrives in rehab outing, plus more arizona scouting notes",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472960Z"
+    },
+    {
+      "key": "7dc9df8675818f95b3bf0139",
+      "url": "https://www.podtrac.com/pts/redirect.mp3/pdst.fm/e/serve.castfire.com/audio/8174951/8174951_2026-04-12-052651.192.mp3",
+      "fingerprint": "042a26c9d96a313e",
+      "title_norm": "drafting the first two rounds for 2027! (10/15 fantasy baseball podcast)",
+      "channel": "media",
+      "source_id": "pod_fantasy_baseball_today",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472972Z"
+    },
+    {
+      "key": "1e40a8d33fc4c65baea2a711",
+      "url": "https://www.podtrac.com/pts/redirect.mp3/pdst.fm/e/serve.castfire.com/audio/8174947/8174947_2026-04-12-052447.192.mp3",
+      "fingerprint": "dc55859ae811820d",
+      "title_norm": "way too early 2027 bust candidates! (10/14 fantasy baseball podcast)",
+      "channel": "media",
+      "source_id": "pod_fantasy_baseball_today",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472983Z"
+    },
+    {
+      "key": "7d00fe8e3b865c44dc20a290",
+      "url": "https://www.podtrac.com/pts/redirect.mp3/pdst.fm/e/serve.castfire.com/audio/8174946/8174946_2026-04-12-052446.192.mp3",
+      "fingerprint": "5fff7f8e56ac43a9",
+      "title_norm": "recapping our 2026 sleepers, breakouts & busts! (10/13 fantasy baseball podcast)",
+      "channel": "media",
+      "source_id": "pod_fantasy_baseball_today",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.472995Z"
+    },
+    {
+      "key": "f066ef80a6abf9b41652ebee",
+      "url": "https://www.spreaker.com/episode/episode-900-fantasy-baseball-championship-finals--75305192",
+      "fingerprint": "a897d920e55d55ea",
+      "title_norm": "episode 900 - fantasy baseball championship finals",
+      "channel": "media",
+      "source_id": "pod_in_this_league",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473005Z"
+    },
+    {
+      "key": "27b2f870e796b4687e763312",
+      "url": "https://www.spreaker.com/episode/episode-899-playoff-prep-round-3--75129254",
+      "fingerprint": "4fdf1ebe812cf55c",
+      "title_norm": "episode 899 - playoff prep round 3",
+      "channel": "media",
+      "source_id": "pod_in_this_league",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473014Z"
+    },
+    {
+      "key": "0be768a533e5dac8a1997e74",
+      "url": "https://www.spreaker.com/episode/episode-898-playoff-prep-round-2--74984716",
+      "fingerprint": "1b6eac12ba6ffc17",
+      "title_norm": "episode 898 - playoff prep round 2",
+      "channel": "media",
+      "source_id": "pod_in_this_league",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473022Z"
+    },
+    {
+      "key": "74317e19c562847890fd5a23",
+      "url": "https://lockedonpodcasts.com/podcasts/locked-on-fantasy-baseball",
+      "fingerprint": "fa0ce35021ba7d9a",
+      "title_norm": "st. louis cardinals' prospect surge as jj weatherholt aims for top 5 rounds—can he deliver?",
+      "channel": "media",
+      "source_id": "pod_locked_on_fantasy_baseball",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473041Z"
+    },
+    {
+      "key": "2dce608d2bf590f5742d4757",
+      "url": "https://lockedonpodcasts.com/podcasts/locked-on-fantasy-baseball",
+      "fingerprint": "f730b0f4d019a881",
+      "title_norm": "is julio rodriguez still elite ? 2026 seattle mariners fantasy baseball team review !",
+      "channel": "media",
+      "source_id": "pod_locked_on_fantasy_baseball",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473053Z"
+    },
+    {
+      "key": "0c0bed9464d372af5748e18b",
+      "url": "https://lockedonpodcasts.com/podcasts/locked-on-fantasy-baseball",
+      "fingerprint": "5b5ea426dec6d465",
+      "title_norm": "will cj abrams sustain his shocking 2026 numbers for the washington nationals?",
+      "channel": "media",
+      "source_id": "pod_locked_on_fantasy_baseball",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473063Z"
+    },
+    {
+      "key": "ff3ccac7f5ffd0b9d3706d18",
+      "url": "http://pitcherlist.com/",
+      "fingerprint": "b4e652d566519a5a",
+      "title_norm": "otw 269 — opportunity knocking: al central",
+      "channel": "media",
+      "source_id": "pod_pitcher_list",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473076Z"
+    },
+    {
+      "key": "dfc815e8251e1cdeeb48de9b",
+      "url": "http://pitcherlist.com/",
+      "fingerprint": "d99baee9bcebd983",
+      "title_norm": "otc 670 - early 2027 rankings",
+      "channel": "media",
+      "source_id": "pod_pitcher_list",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473084Z"
+    },
+    {
+      "key": "680d6860ca79a4e2700f72f8",
+      "url": "http://pitcherlist.com/",
+      "fingerprint": "70961af341b6999a",
+      "title_norm": "waf 229 - revisiting our 2026 predictions",
+      "channel": "media",
+      "source_id": "pod_pitcher_list",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473092Z"
+    },
+    {
+      "key": "23d6b2b26b8262f38ae1ed9a",
+      "url": "https://www.prospectslive.com/2027s-top-50-players-college-baseball-now-49",
+      "fingerprint": "09bea13fc633db7d",
+      "title_norm": "2027's top 50 players - college baseball now #49",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473102Z"
+    },
+    {
+      "key": "594e456fe4ef16ddcc17f610",
+      "url": "https://www.prospectslive.com/2027-dynasty-outlooks-royals",
+      "fingerprint": "e58f8035da3d0d33",
+      "title_norm": "2027 dynasty outlooks: royals",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473111Z"
+    },
+    {
+      "key": "e797278c2a21d790e1eb906f",
+      "url": "https://www.prospectslive.com/2026-league-players-of-the-year-every-minor-league-circuit",
+      "fingerprint": "6bddf48cd296999a",
+      "title_norm": "2026 league players of the year: every minor league circuit",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473121Z"
+    },
+    {
+      "key": "1cc626c0bd354ced64e573ae",
+      "url": "https://www.prospectslive.com/kansas-city-royals-2029-lineup",
+      "fingerprint": "ce0c6cf25f8eceba",
+      "title_norm": "kansas city royals 2029 lineup",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473129Z"
+    },
+    {
+      "key": "71844a634a37fc5944ff4ce2",
+      "url": "https://www.prospectslive.com/2026-hitters-pitchers-of-the-year-every-mlb-organization",
+      "fingerprint": "c6e874f5ec487323",
+      "title_norm": "2026 hitters & pitchers of the year: every mlb organization",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473139Z"
+    },
+    {
+      "key": "a3262a329db6e2d2eb977e30",
+      "url": "https://www.prospectslive.com/2027-dynasty-outlooks-tigers",
+      "fingerprint": "5d017cb7a4174bf7",
+      "title_norm": "2027 dynasty outlooks: tigers",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473147Z"
+    },
+    {
+      "key": "c5e5c2092c915acba60e3bf9",
+      "url": "https://www.spreaker.com/episode/dynasty-podcast-episode-149-athletics-and-giants-dynasty-outlook--75663097",
+      "fingerprint": "aa836e64eeabf868",
+      "title_norm": "dynasty podcast episode _149 - athletics and giants dynasty outlook",
+      "channel": "media",
+      "source_id": "pod_prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473159Z"
+    },
+    {
+      "key": "a4bd9c08859b10ec013efc35",
+      "url": "https://www.spreaker.com/episode/dynasty-podcast-episode-148-rockies-and-angels-dynasty-outlook--75510261",
+      "fingerprint": "da4ee27a71ded2d0",
+      "title_norm": "dynasty podcast episode _148 - rockies and angels dynasty outlook",
+      "channel": "media",
+      "source_id": "pod_prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473169Z"
+    },
+    {
+      "key": "7a400b3c9f93e6f7de400823",
+      "url": "https://www.spreaker.com/episode/dynasty-baseball-pickups-ep-159-year-end-recommendation-review-pt-2--75402917",
+      "fingerprint": "02e2e4f97ace5add",
+      "title_norm": "dynasty baseball pickups: ep 159 - year end recommendation review pt. 2",
+      "channel": "media",
+      "source_id": "pod_prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-15T23:15:46.473179Z"
     }
+  ],
+  "known_sources": [
+    "fangraphs_prospects",
+    "mlb_news",
+    "mlb_trade_rumors",
+    "mlb_transactions",
+    "pod_fantasy_baseball_today",
+    "pod_in_this_league",
+    "pod_locked_on_fantasy_baseball",
+    "pod_pitcher_list",
+    "pod_prospects_live",
+    "prospects_live"
   ]
 }
