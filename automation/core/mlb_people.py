@@ -48,7 +48,8 @@ full names and last names. The parser is tolerant: a missing number counts as
 0 and a malformed row is skipped.
 
 Fantrax writes names "Last, First" and its own team codes; norm_name and
-team_code turn both sides into one form before matching.
+team_code (core/mlb.py's club table and aliases) turn both sides into one form
+before matching.
 """
 
 from __future__ import annotations
@@ -62,6 +63,8 @@ from dataclasses import dataclass, field
 from datetime import date
 from typing import Any, Callable, Iterable
 
+from . import mlb as _clubs
+
 BASE = "https://statsapi.mlb.com/api/v1"
 MLB_SPORT = 1
 ALL_LEVELS = "1,11,12,13,14,16"   # MLB, Triple-A, Double-A, High-A, Single-A, Rookie
@@ -70,32 +73,11 @@ PEOPLE_BATCH = 40
 USER_AGENT = "DBL-Automation/2.0"
 MIN_GAP = 0.25  # seconds between requests
 
-# MLB clubs by Stats API team id (GET /teams?sportId=1&season=2026, checked 2026-10-15).
-TEAMS: dict[int, str] = {
-    108: "LAA", 109: "AZ", 110: "BAL", 111: "BOS", 112: "CHC", 113: "CIN", 114: "CLE", 115: "COL",
-    116: "DET", 117: "HOU", 118: "KC", 119: "LAD", 120: "WSH", 121: "NYM", 133: "ATH", 134: "PIT",
-    135: "SD", 136: "SEA", 137: "SF", 138: "STL", 139: "TB", 140: "TEX", 141: "TOR", 142: "MIN",
-    143: "PHI", 144: "ATL", 145: "CWS", 146: "MIA", 147: "NYY", 158: "MIL",
-}
-TEAM_NAMES: dict[str, str] = {
-    "LAA": "Los Angeles Angels", "AZ": "Arizona Diamondbacks", "BAL": "Baltimore Orioles",
-    "BOS": "Boston Red Sox", "CHC": "Chicago Cubs", "CIN": "Cincinnati Reds", "CLE": "Cleveland Guardians",
-    "COL": "Colorado Rockies", "DET": "Detroit Tigers", "HOU": "Houston Astros", "KC": "Kansas City Royals",
-    "LAD": "Los Angeles Dodgers", "WSH": "Washington Nationals", "NYM": "New York Mets", "ATH": "Athletics",
-    "PIT": "Pittsburgh Pirates", "SD": "San Diego Padres", "SEA": "Seattle Mariners",
-    "SF": "San Francisco Giants", "STL": "St. Louis Cardinals", "TB": "Tampa Bay Rays",
-    "TEX": "Texas Rangers", "TOR": "Toronto Blue Jays", "MIN": "Minnesota Twins",
-    "PHI": "Philadelphia Phillies", "ATL": "Atlanta Braves", "CWS": "Chicago White Sox",
-    "MIA": "Miami Marlins", "NYY": "New York Yankees", "MIL": "Milwaukee Brewers",
-}
-# Other spellings of the same clubs (Fantrax and other sites; Fantrax's own codes
-# are not confirmed yet, so every common form is accepted).
-TEAM_ALIASES: dict[str, str] = {
-    "ARI": "AZ", "ARZ": "AZ", "OAK": "ATH", "LV": "ATH", "SAC": "ATH", "CHW": "CWS", "CWX": "CWS",
-    "KCR": "KC", "KCA": "KC", "SDP": "SD", "SDN": "SD", "SFG": "SF", "SFN": "SF", "TBR": "TB", "TBA": "TB",
-    "TBD": "TB", "WSN": "WSH", "WAS": "WSH", "WSA": "WSH", "ANA": "LAA", "LAN": "LAD", "NYA": "NYY",
-    "NYN": "NYM", "CHA": "CWS", "CHN": "CHC", "SLN": "STL", "FLA": "MIA",
-}
+# The 30 clubs, their names and other spellings come from core/mlb.py, so every
+# module writes a club the same way (MLB's abbreviation, e.g. AZ, ATH, CWS).
+TEAMS: dict[int, str] = {team_id: code for team_id, (code, _) in _clubs.TEAMS.items()}
+TEAM_NAMES: dict[str, str] = {code: name for code, name in _clubs.TEAMS.values()}
+TEAM_ALIASES: dict[str, str] = _clubs.ALIASES
 PITCHER_POSITIONS = frozenset({"P", "SP", "RP", "RHP", "LHP"})
 TWO_WAY = "TWP"
 
@@ -133,11 +115,13 @@ def display_name(value: Any) -> str:
 
 
 def team_code(value: Any) -> str:
-    """A club as its Stats API abbreviation ('ARI' -> 'AZ', 147 -> 'NYY'); unknown text comes back upper-cased."""
+    """A club as MLB writes it ('ARI' -> 'AZ', 'Kansas City Royals' -> 'KC', 147 -> 'NYY'); "" when unknown.
+
+    Text goes through core/mlb.team_code; a number is a Stats API team id.
+    """
     if isinstance(value, int) or (isinstance(value, str) and value.strip().isdigit()):
         return TEAMS.get(int(value), "")
-    text = str(value or "").strip().upper()
-    return TEAM_ALIASES.get(text, text)
+    return _clubs.team_code(value)
 
 
 def team_of(raw: Any) -> str:

@@ -50,6 +50,10 @@ class NameAndTeamTests(unittest.TestCase):
         for alias, code in (("ARI", "AZ"), ("OAK", "ATH"), ("CHW", "CWS"), ("KCR", "KC"), ("WSN", "WSH"), ("nyy", "NYY")):
             self.assertEqual(mp.team_code(alias), code)
         self.assertEqual(mp.team_code(147), "NYY")
+        self.assertEqual(mp.team_code("Kansas City Royals"), "KC")
+        self.assertEqual(mp.team_code("XYZ"), "")
+        from core import mlb
+        self.assertIs(mp.TEAM_ALIASES, mlb.ALIASES)   # one club table for every module
         self.assertEqual(mp.team_of({"id": 1994, "name": "ACL Rockies", "parentOrgId": 115}), "COL")
         self.assertEqual(mp.team_of({"id": 568, "name": "Norfolk Tides"}), "")
 

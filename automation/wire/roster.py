@@ -12,9 +12,9 @@ How matching works:
       MLB player shares that name, the headline is not tagged.
 - Wrong tags are worse than missing tags, so anything ambiguous is skipped.
 
-Team codes go through core/mlb_people.team_code (MLB's own abbreviations, with
-the other common spellings mapped onto them), and positions are grouped as
-pitchers (P) or hitters (H).
+Team codes go through core/mlb_people.team_code, which uses core/mlb.py's club
+table and aliases (MLB's own abbreviations, other spellings mapped onto them),
+and positions are grouped as pitchers (P) or hitters (H).
 
 Owner pings (opt-in) are configured in automation/league.yaml under
 ``owners`` and ``wire_pings``.
@@ -43,7 +43,7 @@ def normalize_player_name(value: str) -> str:
 
 
 def normalize_team(code: Any) -> str:
-    """An MLB club in MLB's own abbreviation ('ARI' -> 'AZ'); other text comes back upper-cased."""
+    """An MLB club as MLB writes it ('ARI' -> 'AZ'; core/mlb.py's club codes and aliases), "" when unknown."""
     return mp.team_code(code)
 
 
