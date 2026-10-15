@@ -1,0 +1,777 @@
+{
+ "_note": "SYNTHETIC MLB Stats API game content (/api/v1/game/{gamePk}/content), hand-built in the shape checked live in October 2026 (editorial.recap.mlb, media.epgAlternate 'Extended Highlights', highlights.highlights.items with keywordsAll taxonomy/player_id/team_id), for four of Tuesday Apr 13, 2027's games in mlb_schedule_2027-04_synthetic.json, keyed by gamePk. Games not listed have no content. Built by a script; regenerate rather than hand-edit.",
+ "responses": {
+  "778007": {
+   "copyright": "Copyright 2027 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+   "link": "/api/v1/game/0/content",
+   "editorial": {
+    "preview": {},
+    "articles": null,
+    "recap": {
+     "mlb": {
+      "type": "article",
+      "headline": "Hale homers twice as yankees top red sox",
+      "slug": "hale-homers-twice-as-yankees-top-red-sox",
+      "url": "https://dapi.mlbinfra.com/v2/content/en-us/stories/hale-homers-twice-as-yankees-top-red-sox"
+     }
+    },
+    "wrap": {}
+   },
+   "media": {
+    "epgAlternate": [
+     {
+      "title": "Extended Highlights",
+      "items": [
+       {
+        "type": "video",
+        "state": "A",
+        "date": "2027-04-14T05:00:00.000Z",
+        "id": "condensed-game-nyy-bos-4-13-27",
+        "headline": "Condensed Game",
+        "slug": "condensed-game-nyy-bos-4-13-27",
+        "title": "Condensed Game",
+        "keywordsAll": [
+         {
+          "type": "taxonomy",
+          "value": "condensed-game",
+          "displayName": "condensed-game"
+         },
+         {
+          "type": "taxonomy",
+          "value": "vod",
+          "displayName": "vod"
+         }
+        ],
+        "mediaPlaybackId": "5d3a9051-synthetic-asset",
+        "duration": "00:00:30",
+        "playbacks": [
+         {
+          "name": "hlsCloud",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/5d3a9051-synthetic-asset.m3u8"
+         },
+         {
+          "name": "mp4Avc",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/5d3a9051-synthetic-asset_1280x720_59_4000K.mp4"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "highlights": {
+    "highlights": {
+     "items": [
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-13T23:20:00.000Z",
+       "id": "marcus-hale-s-solo-home-run-3",
+       "headline": "Marcus Hale's solo home run (3)",
+       "slug": "marcus-hale-s-solo-home-run-3",
+       "title": "Marcus Hale's solo home run (3)",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "in-game-highlight",
+         "displayName": "in-game-highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "taxonomy",
+         "value": "vod",
+         "displayName": "vod"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "player_id",
+         "value": "900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "team",
+         "value": "teamid-147",
+         "displayName": "New York Yankees"
+        },
+        {
+         "type": "team_id",
+         "value": "147",
+         "displayName": "New York Yankees"
+        }
+       ],
+       "mediaPlaybackId": "15bcc1e4-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/15bcc1e4-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/15bcc1e4-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      },
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-13T23:22:00.000Z",
+       "id": "theo-banks-s-solo-homer-1",
+       "headline": "Theo Banks' solo homer (1)",
+       "slug": "theo-banks-s-solo-homer-1",
+       "title": "Theo Banks' solo homer (1)",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900002",
+         "displayName": "Theo Banks"
+        },
+        {
+         "type": "player_id",
+         "value": "900002",
+         "displayName": "Theo Banks"
+        },
+        {
+         "type": "team",
+         "value": "teamid-147",
+         "displayName": "New York Yankees"
+        },
+        {
+         "type": "team_id",
+         "value": "147",
+         "displayName": "New York Yankees"
+        }
+       ],
+       "mediaPlaybackId": "d9c95b63-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/d9c95b63-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/d9c95b63-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      },
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-13T23:30:00.000Z",
+       "id": "hale-and-banks-go-back-to-back",
+       "headline": "Hale and Banks go back-to-back",
+       "slug": "hale-and-banks-go-back-to-back",
+       "title": "Hale and Banks go back-to-back",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "player_id",
+         "value": "900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900002",
+         "displayName": "Theo Banks"
+        },
+        {
+         "type": "player_id",
+         "value": "900002",
+         "displayName": "Theo Banks"
+        },
+        {
+         "type": "team",
+         "value": "teamid-147",
+         "displayName": "New York Yankees"
+        },
+        {
+         "type": "team_id",
+         "value": "147",
+         "displayName": "New York Yankees"
+        }
+       ],
+       "mediaPlaybackId": "7b808109-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/7b808109-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/7b808109-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      },
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-14T00:10:00.000Z",
+       "id": "dante-ruiz-s-two-run-homer-2",
+       "headline": "Dante Ruiz's two-run homer (2)",
+       "slug": "dante-ruiz-s-two-run-homer-2",
+       "title": "Dante Ruiz's two-run homer (2)",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900003",
+         "displayName": "Dante Ruiz"
+        },
+        {
+         "type": "player_id",
+         "value": "900003",
+         "displayName": "Dante Ruiz"
+        },
+        {
+         "type": "team",
+         "value": "teamid-111",
+         "displayName": "Boston Red Sox"
+        },
+        {
+         "type": "team_id",
+         "value": "111",
+         "displayName": "Boston Red Sox"
+        }
+       ],
+       "mediaPlaybackId": "0db9f140-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/0db9f140-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/0db9f140-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      },
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-14T00:40:00.000Z",
+       "id": "garrett-cole-strikes-out-the-side",
+       "headline": "Garrett Cole strikes out the side",
+       "slug": "garrett-cole-strikes-out-the-side",
+       "title": "Garrett Cole strikes out the side",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "pitching",
+         "displayName": "pitching"
+        },
+        {
+         "type": "player",
+         "value": "playerid-701470",
+         "displayName": "Garrett Cole"
+        },
+        {
+         "type": "player_id",
+         "value": "701470",
+         "displayName": "Garrett Cole"
+        },
+        {
+         "type": "team",
+         "value": "teamid-147",
+         "displayName": "New York Yankees"
+        },
+        {
+         "type": "team_id",
+         "value": "147",
+         "displayName": "New York Yankees"
+        }
+       ],
+       "mediaPlaybackId": "6b985f6b-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/6b985f6b-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/6b985f6b-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      },
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-14T01:35:00.000Z",
+       "id": "marcus-hale-s-two-run-home-run-4",
+       "headline": "Marcus Hale's two-run home run (4)",
+       "slug": "marcus-hale-s-two-run-home-run-4",
+       "title": "Marcus Hale's two-run home run (4)",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "player_id",
+         "value": "900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "team",
+         "value": "teamid-147",
+         "displayName": "New York Yankees"
+        },
+        {
+         "type": "team_id",
+         "value": "147",
+         "displayName": "New York Yankees"
+        }
+       ],
+       "mediaPlaybackId": "ac103e6a-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/ac103e6a-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/ac103e6a-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      },
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-14T02:50:00.000Z",
+       "id": "marcus-hale-s-two-homer-game",
+       "headline": "Marcus Hale's two-homer game",
+       "slug": "marcus-hale-s-two-homer-game",
+       "title": "Marcus Hale's two-homer game",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "taxonomy",
+         "value": "performance",
+         "displayName": "performance"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "player_id",
+         "value": "900001",
+         "displayName": "Marcus Hale"
+        },
+        {
+         "type": "team",
+         "value": "teamid-147",
+         "displayName": "New York Yankees"
+        },
+        {
+         "type": "team_id",
+         "value": "147",
+         "displayName": "New York Yankees"
+        }
+       ],
+       "mediaPlaybackId": "dc192d0e-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/dc192d0e-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/dc192d0e-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "778020": {
+   "copyright": "Copyright 2027 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+   "link": "/api/v1/game/0/content",
+   "editorial": {
+    "preview": {},
+    "articles": null,
+    "recap": {
+     "mlb": {
+      "type": "article",
+      "headline": "Mori goes deep twice in dodgers win",
+      "slug": "mori-goes-deep-twice-in-dodgers-win",
+      "url": "https://dapi.mlbinfra.com/v2/content/en-us/stories/mori-goes-deep-twice-in-dodgers-win"
+     }
+    },
+    "wrap": {}
+   },
+   "media": {
+    "epgAlternate": [
+     {
+      "title": "Extended Highlights",
+      "items": [
+       {
+        "type": "video",
+        "state": "A",
+        "date": "2027-04-14T05:00:00.000Z",
+        "id": "condensed-game-lad-sf-4-13-27",
+        "headline": "Condensed Game",
+        "slug": "condensed-game-lad-sf-4-13-27",
+        "title": "Condensed Game",
+        "keywordsAll": [
+         {
+          "type": "taxonomy",
+          "value": "condensed-game",
+          "displayName": "condensed-game"
+         },
+         {
+          "type": "taxonomy",
+          "value": "vod",
+          "displayName": "vod"
+         }
+        ],
+        "mediaPlaybackId": "43e837de-synthetic-asset",
+        "duration": "00:00:30",
+        "playbacks": [
+         {
+          "name": "hlsCloud",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/43e837de-synthetic-asset.m3u8"
+         },
+         {
+          "name": "mp4Avc",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/43e837de-synthetic-asset_1280x720_59_4000K.mp4"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "highlights": {
+    "highlights": {
+     "items": [
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-14T01:55:00.000Z",
+       "id": "kenji-mori-s-solo-homer-5",
+       "headline": "Kenji Mori's solo homer (5)",
+       "slug": "kenji-mori-s-solo-homer-5",
+       "title": "Kenji Mori's solo homer (5)",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900004",
+         "displayName": "Kenji Mori"
+        },
+        {
+         "type": "player_id",
+         "value": "900004",
+         "displayName": "Kenji Mori"
+        },
+        {
+         "type": "team",
+         "value": "teamid-119",
+         "displayName": "Los Angeles Dodgers"
+        },
+        {
+         "type": "team_id",
+         "value": "119",
+         "displayName": "Los Angeles Dodgers"
+        }
+       ],
+       "mediaPlaybackId": "becf787d-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/becf787d-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/becf787d-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      },
+      {
+       "type": "video",
+       "state": "A",
+       "date": "2027-04-14T03:40:00.000Z",
+       "id": "kenji-mori-s-three-run-homer-6",
+       "headline": "Kenji Mori's three-run homer (6)",
+       "slug": "kenji-mori-s-three-run-homer-6",
+       "title": "Kenji Mori's three-run homer (6)",
+       "keywordsAll": [
+        {
+         "type": "taxonomy",
+         "value": "highlight",
+         "displayName": "highlight"
+        },
+        {
+         "type": "taxonomy",
+         "value": "home-run",
+         "displayName": "home-run"
+        },
+        {
+         "type": "player",
+         "value": "playerid-900004",
+         "displayName": "Kenji Mori"
+        },
+        {
+         "type": "player_id",
+         "value": "900004",
+         "displayName": "Kenji Mori"
+        },
+        {
+         "type": "team",
+         "value": "teamid-119",
+         "displayName": "Los Angeles Dodgers"
+        },
+        {
+         "type": "team_id",
+         "value": "119",
+         "displayName": "Los Angeles Dodgers"
+        }
+       ],
+       "mediaPlaybackId": "db847e25-synthetic-asset",
+       "duration": "00:00:30",
+       "playbacks": [
+        {
+         "name": "hlsCloud",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/db847e25-synthetic-asset.m3u8"
+        },
+        {
+         "name": "mp4Avc",
+         "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/db847e25-synthetic-asset_1280x720_59_4000K.mp4"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "778018": {
+   "copyright": "Copyright 2027 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+   "link": "/api/v1/game/0/content",
+   "editorial": {
+    "preview": {},
+    "articles": null,
+    "recap": {},
+    "wrap": {}
+   },
+   "media": {
+    "epgAlternate": [
+     {
+      "title": "Extended Highlights",
+      "items": [
+       {
+        "type": "video",
+        "state": "A",
+        "date": "2027-04-14T05:00:00.000Z",
+        "id": "condensed-game-chc-stl-game-2-4-13-27",
+        "headline": "Condensed Game",
+        "slug": "condensed-game-chc-stl-game-2-4-13-27",
+        "title": "Condensed Game",
+        "keywordsAll": [
+         {
+          "type": "taxonomy",
+          "value": "condensed-game",
+          "displayName": "condensed-game"
+         },
+         {
+          "type": "taxonomy",
+          "value": "vod",
+          "displayName": "vod"
+         }
+        ],
+        "mediaPlaybackId": "9731eb3b-synthetic-asset",
+        "duration": "00:00:30",
+        "playbacks": [
+         {
+          "name": "hlsCloud",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/9731eb3b-synthetic-asset.m3u8"
+         },
+         {
+          "name": "mp4Avc",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/9731eb3b-synthetic-asset_1280x720_59_4000K.mp4"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "title": "Daily Recap",
+      "items": [
+       {
+        "type": "video",
+        "state": "A",
+        "date": "2027-04-14T04:10:00.000Z",
+        "id": "cubs-walk-it-off-in-the-10th",
+        "headline": "Cubs win it in the 10th",
+        "slug": "cubs-walk-it-off-in-the-10th",
+        "title": "Cubs win it in the 10th",
+        "keywordsAll": [
+         {
+          "type": "taxonomy",
+          "value": "game-recap",
+          "displayName": "game-recap"
+         },
+         {
+          "type": "taxonomy",
+          "value": "vod",
+          "displayName": "vod"
+         },
+         {
+          "type": "team",
+          "value": "teamid-112",
+          "displayName": "Chicago Cubs"
+         },
+         {
+          "type": "team_id",
+          "value": "112",
+          "displayName": "Chicago Cubs"
+         },
+         {
+          "type": "team",
+          "value": "teamid-138",
+          "displayName": "St. Louis Cardinals"
+         },
+         {
+          "type": "team_id",
+          "value": "138",
+          "displayName": "St. Louis Cardinals"
+         }
+        ],
+        "mediaPlaybackId": "9145effc-synthetic-asset",
+        "duration": "00:00:30",
+        "playbacks": [
+         {
+          "name": "hlsCloud",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/9145effc-synthetic-asset.m3u8"
+         },
+         {
+          "name": "mp4Avc",
+          "url": "https://mlb-cuts-diamond.mlb.com/FORGE/2027/2027-04/13/9145effc-synthetic-asset_1280x720_59_4000K.mp4"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "highlights": {
+    "highlights": {
+     "items": []
+    }
+   }
+  },
+  "778016": {
+   "copyright": "Copyright 2027 MLB Advanced Media, L.P.  Use of any content on this page acknowledges agreement to the terms posted here http://gdx.mlb.com/components/copyright.txt",
+   "link": "/api/v1/game/0/content",
+   "editorial": {
+    "preview": {},
+    "articles": null,
+    "recap": {
+     "mlb": {
+      "type": "article",
+      "headline": "Garcia homer lifts nationals",
+      "slug": "garcia-homer-lifts-nationals",
+      "url": "https://dapi.mlbinfra.com/v2/content/en-us/stories/garcia-homer-lifts-nationals"
+     }
+    },
+    "wrap": {}
+   },
+   "media": {
+    "epgAlternate": []
+   },
+   "highlights": {
+    "highlights": {
+     "items": []
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,152 @@
+{
+ "_note": "MLB-SHAPED VARIANT of the live getTeamRosters capture (team_rosters_sample_test.json), made up for the tests: lineup slots C, 1B, 2B, 3B, SS, OF, UT, SP, RP; statuses ACTIVE, RESERVE, MINORS, IR. The daily lineup is for Thu Apr 15, 2027 (schedule fixture). Fantrax's real MLB slot strings, reserve positions and team codes must be checked with tools/fantrax_probe.py once the MLB league exists.",
+ "response": {
+  "period": 23,
+  "rosters": {
+   "t1": {
+    "teamName": "Test 1",
+    "rosterItems": [
+     {
+      "id": "h_banks",
+      "position": "C",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_holt",
+      "position": "1B",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_ford",
+      "position": "2B",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_marte",
+      "position": "SS",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_hale",
+      "position": "OF",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_mori",
+      "position": "OF",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_carrow",
+      "position": "UT",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "p_finch",
+      "position": "SP",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "p_det",
+      "position": "SP",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "p_bal",
+      "position": "SP",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "p_tor",
+      "position": "SP",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "b_archer",
+      "position": "1B",
+      "status": "RESERVE"
+     },
+     {
+      "id": "b_lane",
+      "position": "OF",
+      "status": "RESERVE"
+     },
+     {
+      "id": "b_ruiz",
+      "position": "3B",
+      "status": "RESERVE"
+     },
+     {
+      "id": "b_ortiz",
+      "position": "SS",
+      "status": "RESERVE"
+     },
+     {
+      "id": "b_fa",
+      "position": "OF",
+      "status": "RESERVE"
+     },
+     {
+      "id": "b_kerr",
+      "position": "SP",
+      "status": "RESERVE"
+     },
+     {
+      "id": "m_kid",
+      "position": "SS",
+      "status": "MINORS"
+     },
+     {
+      "id": "i_hurt",
+      "position": "OF",
+      "status": "IR"
+     }
+    ]
+   },
+   "t2": {
+    "teamName": "Test 2",
+    "rosterItems": [
+     {
+      "id": "h_ruiz2",
+      "position": "C",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_garcia",
+      "position": "2B",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "p_off",
+      "position": "SP",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "b_hart",
+      "position": "SP",
+      "status": "RESERVE"
+     },
+     {
+      "id": "b_kc",
+      "position": "OF",
+      "status": "RESERVE"
+     },
+     {
+      "id": "p_cole",
+      "position": "SP",
+      "status": "ACTIVE"
+     },
+     {
+      "id": "h_pikeless",
+      "position": "OF",
+      "status": "RESERVE"
+     }
+    ]
+   },
+   "t3": {
+    "teamName": "Test 3",
+    "rosterItems": []
+   }
+  }
+ }
+}

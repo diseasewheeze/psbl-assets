@@ -1,0 +1,179 @@
+{
+ "_note": "MLB-SHAPED VARIANT of getPlayerIds (player_ids_sample.json): fantraxId, name 'Last, First', position (comma-separated when several), team. Made-up players; two use other spellings of a club (WSN, CHW). Check Fantrax's real MLB position and team codes with tools/fantrax_probe.py once the MLB league exists.",
+ "players": {
+  "h_banks": {
+   "fantraxId": "h_banks",
+   "name": "Banks, Theo",
+   "position": "C",
+   "team": "NYY"
+  },
+  "h_holt": {
+   "fantraxId": "h_holt",
+   "name": "Holt, Bryce",
+   "position": "1B",
+   "team": "PHI"
+  },
+  "h_ford": {
+   "fantraxId": "h_ford",
+   "name": "Ford, Ozzie",
+   "position": "2B",
+   "team": "ATL"
+  },
+  "h_marte": {
+   "fantraxId": "h_marte",
+   "name": "Marte, Luis",
+   "position": "SS",
+   "team": "TOR"
+  },
+  "h_hale": {
+   "fantraxId": "h_hale",
+   "name": "Hale, Marcus",
+   "position": "OF",
+   "team": "NYY"
+  },
+  "h_mori": {
+   "fantraxId": "h_mori",
+   "name": "Mori, Kenji",
+   "position": "OF",
+   "team": "LAD"
+  },
+  "h_carrow": {
+   "fantraxId": "h_carrow",
+   "name": "Carrow, Pete",
+   "position": "1B",
+   "team": "NYM"
+  },
+  "p_finch": {
+   "fantraxId": "p_finch",
+   "name": "Finch, Arlo",
+   "position": "SP",
+   "team": "PHI"
+  },
+  "p_det": {
+   "fantraxId": "p_det",
+   "name": "Pollard, Reese",
+   "position": "SP",
+   "team": "DET"
+  },
+  "p_bal": {
+   "fantraxId": "p_bal",
+   "name": "Lowe, Corbin",
+   "position": "SP",
+   "team": "BAL"
+  },
+  "p_tor": {
+   "fantraxId": "p_tor",
+   "name": "Bristow, Quinn",
+   "position": "SP",
+   "team": "TOR"
+  },
+  "b_archer": {
+   "fantraxId": "b_archer",
+   "name": "Archer, Tom",
+   "position": "1B,OF",
+   "team": "TOR"
+  },
+  "b_lane": {
+   "fantraxId": "b_lane",
+   "name": "Lane, Ike",
+   "position": "OF",
+   "team": "BAL"
+  },
+  "b_ruiz": {
+   "fantraxId": "b_ruiz",
+   "name": "Ruiz, Dante",
+   "position": "3B",
+   "team": "BOS"
+  },
+  "b_ortiz": {
+   "fantraxId": "b_ortiz",
+   "name": "Ortiz, Sam",
+   "position": "SS",
+   "team": "TB"
+  },
+  "b_fa": {
+   "fantraxId": "b_fa",
+   "name": "Special, Nobody",
+   "position": "OF",
+   "team": "FA"
+  },
+  "b_kerr": {
+   "fantraxId": "b_kerr",
+   "name": "Vance, Vince",
+   "position": "SP",
+   "team": "TB"
+  },
+  "m_kid": {
+   "fantraxId": "m_kid",
+   "name": "Prospect, Rookie",
+   "position": "SS",
+   "team": "TB"
+  },
+  "i_hurt": {
+   "fantraxId": "i_hurt",
+   "name": "Slugger, Hurt",
+   "position": "OF",
+   "team": "TOR"
+  },
+  "h_ruiz2": {
+   "fantraxId": "h_ruiz2",
+   "name": "Mercer, Cal",
+   "position": "C",
+   "team": "SEA"
+  },
+  "h_garcia": {
+   "fantraxId": "h_garcia",
+   "name": "Garcia, Luis",
+   "position": "2B",
+   "team": "WSN"
+  },
+  "p_off": {
+   "fantraxId": "p_off",
+   "name": "Pruitt, Paul",
+   "position": "SP",
+   "team": "MIA"
+  },
+  "b_hart": {
+   "fantraxId": "b_hart",
+   "name": "Ashby, Jake",
+   "position": "SP",
+   "team": "CLE"
+  },
+  "b_kc": {
+   "fantraxId": "b_kc",
+   "name": "Reserve, Royal",
+   "position": "OF",
+   "team": "KC"
+  },
+  "p_cole": {
+   "fantraxId": "p_cole",
+   "name": "Cole, Garrett",
+   "position": "SP",
+   "team": "NYY"
+  },
+  "h_pikeless": {
+   "fantraxId": "h_pikeless",
+   "name": "Quinn, Ezra",
+   "position": "OF",
+   "team": "CHW"
+  },
+  "x_pike": {
+   "fantraxId": "x_pike",
+   "name": "Pike, Jonah",
+   "position": "1B",
+   "team": "STL"
+  },
+  "x_garcia": {
+   "fantraxId": "x_garcia",
+   "name": "Garcia, Luis",
+   "position": "RP",
+   "team": "HOU"
+  },
+  "x_ruiz_dup": {
+   "fantraxId": "x_ruiz_dup",
+   "name": "Ruiz, Dante",
+   "position": "3B",
+   "team": "MIA"
+  }
+ }
+}

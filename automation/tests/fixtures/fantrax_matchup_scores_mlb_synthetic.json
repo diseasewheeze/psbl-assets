@@ -1,0 +1,470 @@
+{
+ "_note": "MLB-SHAPED VARIANT of the live getMatchupScores capture (matchup_scores_period2_test.json): same layout (a category entry is filled only when non-zero) with baseball categories. GS = games started by pitchers, the Article IX cap. The real MLB category short names must be checked with tools/fantrax_probe.py once the MLB league exists.",
+ "response": {
+  "matchups": [
+   {
+    "away": {
+     "teamName": "Test 4",
+     "score": 41.5,
+     "gamesPlayed": 9,
+     "teamId": "8j6llh6gmumuxose"
+    },
+    "home": {
+     "teamName": "Test 6",
+     "score": 37.25,
+     "gamesPlayed": 8,
+     "teamId": "gobvt8opmumuxoxm"
+    },
+    "categories": [
+     {
+      "away": {},
+      "name": "Home Runs",
+      "shortName": "HR",
+      "group": "Hitting",
+      "home": {
+       "display": "2",
+       "value": 2,
+       "points": 8
+      }
+     },
+     {
+      "away": {},
+      "name": "Runs",
+      "shortName": "R",
+      "group": "Hitting",
+      "home": {
+       "points": 0
+      }
+     },
+     {
+      "away": {},
+      "name": "Runs Batted In",
+      "shortName": "RBI",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Stolen Bases",
+      "shortName": "SB",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Strikeouts",
+      "shortName": "K",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Wins",
+      "shortName": "W",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Saves",
+      "shortName": "SV",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {
+       "display": "3",
+       "value": 3,
+       "points": 0
+      },
+      "name": "Games Started",
+      "shortName": "GS",
+      "group": "Pitching",
+      "home": {
+       "display": "2",
+       "value": 2,
+       "points": 8
+      }
+     }
+    ]
+   },
+   {
+    "away": {
+     "teamName": "Test 8",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "vs89xezfmumuxp44"
+    },
+    "home": {
+     "teamName": "Test 2",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "mvh0gxh2mumuxoo4"
+    },
+    "categories": [
+     {
+      "away": {},
+      "name": "Home Runs",
+      "shortName": "HR",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs",
+      "shortName": "R",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs Batted In",
+      "shortName": "RBI",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Stolen Bases",
+      "shortName": "SB",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Strikeouts",
+      "shortName": "K",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Wins",
+      "shortName": "W",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Saves",
+      "shortName": "SV",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Games Started",
+      "shortName": "GS",
+      "group": "Pitching",
+      "home": {}
+     }
+    ]
+   },
+   {
+    "away": {
+     "teamName": "Test 11",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "4qdrdr4fmumuxplb"
+    },
+    "home": {
+     "teamName": "Test 10",
+     "score": 37.25,
+     "gamesPlayed": 8,
+     "teamId": "6bzildyomumuxpe6"
+    },
+    "categories": [
+     {
+      "away": {},
+      "name": "Home Runs",
+      "shortName": "HR",
+      "group": "Hitting",
+      "home": {
+       "display": "2",
+       "value": 2,
+       "points": 8
+      }
+     },
+     {
+      "away": {},
+      "name": "Runs",
+      "shortName": "R",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs Batted In",
+      "shortName": "RBI",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Stolen Bases",
+      "shortName": "SB",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Strikeouts",
+      "shortName": "K",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Wins",
+      "shortName": "W",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Saves",
+      "shortName": "SV",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Games Started",
+      "shortName": "GS",
+      "group": "Pitching",
+      "home": {
+       "display": "2",
+       "value": 2,
+       "points": 8
+      }
+     }
+    ]
+   },
+   {
+    "away": {
+     "teamName": "Test 3",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "2tml63mumumuxoqh"
+    },
+    "home": {
+     "teamName": "Test",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "gb4or3npmumb3mgv"
+    },
+    "categories": [
+     {
+      "away": {},
+      "name": "Home Runs",
+      "shortName": "HR",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs",
+      "shortName": "R",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs Batted In",
+      "shortName": "RBI",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Stolen Bases",
+      "shortName": "SB",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Strikeouts",
+      "shortName": "K",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Wins",
+      "shortName": "W",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Saves",
+      "shortName": "SV",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Games Started",
+      "shortName": "GS",
+      "group": "Pitching",
+      "home": {}
+     }
+    ]
+   },
+   {
+    "away": {
+     "teamName": "Test 12",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "93rjspsjmumuxpqw"
+    },
+    "home": {
+     "teamName": "Test 9",
+     "score": 37.25,
+     "gamesPlayed": 8,
+     "teamId": "w9j9rgr1mumuxp9e"
+    },
+    "categories": [
+     {
+      "away": {},
+      "name": "Home Runs",
+      "shortName": "HR",
+      "group": "Hitting",
+      "home": {
+       "display": "2",
+       "value": 2,
+       "points": 8
+      }
+     },
+     {
+      "away": {},
+      "name": "Runs",
+      "shortName": "R",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs Batted In",
+      "shortName": "RBI",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Stolen Bases",
+      "shortName": "SB",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Strikeouts",
+      "shortName": "K",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Wins",
+      "shortName": "W",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Saves",
+      "shortName": "SV",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Games Started",
+      "shortName": "GS",
+      "group": "Pitching",
+      "home": {
+       "display": "2",
+       "value": 2,
+       "points": 8
+      }
+     }
+    ]
+   },
+   {
+    "away": {
+     "teamName": "Test 5",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "tau9p1cvmumuxout"
+    },
+    "home": {
+     "teamName": "Test 7",
+     "score": 0,
+     "gamesPlayed": 0,
+     "teamId": "qqpqauuamumuxp03"
+    },
+    "categories": [
+     {
+      "away": {},
+      "name": "Home Runs",
+      "shortName": "HR",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs",
+      "shortName": "R",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Runs Batted In",
+      "shortName": "RBI",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Stolen Bases",
+      "shortName": "SB",
+      "group": "Hitting",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Strikeouts",
+      "shortName": "K",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Wins",
+      "shortName": "W",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Saves",
+      "shortName": "SV",
+      "group": "Pitching",
+      "home": {}
+     },
+     {
+      "away": {},
+      "name": "Games Started",
+      "shortName": "GS",
+      "group": "Pitching",
+      "home": {}
+     }
+    ]
+   }
+  ],
+  "period": 2
+ }
+}
