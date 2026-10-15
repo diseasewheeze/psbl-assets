@@ -66,7 +66,7 @@ CATEGORY_OF: dict[str, str] = {slug: cat for cat, chans in LAYOUT.items() for sl
 
 
 def name(slug: str) -> str:
-    """The channel's full name as Discord shows it, e.g. name("game-day") == "🏒│game-day"."""
+    """The channel's full name as Discord shows it, e.g. name("game-day") == "⚾│game-day"."""
     return f"{EMOJI[slug]}{BAR}{slug}"
 
 

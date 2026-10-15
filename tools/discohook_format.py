@@ -19,7 +19,7 @@ Every send is ONE Discord message:
 - Discord limits: 25 fields per embed, 256 per field name, 1,024 per field
   value, 4,096 per description, 10 embeds and 6,000 counted characters per
   message. Content that would break a limit is an error, never split.
-- Channels are written with their full server name ("**🏒│game-day**").
+- Channels are written with their full server name ("**⚾│game-day**").
   A short reference (**game-day**, #game-day, "the game-day channel") is
   rewritten by discord_channels.restyle() and reported if one is left.
 - MULTI_SECTION_EXCEPTIONS lists the messages whose sections do not fit one
