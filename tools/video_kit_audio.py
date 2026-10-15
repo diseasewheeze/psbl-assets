@@ -449,7 +449,7 @@ def bed_awards() -> np.ndarray:
 
 # ---------------------------------------------------------------- stings and effects
 def sting_intro() -> np.ndarray:
-    """3.0 s, matched to psbl-intro-sting.mp4: riser, the B slams in at 0.5 s, the tagline types on
+    """3.0 s, matched to psbl-intro-sting.mp4: riser, the ball slams in at 0.5 s, the tagline types on
     from 1.0 s, the gold rule and chord at 2.2 s."""
     mix = Mix(3.0)
     mix.add("sfx", 0.0, riser(0.5, 220, 1760), 0.8)

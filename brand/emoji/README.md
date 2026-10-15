@@ -1,8 +1,8 @@
 # League server emoji
 
 94 original 8-bit emoji for the server: 44 static and 50 animated, all baseball or general reactions in the
-league's navy, red and white. With the 6 soundboard emoji in `brand/sounds/emoji/`, that fills the 50 static
-and 50 animated slots an unboosted server has. File names keep the `psbl_` prefix; `RENAMES.md` lists every
+league's navy, red and white. With the 5 soundboard emoji in `brand/sounds/emoji/`, that uses 49 of the 50 static
+slots and all 50 animated slots an unboosted server has. File names keep the `psbl_` prefix; `RENAMES.md` lists every
 hockey emoji that was replaced and the baseball emoji that took its place.
 
 Every emoji is a different idea. No static emoji repeats another, no animated emoji is a static one that

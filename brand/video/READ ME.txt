@@ -139,15 +139,15 @@ Beds (music to talk over)
   bed-tutorial-loop   38.4 s seamless loop. Talking heads, how-tos, explainers.
   bed-awards-loop     40 s seamless loop. Awards Night.
 Stings and effects
-  sting-intro         3 s, matches the intro sting video (the B lands at 0.5 s).
+  sting-intro         3 s, matches the intro sting video (the ball lands at 0.5 s).
   sting-outro         3 s, for the outro.
   sfx-whoosh          Under each pixel wipe; loudest on the cut.
   sfx-alert           Trade alerts.
   sfx-clinch          Clinches.
   sfx-reveal          Winners and the champion's banner; the hit is on the first frame.
 Soundboard
-  The league's six soundboard sounds as WAV files: draft horn, final buzzer, gavel, goal horn,
-  on the clock and trade alert.
+  The league's five soundboard sounds as WAV files: draft horn, final buzzer, gavel, on the
+  clock and trade alert.
 Beds are at -16 LUFS and the stings at -14 LUFS, all 48 kHz, 16-bit.
 
 

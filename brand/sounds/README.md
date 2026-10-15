@@ -6,7 +6,6 @@ All files are MP3, mono, 44.1 kHz, 192 kbps, loudness-matched to about -14 LUFS 
 
 | File | Length | Size | Suggested name | Emoji | Starting volume |
 |---|---|---|---|---|---|
-| `psbl-goal-horn.mp3` | 4.0 s | 96 KB | PSBL Goal Horn | 🚨 | 80% |
 | `psbl-gavel.mp3` | 1.2 s | 30 KB | PSBL Gavel | ⚖️ | 80% |
 | `psbl-draft-horn.mp3` | 3.0 s | 72 KB | PSBL Draft Horn | 📯 | 80% |
 | `psbl-on-the-clock.mp3` | 3.0 s | 72 KB | PSBL On The Clock | ⏰ | 80% |
@@ -17,7 +16,6 @@ The sounds are already loudness-matched, so one starting volume works for all of
 
 ## What each one is
 
-- **Goal horn:** a big arcade "GOAL!" fanfare: a sustained low square-wave horn chord with rising arpeggios on top and a noise-channel crowd swelling underneath.
 - **Gavel:** three sharp knocks, each a metallic noise click over a low square thump, for commissioner rulings.
 - **Draft horn:** a stately rising fanfare in pulse and triangle (D, G, A, then a held D chord with vibrato), for when the draft opens or a pick is in.
 - **On the clock:** a noise-channel tick-tock every half second that ends in a rising two-tone pulse alarm.
@@ -39,7 +37,7 @@ You need the **Create Expressions** (or **Manage Expressions**) permission on th
 
 Members with the **Use Soundboard** permission can then play them from the soundboard button while they are in a voice channel.
 
-**Slot limit:** a server without boosts gets **8 soundboard slots**. These 6 sounds leave 2 free. Server Boost levels add more slots (24 at Level 1, 36 at Level 2, 48 at Level 3).
+**Slot limit:** a server without boosts gets **8 soundboard slots**. These 5 sounds leave 3 free. Server Boost levels add more slots (24 at Level 1, 36 at Level 2, 48 at Level 3).
 
 ## Regenerating
 
@@ -48,7 +46,7 @@ Members with the **Use Soundboard** permission can then play them from the sound
 ```bash
 python3 brand/sounds/generate_sounds.py                          # writes next to the script
 python3 brand/sounds/generate_sounds.py some/dir                 # or into another folder
-python3 brand/sounds/generate_sounds.py --preview preview.mp3    # also writes all six back to back, for auditioning
+python3 brand/sounds/generate_sounds.py --preview preview.mp3    # also writes all five back to back, for auditioning
 ```
 
 It prints a JSON check for each file (duration, size, sample rate, integrated loudness, true peak, clipped samples, and whether it fits the Discord limits).
@@ -59,7 +57,6 @@ It prints a JSON check for each file (duration, size, sample rate, integrated lo
 
 | Sound | Emoji file | Emoji name |
 | --- | --- | --- |
-| psbl-goal-horn | `psbl_goalhorn.png` | `psbl_goalhorn` |
 | psbl-gavel | `psbl_gavel.png` | `psbl_gavel` |
 | psbl-draft-horn | `psbl_drafthorn.png` | `psbl_drafthorn` |
 | psbl-on-the-clock | `psbl_onclock.png` | `psbl_onclock` |

@@ -98,7 +98,7 @@ class Kit(unittest.TestCase):
     def test_audio_files(self):
         for folder, names in (("Beds", ["bed-hype-45s", "bed-week-60s", "bed-tutorial-loop", "bed-awards-loop"]),
                               ("Stings and Effects", ["sting-intro", "sting-outro", "sfx-whoosh", "sfx-alert", "sfx-clinch", "sfx-reveal"]),
-                              ("Soundboard", ["psbl-draft-horn", "psbl-final-buzzer", "psbl-gavel", "psbl-goal-horn", "psbl-on-the-clock", "psbl-trade-alert"])):
+                              ("Soundboard", ["psbl-draft-horn", "psbl-final-buzzer", "psbl-gavel", "psbl-on-the-clock", "psbl-trade-alert"])):
             for n in names:
                 with wave.open(str(KIT / "SoundCraft" / folder / f"{n}.wav")) as w:
                     self.assertEqual((w.getframerate(), w.getsampwidth(), w.getnchannels()), (48000, 2, 2), n)

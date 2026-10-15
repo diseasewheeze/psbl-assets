@@ -166,44 +166,6 @@ def finalize(x, fade_in=0.003, fade_out=0.02, bits=8, drive=1.0):
 
 
 # ------------------------------------------------------------------- sounds
-def goal_horn():
-    """Big arcade GOAL! fanfare: low square horn chord, rising arpeggios, LFSR crowd."""
-    dur = 4.0
-    t = tvec(dur)
-    n = len(t)
-    mix = np.zeros(n)
-
-    # low square-wave horn chord (E2 power chord), scooping up into pitch, vibrato after 0.5 s
-    scoop = 2 ** (-0.6 * np.exp(-t / 0.07))
-    vib = 1 + 0.004 * np.sin(TAU * 5.5 * t) * np.clip((t - 0.5) / 0.4, 0, 1)
-    e_horn = env_points(t, [(0, 0), (0.02, 1.0), (3.3, 0.95), (3.85, 0.0), (dur, 0.0)])
-    for f0, g in [(freq("E2"), 1.0), (freq("B2"), 0.7), (freq("E3"), 0.55)]:
-        for cents in (-6.0, 6.0):
-            f = f0 * 2 ** (cents / 1200) * scoop * vib
-            mix += g * 0.5 * pulse(f, dur, 0.5, 1.0, a=0.001, d=0.0, s=1.0, r=0.0) * e_horn
-    mix += 0.8 * tri(freq("E1") * scoop, dur, 1.0, a=0.005, r=0.3) * e_horn
-
-    # rising arpeggio into a held high note, twice
-    arp = ["E4", "G4", "B4", "E5", "G5", "B5", "E6"]
-    for k, nm in enumerate(arp):
-        place(mix, 0.04 + 0.06 * k, pulse(freq(nm), 0.06, 0.25, 1.0, a=0.001, s=0.9, r=0.01), 0.55)
-    place(mix, 0.46, pulse(freq("E6"), 1.0, 0.125, 1.0, a=0.002, d=0.5, s=0.35, r=0.1, vib=0.01, vib_delay=0.2), 0.55)
-    arp2 = ["E5", "G5", "B5", "E6", "G6", "B6"]
-    for k, nm in enumerate(arp2):
-        place(mix, 1.6 + 0.05 * k, pulse(freq(nm), 0.05, 0.25, 1.0, a=0.001, s=0.9, r=0.01), 0.5)
-    place(mix, 1.9, pulse(freq("B6"), 1.7, 0.125, 1.0, a=0.002, d=0.8, s=0.4, r=0.4, vib=0.012, vib_delay=0.3), 0.4)
-    place(mix, 1.9, pulse(freq("E6"), 1.7, 0.25, 1.0, a=0.002, d=0.8, s=0.4, r=0.4, vib=0.012, vib_delay=0.3), 0.35)
-
-    # crowd: dark LFSR noise swelling under the horn, with a little flutter, plus two cheer bursts
-    swell = env_points(t, [(0, 0), (0.2, 0.15), (1.4, 1.0), (3.0, 0.8), (3.9, 0.0), (dur, 0.0)])
-    flutter = 0.8 + 0.2 * np.sin(TAU * 6.3 * t) * np.sin(TAU * 1.7 * t + 1.0)
-    crowd = lowpass(noise(dur, rate=SR, offset=1000), 2200) * swell * flutter
-    mix += 0.9 * crowd / (np.max(np.abs(crowd)) + 1e-12)
-    for t0, v in [(0.0, 0.5), (1.6, 0.45)]:
-        place(mix, t0, noise(0.3, rate=SR // 2, tau=0.09, offset=5000), v)
-    return finalize(mix, fade_in=0.002, fade_out=0.05, drive=2.2)
-
-
 def gavel():
     """Three sharp knocks: short metallic LFSR click plus a low square thump that pitches down."""
     dur = 1.2
@@ -304,7 +266,6 @@ def final_buzzer():
 
 
 SOUNDS = [
-    ("psbl-goal-horn", "PSBL Goal Horn", goal_horn),
     ("psbl-gavel", "PSBL Gavel", gavel),
     ("psbl-draft-horn", "PSBL Draft Horn", draft_horn),
     ("psbl-on-the-clock", "PSBL On The Clock", on_the_clock),
