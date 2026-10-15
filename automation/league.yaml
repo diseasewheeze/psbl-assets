@@ -8,8 +8,8 @@ league_id: w02cjakmmumb3lur
 season_label: "2026-27 TEST"
 timezone: America/New_York
 
-# DBL gold accent used by Competition Desk posts.
-color: 0xFFB81C
+# DBL league red accent used by Competition Desk posts.
+color: 0xBD3039
 
 competition:
   # The weekly report goes out at or after this local time on the morning a
@@ -23,16 +23,17 @@ competition:
   # Teams just below the playoff line shown in the playoff race.
   bubble_depth: 3
 
-  # Credited goalie starts per calendar week (Constitution 9.2). The live
-  # scoreboard shows "Goalie starts: X of Y" with Y = this x the period's
-  # calendar weeks, so a two-week period such as the Championship gets 8 (9.3).
-  goalie_starts_per_week: 4
+  # Credited pitcher starts are not set here: the live scoreboard's "Pitcher
+  # starts: X of Y" and the preview's projected starts use the Constitution's
+  # cap from automation/core/sport.py (PITCHER_STARTS_PER_WEEK per calendar
+  # week, so 14 for the two-week Championship; Article IX).
 
-  # Weekly NHL games grid (posted after the matchup preview): a night is
-  # "light" when this many teams or fewer play, and "heavy" when at least
-  # heavy_night_min_teams play.
-  light_night_max_teams: 8
-  heavy_night_min_teams: 20
+  # Weekly MLB games grid (posted after the matchup preview): a day is "light"
+  # when this many MLB teams or fewer play (a typical Monday or Thursday), and
+  # "heavy" when at least heavy_day_min_teams play (30 = a full slate). Light
+  # days also give the preview's "Light-day games".
+  light_day_max_teams: 20
+  heavy_day_min_teams: 30
 
   # The Wooden Spoon (league tradition, no money, no rule change): when the
   # final regular-season standings are posted, the last-place franchise gets
@@ -63,35 +64,36 @@ competition:
   #                                    (periods longer than one calendar week do not count)
   #                team_win_streak     first to `threshold` head-to-head wins in a row
   #                                    (a tie ends a streak)
-  #                player_hat_trick    first NHL regular-season game in which a player on a
-  #                                    DBL roster scores `threshold` goals (3 = hat trick;
-  #                                    shootout goals do not count); checked the morning after
+  #                player_multi_homer  first MLB regular-season game in which a player on a
+  #                                    DBL roster hits `threshold` home runs (2 = a
+  #                                    multi-homer game); checked the morning after
   #   threshold    the number to reach
   #   reward       optional; default "🎯 Bounty Hunter role for the Season"
   #
-  # Default thresholds come from the scoring values (Article VIII): 18 skater
-  # slots filled on most nights from a 26-player roster is about 65 skater
-  # games a week at roughly 3.7 points (rostered skaters are above the ~3.2
-  # league average), plus 4 goalie starts at about 5 points, so a typical team
-  # week is about 250 to 300 points (week to week about +/-40) and a season
-  # about 5,800 to 6,500. Simulated over many seasons at that level:
-  #   375 in a week    claimed in ~90% of seasons, typically around Week 6
+  # Default thresholds are estimates from the scoring values (Article VIII,
+  # automation/core/sport.py): 10 hitter slots filled about 6 days a week at
+  # roughly 3 points a game (rostered hitters are above average) is about 195,
+  # 7 credited starts at about 13 points is about 90, and 3 relief slots add
+  # about 50, so a typical team week is about 300 to 370 points (week to week
+  # about +/-45) and a season, with the long Week 1, about 7,500 to 8,000:
+  #   450 in a week    claimed in roughly three Seasons of four
   #   6 straight wins  claimed in ~95% of seasons, typically around Week 8
-  #   6,000 points     the front-runner gets there around Week 20
-  #   hat trick        usually within the first week or two
-  # If real scoring runs higher (300+ a week), 375 goes early; raise it to 400.
+  #   8,000 points     the front-runner gets there around Week 21
+  #   multi-homer game usually within the first few days
+  # Check them against real weekly scores after a few weeks of Season 2027
+  # and adjust before anyone is close (ids stay the same within a Season).
   bounties:
-    - id: first-hat-trick
-      title: "First Hat Trick"
-      description: "First DBL-rostered player to score three goals in an NHL regular-season game."
-      type: player_hat_trick
-      threshold: 3
+    - id: first-multi-homer
+      title: "First Multi-Homer Game"
+      description: "First DBL-rostered player to hit two home runs in an MLB regular-season game."
+      type: player_multi_homer
+      threshold: 2
       reward: "🎯 Bounty Hunter role for the Season"
-    - id: big-week-375
-      title: "The 375 Club"
-      description: "First franchise to score 375 points in a single week."
+    - id: big-week-450
+      title: "The 450 Club"
+      description: "First franchise to score 450 points in a single week."
       type: team_week_points
-      threshold: 375
+      threshold: 450
       reward: "🎯 Bounty Hunter role for the Season"
     - id: hot-streak-6
       title: "Six Straight"
@@ -99,16 +101,16 @@ competition:
       type: team_win_streak
       threshold: 6
       reward: "🎯 Bounty Hunter role for the Season"
-    - id: season-6000
-      title: "Six Thousand"
-      description: "First franchise to reach 6,000 season points."
+    - id: season-8000
+      title: "Eight Thousand"
+      description: "First franchise to reach 8,000 season points."
       type: team_season_points
-      threshold: 6000
+      threshold: 8000
       reward: "🎯 Bounty Hunter role for the Season"
 
   # GitHub Actions secret holding each channel's Discord webhook URL.
   # awards, rankings, monthly (Monthly Awards) and bounties go to
-  # 📰│weekly-recap with the recap; games (the NHL games grid) goes to the
+  # 📰│weekly-recap with the recap; games (the MLB games grid) goes to the
   # scoreboard channel with the matchup preview.
   webhooks:
     recap: LEAGUE_WEBHOOK_WEEKLY_RECAP

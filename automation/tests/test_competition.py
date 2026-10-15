@@ -171,7 +171,7 @@ class WeeklyReportTests(unittest.TestCase):
 
 
 class RenderTests(unittest.TestCase):
-    ctx = render.Context("Dynasty Hockey Test League", "2026-27 TEST", 0xFFB81C)
+    ctx = render.Context("DBL Test League", "2027 TEST", 0xBD3039)
 
     def test_final_standings_title(self) -> None:
         body = render.standings(self.ctx, standings_after(22), after_week=22, playoff_cut=6, final=True)

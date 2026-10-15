@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Offline checks for goalie starts, all-play, power rankings, weekly awards and the NHL games grid.
+"""Offline checks for pitcher starts, all-play, power rankings, weekly awards and the MLB games grid.
 
-Fantrax samples: matchup_scores_period2_test.json (live, with categories) and
-league_info_2026_test.json (live week dates). NHL schedule: the synthetic
-nhl_schedule_synthetic.json, built in the documented API shape (unverified).
+Fantrax samples: matchup_scores_period2_test.json and league_info_2026_test.json
+(live captures from the 2026-27 hockey test league, kept for the Fantrax client
+and the calendar), and their MLB-shaped variants (tests/mlb_fixtures.py). MLB
+schedule: the synthetic Week 3 fixture, in the shape checked live.
 """
 
 from __future__ import annotations
@@ -21,14 +22,15 @@ from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 AUTOMATION = Path(__file__).resolve().parents[1]
-for sub in ("", "competition"):
+for sub in ("", "competition", "tests"):
     sys.path.insert(0, str(AUTOMATION / sub))
 
 import desk  # noqa: E402
+import mlb_fixtures as fx  # noqa: E402
 import render  # noqa: E402
 import scoreboard  # noqa: E402
 import weekly  # noqa: E402
-from core import nhl, season  # noqa: E402
+from core import mlb, season, sport  # noqa: E402
 from core.fantrax import normalize_scores, normalize_standings, schedule_for  # noqa: E402
 from core.league import load_league  # noqa: E402
 
@@ -37,16 +39,12 @@ FIXTURES = Path(__file__).resolve().parent / "fixtures"
 INFO = json.loads((FIXTURES / "league_info_2026_test.json").read_text())
 RAW_SCORES = json.loads((FIXTURES / "matchup_scores_period2_test.json").read_text())["response"]
 RAW_STANDINGS = json.loads((FIXTURES / "standings_week0.json").read_text())
-NHL = json.loads((FIXTURES / "nhl_schedule_synthetic.json").read_text())["responses"]
-CTX = render.Context("Dynasty Hockey Test League", "2026-27 TEST", 0xFFB81C)
+MLB_INFO = fx.MLB_INFO
+CTX = render.Context("DBL Test League", "2027 TEST", 0xBD3039)
 
 
 def et(y: int, mo: int, d: int, h: int = 0, mi: int = 0) -> datetime:
     return datetime(y, mo, d, h, mi, tzinfo=ET).astimezone(timezone.utc)
-
-
-def nhl_get(url: str) -> dict:
-    return NHL.get(url.rsplit("/", 1)[1], {"gameWeek": []})
 
 
 def team(tid: str, score: float) -> dict:
@@ -64,10 +62,10 @@ W3 = week(("A", 0, "D", 0), ("B", 0, "C", 0))  # placeholder week
 SEASON = {1: W1, 2: W2, 3: W3}
 
 
-def synthetic_week(w: int) -> list[dict]:
+def synthetic_week(w: int, info: dict = INFO) -> list[dict]:
     """Distinct, deterministic scores for the 12 test-league teams."""
     rows = []
-    for index, pair in enumerate(schedule_for(INFO, w)):
+    for index, pair in enumerate(schedule_for(info, w)):
         row = {}
         for side in ("away", "home"):
             t = pair[side]
@@ -80,85 +78,87 @@ def synthetic_week(w: int) -> list[dict]:
 
 
 class FakeFantrax:
-    def __init__(self, counted: int) -> None:
+    def __init__(self, counted: int, info: dict = MLB_INFO) -> None:
         raw = copy.deepcopy(RAW_STANDINGS)
         for i, row in enumerate(raw):
             wins = counted // 2 + (1 if i % 2 and counted % 2 else 0)
             row["points"] = f"{wins}-{counted - wins}-0"
         self.rows = normalize_standings(raw)
         self.score_calls: list[int] = []
+        self.info = info
 
     def league_info(self) -> dict:
-        return INFO
+        return self.info
 
     def standings(self) -> list[dict]:
         return self.rows
 
     def matchup_scores(self, period: int) -> list[dict]:
         self.score_calls.append(period)
-        return synthetic_week(period)
+        return synthetic_week(period, self.info)
 
 
 class MatchupCategoryTests(unittest.TestCase):
-    rows = normalize_scores(RAW_SCORES)
-
     def test_existing_fields_unchanged(self) -> None:
-        first = self.rows[0]["away"]
+        # The live capture (hockey test league, historical): the client's fields are sport-neutral.
+        first = normalize_scores(RAW_SCORES)[0]["away"]
         self.assertEqual({k: first[k] for k in ("teamId", "teamName", "score", "gamesPlayed")},
                          {"teamId": "8j6llh6gmumuxose", "teamName": "Test 4", "score": 0.0, "gamesPlayed": 0.0})
 
     def test_category_values_keyed_by_short_name(self) -> None:
-        test = self.rows[3]["home"]
-        self.assertEqual(test["teamName"], "Test")
-        self.assertEqual(test["categories"]["G"], 1.0)
-        self.assertEqual(test["categories"]["SOG"], 9.0)
-        self.assertEqual(test["categories"]["A"], 0.0)   # {"points": 0}: no value
-        self.assertEqual(test["categories"]["GS"], 0.0)  # {}: zero
-        self.assertEqual(set(test["categories"]), {"G", "A", "SOG", "Hit", "Blk", "GA", "SV", "GS"})
+        rows = normalize_scores(fx.SCORES)
+        first = rows[0]
+        self.assertEqual(first["home"]["categories"]["HR"], 2.0)
+        self.assertEqual(first["away"]["categories"]["GS"], 3.0)
+        self.assertEqual(first["home"]["categories"]["R"], 0.0)   # {"points": 0}: no value
+        self.assertEqual(first["away"]["categories"]["SV"], 0.0)  # {}: zero
+        self.assertEqual(set(first["away"]["categories"]), {"HR", "R", "RBI", "SB", "K", "W", "SV", "GS"})
 
     def test_missing_categories_give_empty_dict(self) -> None:
         raw = {"matchups": [{"away": {"teamId": "a", "score": 1}, "home": {"teamId": "b", "score": 2}}]}
         self.assertEqual(normalize_scores(raw)[0]["away"]["categories"], {})
 
 
-class GoalieStartTests(unittest.TestCase):
-    def test_cap_is_four_per_calendar_week(self) -> None:
-        self.assertEqual(season.goalie_start_cap(season.period(INFO, 1)), 4)   # 6.1 days
-        self.assertEqual(season.goalie_start_cap(season.period(INFO, 2)), 4)   # 6.75 days
-        self.assertEqual(season.goalie_start_cap(season.period(INFO, 3)), 4)   # 7.25 days
+class PitcherStartTests(unittest.TestCase):
+    def test_cap_is_seven_per_calendar_week(self) -> None:
+        self.assertEqual(sport.PITCHER_STARTS_PER_WEEK, 7)
+        self.assertEqual(render.start_cap(season.period(INFO, 1)), 7)    # 6.1 days
+        self.assertEqual(render.start_cap(season.period(INFO, 2)), 7)    # 6.75 days
+        self.assertEqual(render.start_cap(season.period(INFO, 3)), 7)    # 7.25 days
+        self.assertEqual(render.start_cap(season.period(MLB_INFO, 3)), 7)
 
-    def test_two_week_periods_get_eight(self) -> None:
-        self.assertEqual(season.goalie_start_cap(season.period(INFO, 19)), 8)  # 14 days
-        self.assertEqual(season.goalie_start_cap(season.period(INFO, 25)), 8)  # Championship
+    def test_longer_periods_get_seven_per_week(self) -> None:
+        self.assertEqual(render.start_cap(season.period(INFO, 19)), 14)      # 14 days
+        self.assertEqual(render.start_cap(season.period(MLB_INFO, 1)), 14)   # Opening Night to Apr 5
+        self.assertEqual(render.start_cap(season.period(MLB_INFO, 25)), 14)  # Championship
 
-    def test_scoreboard_shows_starts_from_fixture(self) -> None:
-        rows = normalize_scores(RAW_SCORES)
-        body = render.scoreboard(CTX, season.period(INFO, 2), rows, final=False, playoffs=False, goalie_cap=4)
+    def test_scoreboard_shows_starts(self) -> None:
+        rows = normalize_scores(fx.SCORES)
+        body = render.scoreboard(CTX, season.period(MLB_INFO, 2), rows, final=False, playoffs=False, start_cap=7)
         values = [f["value"] for f in body["embeds"][0]["fields"]]
         self.assertEqual(len(values), 6)
-        for value in values:
-            self.assertEqual(value.count("Goalie starts: 0 of 4"), 2)
+        self.assertIn("**Test 4** *(Away)* — **41.50 pts** • `9 GP` • Pitcher starts: 3 of 7", values[0])
+        self.assertIn("37.25 pts • `8 GP` • Pitcher starts: 2 of 7", values[0])
+        self.assertEqual(values[1].count("Pitcher starts: 0 of 7"), 2)
+        self.assertIn("*Pitcher starts are credited up to 7 this week (9.2, 9.3).*", body["embeds"][0]["description"])
 
-    def test_scoreboard_shows_used_starts(self) -> None:
-        raw = copy.deepcopy(RAW_SCORES)
-        gs = next(c for c in raw["matchups"][0]["categories"] if c["shortName"] == "GS")
-        gs["away"] = {"display": "3", "value": 3, "points": 19.5}
-        rows = normalize_scores(raw)
-        body = render.scoreboard(CTX, season.period(INFO, 25), rows, final=True, playoffs=True, goalie_cap=8)
-        value = body["embeds"][0]["fields"][0]["value"]
-        self.assertIn("**Test 4** *(Away)* — 0.00 pts • `0 GP` • Goalie starts: 3 of 8", value)
-        self.assertIn("Goalie starts: 0 of 8", value)
+    def test_championship_cap(self) -> None:
+        rows = normalize_scores(fx.SCORES)
+        p = season.period(MLB_INFO, 25)
+        body = render.scoreboard(CTX, p, rows, final=True, playoffs=True, start_cap=render.start_cap(p))
+        self.assertIn("Pitcher starts: 3 of 14", body["embeds"][0]["fields"][0]["value"])
+        self.assertEqual(body["embeds"][0]["title"], "DBL Playoffs Week 25 Final Scoreboard")
 
-    def test_no_categories_no_goalie_text(self) -> None:
+    def test_no_categories_no_starts_text(self) -> None:
         rows = [{"away": {"teamId": "a", "teamName": "A", "score": 1.0, "gamesPlayed": 1},
                  "home": {"teamId": "b", "teamName": "B", "score": 2.0, "gamesPlayed": 1}}]
-        body = render.scoreboard(CTX, season.period(INFO, 2), rows, final=False, playoffs=False, goalie_cap=4)
-        self.assertNotIn("Goalie", body["embeds"][0]["fields"][0]["value"])
+        body = render.scoreboard(CTX, season.period(INFO, 2), rows, final=False, playoffs=False, start_cap=7)
+        self.assertNotIn("starts", body["embeds"][0]["fields"][0]["value"])
 
-    def test_fingerprint_changes_when_a_goalie_starts(self) -> None:
-        rows = normalize_scores(RAW_SCORES)
+    def test_fingerprint_changes_when_a_start_is_credited(self) -> None:
+        rows = normalize_scores(fx.SCORES)
         before = scoreboard.fingerprint(2, rows, False)
-        rows[0]["away"]["categories"]["GS"] = 1.0
+        rows[1]["away"]["categories"]["GS"] = 1.0
         self.assertNotEqual(before, scoreboard.fingerprint(2, rows, False))
 
 
@@ -275,64 +275,58 @@ class AwardTests(unittest.TestCase):
         self.assertEqual(body["username"], "DBL Competition Desk")
 
 
-class NhlScheduleTests(unittest.TestCase):
-    p3 = season.period(INFO, 3)  # Mon Oct 12 1:00 PM ET -> Mon Oct 19 6:59 PM ET
+class MlbGridTests(unittest.TestCase):
+    p3 = season.period(MLB_INFO, 3)  # Mon Apr 12 6:40 PM ET -> Mon Apr 19 11:09:59 AM ET
 
     def games(self) -> list:
-        calls: list[str] = []
+        get, self.calls = fx.recording(fx.schedule_get)
+        return mlb.fetch_schedule(self.p3.start.astimezone(ET).date(), self.p3.end.astimezone(ET).date(), get)
 
-        def get(url: str) -> dict:
-            calls.append(url)
-            return nhl_get(url)
-
-        found = nhl.fetch_schedule(self.p3.start.astimezone(ET).date(), self.p3.end.astimezone(ET).date(), ET, get)
-        self.calls = calls
-        return found
-
-    def test_fetches_each_seven_day_block_the_week_spans(self) -> None:
+    def test_one_request_for_the_week(self) -> None:
         self.games()
-        self.assertEqual(self.calls, ["https://api-web.nhle.com/v1/schedule/2026-10-12",
-                                      "https://api-web.nhle.com/v1/schedule/2026-10-19"])
-
-    def test_parser_reads_documented_shape(self) -> None:
-        games = nhl.parse_schedule(NHL["2026-10-12"], ET)
-        self.assertEqual(len(games), 47)  # Oct 12-18, incl. one preseason game
-        uta = next(g for g in games if g.home == "SJS" and g.away == "UTA")  # {"default": "UTA"}
-        self.assertEqual(uta.night.isoformat(), "2026-10-14")  # 10:30 PM ET, not the UTC date
-        self.assertEqual(sum(1 for g in games if g.game_type != nhl.REGULAR_SEASON), 1)
+        self.assertEqual(self.calls, ["https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2027-04-12"
+                                      "&endDate=2027-04-19&hydrate=probablePitcher"])
 
     def test_grid(self) -> None:
-        grid = nhl.week_grid(self.games(), self.p3.start, self.p3.end, ET)
-        # The noon game Mon Oct 12 belongs to Week 2 and the Oct 19 7 PM game to Week 4.
-        self.assertEqual(grid.total_games, 45)
+        grid = mlb.week_grid(self.games(), self.p3.start, self.p3.end, ET)
+        # The 1:10 PM game Mon Apr 12 belongs to Week 2 and the Apr 19 games to Week 4.
+        self.assertEqual(grid.total_games, 85)
         groups = dict(grid.by_count())
-        self.assertEqual(groups[4], ["CHI"])
-        self.assertEqual(groups[2], ["CGY", "NSH", "OTT", "SJS", "TOR", "UTA", "VAN"])
-        self.assertEqual(sum(len(t) for t in groups.values()), 32)
-        self.assertEqual(sorted(grid.back_to_backs), ["CHI", "EDM", "LAK", "MTL", "NYR"])
-        self.assertEqual([(n.isoformat(), t) for n, t in grid.light_nights],
-                         [("2026-10-12", 4), ("2026-10-14", 6), ("2026-10-16", 8)])
-        self.assertEqual([(n.isoformat(), t) for n, t in grid.heavy_nights],
-                         [("2026-10-13", 22), ("2026-10-17", 24)])
-
-    def test_team_with_no_games_listed(self) -> None:
-        games = [g for g in self.games() if "CHI" not in g.teams or g.night.day < 13]
-        games += [nhl.Game("x", self.p3.start.astimezone(ET).date().replace(day=21), None, "CHI", "STL", 2)]
-        grid = nhl.week_grid(games, self.p3.start, self.p3.end, ET)
-        self.assertEqual(dict(grid.by_count())[0], ["CHI"])
+        self.assertEqual(groups[7], ["NYY", "TOR"])
+        self.assertEqual(sum(len(t) for t in groups.values()), 30)
 
     def test_grid_post(self) -> None:
-        grid = nhl.week_grid(self.games(), self.p3.start, self.p3.end, ET)
+        grid = mlb.week_grid(self.games(), self.p3.start, self.p3.end, ET)
         body = render.games_grid(CTX, self.p3, grid)
         embed = body["embeds"][0]
         fields = {f["name"]: f["value"] for f in embed["fields"]}
-        self.assertEqual(embed["title"], "DBL Week 3 NHL Games Grid")
-        self.assertEqual(fields["4 Games"], "CHI")
-        self.assertIn("**EDM:** Oct 16–17", fields["Back-to-Backs"])
-        self.assertIn("Wed Oct 14 — 3 games, 6 teams", fields["Light Nights (8 or fewer teams)"])
-        self.assertIn("Sat Oct 17 — 12 games, 24 teams", fields["Heavy Nights (20 or more teams)"])
-        self.assertEqual(embed["footer"]["text"], "NHL GAMES GRID • NHL SCHEDULE DATA")
-        self.assertNotIn("FANTRAX", embed["footer"]["text"])
+        self.assertEqual(embed["title"], "DBL Week 3 MLB Games Grid")
+        self.assertEqual(list(fields), ["7 Games", "6 Games", "5 Games", "Doubleheaders", "Off Days",
+                                        "Light Days (20 or fewer teams)", "Heavy Days (30 or more teams)",
+                                        "Two-Start Pitchers", "Postponed"])
+        self.assertEqual(fields["7 Games"], "NYY, TOR")
+        self.assertEqual(fields["Doubleheaders"], "Tue Apr 13 — CHC at STL (makeup)\nThu Apr 15 — NYY at BOS (makeup)"
+                                                  "\nSat Apr 17 — TOR at NYY")
+        off = fields["Off Days"].splitlines()
+        self.assertTrue(off[0].startswith("Mon Apr 12 — 22 teams: ATH, AZ, BAL, BOS,"))
+        self.assertEqual(off[1], "Wed Apr 14 — BOS, NYY")
+        self.assertEqual(fields["Light Days (20 or fewer teams)"],
+                         "Mon Apr 12 — 4 games, 8 teams\nThu Apr 15 — 5 games, 8 teams")
+        self.assertIn("Sat Apr 17 — 16 games, 30 teams", fields["Heavy Days (30 or more teams)"])
+        self.assertEqual(fields["Two-Start Pitchers"].splitlines()[1], "**NYY:** Garrett Cole (Tue Apr 13, Sat Apr 17)")
+        self.assertEqual(fields["Postponed"], "Mon Apr 12 — CHC at STL (Rain), made up Tue Apr 13\n"
+                                              "Wed Apr 14 — NYY at BOS (Rain), made up Thu Apr 15")
+        self.assertIn("(85 games)", embed["description"])
+        self.assertEqual(embed["footer"]["text"], "MLB GAMES GRID • MLB SCHEDULE DATA")
+        self.assertLess(len(json.dumps(embed)), 6000)
+
+    def test_without_probables_or_postponements(self) -> None:
+        plain = [g for g in mlb.fetch_schedule(fx.MON, fx.SUN, lambda url: fx.schedule_response(
+            url.replace("&hydrate=probablePitcher", ""))) if g.played]
+        fields = {f["name"]: f["value"] for f in render.games_grid(
+            CTX, self.p3, mlb.week_grid(plain, self.p3.start, self.p3.end, ET))["embeds"][0]["fields"]}
+        self.assertEqual(fields["Two-Start Pitchers"], "None announced yet.")
+        self.assertNotIn("Postponed", fields)
 
 
 class DeskTests(unittest.TestCase):
@@ -346,7 +340,8 @@ class DeskTests(unittest.TestCase):
         self.cfg = load_league()
 
     def make(self, counted: int, saved: dict | None = None, test: bool = False) -> desk.Desk:
-        return desk.Desk(self.cfg, test=test, fx=FakeFantrax(counted), saved_state=saved or {}, nhl_get=nhl_get)
+        return desk.Desk(self.cfg, test=test, fx=FakeFantrax(counted), saved_state=saved or {},
+                         mlb_get=fx.schedule_get)
 
     def live(self, d: desk.Desk, now: datetime) -> list[tuple[str, str]]:
         sent: list[tuple[str, str]] = []
@@ -367,7 +362,7 @@ class DeskTests(unittest.TestCase):
 
     def test_season_to_date_reads_every_final_week(self) -> None:
         d = self.make(3)
-        body = d.build("recap", 3, et(2026, 10, 19, 8))
+        body = d.build("recap", 3, et(2027, 4, 19, 8))
         self.assertEqual(sorted(d.fx.score_calls), [1, 2, 3])
         value = body["embeds"][0]["fields"][-1]["value"]
         self.assertEqual(len(value.splitlines()), 12)
@@ -376,32 +371,32 @@ class DeskTests(unittest.TestCase):
     def test_monday_live_run_after_deploy(self) -> None:
         # State saved before this change: only the original four keys.
         self.state_path.write_text(json.dumps({"recap_week": 1, "standings_week": 1, "preview_week": 2}))
-        sent = self.live(self.make(2), et(2026, 10, 12, 8))
+        sent = self.live(self.make(2), et(2027, 4, 12, 8))
         self.assertEqual(sent, [
             ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Week 2 Recap"),
             ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Week 2 Awards"),
             ("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Power Rankings — After Week 2"),
             ("LEAGUE_WEBHOOK_STANDINGS", "DBL League Standings — After Week 2"),
             ("LEAGUE_WEBHOOK_SCOREBOARD", "DBL Week 3 Matchup Preview"),
-            ("LEAGUE_WEBHOOK_SCOREBOARD", "DBL Week 3 NHL Games Grid"),
+            ("LEAGUE_WEBHOOK_SCOREBOARD", "DBL Week 3 MLB Games Grid"),
         ])
         state = json.loads(self.state_path.read_text())
         self.assertEqual((state["awards_week"], state["rankings_week"], state["games_week"]), (2, 2, 3))
         self.assertEqual(sorted(state["power_ranks"]), ["2"])
         self.assertEqual(sorted(state["power_ranks"]["2"].values()), list(range(1, 13)))
         # Nothing repeats on the evening check.
-        self.assertEqual(self.live(self.make(2, state), et(2026, 10, 12, 20)), [])
+        self.assertEqual(self.live(self.make(2, state), et(2027, 4, 12, 20)), [])
 
     def test_mid_week_deploy_posts_nothing_old(self) -> None:
         self.state_path.write_text(json.dumps({"recap_week": 2, "standings_week": 2, "preview_week": 3}))
-        self.assertEqual(self.live(self.make(2), et(2026, 10, 14, 20)), [])
+        self.assertEqual(self.live(self.make(2), et(2027, 4, 14, 20)), [])
 
     def test_rank_change_uses_saved_ranks(self) -> None:
         self.state_path.write_text(json.dumps({"recap_week": 1, "standings_week": 1, "preview_week": 2}))
-        self.live(self.make(2), et(2026, 10, 12, 8))
+        self.live(self.make(2), et(2027, 4, 12, 8))
         state = json.loads(self.state_path.read_text())
         d = self.make(3, state)
-        body = d.build("rankings", 3, et(2026, 10, 19, 8))
+        body = d.build("rankings", 3, et(2027, 4, 19, 8))
         rows = weekly.power_rankings(d.season_weeks(3), state["power_ranks"]["2"])
         for field, row in zip(body["embeds"][0]["fields"], rows):
             self.assertNotIn("New", field["value"])
@@ -433,23 +428,23 @@ class DeskTests(unittest.TestCase):
             self.assertEqual(desk.run("test", ["awards", "rankings", "games"], 3, False,
                                       desk=self.make(3, test=True)), 0)
         self.assertEqual(sent, ["[TEST] DBL Week 3 Awards", "[TEST] DBL Power Rankings — After Week 3",
-                                "[TEST] DBL Week 3 NHL Games Grid"])
+                                "[TEST] DBL Week 3 MLB Games Grid"])
         self.assertFalse(self.state_path.exists())
 
     def test_week_without_regular_season_games_is_skipped(self) -> None:
         d = self.make(1)
-        # Week 2 data holds only the noon game on Oct 12 (before Week 3 begins).
-        self.assertEqual(d.build("games", 2, et(2026, 10, 5, 8))["embeds"][0]["description"].count("(1 game)"), 1)
+        # Week 2 data holds only the 1:10 PM game on Mon Apr 12 (before Week 3 begins).
+        self.assertEqual(d.build("games", 2, et(2027, 4, 5, 8))["embeds"][0]["description"].count("(1 game)"), 1)
+        spring = fx.edited_schedule(lambda game: game.update(gameType="S"))
         empty = desk.Desk(self.cfg, fx=FakeFantrax(1), saved_state={},
-                          nhl_get=lambda url: {"gameWeek": [{"date": "2026-10-05", "games": [
-                              {"id": 1, "gameType": 1, "startTimeUTC": "2026-10-05T23:00:00Z",
-                               "awayTeam": {"abbrev": "BOS"}, "homeTeam": {"abbrev": "TOR"}}]}]})
-        self.assertIsNone(empty.build("games", 2, et(2026, 10, 5, 8)))
+                          mlb_get=lambda url: fx.schedule_response(url, spring))
+        self.assertIsNone(empty.build("games", 2, et(2027, 4, 5, 8)))
 
-    def test_empty_nhl_response_is_an_error(self) -> None:
-        d = desk.Desk(self.cfg, fx=FakeFantrax(1), saved_state={}, nhl_get=lambda url: {})
-        with self.assertRaises(ValueError):
-            d.build("games", 2, et(2026, 10, 5, 8))
+    def test_empty_mlb_response_is_an_error(self) -> None:
+        for answer in ({}, {"totalGames": 0, "dates": []}):
+            d = desk.Desk(self.cfg, fx=FakeFantrax(1), saved_state={}, mlb_get=lambda url, a=answer: a)
+            with self.assertRaises(ValueError):
+                d.build("games", 2, et(2027, 4, 5, 8))
 
 
 if __name__ == "__main__":

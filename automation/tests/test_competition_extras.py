@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Offline checks for the Luck Index, the schedule edge, Monthly Awards and bounties.
 
-Fantrax samples: league_info_2026_test.json (live week dates), standings_week0.json
-and player_ids_sample.json. NHL: the synthetic nhl_schedule_synthetic.json and
-nhl_score_synthetic.json, built in the documented API shapes (unverified).
-Rosters are built here: the Fantrax test league's rosters are empty.
+Fantrax samples: league_info_2026_test.json and standings_week0.json (live
+captures from the 2026-27 test league, for the calendar and standings) and
+the MLB-shaped variants in tests/mlb_fixtures.py (a 2027 calendar, rosters and
+player directory). MLB: the synthetic Week 3 schedule with scoring plays, in
+the shape checked live. Full rosters are built here.
 """
 
 from __future__ import annotations
@@ -22,16 +23,17 @@ from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 AUTOMATION = Path(__file__).resolve().parents[1]
-for sub in ("", "competition"):
+for sub in ("", "competition", "tests"):
     sys.path.insert(0, str(AUTOMATION / sub))
 
 import bounties  # noqa: E402
 import desk  # noqa: E402
 import edge  # noqa: E402
+import mlb_fixtures as fx  # noqa: E402
 import monthly  # noqa: E402
 import render  # noqa: E402
 import weekly  # noqa: E402
-from core import nhl, season  # noqa: E402
+from core import mlb, season  # noqa: E402
 from core.fantrax import normalize_standings, schedule_for  # noqa: E402
 from core.league import load_league  # noqa: E402
 
@@ -39,10 +41,8 @@ ET = ZoneInfo("America/New_York")
 FIXTURES = Path(__file__).resolve().parent / "fixtures"
 INFO = json.loads((FIXTURES / "league_info_2026_test.json").read_text())
 RAW_STANDINGS = json.loads((FIXTURES / "standings_week0.json").read_text())
-PLAYERS = json.loads((FIXTURES / "player_ids_sample.json").read_text())
-SCHEDULE = json.loads((FIXTURES / "nhl_schedule_synthetic.json").read_text())["responses"]
-SCORES = json.loads((FIXTURES / "nhl_score_synthetic.json").read_text())["responses"]
-CTX = render.Context("Dynasty Hockey Test League", "2026-27 TEST", 0xFFB81C)
+MLB_INFO = fx.MLB_INFO
+CTX = render.Context("DBL Test League", "2027 TEST", 0xBD3039)
 COMP = {"report_time": "08:00", "playoff_race_start_week": 16, "bubble_depth": 3}
 
 
@@ -50,8 +50,8 @@ def et(y: int, mo: int, d: int, h: int = 0, mi: int = 0) -> datetime:
     return datetime(y, mo, d, h, mi, tzinfo=ET).astimezone(timezone.utc)
 
 
-def morning_of_end(week: int, hour: int = 8) -> datetime:
-    local = season.period(INFO, week).end.astimezone(ET)
+def morning_of_end(week: int, hour: int = 8, info: dict = INFO) -> datetime:
+    local = season.period(info, week).end.astimezone(ET)
     return datetime(local.year, local.month, local.day, hour, 0, tzinfo=ET).astimezone(timezone.utc)
 
 
@@ -65,14 +65,6 @@ def week(*games: tuple[str, float, str, float]) -> list[dict]:
 
 def items(plan: desk.ReportPlan) -> list[tuple[str, int]]:
     return [(p.item, p.week) for p in plan.posts]
-
-
-def nhl_get(url: str) -> dict:
-    """NHL schedule and score fixtures by URL; anything else is an empty day."""
-    day = url.rsplit("/", 1)[1]
-    if "/score/" in url:
-        return SCORES.get(day, {"games": []})
-    return SCHEDULE.get(day, {"gameWeek": []})
 
 
 # Same four-team season as test_competition_additions.py.
@@ -136,10 +128,10 @@ class LuckTests(unittest.TestCase):
         self.assertEqual(line, "**Luckiest:** Team A and Team C (+0.2) • **Unluckiest:** Team B and Team D (-0.2)")
 
 
-def synthetic_week(w: int) -> list[dict]:
+def synthetic_week(w: int, info: dict = INFO) -> list[dict]:
     """Distinct, deterministic scores for the 12 test-league teams."""
     rows = []
-    for index, pair in enumerate(schedule_for(INFO, w)):
+    for index, pair in enumerate(schedule_for(info, w)):
         row = {}
         for side in ("away", "home"):
             t = pair[side]
@@ -153,99 +145,135 @@ def synthetic_week(w: int) -> list[dict]:
 
 # --- Schedule edge ----------------------------------------------------------------
 
-def player(pid: str, team_code: str, *positions: str) -> edge.RosterPlayer:
-    return edge.RosterPlayer(pid, team_code, frozenset(positions))
+def player(pid: str, team_code: str, *positions: str, name: str = "") -> edge.RosterPlayer:
+    return edge.RosterPlayer(pid, mlb.name_key(name or pid), team_code, frozenset(positions))
 
 
-class SkaterFillTests(unittest.TestCase):
+def week3_games() -> list[mlb.Game]:
+    p3 = season.period(MLB_INFO, 3)
+    return mlb.fetch_schedule(p3.start.astimezone(ET).date(), p3.end.astimezone(ET).date(), fx.schedule_get)
+
+
+class HitterFillTests(unittest.TestCase):
     def test_slot_limits(self) -> None:
-        self.assertEqual(edge.max_skaters([{"C", "F"}] * 5), 5)   # 3 C + 2 F
-        self.assertEqual(edge.max_skaters([{"C", "F"}] * 8), 6)   # 3 C + 3 F
-        self.assertEqual(edge.max_skaters([{"D"}] * 7), 6)
-        self.assertEqual(edge.max_skaters([]), 0)
+        # Hitter slots: C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL (core/sport.py).
+        self.assertEqual(edge.max_hitter_games([({"OF", "UTIL"}, 1)] * 7), 5)   # 3 OF + 2 UTIL
+        self.assertEqual(edge.max_hitter_games([({"C", "UTIL"}, 1)] * 4), 3)    # 1 C + 2 UTIL
+        self.assertEqual(edge.max_hitter_games([(set(), 1)] * 3), 0)            # pitchers
+        self.assertEqual(edge.max_hitter_games([]), 0)
 
     def test_multi_position_player_goes_where_he_helps(self) -> None:
-        # Three C-only, one C/LW and six RW-only: the C/LW must play LW so the
-        # RW overflow can use all three F slots: 3 C + 1 LW + 3 RW + 3 F = 10.
-        eligible = [{"C", "F"}] * 3 + [{"C", "LW", "F"}] + [{"RW", "F"}] * 6
-        self.assertEqual(edge.max_skaters(eligible), 10)
-        self.assertEqual(edge.max_skaters(list(reversed(eligible))), 10)
+        # Three SS-only players and one 2B/SS: the 2B/SS must play 2B so the
+        # SS-only players can use SS and both UTIL slots: 4.
+        eligible = [(player(f"s{i}", "NYY", "SS").hitter_slots(), 1) for i in range(3)]
+        eligible.append((player("m", "NYY", "2B", "SS").hitter_slots(), 1))
+        self.assertEqual(edge.max_hitter_games(eligible), 4)
+        self.assertEqual(edge.max_hitter_games(list(reversed(eligible))), 4)
 
-    def test_augmenting_path_moves_a_placed_player(self) -> None:
-        # Slots A and B. P (A or B) is placed first on A; Q (A only) needs P moved to B.
-        slots = (("A", 1), ("B", 1))
-        self.assertEqual(edge.max_skaters([{"A", "B"}, {"A"}], slots), 2)
-        self.assertEqual(edge.max_skaters([{"A", "B"}, {"A", "B"}, {"A"}], slots), 2)
+    def test_doubleheader_players_first(self) -> None:
+        # Six outfielders for five seats: the two with a doubleheader play.
+        self.assertEqual(edge.max_hitter_games([({"OF", "UTIL"}, 1)] * 4 + [({"OF", "UTIL"}, 2)] * 2), 7)
 
-    def test_skater_slots_from_positions(self) -> None:
-        self.assertEqual(player("1", "EDM", "C", "LW").skater_slots(), {"C", "LW", "F"})
-        self.assertEqual(player("2", "EDM", "F").skater_slots(), {"F"})
-        self.assertEqual(player("3", "EDM", "D").skater_slots(), {"D"})
-        self.assertTrue(player("4", "EDM", "G").goalie)
+    def test_slots_from_positions(self) -> None:
+        self.assertEqual(player("1", "NYY", "C").hitter_slots(), {"C", "UTIL"})
+        self.assertEqual(player("2", "NYY", "1B", "OF").hitter_slots(), {"1B", "OF", "UTIL"})
+        self.assertEqual(player("3", "NYY", "LF").hitter_slots(), {"OF", "UTIL"})
+        self.assertEqual(player("4", "NYY", *edge.positions_of("UT")).hitter_slots(), {"UTIL"})
+        self.assertEqual(player("5", "NYY", "SP").hitter_slots(), set())
+        self.assertTrue(player("5", "NYY", "SP").starter)
+        self.assertEqual(edge.positions_of("1B,OF", "UT"), frozenset({"1B", "OF", "UTIL"}))
 
 
 class ProjectionTests(unittest.TestCase):
-    MON, TUE, WED = date(2026, 10, 12), date(2026, 10, 13), date(2026, 10, 14)
+    def test_one_day_by_hand(self) -> None:
+        # Thursday Apr 15: NYY plays a doubleheader, TOR one game, LAD is off.
+        thursday = {fx.THU: edge.days_in_period(week3_games(), *self.p3())[fx.THU]}
+        g1, g2 = thursday[fx.THU]["NYY"]
+        squad = ([player("c", "NYY", "C"), player("1b", "NYY", "1B"), player("ss", "TOR", "SS")]
+                 + [player(f"of{i}", "TOR", "OF") for i in range(4)] + [player("lad", "LAD", "OF")]
+                 + [player("sp1", "NYY", "SP", name=g1.away_probable.name),
+                    player("sp2", "NYY", "SP", name=g2.away_probable.name),
+                    player("sp3", "NYY", "SP", name="Not Starting")])
+        proj = edge.project(squad, thursday, {fx.THU}, start_cap=7)
+        # C 2 + 1B 2 + SS 1 + three OF and one UTIL from TOR 4 = 9 hitter games; two announced starts.
+        self.assertEqual((proj.hitter_games, proj.starts, proj.games, proj.light_games), (9, 2, 11, 11))
 
-    def test_one_night_by_hand(self) -> None:
-        squad = ([player(f"c{i}", "EDM", "C") for i in range(8)]        # 3 C + 3 F = 6 start
-                 + [player(f"d{i}", "EDM", "D") for i in range(2)]      # 2 start
-                 + [player("g1", "EDM", "G"), player("g2", "EDM", "G")]  # same NHL team: 1 start
-                 + [player("x", "TOR", "D")])                            # TOR is idle
-        proj = edge.project(squad, {self.MON: {"EDM", "CGY"}}, {self.MON}, goalie_cap=4)
-        self.assertEqual((proj.skater_games, proj.goalie_games, proj.games, proj.light_games), (8, 1, 9, 9))
+    def p3(self) -> tuple:
+        p = season.period(MLB_INFO, 3)
+        return p.start, p.end, ET
 
-    def test_goalie_starts_capped_per_calendar_week(self) -> None:
-        squad = [player("g1", "EDM", "G"), player("g2", "TOR", "G"), player("g3", "MTL", "G")]
-        nights = {self.MON + timedelta(days=i): {"EDM", "TOR", "MTL"} for i in range(7)}  # 2 a night = 14
-        self.assertEqual(edge.project(squad, nights, set(), goalie_cap=4).games, 4)
-        self.assertEqual(edge.project(squad, nights, set(), goalie_cap=8).games, 8)
+    def test_starts_capped_per_period_and_slots_per_day(self) -> None:
+        ace = player("ace", "NYY", "SP", name="Ace One")
+        days = {}
+        for i in range(8):
+            day = date(2027, 5, 1) + timedelta(days=i)
+            days[day] = {"NYY": [mlb.Game(i + 1, day, None, "NYY", "BOS", away_probable=mlb.Person(1, "Ace One"))]}
+        self.assertEqual(edge.project([ace], days, set(), start_cap=7).starts, 7)
+        self.assertEqual(edge.project([ace], days, set(), start_cap=14).starts, 8)
+        clubs = ["NYY", "TOR", "BOS", "TB", "BAL", "CLE"]
+        day = date(2027, 5, 1)
+        one_day = {day: {c: [mlb.Game(i + 1, day, None, c, "SEA", away_probable=mlb.Person(i + 1, f"Arm {c}"))]
+                         for i, c in enumerate(clubs)}}
+        six = [player(c, c, "SP", name=f"Arm {c}") for c in clubs]
+        self.assertEqual(edge.project(six, one_day, set(), start_cap=7).starts, 5)  # five SP slots
 
-    def test_light_nights_counted_separately(self) -> None:
-        squad = [player("c1", "EDM", "C"), player("c2", "TOR", "C"), player("d1", "TOR", "D")]
-        nights = {self.MON: {"EDM"}, self.TUE: {"EDM", "TOR"}, self.WED: {"TOR"}}
-        proj = edge.project(squad, nights, {self.MON, self.WED}, goalie_cap=4)
+    def test_light_days_counted_separately(self) -> None:
+        mon, tue, wed = date(2027, 5, 3), date(2027, 5, 4), date(2027, 5, 5)
+        squad = [player("a", "NYY", "SS"), player("b", "TOR", "SS"), player("c", "TOR", "C")]
+        game = lambda d, a, h: mlb.Game(hash((d, a)) % 1000 + 1, d, None, a, h)  # noqa: E731
+        days = {mon: {"NYY": [game(mon, "NYY", "BOS")]},
+                tue: {"NYY": [game(tue, "NYY", "BOS")], "TOR": [game(tue, "TOR", "TB")]},
+                wed: {"TOR": [game(wed, "TOR", "TB")]}}
+        proj = edge.project(squad, days, {mon, wed}, start_cap=7)
         self.assertEqual((proj.games, proj.light_games), (1 + 3 + 2, 1 + 2))
 
-    def test_lineup_players_skip_minors_and_ir(self) -> None:
-        rosters = {"rosters": {"t1": {"teamName": "One", "rosterItems": [
-            {"id": "02un4", "position": "C", "status": "ACTIVE"},
-            {"id": "01ztp", "position": "F", "status": "RESERVE"},
-            {"id": "03duf", "position": "C", "status": "MINORS"},
-            {"id": "02un7", "position": "C", "status": "IR"},
-            {"id": "nobody", "position": "C", "status": "ACTIVE"},  # not in the directory: no NHL team
-        ]}, "t2": {"teamName": "Two", "rosterItems": []}}}
-        teams = edge.lineup_players(rosters, PLAYERS)
-        self.assertEqual(sorted(p.player_id for p in teams["t1"]), ["01ztp", "02un4"])
-        hyman = next(p for p in teams["t1"] if p.player_id == "01ztp")
-        self.assertEqual((hyman.nhl_team, hyman.positions), ("EDM", frozenset({"RW", "F"})))
-        self.assertEqual(teams["t2"], [])
+    def test_lineup_players_skip_minors_ir_and_unknown_clubs(self) -> None:
+        teams = edge.lineup_players(fx.rosters(), fx.player_ids())
+        t1 = {p.player_id: p for p in teams["t1"]}
+        self.assertNotIn("m_kid", t1)    # MINORS
+        self.assertNotIn("i_hurt", t1)   # IR
+        self.assertNotIn("b_fa", t1)     # no MLB club
+        self.assertEqual(t1["b_archer"].positions, frozenset({"1B", "OF"}))
+        self.assertEqual(t1["h_carrow"].positions, frozenset({"1B", "UTIL"}))  # roster slot UT
+        self.assertEqual(t1["h_hale"].name, "marcus hale")
+        t2 = {p.player_id: p for p in teams["t2"]}
+        self.assertEqual((t2["h_garcia"].team, t2["h_pikeless"].team), ("WSH", "CWS"))  # Fantrax-style codes
         empty = {"rosters": {"t1": {"rosterItems": []}, "t2": {"rosterItems": []}}}
-        self.assertIsNone(edge.lineup_players(empty, PLAYERS))
+        self.assertIsNone(edge.lineup_players(empty, fx.player_ids()))
 
-    def test_week_from_nhl_schedule(self) -> None:
-        p3 = season.period(INFO, 3)
-        games = nhl.fetch_schedule(p3.start.astimezone(ET).date(), p3.end.astimezone(ET).date(), ET, nhl_get)
-        nights = edge.nights_in_period(games, p3.start, p3.end, ET)
-        self.assertEqual(sum(len(t) for t in nights.values()), 90)  # 45 games in Week 3
-        squad = [player("chi", "CHI", "C"), player("tor", "TOR", "C")]
-        proj = edge.projections({"x": squad}, games, p3.start, p3.end, ET, goalie_cap=4)["x"]
-        self.assertEqual(proj.games, 4 + 2)  # CHI plays 4, TOR 2 (games grid)
+    def test_week_from_mlb_schedule(self) -> None:
+        start, end, tz = self.p3()
+        days = edge.days_in_period(week3_games(), start, end, tz)
+        self.assertEqual(len(days), 7)
+        self.assertEqual(sum(len(clubs) for clubs in days.values()), 164)
+        self.assertEqual(sum(len(g) for clubs in days.values() for g in clubs.values()), 170)  # 85 games
+        squad = [player("nyy", "NYY", "C"), player("kc", "KC", "C")]
+        proj = edge.projections({"x": squad}, week3_games(), start, end, tz, start_cap=7)["x"]
+        self.assertEqual((proj.games, proj.light_games), (7 + 5, 2))  # NYY 7 (two doubleheaders), KC 5
 
 
 # --- Desk: schedule edge in the preview ---------------------------------------------
 
-def rosters_for(info: dict, w: int, nhl_codes: list[str]) -> tuple[dict, dict]:
-    """Full 20-player rosters (plus a minor) for every team in week w, one NHL team each."""
+def rosters_for(info: dict, w: int, codes: list[str],
+                starters: dict[str, list[str]] | None = None) -> tuple[dict, dict]:
+    """Full 25-player rosters (plus a minor) for every team in week w, one MLB club each.
+
+    ``starters`` names a club's starting pitchers (to match its probables).
+    """
     rosters: dict = {"rosters": {}}
     players: dict = {}
-    layout = ["C"] * 4 + ["LW"] * 4 + ["RW"] * 4 + ["D"] * 7 + ["G"] * 2
+    layout = ["C"] * 2 + ["1B"] * 2 + ["2B"] * 2 + ["3B"] * 2 + ["SS"] * 2 + ["OF"] * 5 + ["SP"] * 6 + ["RP"] * 4
     for n, pair in enumerate(t for row in schedule_for(info, w) for t in (row["away"], row["home"])):
+        club = codes[n % len(codes)]
+        names = list((starters or {}).get(club, []))
         items = []
-        for k, pos in enumerate(layout + ["C"]):
+        for k, pos in enumerate(layout + ["SS"]):
             pid = f"p{n}-{k}"
-            players[pid] = {"fantraxId": pid, "name": f"Player, {pid}", "position": pos,
-                            "team": nhl_codes[n % len(nhl_codes)]}
+            name = f"Player, {pid}"
+            if pos == "SP" and names:
+                first, _, last = names.pop(0).partition(" ")
+                name = f"{last}, {first}"
+            players[pid] = {"fantraxId": pid, "name": name, "position": pos, "team": club}
             items.append({"id": pid, "position": pos, "status": "MINORS" if k == len(layout) else
                           ("ACTIVE" if k < 18 else "RESERVE")})
         rosters["rosters"][pair["teamId"]] = {"teamName": pair["teamName"], "rosterItems": items}
@@ -254,7 +282,7 @@ def rosters_for(info: dict, w: int, nhl_codes: list[str]) -> tuple[dict, dict]:
 
 class FakeFantrax:
     def __init__(self, counted: int, weeks: dict[int, list[dict]] | None = None,
-                 rosters: dict | None = None, players: dict | None = None) -> None:
+                 rosters: dict | None = None, players: dict | None = None, info: dict = INFO) -> None:
         raw = copy.deepcopy(RAW_STANDINGS)
         for i, row in enumerate(raw):
             wins = counted // 2 + (1 if i % 2 and counted % 2 else 0)
@@ -263,15 +291,16 @@ class FakeFantrax:
         self.weeks = weeks or {}
         self._rosters, self._players = rosters, players
         self.roster_calls = 0
+        self.info = info
 
     def league_info(self) -> dict:
-        return INFO
+        return self.info
 
     def standings(self) -> list[dict]:
         return self.rows
 
     def matchup_scores(self, period: int) -> list[dict]:
-        return copy.deepcopy(self.weeks.get(period) or synthetic_week(period))
+        return copy.deepcopy(self.weeks.get(period) or synthetic_week(period, self.info))
 
     def rosters(self) -> dict:
         self.roster_calls += 1
@@ -294,18 +323,19 @@ class DeskBase(unittest.TestCase):
         self.addCleanup(patcher.stop)
         self.addCleanup(self.tmp.cleanup)
         self.cfg = load_league()
-        self.nhl_calls: list[str] = []
+        self.mlb_calls: list[str] = []
 
     def getter(self, fail_scores: bool = False, fail_schedule: bool = False):
         def get(url: str) -> dict:
-            self.nhl_calls.append(url)
-            if (fail_scores and "/score/" in url) or (fail_schedule and "/schedule/" in url):
-                raise RuntimeError("NHL API unreachable")
-            return nhl_get(url)
+            self.mlb_calls.append(url)
+            scores = "scoringplays" in url
+            if (fail_scores and scores) or (fail_schedule and not scores):
+                raise RuntimeError("MLB Stats API unreachable")
+            return fx.schedule_get(url)
         return get
 
-    def make(self, fx: FakeFantrax, saved: dict | None = None, **get_opts) -> desk.Desk:
-        return desk.Desk(self.cfg, fx=fx, saved_state=saved or {}, nhl_get=self.getter(**get_opts))
+    def make(self, fantrax: FakeFantrax, saved: dict | None = None, **get_opts) -> desk.Desk:
+        return desk.Desk(self.cfg, fx=fantrax, saved_state=saved or {}, mlb_get=self.getter(**get_opts))
 
     def live(self, d: desk.Desk, now: datetime, fail: tuple[str, ...] = ()) -> tuple[list[tuple[str, str]], str]:
         sent: list[tuple[str, str]] = []
@@ -326,65 +356,66 @@ class DeskBase(unittest.TestCase):
         return json.loads(self.state_path.read_text())
 
 
+def nyy_starters() -> list[str]:
+    return sorted({g.probable("NYY").name for g in week3_games() if "NYY" in g.teams and g.probable("NYY")})
+
+
 class PreviewEdgeTests(DeskBase):
+    MONDAY = fx.et(2027, 4, 12, 8)
+
     def test_preview_shows_projected_games(self) -> None:
-        rosters, players = rosters_for(INFO, 3, ["CHI", "TOR", "EDM", "SJS"])
-        d = self.make(FakeFantrax(2, rosters=rosters, players=players))
-        body = d.build("preview", 3, et(2026, 10, 12, 8))
+        rosters, players = rosters_for(MLB_INFO, 3, ["NYY", "KC", "TOR", "SEA"], {"NYY": nyy_starters()})
+        d = self.make(FakeFantrax(2, rosters=rosters, players=players, info=MLB_INFO))
+        body = d.build("preview", 3, self.MONDAY)
         embed = body["embeds"][0]
-        first = schedule_for(INFO, 3)[0]
-        # The first matchup: CHI players (4 games) vs TOR players (2 games). 19 skaters fill
-        # all 18 skater slots each game night; both goalies are on the same NHL team, so 1 a night.
-        # CHI 18 x 4 + 4 = 76; TOR 18 x 2 + 2 = 38.
-        games = d.nhl_schedule(season.period(INFO, 3))
-        proj = edge.projections(edge.lineup_players(rosters, players), games, season.period(INFO, 3).start,
-                                season.period(INFO, 3).end, ET, goalie_cap=4, light_max=8)
-        a, h = proj[first["away"]["teamId"]], proj[first["home"]["teamId"]]
-        self.assertEqual((a.games, h.games), (76, 38))
-        self.assertIn(f"Projected games: 76 vs 38 • Light-night games: {a.light_games} vs {h.light_games}",
+        first = schedule_for(MLB_INFO, 3)[0]
+        # First matchup: NYY players vs KC players. 15 hitters fill all 10 hitter slots every
+        # game: NYY 7 games (two doubleheaders) = 70, KC 5 games = 50. NYY's five starters
+        # cover all 7 announced NYY starts (cap 7). Light days: Thursday's NYY doubleheader.
+        self.assertIn("Projected games: 77 vs 50 • Probable starts: 7 vs 0 • Light-day games: 22 vs 0",
                       embed["fields"][0]["value"])
         self.assertTrue(embed["fields"][0]["value"].startswith(f"**{first['away']['teamName']}** — #"))
-        self.assertIn("goalies capped at 4 starts", embed["description"])
-        self.assertIn("8 or fewer NHL teams playing", embed["description"])
+        self.assertIn("where MLB has announced them, capped at 7", embed["description"])
+        self.assertIn("20 or fewer MLB teams playing", embed["description"])
         self.assertEqual(len(embed["fields"]), 6)
 
     def test_empty_rosters_leave_the_preview_unchanged(self) -> None:
         empty = {"rosters": {pair["teamId"]: {"teamName": pair["teamName"], "rosterItems": []}
-                             for row in schedule_for(INFO, 3) for pair in (row["away"], row["home"])}}
-        d = self.make(FakeFantrax(2, rosters=empty, players={}))
-        body = d.build("preview", 3, et(2026, 10, 12, 8))
+                             for row in schedule_for(MLB_INFO, 3) for pair in (row["away"], row["home"])}}
+        d = self.make(FakeFantrax(2, rosters=empty, players={}, info=MLB_INFO))
+        body = d.build("preview", 3, self.MONDAY)
         self.assertNotIn("Projected", json.dumps(body))
         self.assertTrue(body["embeds"][0]["description"].endswith(
             "\n\n*This week's matchups with each team's current Fantrax standing and record. "
             "The scoreboard will track scoring once the week is underway.*"))
         self.assertTrue(any("every DBL roster is empty" in n for n in d.notes))
-        self.assertFalse(any("/schedule/" in u for u in self.nhl_calls))  # no NHL call needed
+        self.assertEqual(self.mlb_calls, [])  # no MLB call needed
 
     def test_failures_never_break_the_preview(self) -> None:
-        rosters, players = rosters_for(INFO, 3, ["CHI"])
-        for d in (self.make(FakeFantrax(2, rosters=rosters, players=players), fail_schedule=True),
-                  self.make(FakeFantrax(2))):  # Fantrax rosters down
-            body = d.build("preview", 3, et(2026, 10, 12, 8))
+        rosters, players = rosters_for(MLB_INFO, 3, ["NYY"])
+        for d in (self.make(FakeFantrax(2, rosters=rosters, players=players, info=MLB_INFO), fail_schedule=True),
+                  self.make(FakeFantrax(2, info=MLB_INFO))):  # Fantrax rosters down
+            body = d.build("preview", 3, self.MONDAY)
             self.assertEqual(body["embeds"][0]["title"], "DBL Week 3 Matchup Preview")
             self.assertNotIn("Projected", json.dumps(body))
             self.assertTrue(any("schedule edge left out" in n for n in d.notes))
 
-    def test_live_monday_still_posts_preview_when_nhl_is_down(self) -> None:
+    def test_live_monday_still_posts_preview_when_mlb_is_down(self) -> None:
         self.state_path.write_text(json.dumps({"recap_week": 1, "standings_week": 1, "preview_week": 2,
-                                               "bounties_week": 1, "bounties": {"hat_trick_through": "2026-10-11"}}))
-        rosters, players = rosters_for(INFO, 3, ["CHI"])
-        sent, out = self.live(self.make(FakeFantrax(2, rosters=rosters, players=players), fail_schedule=True),
-                              et(2026, 10, 12, 8))
+                                               "bounties_week": 1, "bounties": {"feat_through": "2027-04-11"}}))
+        rosters, players = rosters_for(MLB_INFO, 3, ["NYY"])
+        sent, out = self.live(self.make(FakeFantrax(2, rosters=rosters, players=players, info=MLB_INFO),
+                                        fail_schedule=True), self.MONDAY)
         self.assertIn(("LEAGUE_WEBHOOK_SCOREBOARD", "DBL Week 3 Matchup Preview"), sent)
         self.assertIn("NOTE    preview week 3: schedule edge left out", out)
-        self.assertIn("ERROR   games week 3", out)  # the grid itself still reports the NHL failure
+        self.assertIn("ERROR   games week 3", out)  # the grid itself still reports the MLB failure
 
     def test_schedule_fetched_once_for_preview_and_grid(self) -> None:
-        rosters, players = rosters_for(INFO, 3, ["CHI"])
-        d = self.make(FakeFantrax(2, rosters=rosters, players=players))
-        d.build("preview", 3, et(2026, 10, 12, 8))
-        d.build("games", 3, et(2026, 10, 12, 8))
-        self.assertEqual(len([u for u in self.nhl_calls if "/schedule/" in u]), 2)  # two 7-day blocks, once
+        rosters, players = rosters_for(MLB_INFO, 3, ["NYY"])
+        d = self.make(FakeFantrax(2, rosters=rosters, players=players, info=MLB_INFO))
+        d.build("preview", 3, self.MONDAY)
+        d.build("games", 3, self.MONDAY)
+        self.assertEqual(len(self.mlb_calls), 1)  # one request covers the week
 
 
 # --- Monthly awards ---------------------------------------------------------------
@@ -536,7 +567,7 @@ class MonthlyPlanTests(unittest.TestCase):
 class MonthlyDeskTests(DeskBase):
     def test_live_post_and_retry_after_failure(self) -> None:
         self.state_path.write_text(json.dumps({"recap_week": 4, "standings_week": 4, "preview_week": 5,
-                                               "bounties_week": 4, "bounties": {"hat_trick_through": "2026-11-01"}}))
+                                               "bounties_week": 4, "bounties": {"feat_through": "2026-11-01"}}))
         sent, _ = self.live(self.make(FakeFantrax(5)), morning_of_end(5), fail=("Monthly",))
         self.assertNotIn("Monthly", " ".join(t for _, t in sent))
         state = self.state()
@@ -641,101 +672,101 @@ class TeamBountyTests(unittest.TestCase):
                          "Best so far: **Team A** — 400.00 in Week 3")
         self.assertEqual(bounties.progress(bounty("team_win_streak", 5), self.weeks),
                          "Longest active streak: **Team A** — 2")
-        self.assertEqual(bounties.progress(bounty("player_hat_trick", 3), self.weeks), "")
+        self.assertEqual(bounties.progress(bounty("player_multi_homer", 2), self.weeks), "")
         self.assertEqual(bounties.progress(bounty("team_win_streak", 5), {}), "")
 
 
-class HatTrickTests(unittest.TestCase):
-    hat = bounty("player_hat_trick", 3, "first-hat-trick")
-    rosters = {"rosters": {
-        "t4": {"teamName": "Test 4", "rosterItems": [{"id": "02un4", "position": "C", "status": "ACTIVE"},
-                                                     {"id": "02un7", "position": "C", "status": "MINORS"}]},
-        "t7": {"teamName": "Test 7", "rosterItems": [{"id": "03duf", "position": "C", "status": "RESERVE"},
-                                                     {"id": "048x9", "position": "C", "status": "ACTIVE"}]},
-    }}
+def day_scores(day: date) -> dict:
+    return fx.schedule_response(mlb.schedule_url(day, day, mlb.SCORES))
 
-    def owner_of(self):
+
+class MultiHomerTests(unittest.TestCase):
+    feat = bounty("player_multi_homer", 2, "first-multi-homer")
+
+    def owner_of(self, skip: str = ""):
         sys.path.insert(0, str(AUTOMATION / "wire"))
         import roster
-        index = roster.build_index(self.rosters, PLAYERS)
-        return lambda name, code: (lambda p: (p.owner_id, p.owner_name) if p else None)(index.match(name, code))
+        index = roster.build_index(fx.rosters(), mlb.normalize_directory(fx.player_ids()))
 
-    def test_parse_scores(self) -> None:
-        games = nhl.parse_scores(SCORES["2026-10-13"])
-        edm = next(g for g in games if g.away == "EDM")
-        self.assertEqual(len(edm.goals), 5)
-        self.assertEqual(edm.goals[1].team, "EDM")  # {"default": "EDM"} form
-        barkov = next(g for g in games if g.home == "BOS")
-        self.assertEqual(len(barkov.goals), 2)      # the shootout goal is not a goal
-        multi = nhl.multi_goal_games(edm)
-        self.assertEqual([(m.goal.name, m.goals, m.order) for m in multi], [("Connor McDavid", 3, 4)])
-        self.assertEqual(nhl.multi_goal_games(barkov), [])
-        self.assertEqual(nhl.parse_scores({"games": []}), [])
-        for broken in ({}, {"message": "Internal server error"}, {"games": None}, [], None):
-            with self.assertRaises(ValueError):
-                nhl.parse_scores(broken)
+        def owner(name: str, code: str):
+            player = None if name == skip else index.match(name, code)
+            return (player.owner_id, player.owner_name) if player else None
+        return owner
 
-    def test_earliest_rostered_hat_trick_wins(self) -> None:
-        check = bounties.find_hat_trick(self.hat, [date(2026, 10, 13)], lambda d: SCORES[d.isoformat()], self.owner_of())
-        self.assertEqual(check.claim.teams, [{"teamId": "t4", "teamName": "Test 4"}])
-        self.assertEqual(check.claim.detail, "Connor McDavid (EDM): 3 goals against CGY on Tue Oct 13")
-        self.assertEqual(check.claim.night, "2026-10-13")
-        self.assertEqual(check.checked_through, date(2026, 10, 13))
+    def test_earliest_rostered_multi_homer_wins(self) -> None:
+        # Jonah Pike (STL) homered twice in the 2:15 PM game but is not rostered.
+        check = bounties.find_multi_homer(self.feat, [fx.TUE], day_scores, self.owner_of())
+        self.assertEqual(check.claim.teams, [{"teamId": "t1", "teamName": "Test 1"}])
+        self.assertEqual(check.claim.detail, "Marcus Hale (NYY): 2 home runs against BOS on Tue Apr 13")
+        self.assertEqual(check.claim.night, "2027-04-13")
+        self.assertEqual(check.checked_through, fx.TUE)
 
-    def test_unrostered_ambiguous_and_preseason_are_skipped(self) -> None:
-        nobody = bounties.find_hat_trick(self.hat, [date(2026, 10, 13)], lambda d: SCORES[d.isoformat()],
-                                         lambda name, code: None)
+    def test_unrostered_and_higher_thresholds_are_skipped(self) -> None:
+        nobody = bounties.find_multi_homer(self.feat, [fx.TUE], day_scores, lambda name, code: None)
         self.assertIsNone(nobody.claim)
-        self.assertEqual(nobody.checked_through, date(2026, 10, 13))
-        # Larkin (Test 7) only: his 4-goal game counts once McDavid is not rostered.
-        only_larkin = self.owner_of()
-        claim = bounties.find_hat_trick(self.hat, [date(2026, 10, 13)], lambda d: SCORES[d.isoformat()],
-                                        lambda n, c: None if n == "Connor McDavid" else only_larkin(n, c)).claim
-        self.assertEqual(claim.detail, "Dylan Larkin (DET): 4 goals against FLA on Tue Oct 13")
+        self.assertEqual(nobody.checked_through, fx.TUE)
+        claim = bounties.find_multi_homer(self.feat, [fx.TUE], day_scores, self.owner_of(skip="Marcus Hale")).claim
+        self.assertEqual(claim.detail, "Kenji Mori (LAD): 2 home runs against SF on Tue Apr 13")
+        three = bounties.find_multi_homer(bounty("player_multi_homer", 3), [fx.MON, fx.TUE, fx.WED], day_scores,
+                                          self.owner_of())
+        self.assertEqual((three.claim, three.checked_through), (None, fx.WED))
 
     def test_live_game_or_fetch_error_stops_without_advancing(self) -> None:
-        live = bounties.find_hat_trick(self.hat, [date(2026, 10, 14)], lambda d: SCORES[d.isoformat()], self.owner_of())
-        self.assertIsNone(live.checked_through)
-        self.assertIn("still in progress", live.notes[0])
+        def live(game: dict) -> None:
+            if game["gamePk"] == fx.find_game(fx.TUE, "LAD", "SF")["gamePk"]:
+                game["status"].update(abstractGameState="Live", codedGameState="I", detailedState="In Progress")
+        playing = fx.edited_schedule(live)
+        check = bounties.find_multi_homer(self.feat, [fx.TUE], lambda d: fx.schedule_response(
+            mlb.schedule_url(d, d, mlb.SCORES), playing), self.owner_of())
+        self.assertIsNone(check.checked_through)
+        self.assertIn("still in progress", check.notes[0])
 
         def boom(d: date) -> dict:
             raise RuntimeError("timeout")
-        failed = bounties.find_hat_trick(self.hat, [date(2026, 10, 12)], boom, self.owner_of())
+        failed = bounties.find_multi_homer(self.feat, [fx.MON], boom, self.owner_of())
         self.assertEqual((failed.claim, failed.checked_through), (None, None))
         self.assertIn("could not be read", failed.notes[0])
 
+    def test_a_suspended_game_does_not_hold_the_check_up(self) -> None:
+        def suspend(game: dict) -> None:
+            if game["gamePk"] == fx.find_game(fx.TUE, "LAD", "SF")["gamePk"]:
+                game["status"].update(abstractGameState="Live", codedGameState="U", detailedState="Suspended: Rain")
+        held = fx.edited_schedule(suspend)
+        check = bounties.find_multi_homer(self.feat, [fx.TUE], lambda d: fx.schedule_response(
+            mlb.schedule_url(d, d, mlb.SCORES), held), self.owner_of(skip="Marcus Hale"))
+        self.assertIsNone(check.claim)  # Mori's game is not final yet
+        self.assertEqual(check.checked_through, fx.TUE)
+
     def test_error_body_is_retried_not_skipped(self) -> None:
-        # The NHL answers 200 with an error body on the hat-trick night: stop
-        # there, so the next run checks it again instead of skipping it.
-        nights = [date(2026, 10, 12), date(2026, 10, 13)]
-        bodies = {"2026-10-12": {"games": []}, "2026-10-13": {"message": "Internal server error"}}
-        failed = bounties.find_hat_trick(self.hat, nights, lambda d: bodies[d.isoformat()], self.owner_of())
+        # MLB answers 200 with an error body on the multi-homer day: stop there,
+        # so the next run checks it again instead of skipping it.
+        bodies = {fx.MON: day_scores(fx.MON), fx.TUE: {"message": "Internal server error"}}
+        failed = bounties.find_multi_homer(self.feat, [fx.MON, fx.TUE], lambda d: bodies[d], self.owner_of())
         self.assertIsNone(failed.claim)
-        self.assertEqual(failed.checked_through, date(2026, 10, 12))
-        self.assertIn("NHL scores for 2026-10-13 could not be read", failed.notes[0])
-        retry = bounties.find_hat_trick(self.hat, [date(2026, 10, 13)], lambda d: SCORES[d.isoformat()], self.owner_of())
-        self.assertEqual((retry.claim.night, retry.checked_through), ("2026-10-13", date(2026, 10, 13)))
+        self.assertEqual(failed.checked_through, fx.MON)
+        self.assertIn("MLB scores for 2027-04-13 could not be read", failed.notes[0])
+        retry = bounties.find_multi_homer(self.feat, [fx.TUE], day_scores, self.owner_of())
+        self.assertEqual((retry.claim.night, retry.checked_through), ("2027-04-13", fx.TUE))
 
     def test_nights_to_check(self) -> None:
-        thu = et(2026, 10, 15, 8)
-        self.assertEqual(bounties.nights_to_check(INFO, ET, thu, 22, "2026-10-12"),
-                         [date(2026, 10, 13), date(2026, 10, 14)])
-        first = bounties.nights_to_check(INFO, ET, thu, 22, None)
-        self.assertEqual((first[0], len(first)), (date(2026, 9, 29), bounties.MAX_NIGHTS_PER_RUN))
-        self.assertEqual(bounties.nights_to_check(INFO, ET, thu, 22, "2026-10-14"), [])
-        # The last regular night is the Sunday before Week 22 ends (Mon Mar 8).
-        self.assertEqual(bounties.regular_season_nights(INFO, ET, 22), (date(2026, 9, 29), date(2027, 3, 7)))
-        self.assertEqual(bounties.nights_to_check(INFO, ET, et(2027, 3, 20, 8), 22, "2027-03-07"), [])
+        thu = fx.et(2027, 4, 15, 8)
+        self.assertEqual(bounties.nights_to_check(MLB_INFO, ET, thu, 22, "2027-04-12"), [fx.TUE, fx.WED])
+        first = bounties.nights_to_check(MLB_INFO, ET, thu, 22, None)
+        self.assertEqual((first[0], len(first)), (date(2027, 3, 24), bounties.MAX_NIGHTS_PER_RUN))
+        self.assertEqual(bounties.nights_to_check(MLB_INFO, ET, thu, 22, "2027-04-14"), [])
+        # The last regular day is the Sunday before Week 22 ends (Mon Aug 30).
+        self.assertEqual(bounties.regular_season_nights(MLB_INFO, ET, 22), (date(2027, 3, 24), date(2027, 8, 29)))
+        self.assertEqual(bounties.nights_to_check(MLB_INFO, ET, fx.et(2027, 9, 5, 8), 22, "2027-08-29"), [])
 
 
-def big_week(w: int, score: float = 380.0) -> list[dict]:
-    rows = synthetic_week(w)
+def big_week(w: int, score: float = 460.0) -> list[dict]:
+    rows = synthetic_week(w, MLB_INFO)
     rows[0]["away"]["score"] = score
     return rows
 
 
 class BountyDeskTests(DeskBase):
-    MON_WEEK2 = et(2026, 10, 12, 8)
+    MON_WEEK2 = fx.et(2027, 4, 12, 8)
 
     def base_state(self, **extra) -> dict:
         state = {"recap_week": 1, "awards_week": 1, "rankings_week": 1, "standings_week": 1,
@@ -743,131 +774,139 @@ class BountyDeskTests(DeskBase):
         state.update(extra)
         return state
 
+    def fantrax(self, counted: int, weeks: dict | None = None, **kw) -> FakeFantrax:
+        return FakeFantrax(counted, weeks, info=MLB_INFO, **kw)
+
     def test_team_bounty_announced_once(self) -> None:
         self.state_path.write_text(json.dumps(self.base_state()))
-        weeks = {2: big_week(2), 3: big_week(3, 420.0)}
-        sent, out = self.live(self.make(FakeFantrax(2, weeks)), self.MON_WEEK2)
-        self.assertIn(("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Bounty Claimed — The 375 Club"), sent)
+        weeks = {2: big_week(2), 3: big_week(3, 480.0)}
+        sent, out = self.live(self.make(self.fantrax(2, weeks)), self.MON_WEEK2)
+        self.assertIn(("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Bounty Claimed — The 450 Club"), sent)
         titles = [t for _, t in sent]
         self.assertLess(titles.index("DBL Power Rankings — After Week 2"),
-                        titles.index("DBL Bounty Claimed — The 375 Club"))
+                        titles.index("DBL Bounty Claimed — The 450 Club"))
         state = self.state()
-        claim = state["bounties"]["claimed"]["big-week-375"]
-        self.assertEqual((claim["week"], claim["detail"]), (2, "380.00 points in Week 2"))
+        claim = state["bounties"]["claimed"]["big-week-450"]
+        self.assertEqual((claim["week"], claim["detail"]), (2, "460.00 points in Week 2"))
         self.assertEqual(state["bounties_week"], 2)
         # Week 3 has a bigger week: the bounty is already claimed, nothing new is announced.
-        sent, _ = self.live(self.make(FakeFantrax(3, weeks), state), et(2026, 10, 19, 8))
+        sent, _ = self.live(self.make(self.fantrax(3, weeks), state), fx.et(2027, 4, 19, 8))
         self.assertFalse(any("Bount" in t for _, t in sent))
-        self.assertEqual(self.state()["bounties"]["claimed"]["big-week-375"]["week"], 2)
+        self.assertEqual(self.state()["bounties"]["claimed"]["big-week-450"]["week"], 2)
 
     def test_claim_post(self) -> None:
         self.state_path.write_text(json.dumps(self.base_state()))
-        d = self.make(FakeFantrax(2, {2: big_week(2)}))
+        d = self.make(self.fantrax(2, {2: big_week(2)}))
         d.mode, d.live_state = "live", self.base_state()
         embed = d.build("bounties", 2, self.MON_WEEK2)["embeds"][0]
-        name = synthetic_week(2)[0]["away"]["teamName"]
-        self.assertEqual(embed["fields"][0]["name"], "The 375 Club")
+        name = synthetic_week(2, MLB_INFO)[0]["away"]["teamName"]
+        self.assertEqual(embed["fields"][0]["name"], "The 450 Club")
         self.assertEqual(embed["fields"][0]["value"],
-                         f"**{name}** — 380.00 points in Week 2\nFirst franchise to score 375 points in a single "
+                         f"**{name}** — 460.00 points in Week 2\nFirst franchise to score 450 points in a single "
                          "week.\n**Reward:** 🎯 Bounty Hunter role for the Season. The Commissioner assigns it.")
         self.assertEqual(embed["fields"][-1]["name"], "Still Open")
-        self.assertIn("**Six Thousand** — First franchise to reach 6,000 season points.\nLeader: ",
+        self.assertIn("**Eight Thousand** — First franchise to reach 8,000 season points.\nLeader: ",
                       embed["fields"][-1]["value"])
         self.assertEqual(embed["footer"]["text"], "BOUNTIES • FANTRAX READ-ONLY DATA")
 
-    def test_hat_trick_claimed_the_morning_after(self) -> None:
+    def test_multi_homer_claimed_the_morning_after(self) -> None:
         state = self.base_state(recap_week=2, awards_week=2, rankings_week=2, standings_week=2, preview_week=3,
-                                games_week=3, bounties_week=2, bounties={"hat_trick_through": "2026-10-12"})
+                                games_week=3, bounties_week=2, bounties={"feat_through": "2027-04-12"})
         self.state_path.write_text(json.dumps(state))
-        fx = FakeFantrax(2, rosters=HatTrickTests.rosters, players=PLAYERS)
-        sent, _ = self.live(self.make(fx, state), et(2026, 10, 15, 8))
-        self.assertEqual(sent, [("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Bounty Claimed — First Hat Trick")])
+        fantrax = self.fantrax(2, rosters=fx.rosters(), players=fx.player_ids())
+        sent, _ = self.live(self.make(fantrax, state), fx.et(2027, 4, 15, 8))
+        self.assertEqual(sent, [("LEAGUE_WEBHOOK_WEEKLY_RECAP", "DBL Bounty Claimed — First Multi-Homer Game")])
         saved = self.state()["bounties"]
-        self.assertEqual(saved["hat_trick_through"], "2026-10-13")
-        self.assertEqual(saved["claimed"]["first-hat-trick"]["teams"], [{"teamId": "t4", "teamName": "Test 4"}])
-        self.assertEqual([u.rsplit("/", 2)[1:] for u in self.nhl_calls], [["score", "2026-10-13"]])
+        self.assertEqual(saved["feat_through"], "2027-04-13")
+        self.assertEqual(saved["claimed"]["first-multi-homer"]["teams"], [{"teamId": "t1", "teamName": "Test 1"}])
+        self.assertEqual(self.mlb_calls, ["https://statsapi.mlb.com/api/v1/schedule?sportId=1&startDate=2027-04-13"
+                                          "&endDate=2027-04-13&hydrate=linescore,decisions,scoringplays"])
         # Claimed: the evening run checks nothing.
-        self.nhl_calls.clear()
-        sent, _ = self.live(self.make(fx, self.state()), et(2026, 10, 15, 20))
-        self.assertEqual((sent, self.nhl_calls), ([], []))
+        self.mlb_calls.clear()
+        sent, _ = self.live(self.make(fantrax, self.state()), fx.et(2027, 4, 15, 20))
+        self.assertEqual((sent, self.mlb_calls), ([], []))
 
-    def test_hat_trick_post_footer(self) -> None:
-        claim = bounties.Claim("first-hat-trick", [{"teamId": "t4", "teamName": "Test 4"}], "x", night="2026-10-13")
-        body = render.bounties(CTX, [(bounty("player_hat_trick", 3), claim)], [], nhl_data=True)
-        self.assertEqual(body["embeds"][0]["footer"]["text"], "BOUNTIES • FANTRAX READ-ONLY DATA • NHL SCORE DATA")
+    def test_old_saved_key_still_counts(self) -> None:
+        self.assertEqual(desk.bounty_state({"bounties": {"hat_trick_through": "2027-04-12"}})["feat_through"],
+                         "2027-04-12")
 
-    def test_empty_rosters_advance_without_nhl_calls(self) -> None:
-        state = self.base_state(bounties_week=1, bounties={"hat_trick_through": "2026-10-05"})
+    def test_claim_post_footer(self) -> None:
+        claim = bounties.Claim("first-multi-homer", [{"teamId": "t1", "teamName": "Test 1"}], "x", night="2027-04-13")
+        body = render.bounties(CTX, [(bounty("player_multi_homer", 2), claim)], [], mlb_data=True)
+        self.assertEqual(body["embeds"][0]["footer"]["text"], "BOUNTIES • FANTRAX READ-ONLY DATA • MLB SCORE DATA")
+
+    def test_empty_rosters_advance_without_mlb_calls(self) -> None:
+        state = self.base_state(bounties_week=1, bounties={"feat_through": "2027-04-05"})
         self.state_path.write_text(json.dumps(state))
         empty = {"rosters": {"t1": {"teamName": "Test", "rosterItems": []}}}
-        sent, _ = self.live(self.make(FakeFantrax(1, rosters=empty, players={}), state), et(2026, 10, 9, 8))
+        sent, _ = self.live(self.make(self.fantrax(1, rosters=empty, players={}), state), fx.et(2027, 4, 9, 8))
         self.assertEqual(sent, [])
-        self.assertEqual(self.state()["bounties"]["hat_trick_through"], "2026-10-08")
-        self.assertFalse(any("/score/" in u for u in self.nhl_calls))
+        self.assertEqual(self.state()["bounties"]["feat_through"], "2027-04-08")
+        self.assertFalse(any("scoringplays" in u for u in self.mlb_calls))
 
     def test_outages_are_quiet_and_retried(self) -> None:
-        state = self.base_state(bounties_week=1, bounties={"hat_trick_through": "2026-10-12"})
+        state = self.base_state(bounties_week=1, bounties={"feat_through": "2027-04-12"})
         self.state_path.write_text(json.dumps(state))
-        fx = FakeFantrax(2, rosters=HatTrickTests.rosters, players=PLAYERS)
-        d = self.make(fx, state, fail_scores=True)
+        d = self.make(self.fantrax(2, rosters=fx.rosters(), players=fx.player_ids()), state, fail_scores=True)
         out = io.StringIO()
         with patch.object(desk, "send_discord_webhook", lambda s, p: (True, "delivered", "1")), redirect_stdout(out):
-            self.assertEqual(desk.run("live", ["bounties"], None, False, desk=d, now=et(2026, 10, 15, 8)), 0)
-        self.assertIn("hat-trick check: NHL scores for 2026-10-13 could not be read", out.getvalue())
-        self.assertEqual(self.state()["bounties"]["hat_trick_through"], "2026-10-12")
+            self.assertEqual(desk.run("live", ["bounties"], None, False, desk=d, now=fx.et(2027, 4, 15, 8)), 0)
+        self.assertIn("multi-homer check: MLB scores for 2027-04-13 could not be read", out.getvalue())
+        self.assertEqual(self.state()["bounties"]["feat_through"], "2027-04-12")
         # Fantrax rosters down: same, nothing advances, no error.
-        down = self.make(FakeFantrax(2), self.state())
+        down = self.make(self.fantrax(2), self.state())
         with redirect_stdout(io.StringIO()):
-            self.assertEqual(desk.run("live", ["bounties"], None, False, desk=down, now=et(2026, 10, 15, 20)), 0)
-        self.assertEqual(self.state()["bounties"]["hat_trick_through"], "2026-10-12")
+            self.assertEqual(desk.run("live", ["bounties"], None, False, desk=down, now=fx.et(2027, 4, 15, 20)), 0)
+        self.assertEqual(self.state()["bounties"]["feat_through"], "2027-04-12")
 
     def test_no_daily_fantrax_reread_for_team_bounties(self) -> None:
-        state = self.base_state(recap_week=2, bounties_week=2, bounties={"hat_trick_through": "2026-10-13"})
-        d = self.make(FakeFantrax(2, rosters={"rosters": {"t": {"rosterItems": []}}}, players={}), state)
+        state = self.base_state(recap_week=2, bounties_week=2, bounties={"feat_through": "2027-04-13"})
+        d = self.make(self.fantrax(2, rosters={"rosters": {"t": {"rosterItems": []}}}, players={}), state)
         d.mode, d.live_state = "live", state
         with patch.object(d, "season_weeks", side_effect=AssertionError("re-read every week")) as reread:
-            self.assertIsNone(d.build("bounties", 2, et(2026, 10, 15, 8)))
+            self.assertIsNone(d.build("bounties", 2, fx.et(2027, 4, 15, 8)))
             self.assertFalse(reread.called)
 
     def test_preview_board(self) -> None:
-        d = self.make(FakeFantrax(3))
-        self.assertEqual(d.default_week("bounties", et(2026, 10, 20, 8)), 3)
-        body = d.build("bounties", 3, et(2026, 10, 20, 8))
+        d = self.make(self.fantrax(3))
+        self.assertEqual(d.default_week("bounties", fx.et(2027, 4, 20, 8)), 3)
+        body = d.build("bounties", 3, fx.et(2027, 4, 20, 8))
         embed = body["embeds"][0]
         self.assertEqual(embed["title"], "DBL Bounty Board")
         board = embed["fields"][0]["value"]
-        for title in ("First Hat Trick", "The 375 Club", "Six Straight", "Six Thousand"):
+        for title in ("First Multi-Homer Game", "The 450 Club", "Six Straight", "Eight Thousand"):
             self.assertIn(f"**{title}**", board)
         self.assertIn("Leader: **", board)
         self.assertFalse(self.state_path.exists())
 
     def test_plan(self) -> None:
         comp = COMP | {"bounties": load_league()["competition"]["bounties"]}
-        rows = FakeFantrax(2).rows
+        rows = self.fantrax(2).rows
         base = self.base_state(recap_week=2, awards_week=2, rankings_week=2, standings_week=2, preview_week=3,
                                games_week=3)
 
         def plan(state: dict, now: datetime) -> list[tuple[str, int]]:
-            return items(desk.plan_report(INFO, rows, state, now, ET, comp))
+            return items(desk.plan_report(MLB_INFO, rows, state, now, ET, comp))
 
-        self.assertEqual(plan(base, et(2026, 10, 15, 8)), [("bounties", 2)])
-        checked = base | {"bounties_week": 2, "bounties": {"hat_trick_through": "2026-10-14"}}
-        self.assertEqual(plan(checked, et(2026, 10, 15, 8)), [])
-        self.assertEqual(plan(checked, et(2026, 10, 16, 8)), [("bounties", 2)])   # Thursday night to check
+        self.assertEqual(plan(base, fx.et(2027, 4, 15, 8)), [("bounties", 2)])
+        checked = base | {"bounties_week": 2, "bounties": {"feat_through": "2027-04-14"}}
+        self.assertEqual(plan(checked, fx.et(2027, 4, 15, 8)), [])
+        self.assertEqual(plan(checked, fx.et(2027, 4, 16, 8)), [("bounties", 2)])   # Thursday to check
         all_claimed = checked | {"bounties": {"claimed": {b["id"]: {} for b in comp["bounties"]}}}
-        self.assertEqual(plan(all_claimed, et(2026, 10, 19, 8)).count(("bounties", 3)), 0)
-        # Before Week 1 is final only the hat-trick check can be due.
-        self.assertEqual(plan({"preview_week": 1}, et(2026, 10, 1, 8)), [("bounties", 0)])
-        self.assertEqual(items(desk.plan_report(INFO, rows, base, et(2026, 10, 15, 8), ET, COMP)), [])
+        self.assertEqual(plan(all_claimed, fx.et(2027, 4, 19, 8)).count(("bounties", 3)), 0)
+        # Before Week 1 is final only the multi-homer check can be due.
+        self.assertEqual(plan({"preview_week": 1}, fx.et(2027, 3, 26, 8)), [("bounties", 0)])
+        self.assertEqual(items(desk.plan_report(MLB_INFO, rows, base, fx.et(2027, 4, 15, 8), ET, COMP)), [])
 
 
 class AllItemsTests(DeskBase):
     def test_every_item_previews_and_tests(self) -> None:
-        rosters, players = rosters_for(INFO, 3, ["CHI", "TOR"])
+        rosters, players = rosters_for(MLB_INFO, 3, ["NYY", "KC"])
         out = io.StringIO()
         with redirect_stdout(out):
             self.assertEqual(desk.run("preview", ["monthly", "bounties", "preview"], 3, False,
-                                      desk=self.make(FakeFantrax(3, rosters=rosters, players=players))), 0)
+                                      desk=self.make(FakeFantrax(3, rosters=rosters, players=players,
+                                                                 info=MLB_INFO))), 0)
         text = out.getvalue()
         for item in ("monthly", "bounties", "preview"):
             self.assertIn(f"PREVIEW {item} week 3", text)
@@ -876,10 +915,10 @@ class AllItemsTests(DeskBase):
         with patch.object(desk, "send_discord_webhook",
                           lambda s, p: (sent.append(p["embeds"][0]["title"]) or (True, "delivered", "1"))), \
                 redirect_stdout(io.StringIO()):
-            d = self.make(FakeFantrax(3))
+            d = self.make(FakeFantrax(3, info=MLB_INFO))
             d.ctx.test = True
             self.assertEqual(desk.run("test", ["monthly", "bounties"], 3, False, desk=d), 0)
-        self.assertEqual(sent, ["[TEST] DBL Monthly Awards — October 2026 (Month to Date)", "[TEST] DBL Bounty Board"])
+        self.assertEqual(sent, ["[TEST] DBL Monthly Awards — April 2027 (Month to Date)", "[TEST] DBL Bounty Board"])
         self.assertFalse(self.state_path.exists())
 
     def test_workflow_offers_the_new_items(self) -> None:

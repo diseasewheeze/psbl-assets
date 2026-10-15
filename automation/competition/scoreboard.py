@@ -6,8 +6,9 @@
   Edits do not notify members, so the channel stays quiet but current.
 - When the week's games are done (6 AM on the day it ends), the message gets
   one last edit marking it Final, and it stays in the channel as the record.
-- Each team shows its goalie starts against the week's cap: 4 per calendar
-  week (9.2), so 8 in a two-week period such as the Championship (9.3).
+- Each team shows its credited pitcher starts against the week's cap:
+  core/sport.py PITCHER_STARTS_PER_WEEK per calendar week (7, Article IX
+  9.2), so 14 in a two-week period such as the Championship (9.3).
 
 Modes:
   preview  print the current scoreboard payload; no Discord, no state change
@@ -40,7 +41,7 @@ STATE_PATH = ROOT / "state" / "scoreboard.json"
 
 
 def _starts(team: dict) -> float | None:
-    return (team.get("categories") or {}).get("GS")
+    return (team.get("categories") or {}).get(render.STARTS_CATEGORY)
 
 
 def fingerprint(week: int, rows: list[dict], final: bool) -> str:
@@ -80,7 +81,6 @@ def run(mode: str, week_override: int | None) -> int:
     now = datetime.now(timezone.utc)
     comp = cfg.get("competition") or {}
     secret = str((comp.get("webhooks") or {}).get("scoreboard") or "LEAGUE_WEBHOOK_SCOREBOARD")
-    per_week = int(comp.get("goalie_starts_per_week") or season.GOALIE_STARTS_PER_WEEK)
     fx = Fantrax(str(cfg["league_id"]), user_agent="DBL-Scoreboard/2.0")
     info = fx.league_info()
     _, first_playoff, _ = season.playoff_settings(info)
@@ -98,7 +98,7 @@ def run(mode: str, week_override: int | None) -> int:
             raise ValueError(f"Fantrax has no week {week}")
         rows = fx.matchup_scores(week)
         body = render.scoreboard(ctx, p, rows, final=final, playoffs=week >= first_playoff,
-                                 goalie_cap=season.goalie_start_cap(p, per_week))
+                                 start_cap=render.start_cap(p))
         return body, fingerprint(week, rows, final)
 
     if mode in ("preview", "test"):

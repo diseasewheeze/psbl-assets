@@ -13,7 +13,7 @@ league.yaml), posts in order:
 6. Matchup preview for the week that starts that evening, with each
    matchup's projected games (schedule edge, edge.py) when rosters are filled
    (scoreboard channel)
-7. NHL games grid for that week, for planning daily lineups (scoreboard channel)
+7. MLB games grid for that week, for planning daily lineups (scoreboard channel)
 8. The Wooden Spoon for the last-place franchise, once, with the final
    regular-season standings (📰│weekly-recap; competition.wooden_spoon)
 
@@ -23,13 +23,13 @@ Also in 📰│weekly-recap, right after the power rankings:
   first week ending in a new month is reported, for the month before; the
   season's last month goes out with the final regular-season week.
 - Bounty claims (bounties.py; competition.bounties), each announced once per
-  Season. Team bounties are checked when a week is final; the hat-trick bounty
-  is checked every run against the NHL scores of nights not checked yet, so a
-  claim goes out the morning after.
+  Season. Team bounties are checked when a week is final; the multi-homer
+  bounty is checked every run against the MLB scoring plays of days not
+  checked yet, so a claim goes out the morning after.
 
 All-play, awards, power rankings (with the Luck Index), monthly awards and
 team bounties are computed from Fantrax matchup scores (see weekly.py); the
-games grid reads the NHL schedule API (dbl/nhl.py).
+games grid and the schedule edge read the MLB schedule (core/mlb.py).
 
 Standings and the playoff race wait until Fantrax has counted the finished
 week in its standings. If Fantrax is not ready at 8:00 AM, those two go out
@@ -62,9 +62,9 @@ import bounties  # noqa: E402
 import edge  # noqa: E402
 import monthly  # noqa: E402
 import render  # noqa: E402
-import roster  # noqa: E402  (wire/roster.py: match NHL scorers to DBL rosters)
+import roster  # noqa: E402  (wire/roster.py: match MLB players to DBL rosters)
 import weekly  # noqa: E402
-from core import nhl, season  # noqa: E402
+from core import mlb, season  # noqa: E402
 from core.fantrax import Fantrax, games_counted, schedule_for  # noqa: E402
 from core.league import color_value, load_json, load_league, save_json, timezone_of  # noqa: E402
 from discord_webhook import send_discord_webhook  # noqa: E402
@@ -140,25 +140,29 @@ def bounties_due(
     done_week: int,
 ) -> bool:
     """Whether an open bounty has something new to check: a newly final week
-    (team bounties) or a finished NHL night (the hat-trick bounty)."""
+    (team bounties) or a finished MLB game day (the multi-homer bounty)."""
     configured, _ = bounties.load_bounties(comp)
     saved = bounty_state(state)
     still_open = [b for b in configured if b.id not in saved["claimed"]]
     if done_week and int(state.get("bounties_week") or 0) < done_week and any(
             b.type in bounties.TEAM_TYPES for b in still_open):
         return True
-    if any(b.type == bounties.PLAYER_HAT_TRICK for b in still_open):
+    if any(b.type == bounties.PLAYER_MULTI_HOMER for b in still_open):
         last_regular, _, _ = season.playoff_settings(info)
-        return bool(bounties.nights_to_check(info, tz, now, last_regular, saved["hat_trick_through"], limit=1))
+        return bool(bounties.nights_to_check(info, tz, now, last_regular, saved["feat_through"], limit=1))
     return False
 
 
 def bounty_state(state: dict[str, Any]) -> dict[str, Any]:
-    """The saved bounty state: {"claimed": {id: claim}, "hat_trick_through": "YYYY-MM-DD" | None}."""
+    """The saved bounty state: {"claimed": {id: claim}, "feat_through": "YYYY-MM-DD" | None}.
+
+    feat_through is the last MLB game day checked for the player bounty
+    (saved as hat_trick_through before the league moved to baseball).
+    """
     raw = state.get("bounties") if isinstance(state.get("bounties"), dict) else {}
     claimed = raw.get("claimed") if isinstance(raw.get("claimed"), dict) else {}
-    through = raw.get("hat_trick_through")
-    return {"claimed": claimed, "hat_trick_through": str(through) if through else None}
+    through = raw.get("feat_through") or raw.get("hat_trick_through")
+    return {"claimed": claimed, "feat_through": str(through) if through else None}
 
 
 def _report_time(comp: dict[str, Any]) -> time:
@@ -226,7 +230,7 @@ def plan_report(
             else:
                 plan.notes.append("playoff race waits for standings")
     elif bounties_due(info, state, now, tz, comp, 0):
-        plan.posts.append(Plan("bounties", 0))  # Week 1 not final yet: hat-trick check only
+        plan.posts.append(Plan("bounties", 0))  # Week 1 not final yet: multi-homer check only
 
     upcoming = season.upcoming_period(info, now, tz)
     if upcoming and upcoming.number <= last_regular:
@@ -277,7 +281,7 @@ class Desk:
         test: bool = False,
         fx: Any = None,
         saved_state: dict[str, Any] | None = None,
-        nhl_get: Any = None,
+        mlb_get: Any = None,
     ) -> None:
         self.cfg = cfg
         self.comp = cfg.get("competition") or {}
@@ -295,7 +299,7 @@ class Desk:
         self._scores: dict[int, list[dict]] = {}
         # Read-only copy of saved state: last week's power rankings.
         self.saved_state = saved_state if saved_state is not None else load_json(STATE_PATH, {})
-        self.nhl_get = nhl_get
+        self.mlb_get = mlb_get
         self.ranks: dict[int, dict[str, int]] = {}
         # Set by run(): "preview", "test" or "live", and in live mode the state
         # being written (bounty claims are read from it).
@@ -303,7 +307,7 @@ class Desk:
         self.live_state: dict[str, Any] | None = None
         self.bounty_update: dict[str, Any] | None = None
         self.notes: list[str] = []
-        self._nhl: dict[tuple, list] = {}
+        self._mlb: dict[tuple, list] = {}
         self._rosters: dict[str, Any] | None = None
         self._players: dict[str, Any] | None = None
 
@@ -334,11 +338,12 @@ class Desk:
 
     # --- Shared reads (each fetched once per run) ---------------------------------
 
-    def nhl_schedule(self, p: season.Period) -> list[nhl.Game]:
+    def mlb_schedule(self, p: season.Period) -> list[mlb.Game]:
+        """The period's MLB games with probable starters (one request, cached)."""
         first, last = p.start.astimezone(self.tz).date(), p.end.astimezone(self.tz).date()
-        if (first, last) not in self._nhl:
-            self._nhl[(first, last)] = nhl.fetch_schedule(first, last, self.tz, self.nhl_get)
-        return self._nhl[(first, last)]
+        if (first, last) not in self._mlb:
+            self._mlb[(first, last)] = mlb.fetch_schedule(first, last, self.mlb_get, hydrate=mlb.PROBABLES)
+        return self._mlb[(first, last)]
 
     def roster_data(self) -> dict[str, Any]:
         if self._rosters is None:
@@ -358,16 +363,19 @@ class Desk:
 
     # --- Schedule edge (matchup preview) ------------------------------------------
 
-    def goalie_cap(self, p: season.Period) -> int:
-        return season.goalie_start_cap(p, int(self.comp.get("goalie_starts_per_week") or season.GOALIE_STARTS_PER_WEEK))
+    def start_cap(self, p: season.Period) -> int:
+        return render.start_cap(p)
 
     def light_max(self) -> int:
-        return int(self.comp.get("light_night_max_teams") or nhl.LIGHT_NIGHT_MAX_TEAMS)
+        return int(self.comp.get("light_day_max_teams") or mlb.LIGHT_DAY_MAX_TEAMS)
+
+    def heavy_min(self) -> int:
+        return int(self.comp.get("heavy_day_min_teams") or mlb.HEAVY_DAY_MIN_TEAMS)
 
     def schedule_edge(self, p: season.Period) -> dict[str, edge.Projection] | None:
         """teamId -> projected games for the week, or None to leave the line out.
 
-        Never raises: an empty roster, a Fantrax error or an NHL schedule error
+        Never raises: an empty roster, a Fantrax error or an MLB schedule error
         only drops the projection from the preview.
         """
         try:
@@ -378,10 +386,10 @@ class Desk:
             if not squads:
                 self.notes.append("schedule edge left out: no lineup players found")
                 return None
-            found = edge.projections(squads, self.nhl_schedule(p), p.start, p.end, self.tz,
-                                     goalie_cap=self.goalie_cap(p), light_max=self.light_max())
+            found = edge.projections(squads, self.mlb_schedule(p), p.start, p.end, self.tz,
+                                     start_cap=self.start_cap(p), light_max=self.light_max())
             if not found:
-                self.notes.append("schedule edge left out: no NHL regular-season games this week")
+                self.notes.append("schedule edge left out: no MLB regular-season games this week")
             return found or None
         except Exception as exc:
             self.notes.append(f"schedule edge left out: {exc}")
@@ -404,27 +412,27 @@ class Desk:
 
     # --- Bounties -------------------------------------------------------------------
 
-    def hat_trick_check(self, bounty: bounties.Bounty, now: datetime, through: str | None) -> bounties.HatTrickCheck:
+    def feat_check(self, bounty: bounties.Bounty, now: datetime, through: str | None) -> bounties.FeatCheck:
         nights = bounties.nights_to_check(self.info, self.tz, now, self.last_regular, through)
         if not nights:
-            return bounties.HatTrickCheck()
+            return bounties.FeatCheck()
         try:
             if self.rosters_empty():
-                # Nobody is rostered, so nobody can be credited for these nights.
-                return bounties.HatTrickCheck(checked_through=nights[-1])
-            index = roster.build_index(self.roster_data(), self.player_directory())
+                # Nobody is rostered, so nobody can be credited for these days.
+                return bounties.FeatCheck(checked_through=nights[-1])
+            index = roster.build_index(self.roster_data(), mlb.normalize_directory(self.player_directory()))
         except Exception as exc:
-            self.notes.append(f"hat-trick check skipped, Fantrax rosters unavailable: {exc}")
-            return bounties.HatTrickCheck()
+            self.notes.append(f"multi-homer check skipped, Fantrax rosters unavailable: {exc}")
+            return bounties.FeatCheck()
 
         def owner_of(name: str, team: str) -> tuple[str, str] | None:
             player = index.match(name, team)
             return (player.owner_id, player.owner_name) if player else None
 
-        get = self.nhl_get or nhl.http_get_json
-        check = bounties.find_hat_trick(bounty, nights, lambda night: get(nhl.SCORE_URL.format(date=night.isoformat())),
-                                        owner_of)
-        self.notes.extend(f"hat-trick check: {note}" for note in check.notes)
+        get = self.mlb_get or mlb.http_get_json
+        check = bounties.find_multi_homer(bounty, nights,
+                                          lambda night: get(mlb.schedule_url(night, night, mlb.SCORES)), owner_of)
+        self.notes.extend(f"multi-homer check: {note}" for note in check.notes)
         return check
 
     def bounty_post(self, week: int, now: datetime) -> dict[str, Any] | None:
@@ -449,40 +457,37 @@ class Desk:
             fresh = bounties.team_claims([b for b in still_open if b.type in bounties.TEAM_TYPES],
                                          self.season_weeks(week), long_weeks)
 
-        through = saved["hat_trick_through"]
-        hat = next((b for b in still_open if b.type == bounties.PLAYER_HAT_TRICK), None)
-        if hat:
-            check = self.hat_trick_check(hat, now, through)
+        through = saved["feat_through"]
+        feat = next((b for b in still_open if b.type == bounties.PLAYER_MULTI_HOMER), None)
+        if feat:
+            check = self.feat_check(feat, now, through)
             if check.checked_through:
                 through = check.checked_through.isoformat()
             if check.claim:
-                fresh[hat.id] = check.claim
+                fresh[feat.id] = check.claim
         for claim in fresh.values():
             claim.claimed_at = now.isoformat()
 
         everything = {**claimed, **fresh}
-        self.bounty_update = {"claimed": {k: c.to_dict() for k, c in everything.items()}, "hat_trick_through": through}
+        self.bounty_update = {"claimed": {k: c.to_dict() for k, c in everything.items()}, "feat_through": through}
         shown = fresh if self.mode == "live" else everything
         pairs = [(b, shown[b.id]) for b in configured if b.id in shown]
         if self.mode == "live" and not pairs:
             return None
-        # Read lazily: a daily hat-trick check with nothing new never re-reads every week.
+        # Read lazily: a daily multi-homer check with nothing new never re-reads every week.
         weeks = self.season_weeks(week) if week >= 1 else {}
         open_now = [(b, bounties.progress(b, weeks, long_weeks)) for b in configured if b.id not in everything]
         return render.bounties(self.ctx, pairs, open_now,
-                               nhl_data=any(b.type == bounties.PLAYER_HAT_TRICK for b, _ in pairs))
+                               mlb_data=any(b.type == bounties.PLAYER_MULTI_HOMER for b, _ in pairs))
 
     def games_grid(self, p: season.Period) -> dict[str, Any] | None:
-        games = self.nhl_schedule(p)
+        games = self.mlb_schedule(p)
         if not games:
-            raise ValueError("the NHL schedule API returned no games at all; its response shape may have changed")
-        grid = nhl.week_grid(
-            games, p.start, p.end, self.tz,
-            light_max=int(self.comp.get("light_night_max_teams") or nhl.LIGHT_NIGHT_MAX_TEAMS),
-            heavy_min=int(self.comp.get("heavy_night_min_teams") or nhl.HEAVY_NIGHT_MIN_TEAMS),
-        )
+            raise ValueError("the MLB schedule returned no games at all for this week; is it the offseason, "
+                             "or did the response shape change?")
+        grid = mlb.week_grid(games, p.start, p.end, self.tz, light_max=self.light_max(), heavy_min=self.heavy_min())
         if not grid.total_games:
-            return None  # e.g. a preseason test week: no regular-season games
+            return None  # e.g. a spring-training test week: no regular-season games
         return render.games_grid(self.ctx, p, grid)
 
     def build(self, item: str, week: int, now: datetime) -> dict[str, Any] | None:
@@ -530,7 +535,7 @@ class Desk:
                 records = records_with_week(self.rows, self.scores(needed))
                 ranks_shown = False
             return render.preview(self.ctx, p, pairs, records, ranks_shown=ranks_shown,
-                                  projections=self.schedule_edge(p), goalie_cap=self.goalie_cap(p),
+                                  projections=self.schedule_edge(p), start_cap=self.start_cap(p),
                                   light_max=self.light_max())
         if item == "games":
             return self.games_grid(p)
@@ -619,7 +624,7 @@ def run(
             desk.notes.clear()
 
         if payload is None:
-            print(f"SKIPPED {label}: nothing to post (no scores yet, or no NHL regular-season games)")
+            print(f"SKIPPED {label}: nothing to post (no scores yet, or no MLB regular-season games)")
             if mode == "live":
                 record_post(state, desk, post, now)
             continue

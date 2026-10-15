@@ -21,12 +21,12 @@ Types (regular-season weeks only; weeks where nobody scored are ignored):
   team_win_streak     first franchise to win ``threshold`` head-to-head
                       matchups in a row (a tie ends a streak; if several get
                       there the same week, the higher score that week)
-  player_hat_trick    first NHL regular-season game in which a player on a
-                      DBL roster scores ``threshold`` goals (3 = a hat trick;
-                      shootout goals do not count). Read from the NHL score
-                      API night by night, the morning after; the franchise
-                      that rosters the player at that check gets the credit.
-                      Skipped quietly when Fantrax or the NHL cannot be read.
+  player_multi_homer  first MLB regular-season game in which a player on a
+                      DBL roster hits ``threshold`` home runs (2 = a
+                      multi-homer game). Read from the MLB schedule's scoring
+                      plays day by day, the morning after; the franchise that
+                      rosters the player at that check gets the credit.
+                      Skipped quietly when Fantrax or MLB cannot be read.
 
 An exact tie on the deciding figure is shared. Claims are saved in the
 Competition Desk state, so each bounty is announced once per Season (the
@@ -41,21 +41,21 @@ from datetime import date, datetime, timedelta
 from typing import Any, Callable
 from zoneinfo import ZoneInfo
 
-from core import nhl, season
+from core import mlb, season
 from monthly import last_night
 from weekly import latest_names, real_matchups, real_weeks, teams
 
 TEAM_SEASON_POINTS = "team_season_points"
 TEAM_WEEK_POINTS = "team_week_points"
 TEAM_WIN_STREAK = "team_win_streak"
-PLAYER_HAT_TRICK = "player_hat_trick"
-TYPES = (TEAM_SEASON_POINTS, TEAM_WEEK_POINTS, TEAM_WIN_STREAK, PLAYER_HAT_TRICK)
+PLAYER_MULTI_HOMER = "player_multi_homer"
+TYPES = (TEAM_SEASON_POINTS, TEAM_WEEK_POINTS, TEAM_WIN_STREAK, PLAYER_MULTI_HOMER)
 TEAM_TYPES = (TEAM_SEASON_POINTS, TEAM_WEEK_POINTS, TEAM_WIN_STREAK)
 
 DEFAULT_REWARD = "🎯 Bounty Hunter role for the Season"
 NOT_COSMETIC = re.compile(r"faab|\$|\bpicks?\b|\bdraft|\bcash\b|\bmoney\b|\bdues\b|\bwaiver|\bbudget\b|\broster spot", re.I)
-# NHL score requests per run at most (one per night). Each run normally has one
-# new night to check; this only limits catching up after an outage.
+# MLB schedule requests per run at most (one per day). Each run normally has
+# one new day to check; this only limits catching up after an outage.
 MAX_NIGHTS_PER_RUN = 7
 EPSILON = 1e-9
 
@@ -113,7 +113,7 @@ class Claim:
     teams: list[dict[str, str]]  # [{"teamId", "teamName"}]; more than one = shared
     detail: str
     week: int = 0
-    night: str = ""              # player_hat_trick: the NHL date (YYYY-MM-DD)
+    night: str = ""              # player_multi_homer: the MLB game date (YYYY-MM-DD)
     claimed_at: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -262,10 +262,10 @@ def progress(bounty: Bounty, weeks: dict[int, list[dict]], long_weeks: set[int] 
     return f"Longest active streak: {who(leaders)} — {longest}"
 
 
-# --- Hat trick (NHL score API) -----------------------------------------------------
+# --- Multi-homer game (MLB scoring plays) ---------------------------------------------
 
 def regular_season_nights(info: dict[str, Any], tz: ZoneInfo, last_regular: int) -> tuple[date, date] | None:
-    """First and last NHL night inside the DBL regular season (local dates).
+    """First and last MLB game day inside the DBL regular season (local dates).
 
     The last night is the final regular-season week's ``monthly.last_night``.
     """
@@ -283,7 +283,7 @@ def nights_to_check(
     through: str | None,
     limit: int = MAX_NIGHTS_PER_RUN,
 ) -> list[date]:
-    """Finished regular-season nights after ``through`` (YYYY-MM-DD), oldest first."""
+    """Finished regular-season game days after ``through`` (YYYY-MM-DD), oldest first."""
     span = regular_season_nights(info, tz, last_regular)
     if not span:
         return []
@@ -308,53 +308,54 @@ def _day(d: date) -> str:
 
 
 @dataclass
-class HatTrickCheck:
+class FeatCheck:
     claim: Claim | None = None
-    checked_through: date | None = None   # last night fully checked
+    checked_through: date | None = None   # last day fully checked
     notes: list[str] = field(default_factory=list)
 
 
-def find_hat_trick(
+def find_multi_homer(
     bounty: Bounty,
     nights: list[date],
     fetch: Callable[[date], Any],
     owner_of: Callable[[str, str], tuple[str, str] | None],
-) -> HatTrickCheck:
-    """Check nights in order for the bounty's first multi-goal game.
+) -> FeatCheck:
+    """Check days in order for the bounty's first multi-homer game.
 
-    ``fetch(night)`` returns the raw /v1/score/{night} response;
-    ``owner_of(name, nhl_team)`` returns (teamId, teamName) of the DBL
-    franchise that rosters that player, or None (not rostered or ambiguous).
-    Stops at a night that cannot be read or still has a game in progress, so
-    that night is checked again on the next run.
+    ``fetch(day)`` returns the raw MLB schedule for that day with its scoring
+    plays (mlb.SCORES); ``owner_of(name, club)`` returns (teamId, teamName) of
+    the DBL franchise that rosters that player, or None (not rostered or
+    ambiguous). Stops at a day that cannot be read or still has a game in
+    progress, so that day is checked again on the next run. A suspended game
+    does not hold the check up: its home runs count once it is completed.
     """
-    result = HatTrickCheck()
+    result = FeatCheck()
     need = int(round(bounty.threshold))
     for night in nights:
         try:
-            games = nhl.parse_scores(fetch(night))
+            games = mlb.parse_schedule(fetch(night))
         except Exception as exc:  # network, HTTP or shape problems: try again next run
-            result.notes.append(f"NHL scores for {night.isoformat()} could not be read: {exc}")
+            result.notes.append(f"MLB scores for {night.isoformat()} could not be read: {exc}")
             return result
-        regular = [g for g in games if g.game_type == nhl.REGULAR_SEASON]
-        if any(g.state in nhl.IN_PROGRESS_STATES for g in regular):
-            result.notes.append(f"NHL games on {night.isoformat()} are still in progress")
+        regular = [g for g in mlb.regular_season(games) if g.day == night]
+        if any(g.live for g in regular):
+            result.notes.append(f"MLB games on {night.isoformat()} are still in progress")
             return result
         found = []
         for game in regular:
-            if not game.finished:
+            if not game.final:
                 continue
-            for multi in nhl.multi_goal_games(game, need):
-                owner = owner_of(multi.goal.name, multi.goal.team)
+            for multi in mlb.multi_homer_games(game, need):
+                owner = owner_of(multi.batter.name, multi.team)
                 if owner:
                     start = game.start.timestamp() if game.start else float("inf")
-                    found.append((start, multi.order, multi, owner))
+                    found.append((start, game.game_number, multi.order, multi, owner))
         result.checked_through = night
         if found:
-            _, _, multi, (team_id, team_name) = min(found, key=lambda x: (x[0], x[1]))
-            team = multi.goal.team or "?"
-            detail = (f"{multi.goal.name} ({team}): {multi.goals} goals against "
-                      f"{multi.game.opponent(team) or '?'} on {_day(night)}")
+            _, _, _, multi, (team_id, team_name) = min(found, key=lambda x: x[:3])
+            runs = "home run" if multi.homers == 1 else "home runs"
+            detail = (f"{multi.batter.name} ({multi.team}): {multi.homers} {runs} against "
+                      f"{multi.game.opponent(multi.team)} on {_day(night)}")
             result.claim = Claim(bounty.id, [{"teamId": team_id, "teamName": team_name}], detail,
                                  night=night.isoformat())
             return result

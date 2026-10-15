@@ -58,9 +58,11 @@ written in the shapes above.
 
 from __future__ import annotations
 
+import re
+import unicodedata
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import date, datetime, time, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Any, Callable, Iterable
 from urllib.parse import urlencode
 from zoneinfo import ZoneInfo
@@ -125,6 +127,17 @@ def team_code(value: Any) -> str:
     if upper in ALIASES:
         return ALIASES[upper]
     return _BY_NAME.get(text.lower(), "")
+
+
+def normalize_directory(players: Any) -> dict[str, Any]:
+    """A copy of Fantrax's getPlayerIds with each player's club written as MLB
+    writes it ("" when unknown), so matching a player by name and club works
+    whichever spelling Fantrax uses."""
+    out: dict[str, Any] = {}
+    for key, raw in (players or {}).items() if isinstance(players, dict) else []:
+        if isinstance(raw, dict):
+            out[key] = {**raw, "team": team_code(raw.get("team"))}
+    return out
 
 
 def _team(raw: Any) -> tuple[str, str]:
@@ -443,7 +456,7 @@ def probable_starts(games: Iterable[Game]) -> dict[int, tuple[str, Person, list[
 @dataclass
 class WeekGrid:
     games_by_team: dict[str, int]
-    days: list[tuple[date, int]]                    # (day, clubs playing), days inside the period
+    days: list[tuple[date, int, int]]               # (day, clubs playing, games), game days in the period
     off_days: list[tuple[date, list[str]]]          # (day, clubs with no game that day)
     doubleheaders: list[tuple[date, Game]]          # the first game of each doubleheader
     postponed: list[Game]
@@ -459,12 +472,12 @@ class WeekGrid:
         return [(count, sorted(groups[count])) for count in sorted(groups, reverse=True)]
 
     @property
-    def light_days(self) -> list[tuple[date, int]]:
-        return [(day, teams) for day, teams in self.days if teams <= self.light_max]
+    def light_days(self) -> list[tuple[date, int, int]]:
+        return [d for d in self.days if d[1] <= self.light_max]
 
     @property
-    def heavy_days(self) -> list[tuple[date, int]]:
-        return [(day, teams) for day, teams in self.days if teams >= self.heavy_min]
+    def heavy_days(self) -> list[tuple[date, int, int]]:
+        return [d for d in self.days if d[1] >= self.heavy_min]
 
 
 def week_grid(
@@ -486,8 +499,10 @@ def week_grid(
     played = [g for g in week if g.played]
     counts: dict[str, int] = {team: 0 for team in CODES}
     by_day: dict[date, set[str]] = defaultdict(set)
+    games_per_day: dict[date, int] = defaultdict(int)
     per_team_day: dict[tuple[str, date], list[Game]] = defaultdict(list)
     for game in played:
+        games_per_day[game.day] += 1
         for team in game.teams:
             counts[team] = counts.get(team, 0) + 1
             by_day[game.day].add(team)
@@ -510,7 +525,7 @@ def week_grid(
     two_start.sort(key=lambda x: (x[0], x[1].name))
     return WeekGrid(
         games_by_team=counts,
-        days=[(day, len(by_day[day])) for day in days if day in by_day],
+        days=[(day, len(by_day[day]), games_per_day[day]) for day in days if day in by_day],
         off_days=[(day, teams) for day, teams in off if teams and len(teams) < len(CODES)],
         doubleheaders=doubleheaders,
         postponed=[g for g in week if not g.played],
@@ -677,5 +692,16 @@ def last_name(name: str) -> str:
     return " ".join(words[cut:])
 
 
-def local_day_start(day: date, tz: ZoneInfo) -> datetime:
-    return datetime.combine(day, time(0), tzinfo=tz).astimezone(timezone.utc)
+def name_key(name: Any) -> str:
+    """A player's name for matching: "Last, First" or "First Last", accents,
+    case, punctuation and Jr./Sr./II-IV suffixes ignored ("Julio Rodríguez" and
+    "Rodriguez, Julio" match)."""
+    text = str(name or "").strip()
+    if text.count(",") == 1:
+        last, first = (part.strip() for part in text.split(",", 1))
+        if last and first:
+            text = f"{first} {last}"
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(ch for ch in text if not unicodedata.combining(ch)).lower().replace("’", "'")
+    text = re.sub(r"\b(jr|sr|ii|iii|iv)\.?(?=\s|$)", "", text)
+    return re.sub(r"[^a-z0-9]+", " ", text).strip()

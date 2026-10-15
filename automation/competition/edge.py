@@ -1,77 +1,73 @@
 """Schedule edge for the Monday matchup preview: projected games per franchise.
 
-For every NHL game night in a Fantrax week, each franchise's active lineup is
-filled from its rostered players whose NHL team plays that night:
+For every MLB game day in a Fantrax week, each franchise's lineup is filled
+from its rostered players whose MLB club plays that day:
 
-  - slots: 3 C, 3 LW, 3 RW, 3 F (any forward), 6 D, 2 G (Constitution 6.2);
+  - hitter slots: the league lineup (automation/core/sport.py: LINEUP and
+    HITTER_SLOTS, 1 C, 1 1B, 1 2B, 1 3B, 1 SS, 3 OF, 2 UTIL), each taking a
+    player whose positions it accepts (sport.SLOT_ACCEPTS);
   - who counts: players on the ACTIVE or RESERVE part of the roster. MINORS
     and IR players are left out;
   - positions: the player's Fantrax positions (getPlayerIds, comma-separated
     when he has more than one) plus his roster slot;
-  - skater slots are filled as fully as possible: a maximum matching, so a
-    multi-position player goes wherever he lets the most players start;
-  - goalies: up to 2 a night, one per NHL game (two goalies from the same NHL
-    team cannot both start), and the week's total is capped at the credited
-    goalie starts: 4 per calendar week, 8 for a two-week period (9.2, 9.3).
+  - hitter slots are filled as fully as possible, and a club's doubleheader
+    counts twice, so players with two games that day are placed first (a
+    maximum matching; placing the most games first gives the most games);
+  - starting pitchers: a start counts when MLB has announced the pitcher as
+    his club's probable starter that day (matched by name and club; usually
+    known only a few days ahead), at most the SP slots a day, and the week's
+    total is capped at the credited starts: sport.PITCHER_STARTS_PER_WEEK per
+    calendar week, so 14 for the two-week Championship (Article IX);
+  - relief pitchers are left out: their appearances cannot be known ahead.
 
-Projected games = the filled slots summed over the week. Light-night games =
-the same count on light nights only (nights when few NHL teams play, as in the
-NHL games grid). This is the most a manager could start with the current
-roster; it says nothing about how good the players are.
+Projected games = hitter games + probable starts. Light-day games = the same
+count on light days only (days when few MLB clubs play, as in the MLB games
+grid). This is the most a manager could start with the current roster; it
+says nothing about how good the players are.
 
-A player whose NHL team is missing, or does not play anywhere in the fetched
-schedule, adds nothing. All inputs are read-only.
+A player whose MLB club is missing or unknown adds nothing. All inputs are
+read-only.
 """
 
 from __future__ import annotations
 
 import re
-import sys
 from dataclasses import dataclass
 from datetime import date, datetime
-from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
 
-from core import nhl
+from core import mlb, sport
 
-_WIRE = str(Path(__file__).resolve().parents[1] / "wire")
-if _WIRE not in sys.path:
-    sys.path.append(_WIRE)
-
-from roster import normalize_team  # noqa: E402  (wire/roster.py: NHL team code aliases)
-
-SKATER_SLOTS = (("C", 3), ("LW", 3), ("RW", 3), ("F", 3), ("D", 6))
-GOALIE_SLOTS = 2
-FORWARDS = {"C", "LW", "RW", "F"}
-KNOWN = FORWARDS | {"D", "G"}
 LINEUP = ("ACTIVE", "RESERVE")
+SP_SLOTS = sport.LINEUP.get("SP", 0)
+# Fantrax may write the utility slot "UT" or "Util"; the rules call it UTIL.
+SLOT_NAMES = {"UT": "UTIL", "UTIL": "UTIL", "UTILITY": "UTIL"}
 
 
 def positions_of(*values: Any) -> frozenset[str]:
+    """Every position named in Fantrax position strings ("1B,OF", "SS/2B")."""
     found: set[str] = set()
     for value in values:
         for part in re.split(r"[,/ ]+", str(value or "").upper()):
-            if part in KNOWN:
-                found.add(part)
+            if part:
+                found.add(SLOT_NAMES.get(part, part))
     return frozenset(found)
 
 
 @dataclass(frozen=True)
 class RosterPlayer:
     player_id: str
-    nhl_team: str
+    name: str            # mlb.name_key form
+    team: str            # MLB club (mlb.team_code)
     positions: frozenset[str]
 
     @property
-    def goalie(self) -> bool:
-        return "G" in self.positions
+    def starter(self) -> bool:
+        return "SP" in self.positions
 
-    def skater_slots(self) -> set[str]:
-        slots = {p for p in self.positions if p in ("C", "LW", "RW", "D")}
-        if self.positions & FORWARDS:
-            slots.add("F")
-        return slots
+    def hitter_slots(self) -> set[str]:
+        return {slot for slot in sport.HITTER_SLOTS if sport.slot_fits(slot, self.positions)}
 
 
 def lineup_players(rosters: Any, players: Any) -> dict[str, list[RosterPlayer]] | None:
@@ -100,26 +96,27 @@ def lineup_players(rosters: Any, players: Any) -> dict[str, list[RosterPlayer]] 
             player_id = str(item.get("id") or "")
             info = directory.get(player_id) or {}
             positions = positions_of(info.get("position"), item.get("position"))
-            team_code = normalize_team(info.get("team"))
-            if positions and team_code:
-                squad.append(RosterPlayer(player_id, team_code, positions))
+            club = mlb.team_code(info.get("team"))
+            if positions and club:
+                squad.append(RosterPlayer(player_id, mlb.name_key(info.get("name")), club, positions))
         teams[str(team_id)] = squad
     return teams if any_items else None
 
 
-def max_skaters(eligible: list[set[str]], slots: tuple[tuple[str, int], ...] = SKATER_SLOTS) -> int:
-    """Most skaters that can start at once (maximum bipartite matching).
+def max_hitter_games(eligible: list[tuple[set[str], int]]) -> int:
+    """Most hitter games one day's lineup can hold.
 
-    ``eligible`` lists, per player, the slot types he may fill. Augmenting
-    paths move an already-placed multi-position player to another of his
-    slots when that frees a spot, so the result is the true maximum.
+    ``eligible`` lists, per player, the hitter slots he may fill and his games
+    that day (2 in a doubleheader). Players are placed most games first, each
+    by an augmenting path that may move an already-placed player to another of
+    his slots; that order gives the most games, not just the most players.
     """
-    seats = [slot for slot, count in slots for _ in range(count)]
+    seats = [slot for slot in sport.HITTER_SLOTS for _ in range(sport.LINEUP.get(slot, 0))]
     holder = [-1] * len(seats)
 
     def place(player: int, tried: set[int]) -> bool:
         for seat, slot in enumerate(seats):
-            if seat in tried or slot not in eligible[player]:
+            if seat in tried or slot not in eligible[player][0]:
                 continue
             tried.add(seat)
             if holder[seat] == -1 or place(holder[seat], tried):
@@ -127,66 +124,73 @@ def max_skaters(eligible: list[set[str]], slots: tuple[tuple[str, int], ...] = S
                 return True
         return False
 
-    # Fewest options first: the result is the same, the search is shorter.
-    order = sorted(range(len(eligible)), key=lambda i: len(eligible[i]))
-    return sum(1 for player in order if eligible[player] and place(player, set()))
+    order = sorted(range(len(eligible)), key=lambda i: (-eligible[i][1], len(eligible[i][0])))
+    return sum(eligible[i][1] for i in order if eligible[i][0] and place(i, set()))
 
 
-def nights_in_period(games: list[nhl.Game], start: datetime, end: datetime, tz: ZoneInfo) -> dict[date, set[str]]:
-    """Local night -> NHL teams playing a regular-season game in the period."""
-    nights: dict[date, set[str]] = {}
-    for game in nhl.regular_season(games):
-        if nhl.in_period(game, start, end, tz):
-            nights.setdefault(game.night, set()).update(normalize_team(t) for t in game.teams)
-    return dict(sorted(nights.items()))
+def days_in_period(games: list[mlb.Game], start: datetime, end: datetime,
+                   tz: ZoneInfo) -> dict[date, dict[str, list[mlb.Game]]]:
+    """Day -> club -> its regular-season games that day, for the period."""
+    days: dict[date, dict[str, list[mlb.Game]]] = {}
+    for game in mlb.regular_season(games):
+        if game.played and mlb.in_period(game, start, end, tz):
+            for team in game.teams:
+                days.setdefault(game.day, {}).setdefault(team, []).append(game)
+    return dict(sorted(days.items()))
 
 
 @dataclass(frozen=True)
 class Projection:
     games: int
     light_games: int
-    skater_games: int
-    goalie_games: int
+    hitter_games: int
+    starts: int
+
+
+def starts_on(pitcher: RosterPlayer, games: list[mlb.Game]) -> int:
+    """His announced starts among one day's games for his club."""
+    return sum(1 for g in games if (p := g.probable(pitcher.team)) is not None and mlb.name_key(p.name) == pitcher.name)
 
 
 def project(
     squad: list[RosterPlayer],
-    nights: dict[date, set[str]],
-    light_nights: set[date],
-    goalie_cap: int,
+    days: dict[date, dict[str, list[mlb.Game]]],
+    light_days: set[date],
+    start_cap: int,
 ) -> Projection:
-    skaters = goalies = light_skaters = light_goalies = 0
-    for night, playing in nights.items():
-        tonight = [p for p in squad if p.nhl_team in playing]
-        filled = max_skaters([p.skater_slots() for p in tonight if not p.goalie])
-        in_net = min(GOALIE_SLOTS, len({p.nhl_team for p in tonight if p.goalie}))
-        skaters += filled
-        goalies += in_net
-        if night in light_nights:
-            light_skaters += filled
-            light_goalies += in_net
-    goalie_games = min(goalies, goalie_cap)
+    hitters = [p for p in squad if p.hitter_slots()]
+    pitchers = [p for p in squad if p.starter]
+    hitter_games = starts = light_hitters = light_starts = 0
+    for day, playing in days.items():
+        filled = max_hitter_games([(p.hitter_slots(), len(playing[p.team])) for p in hitters if p.team in playing])
+        started = min(SP_SLOTS, sum(starts_on(p, playing[p.team]) for p in pitchers if p.team in playing))
+        hitter_games += filled
+        starts += started
+        if day in light_days:
+            light_hitters += filled
+            light_starts += started
+    credited = min(starts, start_cap)
     return Projection(
-        games=skaters + goalie_games,
-        light_games=light_skaters + min(light_goalies, goalie_cap),
-        skater_games=skaters,
-        goalie_games=goalie_games,
+        games=hitter_games + credited,
+        light_games=light_hitters + min(light_starts, start_cap),
+        hitter_games=hitter_games,
+        starts=credited,
     )
 
 
 def projections(
     teams: dict[str, list[RosterPlayer]],
-    games: list[nhl.Game],
+    games: list[mlb.Game],
     start: datetime,
     end: datetime,
     tz: ZoneInfo,
     *,
-    goalie_cap: int,
-    light_max: int = nhl.LIGHT_NIGHT_MAX_TEAMS,
+    start_cap: int,
+    light_max: int = mlb.LIGHT_DAY_MAX_TEAMS,
 ) -> dict[str, Projection]:
-    """teamId -> Projection for the period start..end (empty when no NHL games)."""
-    nights = nights_in_period(games, start, end, tz)
-    if not nights:
+    """teamId -> Projection for the period start..end (empty when no MLB games)."""
+    days = days_in_period(games, start, end, tz)
+    if not days:
         return {}
-    light = {night for night, playing in nights.items() if len(playing) <= light_max}
-    return {team_id: project(squad, nights, light, goalie_cap) for team_id, squad in teams.items()}
+    light = {day for day, playing in days.items() if len(playing) <= light_max}
+    return {team_id: project(squad, days, light, start_cap) for team_id, squad in teams.items()}

@@ -11,8 +11,9 @@ from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from typing import Any
 
+from core import sport
 from core.league import AVATAR, DEFAULT_LEAGUE_NAME
-from core.season import Period
+from core.season import Period, calendar_weeks
 from weekly import luck_extremes
 
 
@@ -54,7 +55,7 @@ def _header(ctx: Context, p: Period | None = None) -> str:
 
 
 FANTRAX_SOURCE = "FANTRAX READ-ONLY DATA"
-NHL_SOURCE = "NHL SCHEDULE DATA"
+MLB_SOURCE = "MLB SCHEDULE DATA"
 FIELD_LIMIT = 1024
 
 
@@ -92,20 +93,32 @@ def _payload(
 
 # --- Scoreboard ---------------------------------------------------------------
 
-def goalie_starts(team: dict, cap: int | None) -> int | None:
-    """Goalie games started (Fantrax category GS), or None if not shown."""
+# Fantrax's matchup category for games started by pitchers. The MLB short name
+# is not checked yet (the Fantrax test league is a hockey league, where GS is
+# goalie starts); check it with tools/fantrax_probe.py once the MLB league exists.
+STARTS_CATEGORY = "GS"
+
+
+def start_cap(p: Period) -> int:
+    """Credited pitcher starts in a period: sport.PITCHER_STARTS_PER_WEEK per
+    calendar week it spans (7, or 14 for the two-week Championship; 9.2, 9.3)."""
+    return sport.PITCHER_STARTS_PER_WEEK * calendar_weeks(p)
+
+
+def pitcher_starts(team: dict, cap: int | None) -> int | None:
+    """Credited pitcher starts (Fantrax category GS), or None if not shown."""
     if not cap:
         return None
     categories = team.get("categories") or {}
-    if "GS" not in categories:
+    if STARTS_CATEGORY not in categories:
         return None
-    return int(categories["GS"])
+    return int(categories[STARTS_CATEGORY])
 
 
-def scoreboard_fields(rows: list[dict], goalie_cap: int | None = None) -> list[dict]:
+def scoreboard_fields(rows: list[dict], start_cap: int | None = None) -> list[dict]:
     def starts(team: dict) -> str:
-        used = goalie_starts(team, goalie_cap)
-        return "" if used is None else f" • Goalie starts: {used} of {goalie_cap}"
+        used = pitcher_starts(team, start_cap)
+        return "" if used is None else f" • Pitcher starts: {used} of {start_cap}"
 
     fields = []
     for index, row in enumerate(rows, start=1):
@@ -135,7 +148,7 @@ def scoreboard(
     *,
     final: bool,
     playoffs: bool,
-    goalie_cap: int | None = None,
+    start_cap: int | None = None,
 ) -> dict[str, Any]:
     label = "Playoffs " if playoffs else ""
     title = f"DBL {label}Week {p.number} {'Final ' if final else ''}Scoreboard"
@@ -146,9 +159,9 @@ def scoreboard(
             "*Live scoreboard from Fantrax. This post updates through the week; "
             "the leading score is bolded.*"
         )
-    if goalie_cap:
-        note += f"\n*Goalie starts are credited up to {goalie_cap} this week (9.2, 9.3).*"
-    return _payload(ctx, title, f"{_header(ctx, p)}\n\n{note}", scoreboard_fields(rows, goalie_cap), "SCOREBOARD")
+    if start_cap:
+        note += f"\n*Pitcher starts are credited up to {start_cap} this week (9.2, 9.3).*"
+    return _payload(ctx, title, f"{_header(ctx, p)}\n\n{note}", scoreboard_fields(rows, start_cap), "SCOREBOARD")
 
 
 # --- Weekly recap -------------------------------------------------------------
@@ -416,9 +429,10 @@ def playoff_race(
 # --- Matchup preview ----------------------------------------------------------
 
 def projected_line(away: Any, home: Any) -> str:
-    """ "Projected games: 41 vs 37 • Light-night games: 5 vs 3" (away first)."""
+    """ "Projected games: 68 vs 61 • Probable starts: 6 vs 4 • Light-day games: 12 vs 9" (away first)."""
     return (f"Projected games: {away.games} vs {home.games} • "
-            f"Light-night games: {away.light_games} vs {home.light_games}")
+            f"Probable starts: {away.starts} vs {home.starts} • "
+            f"Light-day games: {away.light_games} vs {home.light_games}")
 
 
 def preview(
@@ -429,7 +443,7 @@ def preview(
     *,
     ranks_shown: bool,
     projections: dict[str, Any] | None = None,
-    goalie_cap: int | None = None,
+    start_cap: int | None = None,
     light_max: int | None = None,
 ) -> dict[str, Any]:
     """Matchup preview. ``projections`` (teamId -> edge.Projection) adds each
@@ -457,55 +471,66 @@ def preview(
         "The scoreboard will track scoring once the week is underway.*"
     )
     if shown:
-        cap = f", goalies capped at {goalie_cap} starts" if goalie_cap else ""
-        light = f" ({light_max} or fewer NHL teams playing)" if light_max else ""
+        cap = f", capped at {start_cap}" if start_cap else ""
+        light = f" ({light_max} or fewer MLB teams playing)" if light_max else ""
         note += (
-            "\n*Projected games: lineup slots each current roster can fill on this week's NHL nights "
-            f"(minors and IR left out{cap}). Light-night games: the same count on light nights{light}.*"
+            "\n*Projected games: hitter lineup slots each current roster can fill on this week's MLB days "
+            "(a doubleheader counts twice; minors and IL left out), plus starts by its starting pitchers "
+            f"where MLB has announced them{cap}. Light-day games: the same count on light days{light}.*"
         )
     return _payload(ctx, f"DBL Week {p.number} Matchup Preview", f"{_header(ctx, p)}\n\n{note}", fields, "SCOREBOARD")
 
 
-# --- NHL games grid -----------------------------------------------------------
+# --- MLB games grid -----------------------------------------------------------
 
 def _day(d: date) -> str:
     return f"{d:%a} {d:%b} {d.day}"
-
-
-def _span(a: date, b: date) -> str:
-    if a.month == b.month:
-        return f"{a:%b} {a.day}–{b.day}"
-    return f"{a:%b} {a.day}–{b:%b} {b.day}"
 
 
 def _count(n: int, noun: str) -> str:
     return f"{n} {noun}{'' if n == 1 else 's'}"
 
 
-def _nights(nights: list[tuple[date, int]]) -> str:
-    if not nights:
+def _days(days: list[tuple[date, int, int]]) -> str:
+    if not days:
         return "None this week."
-    return "\n".join(f"{_day(night)} — {_count(teams // 2, 'game')}, {teams} teams" for night, teams in nights)
+    return "\n".join(f"{_day(day)} — {_count(games, 'game')}, {teams} teams" for day, teams, games in days)
 
 
 def games_grid(ctx: Context, p: Period, grid: Any) -> dict[str, Any]:
-    """NHL games grid for one Fantrax week (core.nhl.WeekGrid)."""
+    """MLB games grid for one Fantrax week (core.mlb.WeekGrid)."""
     fields = []
     for count, teams in grid.by_count():
         label = "No Games" if count == 0 else _count(count, "Game")
         fields.append({"name": label, "value": _clip(", ".join(teams)), "inline": False})
-    b2b = [f"**{team}:** " + ", ".join(_span(a, b) for a, b in pairs) for team, pairs in grid.back_to_backs.items()]
-    fields.append({"name": "Back-to-Backs", "value": _clip("\n".join(b2b) or "None this week."), "inline": False})
-    fields.append({"name": f"Light Nights ({grid.light_max} or fewer teams)", "value": _clip(_nights(grid.light_nights)),
+    doubles = [f"{_day(day)} — {game.away} at {game.home}" + (" (makeup)" if game.makeup_of else "")
+               for day, game in grid.doubleheaders]
+    fields.append({"name": "Doubleheaders", "value": _clip("\n".join(doubles) or "None this week."), "inline": False})
+    off = [f"{_day(day)} — " + (f"{len(teams)} teams: " if len(teams) > 4 else "") + ", ".join(teams)
+           for day, teams in grid.off_days]
+    fields.append({"name": "Off Days", "value": _clip("\n".join(off) or "None this week."), "inline": False})
+    fields.append({"name": f"Light Days ({grid.light_max} or fewer teams)", "value": _clip(_days(grid.light_days)),
                    "inline": False})
-    fields.append({"name": f"Heavy Nights ({grid.heavy_min} or more teams)", "value": _clip(_nights(grid.heavy_nights)),
+    fields.append({"name": f"Heavy Days ({grid.heavy_min} or more teams)", "value": _clip(_days(grid.heavy_days)),
                    "inline": False})
+    two = [f"**{team}:** {pitcher.name} ({', '.join(_day(d) for d in days)})" for team, pitcher, days in grid.two_start]
+    fields.append({"name": "Two-Start Pitchers", "value": _clip("\n".join(two) or "None announced yet."),
+                   "inline": False})
+    if grid.postponed:
+        lines = []
+        for game in grid.postponed:
+            why = f" ({game.reason})" if game.reason else ""
+            moved = f", made up {_day(game.moved_to)}" if game.moved_to else ""
+            lines.append(f"{_day(game.day)} — {game.away} at {game.home}{why}{moved}")
+        fields.append({"name": "Postponed", "value": _clip("\n".join(lines)), "inline": False})
     note = (
-        f"*NHL regular-season games in this Fantrax week ({_count(grid.total_games, 'game')}), to help plan daily "
-        "lineups. Lineups lock about one minute before each player's game (5.3).*"
+        f"*MLB regular-season games in this Fantrax week ({_count(grid.total_games, 'game')}), to help plan daily "
+        "lineups. A doubleheader counts as two games; a postponed game counts when it is made up. Two-start "
+        "pitchers are listed only where MLB has announced both starts. Lineups lock about one minute before "
+        "each player's game (5.3).*"
     )
-    return _payload(ctx, f"DBL Week {p.number} NHL Games Grid", f"{_header(ctx, p)}\n\n{note}", fields,
-                    "NHL GAMES GRID", source=NHL_SOURCE)
+    return _payload(ctx, f"DBL Week {p.number} MLB Games Grid", f"{_header(ctx, p)}\n\n{note}", fields,
+                    "MLB GAMES GRID", source=MLB_SOURCE)
 
 
 # --- Monthly awards -------------------------------------------------------------
@@ -592,7 +617,7 @@ def bounties(
     claims: list[tuple[Any, Any]],
     still_open: list[tuple[Any, str]],
     *,
-    nhl_data: bool = False,
+    mlb_data: bool = False,
 ) -> dict[str, Any] | None:
     """Bounty post: claims [(Bounty, Claim)] plus the bounties still open
     [(Bounty, progress text)]. Without claims it is the Bounty Board."""
@@ -616,5 +641,5 @@ def bounties(
         "*Season bounties: each is claimed once, by the first franchise to get there. "
         "Rewards are recognition only.*"
     )
-    source = f"{FANTRAX_SOURCE} • NHL SCORE DATA" if nhl_data else FANTRAX_SOURCE
+    source = f"{FANTRAX_SOURCE} • MLB SCORE DATA" if mlb_data else FANTRAX_SOURCE
     return _payload(ctx, title, f"{_header(ctx)}\n\n{note}", fields, "BOUNTIES", source=source)

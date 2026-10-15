@@ -13,7 +13,8 @@ Awards (every regular-season week of the month that was actually played):
 - Manager of the Month: most points.
 - Best Record of the Month: best head-to-head record (a tie counts half).
 - Biggest Single Week: highest one-week score. Periods longer than one
-  calendar week (a two-week period over an NHL break) do not count here.
+  calendar week (Week 1 from Opening Night, a period combined with the
+  All-Star break) do not count here.
 - Hard Luck: most points scored in losses.
 
 Ties go to more total points for the month; if that is equal too, the award
@@ -48,7 +49,7 @@ class MonthGroup:
 
 
 def last_night(period: season.Period, tz: ZoneInfo) -> date:
-    """The week's last NHL night (local date).
+    """The week's last game day (local date).
 
     A Fantrax week ends when the first game of its last day starts, so that
     day's games belong to the next week: the last night is the day before.

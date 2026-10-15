@@ -146,10 +146,11 @@ class GridTests(unittest.TestCase):
 
     def test_days_doubleheaders_and_postponements(self) -> None:
         grid = self.grid()
-        self.assertEqual([(d.day, n) for d, n in grid.days], [(12, 8), (13, 30), (14, 28), (15, 8), (16, 30),
-                                                                (17, 30), (18, 30)])
-        self.assertEqual([d.day for d, _ in grid.light_days], [12, 15])
-        self.assertEqual([d.day for d, _ in grid.heavy_days], [13, 16, 17, 18])
+        self.assertEqual([(d.day, n, g) for d, n, g in grid.days], [(12, 8, 4), (13, 30, 16), (14, 28, 14),
+                                                                      (15, 8, 5), (16, 30, 15), (17, 30, 16),
+                                                                      (18, 30, 15)])
+        self.assertEqual([d.day for d, _, _ in grid.light_days], [12, 15])
+        self.assertEqual([d.day for d, _, _ in grid.heavy_days], [13, 16, 17, 18])
         self.assertEqual([(d.day, len(t)) for d, t in grid.off_days], [(12, 22), (14, 2), (15, 22)])
         self.assertEqual(dict(grid.off_days)[fx.WED], ["BOS", "NYY"])
         self.assertEqual([(d.day, g.away, g.home) for d, g in grid.doubleheaders],
@@ -219,6 +220,12 @@ class HelperTests(unittest.TestCase):
         self.assertEqual(mlb.last_name("Elly De La Cruz"), "De La Cruz")
         self.assertEqual(mlb.last_name("Ichiro"), "Ichiro")
         self.assertEqual(mlb.last_name("Vladimir Guerrero Jr."), "Guerrero")
+
+    def test_name_keys(self) -> None:
+        self.assertEqual(mlb.name_key("Rodríguez, Julio"), mlb.name_key("Julio Rodriguez"))
+        self.assertEqual(mlb.name_key("Vladimir Guerrero Jr."), "vladimir guerrero")
+        self.assertEqual(mlb.name_key("Lynch IV, Daniel"), "daniel lynch")
+        self.assertEqual(mlb.name_key(None), "")
 
     def test_cap_periods(self) -> None:
         self.assertEqual(season.calendar_weeks(season.period(fx.MLB_INFO, 1)), 2)   # Opening Night to Apr 5
