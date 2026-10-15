@@ -1,4 +1,4 @@
-"""DBL static emoji, group static_b (22 emoji).
+"""PSBL static emoji, group static_b (22 emoji). File names keep the dbl_ prefix.
 
 Run:  python3 static_b.py      -> static/dbl_*.png and static_b_sheet.png
 Everything is drawn on the 32 x 32 art grid from pix.py and exported x4 (128 x 128).
@@ -19,9 +19,11 @@ OUT = HERE / "static"
 N = 32
 
 # A few extra shades for objects that need them (kept to a minimum).
-DKRED = (138, 22, 20)      # deep red shade (apple, L, octopus, sauce)
+DKRED = PAL["u"]           # deep red shade (apple, L, sauce, the wax seal)
 DKGRN = (32, 110, 50)      # deep green shade (money bag)
-DKORG = (206, 92, 12)      # deep orange shade (pylon)
+BUN, BUN_LT = (214, 150, 78), (238, 190, 120)   # hot dog bun
+FRANK, FRANK_DK = (176, 70, 56), (130, 46, 38)  # hot dog
+LED_OFF = (52, 30, 36)     # unlit scoreboard bulbs
 
 
 # ----------------------------------------------------------------------------------------------
@@ -210,9 +212,9 @@ def contract():
 
 
 def pick():
-    """A gold draft-pick ticket with notched corners, a perforated stub and a chunky 1ST."""
+    """A red draft-pick ticket with notched corners, a perforated stub and a chunky white 1ST."""
     c = Canvas()
-    c.rect(1, 7, 30, 18, "G")
+    c.rect(1, 7, 30, 18, "R")
     # concave corner notches
     for (cx, cy) in ((1, 7), (31, 7), (1, 25), (31, 25)):
         disc(c, cx, cy, 3.2, 3.2, None)
@@ -220,13 +222,13 @@ def pick():
     disc(c, 10, 7, 1.6, 1.6, None)
     disc(c, 10, 25, 1.6, 1.6, None)
     # bevel
-    edge(c, "G", "D", [DOWN, RIGHT])
-    edge(c, "G", "Y", [UP, LEFT])
+    edge(c, "R", "u", [DOWN, RIGHT])
+    edge(c, "R", "r", [UP, LEFT])
     # perforation
     for y in range(10, 23, 2):
-        c.px(9, y, "D")
+        c.px(9, y, "u")
     # stub star
-    c.poly(star_pts(5.0, 16.2, 3.4, 1.4), "D")
+    c.poly(star_pts(5.0, 16.2, 3.4, 1.4), "W")
     one = [".##.", "###.", ".##.", ".##.", ".##.", ".##.", ".##.", "####"]
     s = [".####", "##...", "##...", ".###.", "...##", "...##", "...##", "####."]
     t = ["######", "..##..", "..##..", "..##..", "..##..", "..##..", "..##..", "..##.."]
@@ -235,7 +237,7 @@ def pick():
         for j, r in enumerate(g):
             for i, ch in enumerate(r):
                 if ch == "#":
-                    c.px(x + i, 12 + j, "K")
+                    c.px(x + i, 12 + j, "W")
         x += len(g[0]) + 1
     return c.outline()
 
@@ -265,7 +267,7 @@ def scout():
 
 
 def lineup():
-    """Coach's clipboard: wood board, steel clip, paper with a mini rink and an X / O play."""
+    """The lineup card on a clipboard: a red header and the batting order, 1 through 9."""
     c = Canvas()
     c.rect(3, 3, 26, 28, "O")
     for (x, y) in ((3, 3), (28, 3), (3, 30), (28, 30)):
@@ -274,23 +276,13 @@ def lineup():
     # paper
     c.rect(5, 6, 22, 23, "W")
     c.rect(5, 28, 22, 1, "S")
-    # rink outline (rounded), center red line, net at the top
-    c.frame(7, 8, 18, 19, "L")
-    for (x, y) in ((7, 8), (24, 8), (7, 26), (24, 26)):
-        c.px(x, y, "W")
-    c.px(8, 9, "L"); c.px(23, 9, "L"); c.px(8, 25, "L"); c.px(23, 25, "L")
-    c.rect(8, 17, 16, 1, "R")
-    c.rect(14, 9, 4, 1, "R")
-    # the play: X (us) drives to the net past the O (them)
-    X = ["##..##", ".####.", "..##..", ".####.", "##..##"]
-    O = [".####.", "##..##", "##..##", "##..##", ".####."]
-    c.stamp(O, 17, 11, {"#": "B"})
-    c.stamp(X, 9, 20, {"#": "K"})
-    c.stamp(X, 18, 21, {"#": "K"})
-    for (x, y) in [(11, 18), (11, 17), (11, 16), (11, 15), (12, 14), (13, 13)]:
-        c.px(x, y, "K")
-    for (x, y) in [(14, 12), (12, 12), (13, 12), (14, 13), (14, 14)]:
-        c.px(x, y, "K")
+    c.rect(5, 6, 22, 3, "R")                          # header band
+    c.rect(5, 8, 22, 1, "u")
+    ends = (22, 19, 24, 20, 23, 18, 21, 24, 19)       # names of different lengths
+    for i, end in enumerate(ends):
+        y = 10 + i * 2
+        c.px(7, y, "n")                               # the order number
+        c.rect(10, y, end - 10, 1, "M")
     # clip
     c.rect(10, 2, 12, 3, "S")
     c.rect(10, 4, 12, 2, "N")
@@ -389,39 +381,22 @@ def pot():
     return c.outline()
 
 
-def octopus():
-    """A cute red octopus with eight curling tentacles."""
+def rally_cap():
+    """The rally cap: a ballcap turned inside out, brim up, with a little rally sparkle."""
     c = Canvas()
-    tents = [   # back to front
-        [(9.0, 15), (5.5, 18), (2.8, 21.5), (2.6, 25.0), (4.6, 26.6), (6.4, 25.0)],
-        [(23.0, 15), (26.5, 18), (29.2, 21.5), (29.4, 25.0), (27.4, 26.6), (25.6, 25.0)],
-        [(11.0, 17), (8.5, 21), (7.8, 25), (8.6, 28.2), (11.0, 28.8)],
-        [(21.0, 17), (23.5, 21), (24.2, 25), (23.4, 28.2), (21.0, 28.8)],
-        [(13.5, 18), (12.5, 22.5), (13.2, 26.5), (12.2, 29.6)],
-        [(18.5, 18), (19.5, 22.5), (18.8, 26.5), (19.8, 29.6)],
-        [(15.0, 18), (15.6, 23), (15.0, 26.0), (15.6, 29.2)],
-        [(17.0, 18), (16.6, 21), (17.2, 24.5)],
-    ]
-    for p in tents:
-        path(c, p, 2.15, "K")
-        path(c, p, 1.15, "R")
-    # head
-    disc(c, 16, 10.6, 10.6, 9.6, DKRED)
-    disc(c, 15.6, 10.1, 10.1, 9.1, "R")
-    # spots and shine
-    for (x, y) in [(10, 3), (9, 4), (8, 5), (11, 3)]:
-        c.px(x, y, "r")
-    c.rect(19, 4, 2, 2, "r"); c.px(23, 7, "r"); c.px(14, 4, "r")
-    # eyes
-    for ex in (10, 19):
-        c.rect(ex, 10, 4, 5, "W")
-        c.rect(ex + 1, 12, 2, 3, "K")
-        c.px(ex, 10, "R"); c.px(ex + 3, 10, "R")
-        c.px(ex + 1, 12, "W")
-    # smile
-    c.px(15, 17, "K"); c.px(16, 17, "K"); c.px(14, 16, "K"); c.px(17, 16, "K")
-    # blush
-    c.px(8, 15, "P"); c.px(9, 15, "P"); c.px(22, 15, "P"); c.px(23, 15, "P")
+    fill_where(c, lambda X, Y: ((X - 14) / 12.5) ** 2 + ((Y - 13) / 13) ** 2 <= 1 and Y >= 13, "I")   # lining
+    for (x1, y1) in ((4, 15), (9, 14), (19, 14), (24, 15)):
+        c.line(14, 25, x1, y1, "S")                   # panel seams
+    c.rect(2, 12, 25, 3, "n"); c.rect(2, 12, 25, 1, "B")             # sweatband turned out
+    c.poly([(16, 12), (27, 12), (31, 3), (22, 4)], "n")               # the brim, flipped up
+    c.line(23, 5, 29, 4, "B")
+    c.line(17, 11, 26, 11, "R")
+    c.rect(13, 25, 3, 2, "n")                          # button
+    for (x, y, k) in ((5, 5, 2), (11, 2, 1), (27, 20, 1)):
+        c.px(x, y, "W")
+        for i in range(1, k + 1):
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                c.px(x + dx * i, y + dy * i, "Y")
     return c.outline()
 
 
@@ -496,69 +471,24 @@ def injury():
     return c.outline()
 
 
-def mullet():
-    """Hockey flow, in profile: short crop on top, long hair flowing down the back over the jersey collar.
-    (A straight back-of-head view read as a hair blob at 22 px, so the profile carries the silhouette.)"""
+def hotdog():
+    """A ballpark hot dog: bun, frank and a zigzag of mustard."""
     c = Canvas()
-    LITE = (226, 172, 104)
-    # jersey shoulder and black collar trim
-    c.poly([(5, 24), (14, 23), (24, 23), (28, 26), (29, 30), (2, 30), (3, 26)], "G")
-    c.px(2, 30, None); c.px(29, 30, None)
-    edge(c, "G", "D", [DOWN, RIGHT])
-    c.rect(4, 29, 25, 1, "K")
-    c.poly([(12, 20), (22, 20), (24, 23), (11, 23)], "K")
-    # head, face and hair laid out row by row: (x0, x1, color)
-    rows = {
-        1: [(9, 9, "o"), (12, 12, "o"), (15, 15, "o"), (18, 18, "o"), (21, 21, "o")],
-        2: [(8, 21, "o")],
-        3: [(6, 22, "o")],
-        4: [(5, 23, "o")],
-        5: [(4, 21, "o"), (22, 24, "G")],
-        6: [(4, 18, "o"), (19, 24, "G")],
-        7: [(4, 17, "o"), (18, 24, "G")],
-        8: [(4, 16, "o"), (17, 25, "G"), (20, 23, "o")],
-        9: [(4, 16, "o"), (17, 24, "G")],
-        10: [(4, 12, "h"), (13, 24, "G")],
-        11: [(4, 12, "h"), (13, 25, "G")],
-        12: [(4, 12, "h"), (13, 27, "G")],
-        13: [(4, 12, "h"), (13, 28, "G")],
-        14: [(4, 12, "h"), (13, 25, "G")],
-        15: [(4, 12, "h"), (13, 25, "G"), (21, 25, "o")],
-        16: [(4, 12, "h"), (13, 25, "G"), (22, 25, "o")],
-        17: [(4, 12, "h"), (13, 14, "D"), (15, 24, "G")],
-        18: [(4, 12, "h"), (13, 16, "D"), (17, 23, "G")],
-        19: [(3, 12, "h"), (13, 18, "D"), (19, 21, "G")],
-        20: [(3, 11, "h")],
-        21: [(2, 11, "h")],
-        22: [(2, 11, "h")],
-        23: [(1, 11, "h")],
-        24: [(0, 3, "h"), (5, 7, "h"), (9, 11, "h")],
-        25: [(0, 1, "h"), (6, 6, "h"), (10, 10, "h")],
-    }
-    for y, segs in rows.items():
-        for (x0, x1, k) in segs:
-            for x in range(x0, x1 + 1):
-                c.px(x, y, {"h": "O"}.get(k, k))
-    c.px(1, 21, "O"); c.px(1, 22, "O"); c.px(0, 23, None); c.px(0, 24, None); c.px(0, 25, None)
-    c.px(1, 25, "O"); c.px(1, 24, "O")
-    # long wavy strands in the flow
-    for y in range(10, 26):
-        for x in range(0, 13):
-            if same(c, x, y, "O"):
-                w = x + (1 if (y // 3) % 2 else 0)
-                c.px(x, y, {0: "o", 1: "O", 2: LITE, 3: "O"}[w % 4])
-    # short texture in the crop
-    for (x, y) in [(10, 2), (13, 2), (16, 2), (19, 2), (8, 4), (11, 3), (14, 4), (17, 3), (20, 4), (6, 6), (9, 5),
-                   (12, 6), (15, 5), (7, 8), (10, 7), (13, 8)]:
-        c.px(x, y, "O")
-    # ear
-    for (x, y) in [(13, 10), (14, 10), (13, 11), (13, 12), (13, 13), (14, 14), (15, 14), (15, 12)]:
-        c.px(x, y, "D")
-    # eye, nostril, mouth, highlights
-    c.rect(21, 10, 2, 2, "K")
-    c.px(25, 14, "D")
-    c.px(24, 17, "D")
-    c.px(23, 6, "Y"); c.px(24, 7, "Y"); c.px(26, 12, "Y"); c.px(27, 13, "Y")
+    capsule(c, 5, 25, 26, 8, 6.2, BUN)
+    capsule(c, 3.5, 25.5, 28, 6.5, 3.3, FRANK)         # the frank pokes out both ends
+    for y in range(N):                                 # the near half of the bun covers the frank's lower side
+        for x in range(N):
+            if same(c, x, y, FRANK) and seg_dist(x + .5, y + .5, 5, 25, 26, 8) > 2.4 and (x + .5) + (y + .5) * 1.2 > 34:
+                c.px(x, y, BUN)
+    edge(c, BUN, BUN_LT, [UP, LEFT], against=[BUN])
+    edge(c, FRANK, FRANK_DK, [DOWN, RIGHT], against=[FRANK])
+    pts = []
+    for i in range(12):                                # mustard
+        t = i / 11
+        x = 7 + t * 18
+        y = 22.5 - t * 14 + (1.4 if i % 2 else -1.4)
+        pts.append((x, y))
+    path(c, pts, .8, "G")
     return c.outline()
 
 
@@ -639,7 +569,7 @@ def w():
         m.poly([(13, 9), (17, 9), (21, 26), (17, 26)], "G")
         m.poly([(17, 26), (22, 26), (27, 3), (21, 3)], "G")
         m.poly([(12, 9), (18, 9), (18, 13), (12, 13)], "G")
-    big_letter(c, shape, "G", "Y", "D")
+    big_letter(c, shape, "I", "W", "B")
     return c.outline()
 
 
@@ -684,81 +614,67 @@ def gg():
     return c.outline()
 
 
-def pylon():
-    """Orange traffic cone with white reflective bands."""
+def bullpen():
+    """The bullpen phone: a red desk phone with a dial, ringing."""
     c = Canvas()
-    c.poly([(13.5, 1), (17.5, 1), (25.5, 25), (5.5, 25)], "F")
-    c.rect(1, 25, 30, 4, "F")
-    for (x, y) in ((1, 28), (30, 28)):
-        c.px(x, y, None)
-    # bands
-    for y in range(N):
-        for x in range(N):
-            if same(c, x, y, "F") and (8 <= y <= 10 or 16 <= y <= 19):
-                c.px(x, y, "W")
-    # shading: right side of cone and base darker, left highlight
-    def right_part(x, y):
-        # pixels in the right ~third of the cone at this row
-        xs = [xx for xx in range(N) if filled(c, xx, y)]
-        return x >= max(xs) - max(1, (max(xs) - min(xs)) // 3)
-    shades = []
-    for y in range(0, 25):
-        for x in range(N):
-            if filled(c, x, y) and right_part(x, y):
-                shades.append((x, y))
-    for (x, y) in shades:
-        c.px(x, y, DKORG if same(c, x, y, "F") else "S")
-    c.rect(1, 27, 30, 2, DKORG)
-    c.rect(2, 25, 28, 1, "Y")
-    c.px(1, 28, None); c.px(30, 28, None)
-    for y in range(3, 25):
-        xs = [xx for xx in range(N) if filled(c, xx, y)]
-        if xs and same(c, min(xs) + 1, y, "F"):
-            c.px(min(xs) + 1, y, "Y")
+    c.poly([(5, 16), (27, 16), (30.5, 29), (1.5, 29)], "R")         # base
+    c.rect(2, 28, 28, 1, DKRED); c.rect(5, 16, 22, 1, "r")
+    disc(c, 16, 22.5, 4.8, 4.8, "W")                                 # dial
+    disc(c, 16, 22.5, 2.0, 2.0, "R")
+    for a in range(0, 360, 45):
+        if 100 < a < 170:
+            continue
+        x = 16 + 3.4 * math.cos(math.radians(a)); y = 22.5 + 3.4 * math.sin(math.radians(a))
+        c.px(int(x), int(y), "S")
+    c.rect(8, 14, 3, 3, DKRED); c.rect(21, 14, 3, 3, DKRED)         # cradle
+    capsule(c, 7, 10.5, 25, 10.5, 2.3, "R")                          # handset
+    disc(c, 6, 12.5, 3.6, 3.0, "R"); disc(c, 26, 12.5, 3.6, 3.0, "R")
+    c.rect(9, 9, 14, 1, "r"); c.px(4, 11, "r"); c.px(24, 11, "r")
+    for (x0, y0, x1, y1) in ((2, 6, 4, 4), (1, 3, 3, 1), (29, 6, 27, 4), (30, 3, 28, 1)):
+        c.line(x0, y0, x1, y1, "W")                                  # ringing
     return c.outline()
 
 
-def sieve():
-    """A leaky colander: pucks dropping straight through the holes."""
+def error():
+    """Scoreboard error: E6 lit up in red bulbs."""
     c = Canvas()
-    # handles
-    c.rect(1, 5, 4, 3, "N"); c.rect(27, 5, 4, 3, "N")
-    c.rect(1, 5, 4, 1, "S"); c.rect(27, 5, 4, 1, "S")
-    # bowl
-    fill_where(c, lambda X, Y: Y >= 6 and ((X - 16) / 13.0) ** 2 + ((Y - 6) / 11.5) ** 2 <= 1, "S")
-    disc(c, 16, 6.5, 13.8, 2.2, "N")
-    disc(c, 16, 6.2, 12.4, 1.4, "A")
-    c.rect(11, 16, 10, 2, "N")      # foot ring
-    edge(c, "S", "N", [RIGHT, DOWN])
-    # holes
-    for (x, y) in [(6, 10), (10, 10), (14, 10), (18, 10), (22, 10), (26, 10),
-                   (8, 13), (12, 13), (16, 13), (20, 13), (24, 13)]:
-        if filled(c, x, y):
-            c.px(x, y, "K")
-    # pucks falling out the bottom (top face lit, dark side band)
-    for (x, y) in [(4, 20), (13, 20), (22, 21), (8, 26), (18, 26)]:
-        c.stamp([".MMMM.", "MNNNNM", "AAAAAA", ".AAAA."], x, y)
+    c.rect(1, 5, 30, 22, "A")
+    c.frame(1, 5, 30, 22, "M")
+    for (x, y) in ((1, 5), (30, 5), (1, 26), (30, 26)):
+        c.px(x, y, None)
+    glyphs = {"E": ["#####", "#....", "#....", "####.", "#....", "#....", "#####"],
+              "6": [".###.", "#....", "#....", "####.", "#...#", "#...#", ".###."]}
+    x0 = 4
+    for ch in "E6":
+        for j, row in enumerate(glyphs[ch]):
+            for i, bit in enumerate(row):
+                x, y = x0 + i * 2, 8 + j * 2
+                if bit == "#":
+                    c.rect(x, y, 2, 2, "R"); c.px(x, y, "r")
+                else:
+                    c.rect(x, y, 2, 2, LED_OFF)
+        x0 += 12
     return c.outline()
 
 
 def chirp():
-    """A small gold bird mid-chirp with a speech burst."""
+    """A small red bird mid-chirp with a speech burst."""
     c = Canvas()
     # speech burst
     c.poly(star_pts(24.0, 7.9, 6.9, 4.5, n=8, rot=-80), "W")
-    c.rect(23, 4, 3, 5, "R")
-    c.rect(23, 10, 3, 2, "R")
+    c.rect(23, 4, 3, 5, "n")
+    c.rect(23, 10, 3, 2, "n")
     # bird
-    disc(c, 11, 20, 9.2, 8.6, "G")
-    disc(c, 12.5, 22.5, 5.5, 4.5, "Y")       # belly
-    c.poly([(3, 18), (1, 14), (5, 17)], "D")   # tail
-    rdisc(c, 7.5, 22, 4.5, 2.8, 25, "D")      # wing
-    c.px(10, 11, "G"); c.px(11, 10, "G"); c.px(12, 11, "G"); c.px(9, 10, "G")   # tuft
+    disc(c, 11, 20, 9.2, 8.6, "R")
+    disc(c, 12.5, 22.5, 5.5, 4.5, "r")       # belly
+    c.poly([(3, 18), (1, 14), (5, 17)], "u")   # tail
+    rdisc(c, 7.5, 22, 4.5, 2.8, 25, "u")      # wing
+    c.px(10, 11, "R"); c.px(11, 10, "R"); c.px(12, 11, "R"); c.px(9, 10, "R")   # tuft
     # beak: wide open, mouth showing
     c.rect(19, 17, 3, 3, (110, 20, 22))
     c.poly([(19, 14), (25, 15), (19, 17)], "F")
     c.poly([(19, 20), (24, 22), (19, 22)], "F")
-    c.px(19, 15, "Y"); c.px(20, 15, "Y")
+    c.px(19, 15, "W"); c.px(20, 15, "W")
     # eye
     c.rect(14, 15, 2, 3, "K"); c.px(14, 15, "W")
     # feet
@@ -824,7 +740,7 @@ def sauce():
 
 
 def lock():
-    """Padlock: steel shackle, gold body, keyhole."""
+    """Padlock: steel shackle, red body, keyhole."""
     c = Canvas()
     # shackle
     fill_where(c, lambda X, Y: Y <= 14 and 5.2 <= math.hypot(X - 16, Y - 11) <= 9.0 or
@@ -833,12 +749,12 @@ def lock():
     for (x, y) in [(10, 5), (11, 4), (12, 3), (9, 7), (8, 9)]:
         c.px(x, y, "W")
     # body
-    c.rect(3, 14, 26, 17, "G")
+    c.rect(3, 14, 26, 17, "R")
     for (x, y) in ((3, 14), (28, 14), (3, 30), (28, 30)):
         c.px(x, y, None)
-    edge(c, "G", "D", [DOWN, RIGHT], depth=2)
-    c.rect(4, 15, 23, 1, "Y")
-    c.rect(4, 16, 1, 12, "Y")
+    edge(c, "R", "u", [DOWN, RIGHT], depth=2)
+    c.rect(4, 15, 23, 1, "r")
+    c.rect(4, 16, 1, 12, "r")
     # keyhole
     disc(c, 16, 20.5, 2.6, 2.6, "K")
     c.rect(15, 21, 2, 6, "K")
@@ -848,9 +764,9 @@ def lock():
 EMOJI = [
     ("dbl_faab", faab), ("dbl_contract", contract), ("dbl_pick", pick), ("dbl_scout", scout),
     ("dbl_lineup", lineup), ("dbl_medal", medal), ("dbl_spoon", spoon), ("dbl_pot", pot),
-    ("dbl_octopus", octopus), ("dbl_tooth", tooth), ("dbl_injury", injury), ("dbl_mullet", mullet),
+    ("dbl_rally_cap", rally_cap), ("dbl_tooth", tooth), ("dbl_injury", injury), ("dbl_hotdog", hotdog),
     ("dbl_beard", beard), ("dbl_w", w), ("dbl_l", l), ("dbl_gg", gg),
-    ("dbl_pylon", pylon), ("dbl_sieve", sieve), ("dbl_chirp", chirp), ("dbl_apple", apple),
+    ("dbl_bullpen", bullpen), ("dbl_error", error), ("dbl_chirp", chirp), ("dbl_apple", apple),
     ("dbl_sauce", sauce), ("dbl_lock", lock),
 ]
 

@@ -25,6 +25,24 @@ import print_kit as pk
 from discord_channels import EMOJI, LAYOUT
 from print_kit import Box, CStyle, Doc, Frame, Inline, Page, Para, Pic, PStyle, Run
 
+# The league palette as print swatches: navy, red and white. print_kit's own defaults use the swatch names
+# Charcoal (main ink, dark grounds) and Ink (deepest), so those two names stay and carry the navy values.
+pk.COLORS.clear()
+pk.COLORS.update({
+    "Charcoal": (12, 35, 64),       # navy #0C2340
+    "Ink": (7, 21, 40),             # deep navy
+    "Red": (189, 48, 57),           # #BD3039: rules, bars, kickers on light grounds
+    "RedLight": (217, 84, 92),      # red text on navy
+    "RedDark": (142, 31, 39),
+    "OffWhite": (246, 247, 249),    # page ground and text on navy
+    "OffWhiteDark": (222, 228, 236),
+    "Muted": (86, 98, 118),
+    "Mist": (180, 192, 210),
+    "Slate": (70, 86, 112),
+    "White": (255, 255, 255),
+})
+pk.LIGHT_TEXT = {"OffWhite", "Mist", "White", "RedLight"}
+
 OUT = px.ROOT / "brand" / "print"
 ART = OUT / "art"
 EMOJI_FONT = Path("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf")
@@ -44,15 +62,15 @@ def art_path(name: str) -> Path:
 
 def make_art() -> dict[str, Path]:
     art = {}
-    splash = px.enlarge(px.bg_splash(240, 135), 8, (1920, 1080))
+    splash = px.enlarge(px.bg_splash(240, 135), 8, (1920, 1080))          # the ballpark title screen
     art["splash"] = pk.png_with_dpi(splash.convert("RGB"), art_path("packet-cover-rink.png"), 630)
 
-    a = px.art(208, 44, px.CHARCOAL)
-    px.grain(a, [px.CHAR_LT, px.CHAR_DK], .02, 41)
+    a = px.art(208, 44, px.NAVY)
+    px.grain(a, [px.NAVY_HI, px.NAVY_LO], .02, 41)
     px.dither(a, 0, 33, 208, 9, px.STANDS)
-    px.rect(a, 0, 42, 208, 2, px.GOLD)
-    px.rect(a, 23, 11, 2, 22, px.GOLD)
-    px.put(a, px.B32(), 160, 7)
+    px.rect(a, 0, 42, 208, 2, px.RED)
+    px.rect(a, 23, 11, 2, 22, px.RED)
+    px.put(a, px.EMBLEM32(), 160, 6)
     art["band"] = pk.png_with_dpi(px.enlarge(a, 8, (1664, 352)).convert("RGB"), art_path("draft-header-band.png"), 630)
 
     banner = px.enlarge(px.bg_banner(138, 210), 10, (1380, 2100))
@@ -60,7 +78,7 @@ def make_art() -> dict[str, Path]:
 
     seal = px.seal(dark=True, k=2)
     art["seal"] = pk.png_with_dpi(seal, art_path("dbl-seal-dark.png"), 120)
-    mark = px.lockup(36, 6, "cream")
+    mark = px.lockup(36, 6, "paper")
     art["logo"] = pk.png_with_dpi(mark, art_path("dbl-wordmark-cream.png"), 220)
     art["logo_size"] = (220, 220 * mark.height / mark.width)
     art["bmark"] = px.ROOT / "brand" / "primary" / "dbl-b-mark.png"
@@ -71,7 +89,7 @@ _EF = None
 
 
 def emoji_png(e: str, bar: str | None) -> Path:
-    """One emoji as a picture; with `bar` ("light" or "dark") it carries Discord's divider: 🏒│"""
+    """One emoji as a picture; with `bar` ("light" or "dark") it carries Discord's divider: ⚾│"""
     global _EF
     key = "-".join(f"{ord(c):x}" for c in e) + (f"-{bar}" if bar else "")
     path = art_path(f"emoji/{key}.png")
@@ -98,59 +116,59 @@ def emoji_png(e: str, bar: str | None) -> Path:
 def styles(scale: float = 1.0) -> tuple[dict, dict]:
     S = lambda v: round(v * scale, 2)
     ps = [
-        PStyle("Kicker", "Silkscreen", "Bold", S(8), S(10), "GoldDark", 80),
-        PStyle("KickerGold", "Silkscreen", "Bold", S(8), S(10), "Gold", 80),
+        PStyle("Kicker", "Silkscreen", "Bold", S(8), S(10), "Red", 80),
+        PStyle("KickerRed", "Silkscreen", "Bold", S(8), S(10), "RedLight", 80),
         PStyle("H1", "Jersey 10", "Regular", S(44), S(40)),
-        PStyle("H1Light", "Jersey 10", "Regular", S(44), S(40), "Cream"),
+        PStyle("H1Light", "Jersey 10", "Regular", S(44), S(40), "OffWhite"),
         PStyle("H2", "Silkscreen", "Bold", S(8.5), S(12), "Charcoal", 60, before=S(12), after=S(5)),
         PStyle("Body", size=S(10.5), leading=S(15), after=S(6)),
-        PStyle("BodyLight", size=S(10.5), leading=S(15), color="Cream", after=S(6)),
+        PStyle("BodyLight", size=S(10.5), leading=S(15), color="OffWhite", after=S(6)),
         PStyle("Letter", size=S(11.5), leading=S(17), after=S(9)),
         PStyle("Bullet", size=S(10), leading=S(14), left=S(11), first=S(-11), after=S(4), bullet=True),
-        PStyle("BulletLight", size=S(10), leading=S(14), color="Cream", left=S(11), first=S(-11), after=S(4), bullet=True),
+        PStyle("BulletLight", size=S(10), leading=S(14), color="OffWhite", left=S(11), first=S(-11), after=S(4), bullet=True),
         PStyle("Small", size=S(8.5), leading=S(12), color="Muted", after=S(4)),
         PStyle("SmallLight", size=S(8.5), leading=S(12), color="Mist", after=S(4)),
         PStyle("Foot", "Silkscreen", "Regular", S(6.5), S(8), "Muted", 60),
         PStyle("FootRight", "Silkscreen", "Regular", S(6.5), S(8), "Muted", 60, "right"),
-        PStyle("CoverKicker", "Silkscreen", "Bold", S(10), S(13), "Gold", 100),
-        PStyle("CoverTitle", "Jersey 10", "Regular", S(80), S(66), "Cream"),
+        PStyle("CoverKicker", "Silkscreen", "Bold", S(10), S(13), "RedLight", 100),
+        PStyle("CoverTitle", "Jersey 10", "Regular", S(80), S(66), "OffWhite"),
         PStyle("CoverSub", size=S(13), leading=S(19), color="Mist", after=S(6)),
         PStyle("CoverLine", "Silkscreen", "Regular", S(7.5), S(10), "Mist", 80),
-        PStyle("TileNum", "Jersey 10", "Regular", S(38), S(32), "Gold", align="center"),
+        PStyle("TileNum", "Jersey 10", "Regular", S(38), S(32), "RedLight", align="center"),
         PStyle("TileNote", size=S(8.5), leading=S(11.5), color="Mist", align="center"),
-        PStyle("TileLabel", "Silkscreen", "Bold", S(6.5), S(8.5), "Cream", 60, "center"),
-        PStyle("CalloutHead", "Silkscreen", "Bold", S(8), S(11), "Gold", 80, after=S(4)),
-        PStyle("CalloutBody", size=S(10), leading=S(14.5), color="Cream", after=S(5)),
+        PStyle("TileLabel", "Silkscreen", "Bold", S(6.5), S(8.5), "OffWhite", 60, "center"),
+        PStyle("CalloutHead", "Silkscreen", "Bold", S(8), S(11), "RedLight", 80, after=S(4)),
+        PStyle("CalloutBody", size=S(10), leading=S(14.5), color="OffWhite", after=S(5)),
         PStyle("Check", size=S(10.5), leading=S(15), left=S(19), first=S(-19), after=S(7.5), tabs=((S(19), "left", ""),)),
-        PStyle("DateLabel", "Silkscreen", "Bold", S(7), S(9), "GoldDark", 60),
+        PStyle("DateLabel", "Silkscreen", "Bold", S(7), S(9), "Red", 60),
         PStyle("DateTitle", "Pixelify Sans", "SemiBold", S(11.5), S(15)),
         PStyle("DateNote", size=S(9), leading=S(12), color="Muted"),
-        PStyle("MapCat", "Silkscreen", "Bold", S(7.5), S(11), "GoldDark", 60, before=S(9), after=S(2)),
+        PStyle("MapCat", "Silkscreen", "Bold", S(7.5), S(11), "Red", 60, before=S(9), after=S(2)),
         PStyle("MapRow", size=S(9), leading=S(13)),
         PStyle("Sign", "Jersey 10", "Regular", S(24), S(24)),
-        PStyle("Signoff", "Jersey 10", "Regular", S(30), S(28), "Cream"),
-        PStyle("Num", "Jersey 10", "Regular", S(34), S(30), "GoldDark"),
+        PStyle("Signoff", "Jersey 10", "Regular", S(30), S(28), "OffWhite"),
+        PStyle("Num", "Jersey 10", "Regular", S(34), S(30), "Red"),
         PStyle("ItemTitle", "Pixelify Sans", "SemiBold", S(12), S(15)),
         PStyle("ItemNote", size=S(9.5), leading=S(13), color="Muted"),
         PStyle("AwardName", "Jersey 10", "Regular", S(22), S(20)),
         PStyle("FieldLabel", "Silkscreen", "Bold", S(7), S(9), "Charcoal", 60),
         PStyle("FieldNote", "Silkscreen", "Regular", S(6.5), S(9), "Muted", 40, "right"),
-        PStyle("TableHead", "Silkscreen", "Bold", S(6.5), S(8), "Cream", 60),
+        PStyle("TableHead", "Silkscreen", "Bold", S(6.5), S(8), "OffWhite", 60),
         PStyle("TableNum", "Pixelify Sans", "SemiBold", S(9), S(16), "Charcoal", align="center"),
         PStyle("Track", size=S(10), leading=S(16)),
-        PStyle("CenterTitle", "Jersey 10", "Regular", S(72), S(60), "Cream", align="center"),
-        PStyle("CenterKicker", "Silkscreen", "Bold", S(7.5), S(10), "Gold", 100, "center"),
-        PStyle("CenterLabel", "Silkscreen", "Bold", S(10), S(14), "Gold", 120, "center"),
+        PStyle("CenterTitle", "Jersey 10", "Regular", S(72), S(60), "OffWhite", align="center"),
+        PStyle("CenterKicker", "Silkscreen", "Bold", S(7.5), S(10), "RedLight", 100, "center"),
+        PStyle("CenterLabel", "Silkscreen", "Bold", S(10), S(14), "RedLight", 120, "center"),
         PStyle("CenterSmall", size=S(11), leading=S(16), color="Mist", align="center"),
     ]
     cs = [
-        CStyle("Strong", face="Bold", color="GoldDark"),
-        CStyle("StrongLight", face="Bold", color="Gold"),
+        CStyle("Strong", face="Bold", color="Red"),
+        CStyle("StrongLight", face="Bold", color="RedLight"),
         CStyle("Channel", face="SemiBold"),
         CStyle("Muted", color="Muted"),
         CStyle("Mist", color="Mist"),
-        CStyle("Accent", color="GoldDark"),
-        CStyle("Gold", color="Gold"),
+        CStyle("Accent", color="Red"),
+        CStyle("Red", color="Red"),
         CStyle("Label", font="Silkscreen", face="Bold", tracking=60),
     ]
     return {s.name: s for s in ps}, {s.name: s for s in cs}
@@ -192,31 +210,31 @@ class Builder:
         pg.items.append(Frame(x, y, w, h, [p if isinstance(p, Para) else self.P(*p) for p in paras], inset))
 
 
-def bg(pg: Page, size, color="Cream"):
+def bg(pg: Page, size, color="OffWhite"):
     pg.items.append(Box(-9, -9, size[0] + 18, size[1] + 18, color))
 
 
 def header(b: Builder, pg: Page, kicker: str, title: str, x=M, w=CW, y=46, h1="H1"):
     b.T(pg, x, y, w, 14, ("Kicker", kicker))
     b.T(pg, x, y + 12, w, 56, (h1, title))
-    pg.items += [Box(x, y + 64, 8, 8, "Gold"), Box(x + 12, y + 67, w - 12, 2, "Gold")]
+    pg.items += [Box(x, y + 64, 8, 8, "Red"), Box(x + 12, y + 67, w - 12, 2, "Red")]
 
 
 def footer(b: Builder, pg: Page, label: str, n: int, size=LETTER, m=M):
     w = size[0] - 2 * m
     y = size[1] - 38
-    pg.items.append(Box(m, y - 6, w, 0.75, "CreamDark"))
+    pg.items.append(Box(m, y - 6, w, 0.75, "OffWhiteDark"))
     b.T(pg, m, y, w * 0.8, 12, ("Foot", label))
     b.T(pg, m + w * 0.8, y, w * 0.2, 12, ("FootRight", f"{n:02d}"))
 
 
 def callout(b: Builder, pg: Page, x, y, w, h, head: str, *body, style="CalloutBody"):
-    pg.items += [Box(x, y, w, h, "Charcoal"), Box(x, y, 4, h, "Gold")]
+    pg.items += [Box(x, y, w, h, "Charcoal"), Box(x, y, 4, h, "Red")]
     b.T(pg, x + 4, y, w - 4, h, ("CalloutHead", head), *[(style, t) for t in body], inset=(12, 14, 10, 14))
 
 
 def tile(b: Builder, pg: Page, x, y, w, h, big: str, label: str, note: str = ""):
-    pg.items += [Box(x, y, w, h, "Charcoal"), Box(x, y + h - 3, w, 3, "Gold")]
+    pg.items += [Box(x, y, w, h, "Charcoal"), Box(x, y + h - 3, w, 3, "Red")]
     b.T(pg, x, y + 10, w, 46, ("TileNum", big))
     b.T(pg, x + 6, y + 46, w - 12, 20, ("TileLabel", label))
     if note:
@@ -235,7 +253,7 @@ def welcome_packet(art) -> Doc:
     bg(pg, LETTER, "Charcoal")
     pg.items += [Pic(-9, 801 - 354.375, 630, 354.375, art["splash"]),
                  Pic(426, 70, 132, 152, art["bmark"]),
-                 Box(M, 76, 5, 196, "Gold")]
+                 Box(M, 76, 5, 196, "Red")]
     b.T(pg, 72, 62, 340, 18, ("CoverKicker", "DYNASTY BASEBALL LEAGUE"))
     b.T(pg, 72, 82, 360, 228, ("CoverTitle", "OWNER"), ("CoverTitle", "WELCOME"), ("CoverTitle", "PACKET"))
     b.T(pg, 72, 306, 380, 70, ("CoverSub", "Everything a founding owner needs: how the league works, where the money goes, "
@@ -249,7 +267,7 @@ def welcome_packet(art) -> Doc:
     pg.items.append(Pic((612 - lw) / 2, 140 - 12 - lh, lw, lh, art["logo"]))
     b.T(pg, 106, 150, 400, 14, ("Kicker", "FROM THE COMMISSIONER"))
     b.T(pg, 106, 162, 400, 56, ("H1", "WELCOME TO THE DBL"))
-    pg.items += [Box(106, 214, 8, 8, "Gold"), Box(118, 217, 388, 2, "Gold")]
+    pg.items += [Box(106, 214, 8, 8, "Red"), Box(118, 217, 388, 2, "Red")]
     b.T(pg, 106, 232, 400, 380,
         ("Letter", "You're one of twelve founding owners in a dynasty league built to last: a Startup Draft in 2027, "
                    "an inaugural season in 2027–28, and a record book that starts with your name in it."),
@@ -262,9 +280,9 @@ def welcome_packet(art) -> Doc:
                    "disagree, the Constitution wins."),
         ("Letter", "Build something you're proud of. Trade often. Set your lineup. Welcome to the league."),
         ("Sign", "The Commissioner"))
-    pg.items += [Box(M, 608, CW, 118, "Charcoal"), Box(M, 608, 4, 118, "Gold")]
+    pg.items += [Box(M, 608, CW, 118, "Charcoal"), Box(M, 608, 4, 118, "Red")]
     b.T(pg, M + 18, 620, 200, 16, ("CalloutHead", "IN THIS PACKET"))
-    cl = b.add_style(row_style("Contents", 210, 10, 15.5, "Cream", "."))
+    cl = b.add_style(row_style("Contents", 210, 10, 15.5, "OffWhite", "."))
     b.T(pg, M + 18, 636, 210, 90, (cl, "The league at a glance\t03"), (cl, "Playing the season\t04"),
         (cl, "Scoring and the money\t05"), (cl, "Your first week\t06"))
     b.T(pg, M + 262, 636, 210, 90, (cl, "The Discord map\t07"), (cl, "Traditions and help\t08"))
@@ -408,10 +426,10 @@ def welcome_packet(art) -> Doc:
              ("Playoffs", "Four Weeks: Quarterfinals, Semifinals and a two-week Championship."),
              ("Trading reopens", "The day after the Stanley Cup Final.")]
     y0, step = 152, 66
-    pg.items.append(Box(x + 3, y0 + 4, 2, step * (len(dates) - 1), "CreamDark"))
+    pg.items.append(Box(x + 3, y0 + 4, 2, step * (len(dates) - 1), "OffWhiteDark"))
     for i, (title, note) in enumerate(dates):
         y = y0 + i * step
-        pg.items.append(Box(x, y + 1, 8, 8, "Gold"))
+        pg.items.append(Box(x, y + 1, 8, 8, "Red"))
         b.T(pg, x + 18, y, 186, step, ("DateLabel", "[DATE]"), ("DateTitle", title), ("DateNote", note))
     b.T(pg, x, 690, 204, 30, ("Small", "Every date is posted on {ch:league-calendar}."))
     footer(b, pg, foot, 6)
@@ -491,7 +509,7 @@ def welcome_packet(art) -> Doc:
                  "offseason and need 8 of the 12 franchise votes."),
         ("Body", "**The week-to-week basics** live in {ch:owner-handbook}."),
         ("Body", "**Once the League Bot is live,** /myteam, /rule, /deadlines, /minor and /tradecheck answer right in Discord."))
-    pg.items += [Box(-9, 640, 630, 161, "Charcoal"), Box(-9, 640, 630, 3, "Gold"), Pic(M, 664, 96, 96, art["seal"])]
+    pg.items += [Box(-9, 640, 630, 161, "Charcoal"), Box(-9, 640, 630, 3, "Red"), Pic(M, 664, 96, 96, art["seal"])]
     b.T(pg, M + 116, 672, 380, 40, ("Signoff", "SEE YOU AT THE DRAFT"))
     b.T(pg, M + 116, 708, 380, 40, ("SmallLight", "Dynasty Baseball League • Est. 2026. Questions before then? "
                                                   "Open a ticket any time."))
@@ -513,7 +531,7 @@ def draft_sheet(art) -> Doc:
     pg = b.page()
     bg(pg, LETTER)
     pg.items.append(Pic(-9, -9, 630, 630 * 352 / 1664, art["band"]))
-    b.T(pg, 70, 32, 400, 14, ("KickerGold", "DRAFT-DAY CHEAT SHEET • SEASON 2027"))
+    b.T(pg, 70, 32, 400, 14, ("KickerRed", "DRAFT-DAY CHEAT SHEET • SEASON 2027"))
     b.T(pg, 70, 42, 400, 56, ("H1Light", "STARTUP DRAFT"))
     b.T(pg, 70, 88, 400, 16, ("CoverLine", "36 ROUNDS • SLOW SNAKE • 12 FRANCHISES"))
     top = 140
@@ -587,7 +605,7 @@ def draft_sheet(art) -> Doc:
     rows_top = ty + 18
     for i in range(36):
         if i % 2:
-            pg.items.append(Box(M, rows_top + i * rh, CW, rh, "CreamDark"))
+            pg.items.append(Box(M, rows_top + i * rh, CW, rh, "OffWhiteDark"))
     x = M
     for label, w in cols[:-1]:
         x += w
@@ -681,7 +699,7 @@ def awards_program(art) -> Doc:
         yy = 380 + i * 28
         b.T(pg, m, yy, 140, 14, ("FieldLabel", label))
         pg.items.append(Box(m + 120, yy + 8, cw - 120, 0.75, "Charcoal"))
-    pg.items += [Box(-9, 452, W + 18, H - 452 + 9, "Charcoal"), Box(-9, 452, W + 18, 3, "Gold"),
+    pg.items += [Box(-9, 452, W + 18, H - 452 + 9, "Charcoal"), Box(-9, 452, W + 18, 3, "Red"),
                  Pic(m, 478, 56, 64.5, art["bmark"])]
     b.T(pg, m + 72, 478, cw - 72, 40, ("Signoff", "SEE YOU AT THE DRAFT"))
     b.T(pg, m + 72, 512, cw - 72, 40, ("SmallLight", "Trading reopens the day after the Stanley Cup Final."))

@@ -1,10 +1,12 @@
 """PNG graphics for Discord in the league's 8-bit look: the Dynasty Pot and one card per franchise.
 
 Drawn with tools/pixel_kit.py (the same toolkit as the brand kit and channel
-headers): a charcoal arena ground on an 8 px grid, gold boards, Jersey 10 for
-names and numbers and Silkscreen for labels, both rendered as hard-edged pixels.
-Team colors appear only on each franchise's pixel jersey and the stripe beside
-it; everything else stays in league colors. Pillow only.
+headers): a navy ballpark ground on an 8 px grid with bleachers along the bottom
+and a red rail, Jersey 10 for names and numbers and Silkscreen for labels, both
+rendered as hard-edged pixels. Championships show as pixel baseballs. Team colors
+appear only on each franchise's pixel jersey and the stripe beside it; everything
+else stays in league navy, red and white. League text comes from brand/identity.json
+through pixel_kit. Pillow only.
 """
 
 from __future__ import annotations
@@ -23,10 +25,11 @@ import pixel_kit as px  # noqa: E402
 
 W, H, K = 1600, 900, 8
 MUTED = px.MUTED
+S = px.LEAGUE_SHORT
 JERSEY = ["......KKKKKK......", "...KKKPPWWPPKKK...", "..KPPPPPPPPPPPPK..", ".KPPPPPPPPPPPPPPK.", "KPPPPPPPPPPPPPPPPK",
           "KPPPKPPPPPPPPKPPPK", "KSSSKPPPPPPPPKSSSK", "KPPPKPPPPPPPPKPPPK", "KSSSKPPPPPPPPKSSSK", "KPPPKPPPPPPPPKPPPK",
           ".KKKKSSSSSSSSKKKK.", "....KPPPPPPPPK....", "....KSSSSSSSSK....", "....KKKKKKKKKK...."]
-COIN = ["..KKK..", ".KGGGK.", "KGGWGGK", "KGGWGGK", "KGGWGGK", ".KGGGK.", "..KKK.."]
+COIN = px.SPRITES["pebble"]   # one pixel baseball per championship this cycle
 COIN_OFF = ["..SSS..", ".S...S.", "S.....S", "S.....S", "S.....S", ".S...S.", "..SSS.."]
 
 
@@ -52,8 +55,8 @@ def paint(rows: list[str], scale: int, pal: dict[str, tuple[int, int, int]] | No
 
 def jersey(colors: list[str] | None, scale: int) -> Image.Image:
     colors = colors or []
-    main = rgb(colors[0] if colors else None, px.GOLD)
-    second = rgb(colors[1] if len(colors) > 1 else None, px.PAPER)
+    main = rgb(colors[0] if colors else None, px.RED)
+    second = rgb(colors[1] if len(colors) > 1 else None, px.WHITE)
     return paint(JERSEY, scale, {"P": main, "S": second})
 
 
@@ -74,24 +77,24 @@ def right_text(img: Image.Image, text: str, face: str, scale: int, right: int, c
 
 
 def ground() -> Image.Image:
-    """Charcoal arena with a dithered fade into the stands along the bottom and the gold boards."""
-    a = px.art(W // K, H // K + 1, px.CHARCOAL)
-    px.grain(a, [px.CHAR_LT, px.CHAR_DK], .02, 41)
+    """Navy ballpark with a dithered fade into the bleachers along the bottom and the red rail."""
+    a = px.art(W // K, H // K + 1, px.NAVY)
+    px.grain(a, [px.NAVY_HI, px.NAVY_LO], .02, 41)
     px.dither(a, 0, 94, W // K, 12, px.STANDS)
     img = px.enlarge(a, K, (W, H), offset=(0, 0))
-    ImageDraw.Draw(img).rectangle((0, H - 16, W, H), fill=px.GOLD)
+    ImageDraw.Draw(img).rectangle((0, H - 16, W, H), fill=px.RED)
     return img
 
 
 def sign_off(img: Image.Image, x: int) -> None:
-    px.draw_text(img, "DYNASTY BASEBALL LEAGUE • EST. 2026", "silk", 3, x, H - 56, MUTED)
-    b = paint(px.SPRITES["b"], 5)
-    img.alpha_composite(b, (W - 80 - b.width, H - 40 - b.height))
+    px.draw_text(img, px.LEAGUE_LINE, "silk", 3, x, H - 56, MUTED)
+    ball = paint(px.SPRITES["ball"], 5)
+    img.alpha_composite(ball, (W - 80 - ball.width, H - 40 - ball.height))
 
 
 def kicker(img: Image.Image, x: int, text: str) -> None:
-    ImageDraw.Draw(img).rectangle((x - 40, 80, x - 25, 231), fill=px.GOLD)
-    px.draw_text(img, text, "silk", 4, x, 88, px.GOLD)
+    ImageDraw.Draw(img).rectangle((x - 40, 80, x - 25, 231), fill=px.RED)
+    px.draw_text(img, text, "silk", 4, x, 88, px.RED_LT)
 
 
 def to_png(canvas: Image.Image) -> bytes:
@@ -104,19 +107,19 @@ def dynasty_pot_png(summary: dict[str, Any]) -> bytes:
     img = ground()
     draw = ImageDraw.Draw(img)
     x = 120
-    kicker(img, x, "DBL LEAGUE LEDGER")
-    px.draw_text(img, "DYNASTY POT", "jersey", 9, x, 128, px.CREAM, shadow=px.BLACK)
+    kicker(img, x, f"{S} LEAGUE LEDGER")
+    px.draw_text(img, "DYNASTY POT", "jersey", 9, x, 128, px.WHITE, shadow=px.NAVY_DK)
     need = int(summary.get("titles_to_win") or 3)
     px.draw_text(img, f"FIRST TO {need} TITLES IN ONE CYCLE TAKES THE POT", "silk", 3, x, 248, MUTED)
     px.draw_text(img, f"CYCLE BEGAN SEASON {summary['cycle_started']} • ARTICLE IV", "silk", 3, x, 280, MUTED)
-    right_text(img, "CURRENT BALANCE", "silk", 4, W - 80, 88, px.CREAM)
+    right_text(img, "CURRENT BALANCE", "silk", 4, W - 80, 88, px.WHITE)
     balance, scale = fit(money(summary.get("balance")), "jersey", 560, (12, 10, 8, 6))
-    right_text(img, balance, "jersey", scale, W - 80, 136, px.GOLD, shadow=px.BLACK)
-    draw.rectangle((80, 320, W - 80, 327), fill=px.GOLD)
+    right_text(img, balance, "jersey", scale, W - 80, 136, px.WHITE, shadow=px.RED)
+    draw.rectangle((80, 320, W - 80, 327), fill=px.RED)
 
     rows = summary.get("rows") or []
     if not rows:
-        px.draw_text(img, "NO FRANCHISES RECORDED YET", "silk", 4, x, 392, px.CREAM)
+        px.draw_text(img, "NO FRANCHISES RECORDED YET", "silk", 4, x, 392, px.WHITE)
         sign_off(img, 80)
         return to_png(img)
     per_col = (len(rows) + 1) // 2
@@ -130,13 +133,13 @@ def dynasty_pot_png(summary: dict[str, Any]) -> bytes:
         cx = 80 + col * (col_w + 64)
         y = top + line * step
         if line:
-            draw.rectangle((cx, y, cx + col_w, y + 3), fill=px.CHAR_LT)
+            draw.rectangle((cx, y, cx + col_w, y + 3), fill=px.NAVY_LT)
         shirt = jersey(row.get("colors") or ([row["color"]] if row.get("color") else None), 3)
         img.alpha_composite(shirt, (cx, y + (step - shirt.height) // 2))
         coins_w = need * (7 * coin + 8)
         name_scale = 4 if step >= 64 else 3
         name, s = fit(row["name"], "jersey", col_w - 72 - coins_w - 16, (name_scale, 3))
-        color = px.GOLD if row["titles"] and row["titles"] == leader else px.CREAM
+        color = px.RED_LT if row["titles"] and row["titles"] == leader else px.WHITE
         px.draw_text(img, name, "jersey", s, cx + 72, y + (step - 10 * s) // 2, color)
         for p in range(need):
             piece = paint(COIN if p < row["titles"] else COIN_OFF, coin)
@@ -149,10 +152,10 @@ def franchise_card_png(profile: dict[str, Any]) -> bytes:
     img = ground()
     draw = ImageDraw.Draw(img)
     colors = profile.get("colors") or []
-    main = rgb(colors[0] if colors else None, px.GOLD)
+    main = rgb(colors[0] if colors else None, px.RED)
     second = rgb(colors[1] if len(colors) > 1 else None, main)
 
-    draw.rectangle((0, 0, 535, H - 17), fill=px.BLACK)
+    draw.rectangle((0, 0, 535, H - 17), fill=px.NAVY_DK)
     draw.rectangle((536, 0, 551, H - 17), fill=main)          # the team stripe
     draw.rectangle((552, 0, 559, H - 17), fill=second)
     logo = profile.get("logo")
@@ -169,13 +172,13 @@ def franchise_card_png(profile: dict[str, Any]) -> bytes:
         shirt = jersey(colors, 14)
         img.alpha_composite(shirt, (268 - shirt.width // 2, 360 - shirt.height // 2))
     founded = profile.get("founded")
-    px.draw_text(img, f"EST. {founded}" if founded else "DBL FRANCHISE", "silk", 4, 268, 632, px.CREAM, align="c")
+    px.draw_text(img, f"EST. {founded}" if founded else f"{S} FRANCHISE", "silk", 4, 268, 632, px.WHITE, align="c")
 
     x, width = 640, W - 640 - 80
-    kicker(img, x, "DBL FRANCHISE DIRECTORY")
+    kicker(img, x, f"{S} FRANCHISE DIRECTORY")
     name, s = fit(profile["name"], "jersey", width, (9, 8, 7, 6, 5, 4))
-    px.draw_text(img, name, "jersey", s, x, 128 + (9 - s) * 5, px.CREAM, shadow=px.BLACK)
-    draw.rectangle((x, 248, W - 80, 255), fill=px.GOLD)
+    px.draw_text(img, name, "jersey", s, x, 128 + (9 - s) * 5, px.WHITE, shadow=px.NAVY_DK)
+    draw.rectangle((x, 248, W - 80, 255), fill=px.RED)
 
     titles = profile.get("titles") or []
     need = int(profile.get("titles_to_win") or 3)
@@ -183,15 +186,15 @@ def franchise_card_png(profile: dict[str, Any]) -> bytes:
     rows = [
         ("OWNER", profile.get("owner") or "To be announced"),
         ("FOUNDED", f"Season {founded}" if founded else "To be announced"),
-        ("DBL CHAMPIONSHIPS", f"{len(titles)} ({', '.join(str(t) for t in titles)})" if titles else "None yet"),
+        (f"{S} CHAMPIONSHIPS", f"{len(titles)} ({', '.join(str(t) for t in titles)})" if titles else "None yet"),
         ("DYNASTY POT", f"{profile.get('dynasty_count', 0)} of {need} titles this cycle"),
-        ("RIVAL", f"{rival}, lifetime {profile['rival_record']}" if rival else "To be decided on the ice"),
+        ("RIVAL", f"{rival}, lifetime {profile['rival_record']}" if rival else "To be decided on the field"),
     ]
     y, step = 288, (H - 104 - 288) // len(rows)
     for label, value in rows:
-        px.draw_text(img, label, "silk", 3, x, y, px.GOLD)
+        px.draw_text(img, label, "silk", 3, x, y, px.RED_LT)
         text, vs = fit(str(value), "jersey", width, (4, 3))
-        px.draw_text(img, text, "jersey", vs, x, y + 28, px.CREAM)
+        px.draw_text(img, text, "jersey", vs, x, y + 28, px.WHITE)
         y += step
     sign_off(img, x)
     return to_png(img)

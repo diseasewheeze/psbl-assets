@@ -6,12 +6,12 @@ Every send is ONE Discord message:
   each extra section's title becomes a bold divider field
   ("**━━━ TITLE ━━━**") whose value is the section's text, followed
   by the section's own fields.
-- The header banner embed is charcoal, shows the header image and keeps an
+- The header banner embed is HEADER_COLOR, shows the header image and keeps an
   invisible footer ("\u200b"); without it Discohook rejects it as empty.
 - Every screen (discord_layout.py): no inline fields, dividers and field
   names fit a phone, titles fit desktop with the member list and a tablet.
   Messages already posted in Discord (posted_messages.py) are left as posted.
-- Only the final embed carries real footer text plus the shared gold
+- Only the final embed carries real footer text plus the shared
   footer-divider image. No other embed has footer text or the divider.
 - When several messages are sent back to back as one sequence (SEQUENCES),
   only the sequence's LAST message has the footer text and divider. The
@@ -279,7 +279,7 @@ def problems(embeds: list[dict], banner_url: str | None = None, rel: str | None 
         errs += [f"embed {i + 1}: {p}" for p in channels.embed_problems(e)]
     head = 1 if is_banner(embeds[0]) else 0
     if head and embeds[0] != {"color": HEADER_COLOR, "footer": {"text": ZWSP}, "image": embeds[0].get("image")}:
-        errs.append("header banner must be charcoal with the header image and the invisible footer only")
+        errs.append(f"header banner must be #{HEADER_COLOR:06X} with the header image and the invisible footer only")
     for i, e in enumerate(embeds[1:], 2):
         if is_banner(e):
             errs.append(f"embed {i} is a header banner; only the first embed may be")

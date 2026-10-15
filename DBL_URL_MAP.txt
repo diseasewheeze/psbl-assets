@@ -1,4 +1,4 @@
-DBL RAW ASSET URLS
+PSBL RAW ASSET URLS
 
 Welcome banner:
 https://raw.githubusercontent.com/diseasewheeze/dbl-assets/main/discord/webhooks/welcome/dbl-welcome-banner.png

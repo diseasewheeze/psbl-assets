@@ -1,17 +1,25 @@
-"""DBL static emoji, group A (22 emoji): league mark, gear, rink bits and reaction props.
+"""PSBL static emoji, group A (22 emoji): the league ball, baseball gear, the field and reaction props.
 
 Run:  python static_a.py          -> writes static/<name>.png for all 22 and static_a_sheet.png
       python static_a.py name ... -> only those (sheet still covers all files that exist)
-Deterministic: no randomness.
+Deterministic: no randomness. File names keep the dbl_ prefix.
 """
 from __future__ import annotations
 
+import math
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from pix import Canvas, save_png, sheet  # noqa: E402
+sys.path.insert(1, str(HERE.parents[1] / "tools"))
+from pix import Canvas, face, save_png, sheet  # noqa: E402
+
+TURF, TURF_LT = (15, 44, 80), (20, 54, 96)       # the outfield, mown in navy stripes (as in tools/pixel_kit.py)
+CLAY_DK = (114, 40, 44)
+BALL_SHADE = (214, 221, 231)
+MOUTH = (90, 18, 20)
+TAR, TAR_DK = (92, 56, 26), (58, 34, 14)
 
 
 # --- helpers -------------------------------------------------------------------------------
@@ -85,296 +93,312 @@ def clear_outer(c: Canvas, key="K"):
         stack += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
 
 
-# --- 1. the league B ------------------------------------------------------------------------
-B32 = grid("""
-..KKKKKKKKKKKKKKKKKK........
-.KGGGGGGGGGGGGGGGGGGKK......
-KGGGGGGGGGGGGGGGGGGGGGKK....
-KGGWWWWWWWWWWWWWWWWGGGGGK...
-KGGWWWWWWWWWWWWWWWWWWGGGGK..
-KGGWWWWWWWWWWWWWWWWWWWWGGGK.
-KGGWWWWWWWWWWWWWWWWWWWWWGGGK
-KGGWWWWWGGGGGGGGWWWWWWWWWGGK
-KGGWWWWWGKKKKKKGGGGGWWWWWGGK
-KGGWWWWWGKKKKKKKKKKGWWWWWGGK
-KGGWWWWWGKKKKKKKKKKGWWWWWGGK
-KGGWWWWWGKKKKKKKKGGGWWWWWGGK
-KGGWWWWWGKKKKKKKGGWWWWWWWGGK
-KGGWWWWWGGGGGGGGGWWWWWWWGGGK
-KGGWWWWWWWWWWWWWWWWWWWGGGGK.
-KGGWWWWWWWWWWWWWWWWWWGGGGK..
-KGGWWWWWWWWWWWWWWWWWWGGGGK..
-KGGWWWWWWWWWWWWWWWWWWWGGGGK.
-KGGWWWWWGGGGGGGGWWWWWWWWGGGK
-KGGWWWWWGKKKKKKGGGWWWWWWWGGK
-KGGWWWWWGKKKKKKKKGGGWWWWWGGK
-KGGWWWWWGKKKKKKKKKKGWWWWWGGK
-KGGWWWWWGKKKKKKKKKKGWWWWWGGK
-KGGWWWWWGKKKKKKKGGGGWWWWWGGK
-KGGWWWWWGGGGGGGGGWWWWWWWWGGK
-KGGWWWWWWWWWWWWWWWWWWWWWWGGK
-KGGWWWWWWWWWWWWWWWWWWWWGGGGK
-KGGWWWWWWWWWWWWWWWWWWGGGGGK.
-KGGWWWWWWWWWWWWWWWWGGGGGKK..
-KGGGGGGGGGGGGGGGGGGGGGKK....
-.KGGGGGGGGGGGGGGGGGGKK......
-..KKKKKKKKKKKKKKKKKK........
-""")
+
+def ball_into(c: Canvas, d: int, x: int, y: int):
+    """The league's baseball (tools/pixel_kit.ball_body) at d x d with its top-left at (x, y)."""
+    import pixel_kit
+    tint = {"W": "W", "T": BALL_SHADE, "R": "R"}
+    for j, row in enumerate(pixel_kit.ball_body(d)):
+        for i, ch in enumerate(row):
+            if ch != ".":
+                c.px(x + i, y + j, tint[ch])
 
 
-def dbl_b():
-    c = Canvas()
-    c.stamp(B32, 2, 0)
-    clear_outer(c)
-    return c.outline()
+def fill_where(c: Canvas, test, color):
+    for y in range(c.h):
+        for x in range(c.w):
+            if test(x + .5, y + .5):
+                c.px(x, y, color)
 
 
-# --- 2. puck --------------------------------------------------------------------------------
-def _ell_low(cx, cy, rx, ry, x):
-    """Lowest pixel row of an ellipse (pix.ellipse rules) in column x, or None."""
-    best = None
+def chunky(c: Canvas, shape_fn, main, light, dark, depth=2):
+    """Arcade letter: an extruded dark copy below/right, the face on top, a light top-left bevel."""
+    m = Canvas()
+    shape_fn(m)
+    filled = lambda x, y: 0 <= x < 32 and 0 <= y < 32 and m.get(x, y)[3] > 0  # noqa: E731
+    for d in range(depth, 0, -1):
+        for y in range(32):
+            for x in range(32):
+                if filled(x, y):
+                    c.px(x + d, y + d, dark)
     for y in range(32):
-        d = ((x + .5 - cx - .5) / (rx + .5)) ** 2 + ((y + .5 - cy - .5) / (ry + .5)) ** 2
-        if d <= 1:
-            best = y
-    return best
+        for x in range(32):
+            if filled(x, y):
+                c.px(x, y, light if (not filled(x, y - 1) or not filled(x - 1, y)) else main)
 
 
-def dbl_puck():
+# --- 1. the league ball ----------------------------------------------------------------------
+def dbl_ball():
     c = Canvas()
-    cx, rx, ry, top, bot = 15.5, 14, 6, 10.5, 18.5
-    c.ellipse(cx, bot, rx, ry, "A")
-    c.rect(1, 11, 30, 8, "A")
-    for x in range(1, 31):     # knurled grip band on the side
-        yt, yb = _ell_low(cx, top, rx, ry, x), _ell_low(cx, bot, rx, ry, x)
-        if yt is None:
-            continue
-        for y in range(yt + 2, yb - 1):
-            if (x + y) % 2 == 0:
-                c.px(x, y, "M")
-    c.ellipse(cx, top, rx, ry, "N")
-    c.ellipse(cx, top - .5, rx - 1, ry - 1, "M")
-    for x, y in ((6, 6), (7, 5), (8, 5), (9, 4), (10, 4), (11, 4), (5, 7)):
-        c.px(x, y, "S")
-    c.stamp(grid("""
-DDDDDD..
-GGGGGGG.
-GG...GG.
-GGGGGG..
-GG...GG.
-GGGGGGG.
-"""), 12, 8)
-    c.stamp(grid("""
-YYYYY...
-YY......
-YYYYY...
-YY......
-YY......
-"""), 12, 9)
+    ball_into(c, 28, 2, 2)
     return recenter(c.outline())
 
 
-# --- 3. stick -------------------------------------------------------------------------------
-def dbl_stick():
+# --- 2. dinger: a ball launched toward the seats ---------------------------------------------
+def dbl_dinger():
     c = Canvas()
-    for y in range(6, 19):             # shaft: 4 px diagonal band, lit on its upper edge
-        x0 = y + 1
-        for i, k in enumerate("AMNS"):
-            c.px(x0 + i, y, k)
-    for y, (a, b) in zip(range(1, 6), ((2, 4), (2, 6), (3, 7), (4, 8), (5, 9))):   # taped knob
-        for x in range(a, b + 1):
-            c.px(x, y, "S" if (x + y) % 3 == 0 else "W")
-    for y in (10, 11, 12):             # gold stick graphic
-        x0 = y + 1
-        for i, k in enumerate("DGGY"):
-            c.px(x0 + i, y, k)
-    c.stamp(grid("""
-....AMNS.......
-...AAMMNS....WW
-..AAAMWWSWWSWWW
-..AAAAWWSWWSWWW
-..AAAAWWSWWSWWW
-...AAAWWSWWSWW.
-....AASSSSSSS..
-"""), 16, 19)
+    for (x0, y0, x1, y1, w, col) in ((15, 13, 2, 29, 3, "I"), (18, 16, 7, 30, 2, "L"), (12, 11, 1, 22, 2, "L"),
+                                     (16, 14, 5, 26, 1, "W")):
+        c.line(x0, y0, x1, y1, col, w)
+    ball_into(c, 16, 14, 1)
+    for x, y in ((4, 6), (8, 2), (27, 22)):
+        c.px(x, y, "W"); c.px(x - 1, y, "Y"); c.px(x + 1, y, "Y"); c.px(x, y - 1, "Y"); c.px(x, y + 1, "Y")
     return recenter(c.outline())
 
 
-# --- 4. goalie mask -------------------------------------------------------------------------
-def dbl_mask():
+# --- 3. bat ------------------------------------------------------------------------------------
+def dbl_bat():
     c = Canvas()
-    c.stamp(sym("""
-.......WWWWW
-.....WWWWWWW
-....WWWWWWWW
-...WWWWWWWWW
-..WWWWWWWWWW
-.WWWWWWWWWWW
-.WWWWWWWWWWW
-WWWWWWWWWWWW
-WWWWWWWWWWWW
-WWWWWWWWWWWW
-WWWWKKKKKKKK
-WWWKAAKAAAKA
-WWKAAAKAAAKA
-WWKKKKKKKKKK
-WWKAAAKAAAKA
-WWWKAAKAAAKA
-WWWKKKKKKKKK
-WWWWKAKAAAKA
-WWWWWKKAAAKA
-WWWWWWKKKKKK
-WWWWWWKAAAKA
-WWWWWWWKKKKK
-WWWWWWWWWWWW
-WWWWWWWWWWWW
-.WWWWWWWWWWW
-.WWWWWWWWWWW
-..WWWWWWWWWW
-...WWWWWWWWW
-....WWWWWWWW
-......WWWWWW
-""", odd=True), 4, 1)
-    c.stamp(sym("""
-............
-............
-............
-...D........
-..DG....D...
-.DGG...DG...
-.GYG..DGG..D
-DGYG.DGYG.DG
-GYYGDGYGGDGY
-GYGGGYYGGGYY
-""", odd=True), 4, 1)
-    for y in range(2, 31):            # cream shading down the right side of the shell
-        xs = [x for x in range(32) if c.get(x, y)[:3] == (252, 252, 252)]
-        if xs:
-            c.px(max(xs), y, "C")
+    x0, y0, x1, y1 = 4.0, 28.0, 28.5, 3.5          # knob to barrel end
+    L = math.hypot(x1 - x0, y1 - y0)
+    ux, uy = (x1 - x0) / L, (y1 - y0) / L
+    LITE = (222, 170, 108)
+
+    def radius(t):
+        if t < .05:
+            return 2.3                              # the knob
+        if t < .42:
+            return 1.15                             # handle
+        if t < .78:
+            return 1.15 + (t - .42) / .36 * 2.0     # taper up
+        return 3.15                                 # barrel
+
+    for y in range(32):
+        for x in range(32):
+            px_, py_ = x + .5 - x0, y + .5 - y0
+            t = (px_ * ux + py_ * uy) / L
+            d = -px_ * uy + py_ * ux                     # signed distance across the bat
+            if -.02 <= t <= 1.0 and abs(d) <= radius(t):
+                if t > .97 and abs(d) > radius(t) - 1.2:
+                    continue                             # round the barrel end
+                col = "R" if .07 < t < .3 else ("u" if t <= .07 else "O")
+                if col == "O":
+                    col = "o" if d > radius(t) - 1.1 else (LITE if d < -radius(t) + 1.1 else "O")
+                c.px(x, y, col)
     return recenter(c.outline())
 
 
-# --- 5. skate -------------------------------------------------------------------------------
-def dbl_skate():
+# --- 4. catcher's mask ---------------------------------------------------------------------------
+def dbl_catcher():
     c = Canvas()
-    c.stamp(grid("""
-.NN.............................
-.MAN..........NMMN..............
-.MAANNNNNNNNN.MAAM..............
-..MMMMMMMMMMMNMWWM..............
-..MAAAAAAAAAAMWAAWA.............
-..MAAAAAAAAAAAMWWAA.............
-..MAAAAAAAAAAAAMWAWA............
-..MAAAAAAAAAAAAAAWWAA...........
-..MAAAAAAAAAAAAAAMAWWA..........
-..MAAAAAAAAAAAAAAAMAWAWA........
-.MAAAAAAAAAAAAAAAAAMWWAAA.......
-.MAAAAAAAAAAAAAAAAAAAMAWWAA.....
-.MAAAAAAAAAAAAAAAAAAAAAAAAAA....
-.MAAAAAAAAAAAAAAAAAAAAAAAAAAM...
-.MGGGGGGGGGGGGGGGGGGGGGGGGGGGM..
-.MAAAAAAAAAAAAAAAAAAAAAAAAAAAM..
-..KKKKKKKKKKKKKKKKKKKKKKKKKKK...
-...WWWWWWW........WWWWWWWWW.....
-...CWWWWWC.......CWWWWWWWC......
-....CWWWWWWWWWWWWWWWWWWWC.......
-..SSIIIIIIIIIIIIIIIIIIIIIIIIIS..
-.SSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.
-..NNNNNNNNNNNNNNNNNNNNNNNNNNNN..
-"""), 0, 4)
+    rrect(c, 6, 1, 20, 26, 7, "n")                  # padded frame
+    rrect(c, 9, 5, 14, 18, 4, "A")                   # the opening
+    for x in (12, 16, 19):                           # cage bars
+        c.rect(x, 4, 1, 20, "S")
+    for y in (9, 14, 19):
+        c.rect(8, y, 16, 1, "S")
+    c.rect(12, 4, 1, 20, "W"); c.rect(8, 9, 16, 1, "W")
+    for x, y in ((8, 3), (9, 2), (10, 2), (7, 5), (7, 6)):
+        c.px(x, y, "B")                              # sheen on the pads
+    c.rect(3, 8, 3, 3, "R"); c.rect(26, 8, 3, 3, "R")                 # strap buckles
+    c.rect(1, 9, 2, 1, "u"); c.rect(29, 9, 2, 1, "u")
+    rrect(c, 12, 25, 8, 6, 2, "S"); c.rect(13, 26, 6, 1, "W"); c.rect(13, 29, 6, 1, "N")   # throat guard
     return recenter(c.outline())
 
 
-# --- 6. helmet ------------------------------------------------------------------------------
+# --- 5. cleat ------------------------------------------------------------------------------------
+def dbl_cleat():
+    c = Canvas()
+    c.poly([(3, 11), (9, 9), (15, 11), (21, 15), (27, 17), (30, 20), (30, 23), (3, 23)], "n")
+    c.rect(4, 10, 6, 2, "A")                          # the opening
+    c.rect(2, 12, 3, 10, "R")                         # heel tab
+    for i in range(6):                                # laces
+        c.px(12 + i * 2, 13 + i, "W"); c.px(13 + i * 2, 13 + i, "W")
+    c.line(7, 20, 22, 19, "W", 1); c.line(8, 21, 26, 20, "R", 1)   # side stripe
+    for x, y in ((10, 12), (16, 13), (23, 17), (27, 19)):
+        c.px(x, y, "B")
+    c.rect(2, 23, 29, 2, "W"); c.rect(2, 24, 29, 1, "I")             # midsole
+    c.rect(2, 25, 29, 1, "N")
+    for x in (4, 9, 18, 23, 28):                      # spikes
+        c.rect(x, 26, 2, 2, "S"); c.px(x, 27, "N")
+    return recenter(c.outline())
+
+
+# --- 6. batting helmet ----------------------------------------------------------------------------
 def dbl_helmet():
     c = Canvas()
-    c.stamp(grid("""
-........YYYYYYYYYY............
-.....YYYGGGGGGGGGGGGG.........
-....YGGGGGGGGGGGGGGGGGG.......
-...YGGGGGGGGGGGGGGGDGGGG......
-..YGGGGGGGGGGGGGGGGDGGGGG.....
-..YGGGGGGGGGGGGGGGGDGGGGGG....
-.YGGGGGGGGGGGGGGGGGDGGGGGGG...
-.YGGGGGGGGGGGGGGGGGDGGGGGGG...
-.GGGGGGGGGGGGGGGGGGDGGGGGGGG..
-.GGGGGGGGGGGGGGGGGGDGGGGGGGG..
-.GGGGGGGGGGGGGGGGGGDGGGGGGGG..
-.GGGGGGGGGGGGGGGGGGDDDDDDDDD..
-.GGGGGGGGGAAAAAAGG.SLLLLLLLLL.
-.GGGGGGGGAMMMMMMAG.LWLLLLLLLLL
-.DGGGGGGGAMNMMNMAG.LLWLLLLLLLL
-.DGGGGGGGAMMMMMMAG.LLLWLLLLLLL
-..DGGGGGGAMNMMNMA..LLLLWLLLLLL
-..AAAAAAAAMMMMMMA..LLLLLLLLLLL
-...AAAAAAAAAAAAA....AAAAAAAAAA
-...........AAAA...............
-"""), 1, 5)
+    fill_where(c, lambda X, Y: ((X - 17) / 12.5) ** 2 + ((Y - 16) / 12) ** 2 <= 1 and Y <= 21, "n")
+    c.poly([(1, 19), (12, 16), (13, 21), (1, 23)], "n")              # brim
+    c.rect(1, 22, 11, 1, "R")                                        # red edge on the brim
+    c.poly([(17, 18), (29, 17), (28, 28), (20, 29), (15, 24)], "n")  # ear flap
+    c.circle(22, 22, 2, "A"); c.px(22, 22, "K")                       # ear hole
+    for x, y in ((9, 8), (10, 7), (11, 6), (12, 5), (13, 5), (8, 9), (8, 10)):
+        c.px(x, y, "B")
+    c.px(11, 8, "W"); c.px(12, 7, "W")
+    for x, y in ((18, 6), (23, 8), (26, 12)):                         # vents
+        c.px(x, y, "A")
+    c.rect(16, 21, 3, 1, "B")
     return recenter(c.outline())
 
 
-# --- 7. jersey ------------------------------------------------------------------------------
+# --- 7. jersey (from the back, inaugural-season number) ----------------------------------------
 def dbl_jersey():
     c = Canvas()
-    c.stamp(sym("""
-.........AAAKKK
-......AAAAAAAWK
-....AAAAAAAAAAW
-..AAAAAAAAAAAAA
-.GAAAAAAAAAAAAA
-GGGAAAAAAAAAAAA
-GGGGGGAAAAAAAAA
-GGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGG
-KKKKKGGGGGGGGGG
-WWWWWGGGGGGGGGG
-KKKKKKGGGGGGGGG
-GGGGGGGGGGGGGGG
-GGGGGGGGGGGGGGG
-.....GGGGGGGGGG
-.....GGGGGGGGGG
-.....GGGGGGGGGG
-.....GGGGGGGGGG
-.....GGGGGGGGGG
-.....GGGGGGGGGG
-.....GGGGGGGGGG
-.....KKKKKKKKKK
-.....WWWWWWWWWW
-.....KKKKKKKKKK
-.....GGGGGGGGGG
-"""), 1, 3)
-    c.stamp(grid("""
-KKKKKK..
-KWWWWWK.
-KWWKKWWK
-KWWKKWWK
-KWWWWWK.
-KWWKKWWK
-KWWKKWWK
-KWWWWWK.
-KKKKKK..
-"""), 12, 11)
+    c.poly([(9, 2), (13, 1), (19, 1), (23, 2), (31, 8), (28, 15), (25, 13), (25, 30), (7, 30), (7, 13), (4, 15), (1, 8)], "n")
+    c.rect(13, 1, 6, 2, "R")                                          # collar
+    c.rect(14, 3, 4, 1, "u")
+    c.line(28, 14, 31, 8, "R"); c.line(4, 14, 1, 8, "R")             # sleeve trim
+    c.line(27, 14, 30, 8, "W"); c.line(5, 14, 2, 8, "W")
+    digits = {"2": ["###", "..#", "###", "#..", "###"], "7": ["###", "..#", "..#", ".#.", ".#."]}
+    x = 9
+    for ch in "27":                                                   # the number, 2x scale, red with a white shadow
+        for j, row in enumerate(digits[ch]):
+            for i, bit in enumerate(row):
+                if bit == "#":
+                    c.rect(x + 2 * i + 1, 12 + 2 * j + 1, 2, 2, "W")
+        for j, row in enumerate(digits[ch]):
+            for i, bit in enumerate(row):
+                if bit == "#":
+                    c.rect(x + 2 * i, 12 + 2 * j, 2, 2, "R")
+        x += 8
+    for x, y in ((10, 4), (8, 6)):
+        c.px(x, y, "B")
     return recenter(c.outline())
 
 
-# --- 8. rink --------------------------------------------------------------------------------
-def dbl_rink():
+# --- 8. the diamond from above ----------------------------------------------------------------------
+def dbl_diamond():
     c = Canvas()
-    rrect(c, 1, 6, 30, 20, 7, "I")
-    c.rect(4, 8, 1, 16, "R"); c.rect(27, 8, 1, 16, "R")        # goal lines
-    c.rect(9, 6, 2, 20, "b"); c.rect(21, 6, 2, 20, "b")        # blue lines
-    c.circle(15.5, 15.5, 3, "b", fill=False)                   # center circle
-    c.rect(15, 6, 2, 20, "R")                                  # center red line
-    c.rect(15, 15, 2, 2, "b")                                  # center dot
-    for x in (5, 26):                                          # creases
-        c.rect(x, 14, 1, 4, "L")
-    c.rect(3, 15, 1, 2, "R"); c.rect(28, 15, 1, 2, "R")        # nets
-    for x, y in ((6, 11), (6, 20), (25, 11), (25, 20)):        # end-zone dots
-        c.rect(x, y, 1, 1, "R")
+    hx, hy = 15.5, 29.5                                               # home plate
+    def fan(X, Y, r):
+        a = math.degrees(math.atan2(hy - Y, X - hx))
+        return 45 <= a <= 135 and math.hypot(X - hx, Y - hy) <= r
+    fill_where(c, lambda X, Y: fan(X, Y, 28.5), "c")                  # warning track
+    for y in range(32):
+        for x in range(32):
+            if fan(x + .5, y + .5, 26.5):
+                c.px(x, y, TURF_LT if ((x + y) // 4) % 2 else TURF)   # mown outfield
+    c.poly([(15.5, 30.5), (25, 21), (15.5, 11.5), (6, 21)], "c")       # infield dirt
+    c.poly([(15.5, 27.5), (22, 21), (15.5, 14.5), (9, 21)], TURF)     # infield grass
+    c.circle(15, 20, 1.5, "c"); c.px(15, 20, "W")                     # the mound
+    c.line(15, 29, 1, 15, "W"); c.line(16, 29, 30, 15, "W")           # foul lines
+    for x, y in ((23, 20), (15, 12), (7, 20)):
+        c.rect(x, y, 2, 2, "W")                                       # bases
+    c.rect(15, 28, 2, 2, "W")
     return recenter(c.outline())
 
 
-# --- 9. cup ---------------------------------------------------------------------------------
+# --- 9. umpire ---------------------------------------------------------------------------------------
+def dbl_umpire():
+    c = face(cy=17.5, r=12)
+    fill_where(c, lambda X, Y: ((X - 16) / 12.5) ** 2 + ((Y - 10) / 7.5) ** 2 <= 1 and Y <= 10.5, "n")   # cap
+    c.rect(3, 10, 26, 2, "n"); c.rect(3, 11, 26, 1, "A")              # short brim
+    c.px(10, 5, "B"); c.px(11, 4, "B"); c.px(12, 4, "B")
+    for ex, d in ((9, 1), (20, 0)):                                   # stern brows and eyes
+        c.line(ex, 13 + d, ex + 3, 14 - d, "K")
+        c.rect(ex + 1, 15, 2, 3, "K")
+    fill_where(c, lambda X, Y: ((X - 16) / 5) ** 2 + ((Y - 24) / 3.6) ** 2 <= 1, MOUTH)   # yelling
+    c.rect(13, 21, 6, 1, "W")
+    fill_where(c, lambda X, Y: ((X - 16) / 3) ** 2 + ((Y - 26.5) / 1.6) ** 2 <= 1, "r")
+    return recenter(c.outline())
+
+
+# --- 10. ejected: the umpire's thumb, heave-ho ---------------------------------------------------------
+def dbl_ejected():
+    c = Canvas()
+    capsule(c, 27.5, 31, 19, 19, 4.2, "n")                            # sleeve
+    capsule(c, 21.5, 23.5, 18.5, 19.5, 4.4, "W")                      # cuff
+    capsule(c, 26.5, 31, 21.5, 24, 3.6, "n")
+    rrect(c, 9, 11, 12, 11, 4, "G")                                   # fist, seen from the side
+    for y in (14, 17, 20):
+        c.rect(11, y, 8, 1, "D")                                      # curled fingers
+    for y in (12, 15, 18):
+        c.px(20, y, "Y"); c.px(20, y + 1, "Y")                        # knuckles catching the light
+    c.rect(9, 13, 1, 7, "D")
+    capsule(c, 12, 12, 7.5, 3.5, 2.1, "G")                            # the thumb, jerked back
+    c.px(6, 3, "Y"); c.px(7, 2, "Y")
+    for a in range(200, 300, 12):                                     # whoosh
+        x = 14 + 11 * math.cos(math.radians(a)); y = 15 + 11 * math.sin(math.radians(a))
+        c.px(int(x), int(y), "W")
+    return recenter(c.outline())
+
+
+# --- 11. pine tar --------------------------------------------------------------------------------------
+def dbl_pine_tar():
+    c = Canvas()
+    c.rect(7, 10, 18, 20, "S")                                         # the tin
+    c.rect(7, 10, 2, 20, "W"); c.rect(22, 10, 3, 20, "N")
+    c.ellipse(15.5, 29, 9, 1.5, "N")
+    c.rect(7, 16, 18, 8, "R"); c.rect(7, 23, 18, 1, "u")             # label
+    c.text(10, 18, "TAR", "W")
+    c.ellipse(15.5, 9, 9, 2.5, "N")                                    # rim
+    c.ellipse(15.5, 8.5, 8, 1.5, TAR)                                  # the goo
+    for x, n in ((9, 3), (14, 5), (20, 4), (23, 2)):                   # drips
+        c.rect(x, 10, 2, n, TAR); c.px(x + 1, 10 + n, TAR_DK)
+    c.px(12, 8, (140, 96, 48)); c.px(13, 8, (140, 96, 48))
+    c.line(19, 8, 27, 0, "O", 2); c.line(20, 8, 28, 0, "o")           # the stir stick
+    return recenter(c.outline())
+
+
+# --- 12. fielder's glove with a ball in the pocket --------------------------------------------------------
+def dbl_glove():
+    c = Canvas()
+    for (xa, ya, xb, yb) in ((13, 15, 12, 4), (17, 14, 17, 2), (21, 14, 22, 4), (25, 17, 27, 8)):
+        capsule(c, xa, ya, xb, yb, 2.4, "O")                           # fingers
+    c.ellipse(17, 20, 10, 9, "O")                                       # palm
+    capsule(c, 7, 24, 4.5, 11, 2.8, "O")                               # thumb
+    web = Canvas()
+    web.poly([(5, 9), (11.5, 5), (13, 14), (8, 18)], "o")
+    for y in range(32):
+        for x in range(32):
+            if web.get(x, y)[3] and not c.get(x, y)[3]:
+                c.px(x, y, "o" if (x + y) % 3 else "O")               # laced web
+    for xx in (15, 19, 23):                                            # finger seams
+        c.line(xx, 5 if xx != 23 else 7, xx, 14, "o")
+    for x, y in ((11, 3), (16, 1), (21, 3), (26, 7), (3, 11)):
+        c.px(x, y, "R"); c.px(x + 1, y, "R")                           # red lacing on the tips
+    c.rect(9, 27, 16, 3, "o"); c.rect(9, 28, 16, 1, "R")               # wrist strap
+    ball_into(c, 10, 13, 16)
+    return recenter(c.outline())
+
+
+# --- 13. home plate ------------------------------------------------------------------------------------------
+def dbl_plate():
+    c = Canvas()
+    rrect(c, 1, 1, 30, 30, 5, "c")
+    for x, y in ((5, 4), (26, 3), (8, 27), (24, 26), (14, 4), (19, 28), (3, 16), (28, 18)):
+        c.px(x, y, CLAY_DK)
+    c.frame(2, 6, 6, 19, "W"); c.frame(24, 6, 6, 19, "W")             # batter's boxes
+    c.poly([(9.5, 8.5), (22.5, 8.5), (22.5, 15.5), (16, 22.5), (9.5, 15.5)], "W")   # the plate
+    c.line(22, 9, 22, 15, "I"); c.line(22, 15, 16, 21, "I")
+    c.line(10, 9, 22, 9, "S")
+    return recenter(c.outline())
+
+
+# --- 14. K: the strikeout -----------------------------------------------------------------------------------------
+def dbl_k():
+    c = Canvas()
+
+    def shape(m):
+        m.rect(4, 2, 7, 26, "R")
+        m.poly([(10, 14), (20, 2), (28, 2), (15, 17)], "R")
+        m.poly([(13, 13), (17, 12), (28, 28), (20, 28)], "R")
+    chunky(c, shape, "R", "r", "u", depth=3)
+    return recenter(c.outline())
+
+
+# --- 15. batting glove -------------------------------------------------------------------------------------------
+def dbl_mitt():
+    c = Canvas()
+    for (xa, ya, xb, yb) in ((10.5, 14, 10, 4.5), (14.5, 13, 14.5, 2.5), (18.5, 13, 19, 3.5), (22.5, 14, 23.5, 6.5)):
+        capsule(c, xa, ya, xb, yb, 1.9, "W")
+    rrect(c, 8, 12, 17, 13, 3, "W")
+    capsule(c, 9, 20, 4, 13, 2.1, "W")                                 # thumb
+    for y in range(32):                                                # navy fingertips
+        for x in range(32):
+            if c.get(x, y)[3] and y <= 7:
+                c.px(x, y, "n")
+    for x in (12, 16, 20):
+        c.line(x + .5, 8, x + .5, 13, "I")                             # knuckle seams
+    rrect(c, 11, 15, 11, 6, 2, "n")                                    # back-of-hand panel
+    c.rect(12, 16, 3, 1, "B")
+    c.rect(9, 24, 15, 4, "R"); c.rect(9, 27, 15, 1, "u")               # velcro strap
+    c.rect(10, 28, 13, 3, "n")                                         # cuff
+    c.rect(21, 20, 3, 3, "I"); c.rect(23, 24, 2, 3, "r")               # strap tab
+    return recenter(c.outline())
+
+
+# --- kept from the first set, recolored -------------------------------------------------------
 def _silver_band(c, x0, x1, y0, y1):
     c.rect(x0, y0, x1 - x0 + 1, y1 - y0 + 1, "S")
     c.rect(x0 + 1, y0, 1, y1 - y0 + 1, "W")
@@ -382,53 +406,46 @@ def _silver_band(c, x0, x1, y0, y1):
 
 
 def dbl_cup():
+    """The championship trophy: a two-handled silver cup with a red band on a navy base."""
     c = Canvas()
-    # shallow bowl on top, much narrower than the base
-    c.stamp(grid("""
-SWWWWWWWWWWWWWWS
-SNNNNNNNNNNNNNNS
-SWSSSSSSSSSSSNNS
-.SWSSSSSSSSSSNN.
-..SWSSSSSSSSNN..
-....SSSSSSSN....
-"""), 8, 1)
-    c.rect(11, 7, 10, 1, "G")
-    _silver_band(c, 13, 18, 8, 8)
-    c.rect(11, 9, 10, 1, "G")
-    _silver_band(c, 11, 20, 10, 12)       # tiers step out toward the base
-    c.rect(10, 13, 12, 1, "G")
-    _silver_band(c, 9, 22, 14, 17)
-    c.rect(8, 18, 16, 1, "G")
-    _silver_band(c, 7, 24, 19, 22)
-    c.rect(6, 23, 20, 1, "G")
-    _silver_band(c, 5, 26, 24, 27)
-    c.rect(4, 28, 24, 2, "G"); c.rect(4, 29, 24, 1, "D")
-    for y in (15, 16, 20, 21, 25, 26):     # engraved name rows
+    for cx in (5.5, 26.5):                                            # handles
+        fill_where(c, lambda X, Y, cx=cx: 2.2 <= math.hypot(X - cx, Y - 8.5) <= 4.2 and abs(X - 16) > 9, "S")
+    c.poly([(7, 3), (25, 3), (24.5, 10), (20.5, 15.5), (11.5, 15.5), (7.5, 10)], "S")   # bowl
+    c.rect(6, 2, 20, 2, "W"); c.rect(6, 3, 20, 1, "I")                # rim
+    for y in range(4, 16):                                            # light left, dark right
+        xs = [x for x in range(32) if c.get(x, y)[:3] == (154, 161, 169) and 6 <= x <= 25]
+        if xs:
+            c.px(xs[0] + 1, y, "W"); c.px(xs[-1], y, "N"); c.px(xs[-1] - 1, y, "N")
+    for y in (7, 8):
         for x in range(8, 25):
-            if c.get(x, y)[:3] == (154, 161, 169) and (x + y) % 2 == 0:
-                c.px(x, y, "N")
+            if c.get(x, y)[:3] in ((154, 161, 169), (255, 255, 255), (110, 116, 124)):
+                c.px(x, y, "R" if y == 7 else "u")
+    c.rect(14, 16, 4, 4, "S"); c.rect(14, 16, 1, 4, "W"); c.rect(17, 16, 1, 4, "N")   # stem
+    c.rect(11, 20, 10, 2, "S"); c.rect(11, 20, 10, 1, "W")            # knot
+    c.rect(9, 22, 14, 3, "n"); c.rect(7, 25, 18, 5, "n")              # base
+    c.rect(9, 22, 14, 1, "B"); c.rect(7, 25, 18, 1, "B")
+    c.rect(11, 26, 10, 3, "I"); c.rect(12, 27, 8, 1, "S")             # name plate
     return recenter(c.outline())
 
 
-# --- 10. banner -----------------------------------------------------------------------------
 def dbl_banner():
     c = Canvas()
-    c.poly([(6, 5), (26, 5), (26, 31), (16, 25), (6, 31)], "G")
-    c.rect(6, 5, 1, 26, "Y")
-    c.rect(24, 5, 2, 26, "D")
-    c.rect(6, 5, 20, 2, "D")
+    c.poly([(6, 5), (26, 5), (26, 31), (16, 25), (6, 31)], "R")
+    c.rect(6, 5, 1, 26, "r")
+    c.rect(24, 5, 2, 26, "u")
+    c.rect(6, 5, 20, 2, "u")
     c.rect(2, 3, 28, 2, "o"); c.rect(2, 3, 28, 1, "O")
     c.stamp(grid("""
-.YY.
-YGGY
-YGGD
-.DD.
+.WW.
+WSSW
+WSSN
+.NN.
 """), 0, 2)
     c.stamp(grid("""
-.YY.
-YGGY
-YGGD
-.DD.
+.WW.
+WSSW
+WSSN
+.NN.
 """), 28, 2)
     c.stamp(grid("""
 WWWWWWWWWW
@@ -440,12 +457,11 @@ W.WWWWWS.W
 ...WWWS...
 ..WWWWWS..
 """), 11, 7)
-    c.rect(8, 17, 16, 7, "K")
-    c.text(9, 18, "2026", "W")
+    c.rect(8, 17, 16, 7, "n")
+    c.text(9, 18, "2027", "W")
     return recenter(c.outline())
 
 
-# --- 11. beer -------------------------------------------------------------------------------
 def dbl_beer():
     c = Canvas()
     c.rect(4, 9, 18, 21, "I")                    # glass
@@ -468,96 +484,6 @@ def dbl_beer():
     return recenter(c.outline())
 
 
-# --- 12. whistle ----------------------------------------------------------------------------
-def dbl_whistle():
-    c = Canvas()
-    loop = [(25, 11), (28, 8), (28, 4), (26, 1), (23, 1), (20, 3), (20, 6), (22, 9)]
-    for (x0, y0), (x1, y1) in zip(loop, loop[1:] + loop[:1]):      # lanyard: a cord loop off the ring
-        c.line(x0, y0, x1, y1, "R", 2)
-    for (x0, y0), (x1, y1) in zip(loop[3:6], loop[4:7]):
-        c.line(x0, y0, x1, y1, "r")
-    c.circle(21, 21, 8.5, "S")                   # chamber
-    c.rect(1, 13, 19, 8, "S")                    # mouthpiece
-    c.rect(1, 12, 2, 10, "S")
-    c.rect(3, 14, 15, 1, "W")
-    c.rect(3, 20, 11, 1, "N")
-    c.stamp(grid("""
-...WWW.......
-..WW.........
-.WW..........
-.W...........
-.W..........N
-............N
-...........NN
-..........NN.
-........NNN..
-...NNNNNNN...
-"""), 14, 15)
-    c.rect(13, 13, 6, 2, "K")                    # the window on top
-    c.rect(1, 15, 1, 4, "N")
-    c.circle(26, 12, 1.5, "N"); c.px(26, 12, None); c.px(27, 12, None)   # ring
-    return recenter(c.outline())
-
-
-# --- 13. sin bin ----------------------------------------------------------------------------
-def dbl_sinbin():
-    c = Canvas()
-    c.rect(2, 9, 28, 9, "I")                      # glass
-    c.stamp(grid("""
-..KKKKK...
-.KMMMMMK..
-.KMMMMLLK.
-.KMMMMLLK.
-..KKKKKK..
-KGGGGGGGGK
-GGGGGGGGGG
-"""), 4, 11)                                      # a gold skater sitting it out behind the glass
-    for x0 in (13, 22):
-        c.line(x0, 16, x0 + 5, 11, "W")
-    c.rect(2, 9, 1, 9, "S"); c.rect(29, 9, 1, 9, "S")
-    c.rect(1, 18, 30, 2, "N"); c.rect(1, 18, 30, 1, "S")      # rail cap
-    c.rect(2, 20, 28, 9, "W")                     # boards
-    c.rect(2, 26, 28, 4, "G"); c.rect(2, 29, 28, 1, "D")       # kick plate
-    c.frame(18, 20, 9, 10, "K")                   # door seam
-    c.rect(19, 22, 2, 2, "N")
-    c.rect(9, 0, 14, 11, "A"); c.rect(9, 0, 14, 1, "N"); c.rect(9, 0, 1, 11, "N")
-    c.stamp(grid("""
-.WWWWW.
-WWWWWWW
-WW...WW
-....WWW
-..WWWW.
-.WWW...
-WWWWWWW
-WWWWWWW
-"""), 12, 2)
-    return recenter(c.outline())
-
-
-# --- 14. tape -------------------------------------------------------------------------------
-def dbl_tape():
-    c = Canvas()
-    c.stamp(grid("""
-..........NN
-.........NAA
-........NAA.
-.......NAA..
-NNNNNNNAAA..
-AAAAAAAAA...
-AAAAAAAA....
-"""), 18, 18)                                    # loose tail peeling off the bottom and curling up
-    c.circle(15.5, 12.5, 11, "A")                # depth of the roll
-    c.circle(12.5, 12.5, 11, "M")
-    c.circle(12.5, 12.5, 8, "N", fill=False)
-    c.circle(12.5, 12.5, 5, "O")
-    c.circle(12.5, 12.5, 4, "o", fill=False)
-    c.circle(12.5, 12.5, 3, None)
-    for x, y in ((5, 5), (6, 4), (7, 3), (8, 3), (4, 6), (4, 7)):
-        c.px(x, y, "S")
-    return recenter(c.outline())
-
-
-# --- 15. water bottle -----------------------------------------------------------------------
 def dbl_bottle():
     c = Canvas()
     rrect(c, 8, 11, 16, 20, 3, "L")
@@ -567,117 +493,15 @@ def dbl_bottle():
     for y in (20, 23, 26):
         c.rect(9, y, 14, 1, "B")
     c.rect(10, 12, 1, 16, "W")
-    c.rect(9, 7, 14, 4, "A")
+    c.rect(9, 7, 14, 4, "R")
     for x in range(10, 22, 2):
-        c.rect(x, 7, 1, 4, "M")
-    c.rect(10, 6, 12, 1, "A")
+        c.rect(x, 7, 1, 4, "u")
+    c.rect(10, 6, 12, 1, "R")
     c.line(15, 5, 21, 0, "W", 2)
     c.line(14, 5, 20, 0, "S")
     return recenter(c.outline())
 
 
-# --- 16. player glove -----------------------------------------------------------------------
-def dbl_mitt():
-    c = Canvas()
-    c.stamp(grid("""
-.............YY.............
-........YY..YGGG.YY.........
-.......YGGG.YGGG.YGGG.......
-.......YGGG.YGGG.YGGG.YG....
-.......DDDD.DDDD.DDDD.YGG...
-.......YGGG.YGGG.YGGG.DDD...
-.......YGGG.YGGG.YGGG.YGG...
-.......YGGG.YGGG.YGGG.YGG...
-..YG...DDDD.DDDD.DDDD.DDD...
-.YGGG..YGGG.YGGG.YGGG.YGG...
-.YGGGG.YGGG.YGGG.YGGG.YGG...
-..DYGGG.AAAAAAAAAAAAAAAAA...
-...DYGGGNNNNNNNNNNNNNNNNA...
-....DYGGAAAAAAAAAAAAAAAAA...
-.....DGGGGGGGGGGGGGGGGGGG...
-......GGGGGGGGGGGGGGGGGGG...
-......GGGGGGGGGGGGGGGGGGG...
-......GGGGGGGGGGGGGGGGGDD...
-.......DDDDDDDDDDDDDDDDD....
-......AAAAAAAAAAAAAAAAAAA...
-......MAAAAAAAAAAAAAAAAAA...
-.....MAAAAAAAAAAAAAAAAAAAA..
-.....GGGGGGGGGGGGGGGGGGGGG..
-.....MAAAAAAAAAAAAAAAAAAAA..
-....MAAAAAAAAAAAAAAAAAAAAAA.
-....NNNNNNNNNNNNNNNNNNNNNNN.
-"""), 2, 3)
-    return recenter(c.outline())
-
-# --- 17. trapper ----------------------------------------------------------------------------
-def dbl_trapper():
-    c = Canvas()
-    capsule(c, 20, 19, 24.5, 5.5, 5.2, "W")                             # finger lobe
-    capsule(c, 5.5, 18, 4.5, 11, 3.6, "W")                              # thumb lobe (shorter)
-    c.ellipse(13, 20, 9, 3, "W")                                        # palm
-    web = Canvas()
-    web.poly([(4, 10), (19, 2), (20, 17), (6, 17)], "G")                # web: diagonal from thumb tip to finger tip
-    for y in range(32):
-        for x in range(32):
-            if web.get(x, y)[3] and not c.get(x, y)[3]:
-                c.px(x, y, "K" if ((x + y) % 3 == 0 or (x - y) % 3 == 0) else "G")
-    c.line(6, 9, 18, 3, "W")                                            # T-trap: top binding + center strap
-    c.line(12, 7, 12, 16, "W")
-    for y in range(21):                                                 # gold rim round the finger lobe
-        for x in range(19, 32):
-            p = c.get(x, y)
-            if p[3] and p[:3] == (252, 252, 252) and (not c.get(x + 1, y)[3] or not c.get(x, y - 1)[3]):
-                c.px(x, y, "G")
-    for y in range(6, 21):                                              # gold rim round the thumb
-        for x in range(0, 8):
-            p = c.get(x, y)
-            if p[3] and p[:3] == (252, 252, 252) and (not c.get(x - 1, y)[3] or not c.get(x, y - 1)[3]):
-                c.px(x, y, "G")
-    c.line(21, 18, 24, 7, "S"); c.line(24, 19, 27, 9, "S")              # finger stitching
-    c.ellipse(12.5, 18, 4, 2, "C")                                      # pocket
-    c.poly([(5, 22), (22, 22), (23, 30), (4, 30)], "G")                # cuff
-    c.rect(4, 25, 20, 1, "W"); c.rect(4, 28, 20, 2, "D")
-    return recenter(c.outline())
-
-
-# --- 18. faceoff dot ------------------------------------------------------------------------
-def dbl_faceoff():
-    c = Canvas()
-    rrect(c, 1, 1, 30, 30, 5, "I")
-    c.circle(15.5, 15.5, 11, "R"); c.circle(15.5, 15.5, 9, "I")       # faceoff circle
-    for x in (11, 19):                                                 # hash marks
-        c.rect(x, 1, 2, 3, "R"); c.rect(x, 28, 2, 3, "R")
-    for kx, ky, sx, sy in ((10, 11, -1, -1), (21, 11, 1, -1), (10, 20, -1, 1), (21, 20, 1, 1)):
-        c.rect(min(kx, kx + 2 * sx), ky, 3, 1, "R")                    # the four L marks
-        c.rect(kx, min(ky, ky + 2 * sy), 1, 3, "R")
-    c.circle(15.5, 15.5, 3, "R")                                       # the dot
-    c.px(13, 13, "r"); c.px(14, 13, "r"); c.px(13, 14, "r")
-    for x, y in ((5, 8), (6, 8), (25, 23), (26, 23), (24, 6), (7, 24), (8, 24)):   # skate scratches
-        c.px(x, y, "L")
-    return recenter(c.outline())
-
-# --- 19. ice cube ---------------------------------------------------------------------------
-def dbl_ice():
-    c = Canvas()
-    c.poly([(3, 8), (16, 14), (16, 29), (3, 23)], "L")
-    c.poly([(16, 14), (29, 8), (29, 23), (16, 29)], "b")
-    c.poly([(16, 2), (29, 8), (16, 14), (3, 8)], "I")
-    c.line(16, 15, 16, 28, "W")
-    c.line(5, 9, 15, 14, "W")
-    for x, y in ((14, 4), (15, 4), (16, 3), (12, 5), (20, 5), (22, 6), (6, 12), (7, 11), (5, 14),
-                 (20, 16), (22, 15), (25, 13), (26, 12)):
-        c.px(x, y, "W")
-    c.stamp(grid("""
-..W..
-..W..
-WWWWW
-..W..
-..W..
-"""), 26, 0)
-    return recenter(c.outline())
-
-
-# --- 20. salt shaker ------------------------------------------------------------------------
 def _shaker(u, v):
     """Material of the salt shaker at local point (u across, v up from the foot), or None."""
     if 0 <= v < 17 and abs(u) <= 7.5:                           # glass body
@@ -725,7 +549,6 @@ def dbl_salty():
     return recenter(c.outline())
 
 
-# --- 21. crown ------------------------------------------------------------------------------
 def dbl_crown():
     c = Canvas()
     c.poly([(3, 21), (2.5, 8), (6.5, 15), (9.5, 6), (12.5, 14), (16, 3), (19.5, 14), (22.5, 6), (25.5, 15),
@@ -749,7 +572,6 @@ BLB
     return recenter(c.outline())
 
 
-# --- 22. trash can --------------------------------------------------------------------------
 def dbl_trash():
     c = Canvas()
     c.poly([(6, 15), (26, 15), (24, 31), (8, 31)], "S")              # can
@@ -776,9 +598,9 @@ S..S
     return recenter(c.outline())
 
 
-EMOJI = [dbl_b, dbl_puck, dbl_stick, dbl_mask, dbl_skate, dbl_helmet, dbl_jersey, dbl_rink,
-         dbl_cup, dbl_banner, dbl_beer, dbl_whistle, dbl_sinbin, dbl_tape, dbl_bottle,
-         dbl_mitt, dbl_trapper, dbl_faceoff, dbl_ice, dbl_salty, dbl_crown, dbl_trash]
+EMOJI = [dbl_ball, dbl_dinger, dbl_bat, dbl_catcher, dbl_cleat, dbl_helmet, dbl_jersey, dbl_diamond,
+         dbl_cup, dbl_banner, dbl_beer, dbl_umpire, dbl_ejected, dbl_pine_tar, dbl_bottle,
+         dbl_mitt, dbl_glove, dbl_plate, dbl_k, dbl_salty, dbl_crown, dbl_trash]
 
 
 def main(names=None):

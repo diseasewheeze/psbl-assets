@@ -8,7 +8,7 @@ from history.context import LeagueHistory, natural
 from history.records import AWARDS
 from history.rivals import HeadToHead, declared_rivals
 
-DEFAULT_COLORS = ["#FFB81C", "#F4EFE4"]
+DEFAULT_COLORS = ["#BD3039", "#FFFFFF"]   # league red and white, for franchises without colors
 
 
 def dynasty_summary(hist: LeagueHistory) -> dict[str, Any]:

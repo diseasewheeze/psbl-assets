@@ -11,15 +11,17 @@ cleanly from an empty archive. The DBL History Site workflow publishes the
 folder to Cloudflare Pages.
 
 Layout: a scoreboard header with the full menu and a "you are here" marker,
-breadcrumbs on inner pages, alternating ice and arena bands, pixel windows for
-each module, and the rafters with the ice resurfacer on the home page. Team
-colors appear only on each franchise's pixel jersey and the stripe under its
-page header; everything else stays in league colors.
+breadcrumbs on inner pages, alternating chalk-white and navy ballpark bands,
+pixel windows for each module, and championship pennants over the field (with
+the drag tractor working the infield) on the home page. League colors are navy,
+red and white. Team colors appear only on each franchise's pixel jersey and the
+stripe under its page header; everything else stays in league colors. The
+league's name comes from brand/identity.json.
 
 Type: three pixel fonts. Jersey 10 for display, Silkscreen for labels, and
 Pixelify Sans for body copy and the Constitution.
 
-Pages use clean addresses (/seasons/2027/, /franchises/rink-rats/), so they
+Pages use clean addresses (/seasons/2027/, /franchises/north-stars/), so they
 are served from the root of the site's domain.
 
 Usage: python tools/build_site.py [--archive PATH] [--out site]
@@ -30,6 +32,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import html
+import json
 import re
 import shutil
 import sys
@@ -66,9 +69,12 @@ FONT_FILES = {
     "silkscreen-bold.woff": FONT_DIR / "silkscreen" / "silkscreen-bold.woff",
     "pixelifysans.woff": FONT_DIR / "pixelifysans" / "pixelifysans.woff",
 }
-SITE_NAME = "DBL History"
-LEAGUE_NAME = "Dynasty Baseball League"
-DESCRIPTION = ("The permanent record of the Dynasty Baseball League: champions, standings, "
+IDENTITY = json.loads((ROOT / "brand" / "identity.json").read_text(encoding="utf-8"))
+LEAGUE_NAME = IDENTITY["league_name"]
+LEAGUE_SHORT = IDENTITY["short_name"]
+LEAGUE_EST = str(IDENTITY["established"])
+SITE_NAME = f"{LEAGUE_SHORT} History"
+DESCRIPTION = (f"The permanent record of the {LEAGUE_NAME}: champions, standings, "
                "head-to-head records, trades, drafts and the Constitution.")
 SECTIONS = [
     ("seasons", "Seasons"),
@@ -79,96 +85,120 @@ SECTIONS = [
     ("records", "Records"),
     ("constitution", "Constitution"),
 ]
-INK, BOARDS, GOLD, CREAM = "#2B2D31", "#2B2D31", "#FFB81C", "#F4EFE4"
-BLACK = "#0E0F12"
+INK, NAVY, RED, WHITE = "#0C2340", "#0C2340", "#BD3039", "#FFFFFF"
+CREAM = "#F4EFE4"    # light text on dark franchise colors (ink_for)
+DEEP = "#071528"     # deep navy: browser theme color
 REGULAR_WEEKS = 22   # Constitution 5.x: 22-week regular season
 PLAYOFF_TEAMS = 6    # Constitution XVI: six teams, the top two get byes
 
 # --- pixel sprites: one character per pixel, "." is transparent -----------------------
-PAL = {"K": "#0E0F12", "W": "#FCFCFC", "G": "#FFB81C", "D": "#C68A00", "S": "#9AA1A9", "B": "#2457C5",
-       "R": "#C8241F", "L": "#7FB7F0", "C": "#F4EFE4"}
+PAL = {"K": "#071528", "V": "#0C2340", "W": "#FFFFFF", "C": "#F6F7F9", "T": "#D6DDE7", "R": "#BD3039", "D": "#8E1F27",
+       "L": "#D9545C", "U": "#2C5696", "S": "#9AA1A9", "N": "#6E747C", "M": "#282C34"}
 SPRITES: dict[str, list[str]] = {
-    "b": ["KKKKKKKKKK....", "KGGGGGGGGGK...", "KGWWWWWWWWGK..", "KGWWKKKKWWWGK.", "KGWWKGGKWWWGK.", "KGWWKKKKWWGK..",
-          "KGWWWWWWWWGK..", "KGWWWWWWWWWGK.", "KGWWKKKKKWWWGK", "KGWWKGGGKWWWGK", "KGWWKKKKKWWWGK", "KGWWWWWWWWWWGK",
-          "KGGGGGGGGGGGK.", "KKKKKKKKKKKK.."],
-    "cup": ["..KKKKKKKK..", "KKGGGGGGGGKK", "KGKGGGGGWGKG", "KGKGGGGGWGKG", ".KKGGGGGGKK.", "...KGGGGK...", "....KGGK....",
-            ".....KK.....", "....KGGK....", "...KKKKKK...", "...KDDDDK...", "...KKKKKK..."],
-    "coin": ["..KKK..", ".KGGGK.", "KGGWGGK", "KGGWGGK", "KGGWGGK", ".KGGGK.", "..KKK.."],
+    # the league's small baseball (the asset keeps its old name, b.svg)
+    "b": ["....KKKKKK....", "..KKWWWWWWKK..", ".KWRWWWWWWRWK.", ".KWWRWWWWRWWK.", "KWWWRWWWWRWWTK", "KWWWWRWWRWWWTK",
+          "KWWWWRWWRWWWTK", "KWWWWRWWRWWWTK", "KWWWWRWWRWWTTK", "KWWWRWWWWRWTTK", ".KWWRWWWWRWTK.", ".KTRTTWWTTRTK.",
+          "..KKTTTTTTKK..", "....KKKKKK...."],
+    "cup": ["..KKKKKKKK..", "KKTTTTTTTTKK", "KTKTTTTTWTKT", "KTKTTTTTWTKT", ".KKTTTTTTKK.", "...KTTTTK...", "....KTTK....",
+            ".....KK.....", "....KTTK....", "...KKKKKK...", "...KVVVVK...", "...KKKKKK..."],
+    # one pixel baseball per championship, and the empty slot
+    "coin": ["..KKK..", ".KWWWK.", "KRWWWRK", "KWRWRWK", "KRWWWRK", ".KWWTK.", "..KKK.."],
     "coinoff": ["..SSS..", ".S...S.", "S.....S", "S.....S", "S.....S", ".S...S.", "..SSS.."],
     "jersey": ["......KKKKKK......", "...KKKPPWWPPKKK...", "..KPPPPPPPPPPPPK..", ".KPPPPPPPPPPPPPPK.", "KPPPPPPPPPPPPPPPPK",
                "KPPPKPPPPPPPPKPPPK", "KSSSKPPPPPPPPKSSSK", "KPPPKPPPPPPPPKPPPK", "KSSSKPPPPPPPPKSSSK", "KPPPKPPPPPPPPKPPPK",
                ".KKKKSSSSSSSSKKKK.", "....KPPPPPPPPK....", "....KSSSSSSSSK....", "....KKKKKKKKKK...."],
     "calendar": ["KKKKKKKKKKKK", "KRRRRRRRRRRK", "KWWWWWWWWWWK", "KWKWKWKWKWWK", "KWWWWWWWWWWK", "KWKWKWKWKWWK", "KWWWWWWWWWWK",
                  "KKKKKKKKKKKK"],
-    "sticks": ["K.........K", "GK.......KG", ".GK.....KG.", "..GK...KG..", "...GK.KG...", "....GKG....", "...GK.KG...",
-               "..GK...KG..", ".GK.....KG.", "GGK.....KGG", "GG.......GG"],
+    # crossed bats (drafts)
+    "bats": ["KK.......KK", "KWK.....KTK", "KWWK...KTTK", ".KWWK.KTTK.", "..KWWKTTK..", "...KWWTK...", "...KRKRK...",
+             "..KRK.KRK..", ".KRK...KRK.", "KDK.....KDK", "KK.......KK"],
     "scroll": [".KKKKKKKKK.", "KCCCCCCCCCK", "KCKKKKKKKCK", "KCCCCCCCCCK", "KCKKKKKKCCK", "KCCCCCCCCCK", "KCKKKKKKKCK",
                "KCCCCCCCCCK", ".KKKKKKKKK."],
-    "swap": ["...K.......", "..KGK......", ".KGGGK.....", "KGGGGGK....", "..KGK..KGK.", "..KGK..KGK.", ".......KGK.",
-             "....KGGGGGK", ".....KGGGK.", "......KGK..", ".......K..."],
-    "net": ["KKKKKKKKKKKK", "KWKWKWKWKWWK", "KKWKWKWKWKKK", "KWKWKWKWKWWK", "KKWKWKWKWKKK", "KWKWKWKWKWWK", "KRRRRRRRRRRK"],
+    "swap": ["...K.......", "..KRK......", ".KRRRK.....", "KRRRRRK....", "..KRK..KRK.", "..KRK..KRK.", ".......KRK.",
+             "....KRRRRRK", ".....KRRRK.", "......KRK..", ".......K..."],
+    # home plate (head-to-head)
+    "plate": ["KKKKKKKKKKKK", "KWWWWWWWWWWK", "KWWWWWWWWWWK", "KWWWWWWWWWTK", ".KWWWWWWWTK.", "..KWWWWWTK..", "...KWWWTK...",
+              "....KKKK...."],
 }
-# The ice resurfacer (56 x 28, drives to the right): frame 0 wheels straight, frame 1 body bobbed up a pixel.
-RESURFACER_PAL = {**PAL, "B": "#2F6FDB", "N": "#1F4FA8", "M": "#3A3D42"}
-RESURFACER = (
-    [".......................KKKKKKKNNNNNNNNKKKK..............",
-     "............KKKK......KBBBBBBBBBBBBBBBBBBBKKK...........",
-     "...........KGGGGKK...KBBBBBBBBBBBBBBBBBBBBBBBK..........",
-     ".........KKKGGGGGGK.KBBBBBBBBBBBBBBBBBBBBBBBBBK.........",
-     "........KSSSSCCKKK..KSSSSSSSSSSSSSSSSSSSSSSSSSK.........",
-     "........KSMKKCCCK..KKWWWWWWWWWWWWWWWWWWWWWWWWWK.........",
-     "........KSMKBBWBKKKKSKWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMKBBBBBBBKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMKBBBBKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWWK........",
-     "........KSSSSSSSSSSSSWWWWWWWWWWWWWWWWWWWWWWWWWWWK.......",
-     ".........KKWWWWWWWWWWWWWWWKKWWKWWWKWKWWKWWWWWWWWWK......",
-     "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWKKK...",
-     "..........KWWWWWWWWWWWWWWWKKWWKWWWKKKWKKKWWWWWWWWWWGCK..",
-     "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWWGGK..",
-     "..........KWWWWWWWWWWWWWWWKKWWKKKWKWKWKWKWWWWWWSSSSWWK..",
-     "...KKKKKKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK..",
-     "..KSSSSSSGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGKKKKKKKKKK..",
-     "..KSMMMMMBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK...",
-     "..KSMMMMMBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK...",
-     "..KSSSSSSBBBBKKKBBBBBBKKKBBBBBBBBBBBBBKKKBBBBBBKKKBBK...",
-     "..KSMMMMMBBBKKKKKBBBBKKKKKBBBBBBBBBBBKKKKKBBBBKKKKKBK...",
-     "..KSSSSSSKKKKKSKKKKKKKKSKKKKKKKKKKKKKKKSKKKKKKKKSKKKK...",
-     "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK....",
-     "CCCCCCK.....KKKKK....KKKKK...........KKKKK....KKKKK.....",
-     "KCCCCCCK.....KKK......KKK.............KKK......KKK......",
-     ".KKKKKK................................................."],
-    ["..............................KKKKKKKK..................",
-     ".......................KKKKKKKNNNNNNNNKKKK..............",
-     "............KKKK......KBBBBBBBBBBBBBBBBBBBKKK...........",
-     "...........KGGGGKK...KBBBBBBBBBBBBBBBBBBBBBBBK..........",
-     ".........KKKGGGGGGK.KBBBBBBBBBBBBBBBBBBBBBBBBBK.........",
-     "........KSSSSCCKKK..KSSSSSSSSSSSSSSSSSSSSSSSSSK.........",
-     "........KSMKKCCCK..KKWWWWWWWWWWWWWWWWWWWWWWWWWK.........",
-     "........KSMKBBWBKKKKSKWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMKBBBBBBBKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMKBBBBKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-     "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWWK........",
-     "........KSSSSSSSSSSSSWWWWWWWWWWWWWWWWWWWWWWWWWWWK.......",
-     ".........KKWWWWWWWWWWWWWWWKKWWKWWWKWKWWKWWWWWWWWWK......",
-     "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWKKK...",
-     "..........KWWWWWWWWWWWWWWWKKWWKWWWKKKWKKKWWWWWWWWWWGCK..",
-     "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWWGGK..",
-     "..........KWWWWWWWWWWWWWWWKKWWKKKWKWKWKWKWWWWWWSSSSWWK..",
-     "...KKKKKKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK..",
-     "..KSSSSSSGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGKKKKKKKKKK..",
-     "..KSMMMMMBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK...",
-     "..KSMMMMMBBBBKKKBBBBBBKKKBBBBBBBBBBBBBKKKBBBBBBKKKBBK...",
-     "..KSSSSSSBBBKKKKKBBBBKKKKKBBBBBBBBBBBKKKKKBBBBKKKKKBK...",
-     "..KSMMMMMBBBKSKSKBBBBKSKSKBBBBBBBBBBBKSKSKBBBBKSKSKBK...",
-     ".KKSSSSSSKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK...",
-     "KCCCCCCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK....",
-     "CCCCCCK......KKK......KKK.............KKK......KKK......",
-     "KKKKKK.................................................."],
+# The infield drag tractor (56 x 28, drives to the right, dragging the mat): frame 0 wheels straight, frame 1
+# body bobbed up a pixel. It is served as sprites/resurfacer.svg, the asset name the site has always used.
+# tractor_frames() takes the frames from tools/pixel_kit.py, which paints the league's short name on the
+# body; these blank-bodied copies are the fallback when Pillow is not installed.
+TRACTOR_PAL = PAL
+TRACTOR = (
+    [
+     "........................................................",
+     "........................................................",
+     "........................................................",
+     "..............................KKKKKKKKKKKKKKKKKKKK......",
+     ".............................KUUUUUUUUUUUUUUUUUUUUK.....",
+     "..............................KNKKKKKKKKKKKKKKKNKK......",
+     "..............................KNK.............KNK.......",
+     "..............................KNK.............KNK.......",
+     "..............................KNK....KKK......KNK.......",
+     "..............................KNK...KRRRK.....KNK.......",
+     "..............................KNK.KKKRRRRKKK..KNK.......",
+     "..............................KNKKVVVTTTKKKKK.KNK.......",
+     "..............................KNKKVVUUUUUKNK..KNK.......",
+     "..............................KNKKVVUUUUUKNKKKKNKKKKK...",
+     ".........................KKKKKKNKKVVUUUUUKNKWWWWWWWWWK..",
+     "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWTWK.",
+     "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWLWK.",
+     "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+     ".....................KKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+     "....................KNNNNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+     "...................KKKKKKRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+     ".................KKSNK..KRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+     "..............KKKSNKK....KKMSSNNNNSSMKKKKKKKKKMMSSSMMK..",
+     "KKKKKKKKKKKKKKNSNKK.......KMSSNWNNSSMK.......KMSNNNSMK..",
+     "NNNNNNNNNNNNNNKKK.........KMMSNNNNSMMK.......KMSWNNSMK..",
+     "NSNSNSNSNSNSNNK...........KMMSSSSSSMMK.......KMMSSSMMK..",
+     "NNNNNNNNNNNNNNK............KMMMSSMMMK........KMMMMMMMK..",
+     "KKKKKKKKKKKKKK..............KMMMMMMK..........KKMMMKK...",
+    ],
+    [
+     "........................................................",
+     "........................................................",
+     "..............................KKKKKKKKKKKKKKKKKKKK......",
+     ".............................KUUUUUUUUUUUUUUUUUUUUK.....",
+     "..............................KNKKKKKKKKKKKKKKKNKK......",
+     "..............................KNK.............KNK.......",
+     "..............................KNK.............KNK.......",
+     "..............................KNK....KKK......KNK.......",
+     "..............................KNK...KRRRK.....KNK.......",
+     "..............................KNK.KKKRRRRKKK..KNK.......",
+     "..............................KNKKVVVTTTKKKKK.KNK.......",
+     "..............................KNKKVVUUUUUKNK..KNK.......",
+     "..............................KNKKVVUUUUUKNKKKKNKKKKK...",
+     ".........................KKKKKKNKKVVUUUUUKNKWWWWWWWWWK..",
+     "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWTWK.",
+     "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWLWK.",
+     "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+     ".....................KKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+     "....................KNNNNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+     ".....................KKKKRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+     "...................KK...KRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+     ".................KKSNK...KKMMSNNNNSMMKKKKKKKKKMMMMMMMK..",
+     "..............KKKSNKK.....KMSSNNNNSSMK.......KMMSSSMMK..",
+     "KKKKKKKKKKKKKKNSNKK.......KMSSNNNWSSMK.......KMSNNNSMK..",
+     "NNNNNNNNNNNNNNKKK.........KMMSNNNNSMMK.......KMSNNWSMK..",
+     "NSNSNSNSNSNSNNK...........KMMSSSSSSMMK.......KMMSSSMMK..",
+     "NNNNNNNNNNNNNNK............KMMMSSMMMK........KMMMMMMMK..",
+     "KKKKKKKKKKKKKK..............KMMMMMMK..........KKMMMKK...",
+    ],
 )
-LEAGUE_JERSEY = (GOLD, BLACK)   # the league's own jersey, used where no franchise is meant
+
+
+def tractor_frames() -> tuple[list[str], list[str]]:
+    try:
+        sys.path.insert(0, str(ROOT / "tools"))
+        import pixel_kit as px
+    except ImportError:
+        return TRACTOR
+    return px.SPRITES["tractor"], px.SPRITES["tractor1"]
+
+
+LEAGUE_JERSEY = (RED, WHITE)   # the league's own jersey, used where no franchise is meant
 
 
 def sprite_svg(rows: list[str], pal: dict[str, str]) -> str:
@@ -221,7 +251,7 @@ def plural(n: int, word: str) -> str:
 
 
 def ink_for(hex_color: str) -> str:
-    """Charcoal or cream text, whichever reads better on this background."""
+    """Navy or light text, whichever reads better on this background."""
     h = hex_color.lstrip("#")
     try:
         r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
@@ -362,20 +392,20 @@ CSS = """
 @font-face{font-family:"Silkscreen";src:url("@@fonts/silkscreen.woff@@") format("woff");font-weight:400;font-display:swap}
 @font-face{font-family:"Silkscreen";src:url("@@fonts/silkscreen-bold.woff@@") format("woff");font-weight:700;font-display:swap}
 @font-face{font-family:"Pixelify Sans";src:url("@@fonts/pixelifysans.woff@@") format("woff");font-weight:400 700;font-display:swap}
-:root{--black:#0E0F12;--char:#2B2D31;--char-2:#3A3D43;--gold:#FFB81C;--gold-lt:#FFD76A;--gold-dk:#8A5E00;--cream:#F4EFE4;
---ice:#EEF5FA;--ice-2:#E0ECF5;--paper:#FCFCFC;--line:#C3CFDA;--ink:#14161A;--muted:#4C5563;--soft:#B9BEC6;
---blue:#2457C5;--red:#C8241F;--steel:#9AA1A9;--led:#FF6A4A;
+:root{--deep:#071528;--navy:#0C2340;--navy-2:#1C3A64;--accent:#BD3039;--accent-lt:#D9545C;--accent-dk:#8E1F27;--white:#FFFFFF;
+--chalk:#F3F5F8;--chalk-2:#E6EBF2;--paper:#FFFFFF;--line:#C5CFDC;--ink:#0C1A2E;--muted:#4C5A6E;--soft:#B4C0D2;
+--blue:#2C5696;--red:#BD3039;--steel:#9AA1A9;--led:#FF6B73;
 --display:"Jersey 10","Silkscreen",ui-monospace,monospace;--label:"Silkscreen",ui-monospace,monospace;
 --text:"Pixelify Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--u:8px}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--ice);color:var(--ink);font-family:var(--text);font-size:1.0625rem;line-height:1.55;font-variant-ligatures:none}
+body{margin:0;background:var(--chalk);color:var(--ink);font-family:var(--text);font-size:1.0625rem;line-height:1.55;font-variant-ligatures:none}
 img{max-width:100%}
 .px{display:block;flex:none}
 a{color:inherit;text-decoration:underline;text-decoration-color:var(--blue);text-decoration-thickness:2px;text-underline-offset:3px}
-a:hover{background:var(--gold);color:var(--ink);text-decoration-color:var(--ink)}
-:focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 6px var(--gold)}
-.skip{position:absolute;left:-9999px;top:8px;background:var(--gold);color:var(--ink);padding:8px 12px;z-index:9;font-family:var(--label);font-size:.8rem}
+a:hover{background:var(--accent);color:var(--white);text-decoration-color:var(--white)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 6px var(--accent)}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--accent);color:var(--white);padding:8px 12px;z-index:9;font-family:var(--label);font-size:.8rem}
 .skip:focus{left:16px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .in{max-width:1120px;margin:0 auto;padding-inline:calc(var(--u)*3)}
@@ -386,51 +416,51 @@ b,strong{font-weight:600}
 .lede{max-width:62ch}
 
 /* scoreboard header */
-.sb{background:var(--black);color:var(--paper);border-bottom:var(--u) solid var(--gold)}
+.sb{background:var(--deep);color:var(--paper);border-bottom:var(--u) solid var(--accent)}
 .sb-top{display:flex;flex-wrap:wrap;align-items:center;gap:var(--u) calc(var(--u)*3);padding-block:calc(var(--u)*2) var(--u)}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--paper)}
 .logo:hover{background:none;color:var(--paper)}
-.logo b{display:block;font-family:var(--display);font-weight:400;font-size:2.6rem;line-height:.8;color:var(--gold)}
+.logo b{display:block;font-family:var(--display);font-weight:400;font-size:2.6rem;line-height:.8;color:var(--white);text-shadow:3px 3px 0 var(--accent)}
 .logo small{display:block;font-family:var(--label);font-size:.68rem;color:var(--soft);letter-spacing:.03em;margin-top:6px}
 .status{margin:0 0 0 auto;display:flex;gap:calc(var(--u)*2);align-items:flex-end}
 .led{font-family:var(--label);font-size:.68rem;color:var(--soft);text-transform:uppercase;line-height:1.2}
 .led dd{margin:0;font-family:var(--display);font-size:2rem;line-height:.85;color:var(--led);letter-spacing:.05em}
 .menu ul{display:flex;flex-wrap:wrap;gap:0 4px;list-style:none;margin:0;padding:0}
 .menu a{display:flex;align-items:center;min-height:44px;padding:0 12px 0 22px;position:relative;color:var(--paper);text-decoration:none;font-family:var(--label);font-size:.8rem;text-transform:uppercase;letter-spacing:.02em}
-.menu a::before{content:"";position:absolute;left:8px;top:50%;margin-top:-5px;border:5px solid transparent;border-left:7px solid var(--gold);opacity:0}
-.menu a:hover{background:var(--char);color:var(--paper)}
+.menu a::before{content:"";position:absolute;left:8px;top:50%;margin-top:-5px;border:5px solid transparent;border-left:7px solid var(--accent);opacity:0}
+.menu a:hover{background:var(--navy);color:var(--paper)}
 .menu a:hover::before{opacity:.6}
-.menu a[aria-current]{background:var(--gold);color:var(--black)}
-.menu a[aria-current]::before{opacity:1;border-left-color:var(--black)}
+.menu a[aria-current]{background:var(--accent);color:var(--white)}
+.menu a[aria-current]::before{opacity:1;border-left-color:var(--white)}
 
 /* breadcrumbs and page heads */
-.crumbs{background:var(--ice-2);border-bottom:2px solid var(--line);font-size:.95rem}
+.crumbs{background:var(--chalk-2);border-bottom:2px solid var(--line);font-size:.95rem}
 .crumbs ol{display:flex;flex-wrap:wrap;gap:4px 10px;list-style:none;margin:0;padding:10px 0}
 .crumbs li+li::before{content:"\\25B8";margin-right:10px;color:var(--muted)}
 .crumbs [aria-current]{color:var(--muted)}
 .head{padding-block:calc(var(--u)*4) calc(var(--u)*2);display:flex;flex-wrap:wrap;align-items:flex-end;gap:calc(var(--u)*2) calc(var(--u)*4)}
-.head h1,.intro h1,.missing h1{font-family:var(--display);font-weight:400;font-size:clamp(3rem,7vw,4.5rem);line-height:.8;margin:0;text-shadow:4px 4px 0 var(--gold)}
+.head h1,.intro h1,.missing h1{font-family:var(--display);font-weight:400;font-size:clamp(3rem,7vw,4.5rem);line-height:.8;margin:0;text-shadow:4px 4px 0 var(--accent)}
 .head .sub{margin:12px 0 0;color:var(--muted);max-width:62ch}
 .pager{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px}
 .btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;background:var(--paper);color:var(--ink);text-decoration:none;font-family:var(--label);font-size:.75rem;text-transform:uppercase;box-shadow:0 -3px 0 var(--ink),0 3px 0 var(--ink),-3px 0 0 var(--ink),3px 0 0 var(--ink);margin:3px}
-.btn:hover{background:var(--gold)}
+.btn:hover{background:var(--accent);color:var(--white)}
 .btn.off{color:var(--steel);box-shadow:0 -3px 0 var(--line),0 3px 0 var(--line),-3px 0 0 var(--line),3px 0 0 var(--line)}
 .jump{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 calc(var(--u)*3);padding:0;list-style:none;font-family:var(--label);font-size:.75rem;text-transform:uppercase}
 .jump a{display:inline-block;padding:8px 0}
 
-/* bands give the page its pace: ice, then the dark arena */
+/* bands give the page its pace: chalk white, then the navy ballpark */
 .band{padding-block:calc(var(--u)*5)}
 .band.tight{padding-block:calc(var(--u)*3)}
 .band.flush{padding-top:0}
-.band.dark{background:var(--char);color:var(--paper)}
-.band.dark a{text-decoration-color:var(--gold)}
+.band.dark{background:var(--navy);color:var(--paper)}
+.band.dark a{text-decoration-color:var(--accent)}
 .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin:0 0 calc(var(--u)*2)}
 .sec-head h2{font-family:var(--display);font-weight:400;font-size:2.4rem;line-height:.8;margin:0}
 .sec-head .more{font-family:var(--label);font-size:.75rem;text-transform:uppercase}
 
 /* windows */
-.win{background:var(--paper);margin:4px;box-shadow:0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink),8px 8px 0 0 rgba(36,87,197,.28);min-width:0;color:var(--ink);scroll-margin-top:16px}
-.win>h2,.win>h3{margin:0;background:var(--ink);color:var(--gold);font-family:var(--label);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.02em;padding:10px 16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px}
+.win{background:var(--paper);margin:4px;box-shadow:0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink),8px 8px 0 0 rgba(12,35,64,.22);min-width:0;color:var(--ink);scroll-margin-top:16px}
+.win>h2,.win>h3{margin:0;background:var(--ink);color:var(--accent-lt);font-family:var(--label);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.02em;padding:10px 16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px}
 .win>h2 small,.win>h3 small{color:var(--soft);font-weight:400;font-size:.7rem}
 .win .body{padding:calc(var(--u)*2)}
 .win .body>:last-child{margin-bottom:0}
@@ -455,13 +485,13 @@ td.wrap{white-space:normal}
 tr.cut td{border-bottom:4px solid var(--red)}
 .rank{font-family:var(--display);font-size:1.5rem;line-height:.8;color:var(--blue)}
 .big{font-family:var(--display);font-size:1.7rem;line-height:.8}
-.hi{color:var(--gold-dk)}
+.hi{color:var(--accent-dk)}
 .cut-note{font-size:.88rem;color:var(--muted);margin:10px 0 0;display:flex;align-items:center;gap:8px}
 .cut-note i{display:inline-block;width:24px;height:4px;background:var(--red)}
 .who{white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
 .who .px{display:inline-block}
 .tag{display:inline-block;font-family:var(--label);font-size:.62rem;text-transform:uppercase;color:var(--paper);background:var(--blue);padding:2px 5px;margin-left:8px;vertical-align:2px;white-space:nowrap}
-.tag.gold{background:var(--gold);color:var(--ink);margin:0 6px 0 0}
+.tag.gold{background:var(--accent);color:var(--white);margin:0 6px 0 0}
 .won{font-weight:600}
 .matrix{width:auto}
 .matrix th,.matrix td{text-align:center;padding:7px 9px}
@@ -473,52 +503,52 @@ abbr[title]{text-decoration:none}
 .facts dt{font-family:var(--label);font-size:.66rem;text-transform:uppercase;color:var(--muted);padding-top:4px}
 .facts dd{margin:0}
 .empty{border:3px dashed var(--line);padding:16px;color:var(--muted);max-width:68ch;margin:0}
-.band.dark .empty{border-color:var(--char-2);color:var(--soft)}
+.band.dark .empty{border-color:var(--navy-2);color:var(--soft)}
 
 /* home */
 .intro{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:calc(var(--u)*4);align-items:start;padding-block:calc(var(--u)*5)}
-.intro h1{font-size:clamp(3.4rem,8vw,5.6rem);line-height:.78;margin:0 0 16px;text-shadow:5px 5px 0 var(--gold)}
+.intro h1{font-size:clamp(3.4rem,8vw,5.6rem);line-height:.78;margin:0 0 16px;text-shadow:5px 5px 0 var(--accent)}
 .intro .lead{font-size:1.2rem;max-width:44ch;margin:0 0 20px}
 .pills{display:flex;flex-wrap:wrap;gap:8px 12px;margin:0 0 4px;padding:0;list-style:none}
 .pills li{font-family:var(--label);font-size:.7rem;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:8px 10px}
-.pills li b{color:var(--gold);font-weight:700}
+.pills li b{color:var(--accent-lt);font-weight:700}
 .progress{display:flex;gap:3px;margin-top:16px;max-width:420px}
 .progress i{flex:1;height:12px;background:var(--line)}
 .progress i.on{background:var(--blue)}
 .intro .note{margin-top:16px}
 .scores{display:grid;gap:6px}
-.score{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px;background:var(--ink);color:#C9CDD2;padding:6px 12px;font-size:.98rem}
-.score a{text-decoration-color:var(--char-2)}
-.score .w{color:var(--gold)}
+.score{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px;background:var(--ink);color:#C3CDDA;padding:6px 12px;font-size:.98rem}
+.score a{text-decoration-color:var(--navy-2)}
+.score .w{color:var(--accent-lt)}
 .score .s{font-family:var(--display);font-size:1.35rem;line-height:1;text-align:right}
-.potamt{font-family:var(--display);font-size:4.4rem;line-height:.8;margin:0 0 12px;text-shadow:4px 4px 0 var(--gold)}
+.potamt{font-family:var(--display);font-size:4.4rem;line-height:.8;margin:0 0 12px;text-shadow:4px 4px 0 var(--accent)}
 .race{list-style:none;margin:12px 0 0;padding:0}
 .race li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-top:2px dotted var(--line)}
 .coins{display:inline-flex;gap:4px}
 .champ{display:flex;gap:14px;align-items:center}
 .champ .sub{color:var(--muted);font-size:.95rem}
 
-/* the rafters, and the rink with the ice resurfacer */
-.rafters{background:radial-gradient(circle,#3B3F4A 1.5px,transparent 2px) 0 0/10px 10px,radial-gradient(circle,#2A2D35 1.5px,transparent 2px) 5px 5px/10px 10px,#1A1C22;color:var(--paper)}
+/* championship pennants over the park (the bleachers behind them), then the field with the drag tractor */
+.rafters{background:radial-gradient(circle,#1E3A62 1.5px,transparent 2px) 0 0/10px 10px,radial-gradient(circle,#142C4E 1.5px,transparent 2px) 5px 5px/10px 10px,#081A30;color:var(--paper)}
 .rafters .sec-head{padding-top:calc(var(--u)*3);margin:0}
-.rafters .sec-head a{color:var(--paper);text-decoration-color:var(--gold)}
-.rafters .sec-head a:hover{color:var(--ink)}
+.rafters .sec-head a{color:var(--paper);text-decoration-color:var(--accent)}
+.rafters .sec-head a:hover{color:var(--white)}
 .banners{display:flex;gap:22px;list-style:none;margin:0;padding:12px 4px 26px;align-items:flex-start;overflow-x:auto}
 .banner{flex:none;width:132px;position:relative;padding-top:34px}
 .banner::before{content:"";position:absolute;top:0;left:24px;right:24px;height:34px;border-left:4px solid #8D939B;border-right:4px solid #8D939B}
 .banner .rod{display:block;height:8px;background:#AEB4BB;margin:0 -8px;box-shadow:0 4px 0 #6E747C}
-.cloth{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;min-height:224px;padding:12px 10px 40px;background:var(--gold);color:var(--black);
+.cloth{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;min-height:224px;padding:12px 10px 40px;background:var(--accent);color:var(--white);
 clip-path:polygon(0 0,100% 0,100% 100%,84% 100%,84% calc(100% - 8px),68% calc(100% - 8px),68% calc(100% - 16px),56% calc(100% - 16px),56% calc(100% - 24px),44% calc(100% - 24px),44% calc(100% - 16px),32% calc(100% - 16px),32% calc(100% - 8px),16% calc(100% - 8px),16% 100%,0 100%);
-box-shadow:inset 0 0 0 4px var(--black),inset 0 0 0 8px var(--gold-lt)}
+box-shadow:inset 0 0 0 4px var(--deep),inset 0 0 0 8px var(--white)}
 .cloth .what{font-family:var(--label);font-size:.62rem;text-transform:uppercase;line-height:1.25;padding-top:4px}
 .cloth .team{font-family:var(--display);font-size:1.45rem;line-height:.9;overflow-wrap:anywhere}
 .cloth .year{margin-top:auto;font-family:var(--display);font-size:3.4rem;line-height:.8}
 .banner.cream{width:108px;padding-top:22px}
 .banner.cream::before{height:22px;left:18px;right:18px}
-.banner.cream .cloth{background:var(--paper);min-height:180px;box-shadow:inset 0 0 0 4px var(--black),inset 0 0 0 8px #D9E6F2}
+.banner.cream .cloth{background:var(--paper);color:var(--navy);min-height:180px;box-shadow:inset 0 0 0 4px var(--deep),inset 0 0 0 8px var(--accent)}
 .banner.cream .year{font-size:2.6rem}
 .banner.cream .team{font-size:1.2rem}
-.banner.pending .cloth{background:repeating-linear-gradient(90deg,#2A2D35 0 8px,#24272E 8px 16px);color:#A9AFB7;box-shadow:inset 0 0 0 4px #4A4F59}
+.banner.pending .cloth{background:repeating-linear-gradient(90deg,#13304F 0 8px,#0F2846 8px 16px);color:#8FA6C7;box-shadow:inset 0 0 0 4px #2A4A78}
 .banner a{display:block;text-decoration:none;color:inherit}
 .banner a:hover{background:none}
 .banner a:hover .team{text-decoration:underline}
@@ -531,10 +561,11 @@ box-shadow:inset 0 0 0 4px var(--black),inset 0 0 0 8px var(--gold-lt)}
 .small .banner.cream{width:92px}
 .small .banner.cream .cloth{min-height:150px}
 .small .banner.cream .year{font-size:2.1rem}
-.rink{height:84px;position:relative;overflow:hidden;border-top:8px solid #6E747C;box-shadow:inset 0 4px 0 var(--paper),inset 0 8px 0 var(--gold);
-background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linear-gradient(var(--blue),var(--blue)) 30% 0/6px 100% no-repeat,linear-gradient(var(--blue),var(--blue)) 70% 0/6px 100% no-repeat,#E4EEF5}
+.field{height:84px;position:relative;overflow:hidden;border-top:4px solid var(--red);
+background:linear-gradient(#071528,#071528) 0 10px/100% 2px no-repeat,repeating-linear-gradient(90deg,#16325A 0 46px,#0C2340 46px 48px) 0 0/100% 10px no-repeat,
+repeating-linear-gradient(45deg,#0F2C50 0 12px,#143660 12px 24px) 0 12px/100% 24px no-repeat,linear-gradient(#72282C,#72282C) 0 36px/100% 2px no-repeat,#8C3436}
 .zam{position:absolute;bottom:4px;left:24px;width:112px;height:56px;background:url("@@sprites/resurfacer.svg@@") 0 0/224px 56px no-repeat}
-.zam::before{content:"";position:absolute;right:calc(100% - 8px);bottom:0;width:100vw;height:60px;background:rgba(252,252,252,.55)}
+.zam::before{content:"";position:absolute;right:calc(100% - 28px);bottom:-4px;width:100vw;height:46px;background:repeating-linear-gradient(#8C3436 0 4px,#A04242 4px 6px)}
 @media (prefers-reduced-motion:no-preference){
 .zam{left:0;animation:drive 24s steps(240) infinite,bob .5s steps(2) infinite}
 @keyframes drive{from{transform:translateX(-120px)}to{transform:translateX(100vw)}}
@@ -544,11 +575,11 @@ background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linea
 
 /* level select */
 .levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*3)}
-.level{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:start;background:var(--black);color:var(--paper);padding:16px;text-decoration:none;box-shadow:inset 0 0 0 4px var(--char-2);min-height:44px}
-.band.dark a.level:hover,.level:hover{background:var(--black);color:var(--paper);box-shadow:inset 0 0 0 4px var(--gold)}
+.level{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:start;background:var(--deep);color:var(--paper);padding:16px;text-decoration:none;box-shadow:inset 0 0 0 4px var(--navy-2);min-height:44px}
+.band.dark a.level:hover,.level:hover{background:var(--deep);color:var(--paper);box-shadow:inset 0 0 0 4px var(--accent)}
 .level .ico{grid-row:span 3}
-.level b{font-family:var(--display);font-weight:400;font-size:1.9rem;line-height:.8;color:var(--gold)}
-.level span{font-size:.95rem;color:#C9CDD2}
+.level b{font-family:var(--display);font-weight:400;font-size:1.9rem;line-height:.8;color:var(--accent-lt)}
+.level span{font-size:.95rem;color:#C3CDDA}
 .level em{font-style:normal;font-family:var(--label);font-size:.66rem;text-transform:uppercase;color:var(--led);grid-column:2}
 
 /* playoff bracket */
@@ -563,7 +594,7 @@ background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linea
 .match .w .s{color:var(--blue)}
 .match .seed{font-family:var(--label);font-size:.62rem;color:var(--muted);min-width:14px}
 .match .s{font-family:var(--display);font-size:1.3rem;line-height:1}
-.match.final{box-shadow:0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink),0 0 0 8px var(--gold)}
+.match.final{box-shadow:0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink),0 0 0 8px var(--accent)}
 
 /* open-and-close lists: weeks, trades, drafts */
 .acc details{background:var(--paper);margin:0 0 8px;box-shadow:0 0 0 2px var(--line)}
@@ -572,7 +603,7 @@ background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linea
 .acc summary::-webkit-details-marker{display:none}
 .acc summary::before{content:"";position:absolute;left:14px;top:50%;margin-top:-5px;border:5px solid transparent;border-left:7px solid var(--ink)}
 .acc details[open]>summary::before{border:5px solid transparent;border-top:7px solid var(--ink);margin-top:-3px;left:12px}
-.acc summary:hover{background:var(--ice-2)}
+.acc summary:hover{background:var(--chalk-2)}
 .acc summary .k{font-family:var(--label);font-size:.75rem;text-transform:uppercase}
 .acc summary .d{color:var(--muted);font-size:.95rem}
 .acc .inner{padding:4px 14px 14px}
@@ -588,19 +619,19 @@ background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linea
 .retro dd{margin:0}
 
 /* franchises */
-.fhero{background:var(--black);color:var(--paper);border-bottom:8px solid var(--fc,var(--gold));box-shadow:0 4px 0 var(--fc2,var(--black))}
+.fhero{background:var(--deep);color:var(--paper);border-bottom:8px solid var(--fc,var(--accent));box-shadow:0 4px 0 var(--fc2,var(--deep))}
 .fhero .in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px 28px;align-items:center;padding-block:28px}
-.fhero h1{font-family:var(--display);font-weight:400;font-size:clamp(3rem,7vw,4.6rem);line-height:.8;margin:0;color:var(--paper);text-shadow:4px 4px 0 var(--char-2)}
+.fhero h1{font-family:var(--display);font-weight:400;font-size:clamp(3rem,7vw,4.6rem);line-height:.8;margin:0;color:var(--paper);text-shadow:4px 4px 0 var(--navy-2)}
 .fhero .sub{margin:10px 0 0;color:var(--soft)}
-.fhero .logo-img{width:108px;height:108px;object-fit:contain;background:var(--char)}
+.fhero .logo-img{width:108px;height:108px;object-fit:contain;background:var(--navy)}
 .stats{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.stats li{background:var(--char);padding:10px 12px;min-width:96px;box-shadow:inset 0 0 0 2px var(--char-2)}
+.stats li{background:var(--navy);padding:10px 12px;min-width:96px;box-shadow:inset 0 0 0 2px var(--navy-2)}
 .stats .k{font-family:var(--label);font-size:.62rem;text-transform:uppercase;color:var(--soft)}
-.stats .v{font-family:var(--display);font-size:2rem;line-height:.85;color:var(--gold)}
+.stats .v{font-family:var(--display);font-size:2rem;line-height:.85;color:var(--accent-lt)}
 .jerseys{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;list-style:none;margin:0;padding:0}
 .jerseys a{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--paper);color:var(--ink);text-decoration:none;box-shadow:inset 0 0 0 2px var(--line);font-size:.98rem;min-height:44px}
-.band.dark .jerseys a:hover,.jerseys a:hover{background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 3px var(--gold)}
-.jerseys a[aria-current]{box-shadow:inset 0 0 0 3px var(--gold);background:#FFF4D6}
+.band.dark .jerseys a:hover,.jerseys a:hover{background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 3px var(--accent)}
+.jerseys a[aria-current]{box-shadow:inset 0 0 0 3px var(--accent);background:#FBE8E9}
 .tlist{list-style:none;margin:0;padding:0;display:grid}
 .tlist li{padding:10px 0;border-bottom:2px dotted var(--line)}
 .tlist li:first-child{padding-top:0}
@@ -613,33 +644,33 @@ background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linea
 /* the Constitution: pixel headings, Pixelify Sans text with roomy spacing */
 .con{background:var(--paper)}
 .con-layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:calc(var(--u)*6);align-items:start;padding-block:calc(var(--u)*2) calc(var(--u)*6)}
-.toc{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;padding:16px;background:var(--ice);box-shadow:inset 0 0 0 3px var(--line)}
+.toc{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;padding:16px;background:var(--chalk);box-shadow:inset 0 0 0 3px var(--line)}
 .toc h2{font-family:var(--label);font-size:.68rem;text-transform:uppercase;margin:0 0 10px;color:var(--muted);font-weight:400}
 .toc ol,.toc-mobile ol{list-style:none;margin:0;padding:0;font-size:.92rem;line-height:1.35}
 .toc a,.toc-mobile a{display:block;padding:6px 6px 6px 18px;text-decoration:none;position:relative;color:var(--ink)}
-.toc a:hover{background:var(--ice-2)}
+.toc a:hover{background:var(--chalk-2)}
 .toc a.on{background:var(--ink);color:var(--paper)}
-.toc a.on::before{content:"";position:absolute;left:5px;top:50%;margin-top:-4px;border:4px solid transparent;border-left:6px solid var(--gold)}
+.toc a.on::before{content:"";position:absolute;left:5px;top:50%;margin-top:-4px;border:4px solid transparent;border-left:6px solid var(--accent)}
 .toc .no,.toc-mobile .no{font-family:var(--label);font-size:.62rem;display:block;color:var(--muted)}
-.toc a.on .no{color:var(--gold)}
+.toc a.on .no{color:var(--accent-lt)}
 .toc-mobile{display:none}
 .meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0;list-style:none}
 .meta li{font-family:var(--label);font-size:.66rem;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:6px 8px}
 .doc{font-size:1.0625rem;line-height:1.7;max-width:70ch;color:var(--ink)}
 .doc h2{margin:56px 0 18px;padding-top:12px;border-top:4px solid var(--ink);display:grid;gap:6px;scroll-margin-top:16px;font-weight:400}
 .doc h2:first-child{margin-top:8px}
-.doc h2 .art-no{font-family:var(--label);font-size:.72rem;text-transform:uppercase;color:var(--gold-dk);font-weight:700;letter-spacing:.04em}
+.doc h2 .art-no{font-family:var(--label);font-size:.72rem;text-transform:uppercase;color:var(--accent-dk);font-weight:700;letter-spacing:.04em}
 .doc h2 .art-title{font-family:var(--display);font-size:2.4rem;line-height:.85;color:var(--ink)}
 .doc h3{font-size:1.15rem;font-weight:600;margin:28px 0 8px}
 .doc p{margin:0 0 14px}
-.doc .sec-no{display:inline-block;font-family:var(--display);font-weight:400;font-size:1.2rem;line-height:1;background:var(--ink);color:var(--gold);padding:3px 6px 2px;margin-right:6px;vertical-align:1px}
+.doc .sec-no{display:inline-block;font-family:var(--display);font-weight:400;font-size:1.2rem;line-height:1;background:var(--ink);color:var(--accent-lt);padding:3px 6px 2px;margin-right:6px;vertical-align:1px}
 .doc ul{padding-left:1.2em;margin:0 0 14px}
 .doc li{margin:0 0 6px}
-.doc blockquote{margin:16px 0;padding:12px 16px;background:var(--ice);box-shadow:inset 4px 0 0 var(--gold)}
+.doc blockquote{margin:16px 0;padding:12px 16px;background:var(--chalk);box-shadow:inset 4px 0 0 var(--accent)}
 .doc .scroll{margin:8px 0 20px}
 .doc td{white-space:normal}
 .doc code{font-size:.92em}
-.qr{background:var(--ice);margin:4px 4px 28px;box-shadow:0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink)}
+.qr{background:var(--chalk);margin:4px 4px 28px;box-shadow:0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink)}
 .qr ul{list-style:none;padding:14px 16px;margin:0;display:grid;gap:8px}
 .qr li{margin:0;padding-bottom:8px;border-bottom:2px dotted var(--line)}
 .qr li:last-child{border:0;padding:0}
@@ -647,13 +678,13 @@ background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linea
 .top-btn{position:sticky;bottom:16px;float:right;margin-top:-60px}
 
 /* footer */
-.site-foot{background:var(--black);color:var(--soft);border-top:8px solid var(--gold);font-size:.95rem}
+.site-foot{background:var(--deep);color:var(--soft);border-top:8px solid var(--accent);font-size:.95rem}
 .site-foot .cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;padding-block:28px 12px}
-.site-foot h2{font-family:var(--label);font-size:.7rem;text-transform:uppercase;color:var(--gold);margin:0 0 10px;font-weight:700}
+.site-foot h2{font-family:var(--label);font-size:.7rem;text-transform:uppercase;color:var(--accent-lt);margin:0 0 10px;font-weight:700}
 .site-foot ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .site-foot a{color:var(--paper);text-decoration:none;display:inline-block;padding:6px 0}
-.site-foot a:hover{color:var(--ink)}
-.site-foot .fine{border-top:2px dotted var(--char-2);padding-block:12px 24px;margin:0;font-size:.88rem}
+.site-foot a:hover{color:var(--white)}
+.site-foot .fine{border-top:2px dotted var(--navy-2);padding-block:12px 24px;margin:0;font-size:.88rem}
 .missing{padding-block:calc(var(--u)*8)}
 .missing h1{margin-bottom:24px}
 
@@ -662,7 +693,7 @@ background:linear-gradient(var(--red),var(--red)) 50% 0/8px 100% no-repeat,linea
 .levels{grid-template-columns:repeat(2,minmax(0,1fr))}
 .con-layout{grid-template-columns:minmax(0,1fr);gap:0}
 .toc{display:none}
-.toc-mobile{display:block;background:var(--ice);box-shadow:inset 0 0 0 3px var(--line);margin-bottom:16px}
+.toc-mobile{display:block;background:var(--chalk);box-shadow:inset 0 0 0 3px var(--line);margin-bottom:16px}
 .toc-mobile summary{padding:12px 16px;font-family:var(--label);font-size:.75rem;text-transform:uppercase;cursor:pointer;min-height:44px}
 .toc-mobile ol{padding:0 16px 12px}
 .toc-mobile a{padding:8px 0}
@@ -895,7 +926,7 @@ class Site:
             card = (self.base + "/assets/social-card.png") if self.base else self.asset("social-card.png")
             meta += [f'<meta property="og:image" content="{esc(card)}">', '<meta property="og:image:width" content="1200">',
                      '<meta property="og:image:height" content="630">',
-                     '<meta property="og:image:alt" content="DBL League History">',
+                     f'<meta property="og:image:alt" content="{esc(LEAGUE_SHORT)} League History">',
                      '<meta name="twitter:card" content="summary_large_image">']
         meta_html = "\n".join(meta)
         leds = "".join(f'<div class="led"><dt>{esc(k)}</dt><dd>{esc(v)}</dd></div>' for k, v in self.leds())
@@ -915,7 +946,7 @@ class Site:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(full_title)}</title>
 {meta_html}
-<meta name="theme-color" content="{BLACK}">
+<meta name="theme-color" content="{DEEP}">
 {favicon}{touch}<link rel="preload" href="{self.asset('fonts/jersey10.woff')}" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="{self.asset('fonts/pixelifysans.woff')}" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="{self.asset('site.css')}">
@@ -924,7 +955,7 @@ class Site:
 <a class="skip" href="#main">Skip to content</a>
 <header class="sb"><div class="in">
 <div class="sb-top">
-<a class="logo" href="/">{self.sprite("b", 4)}<span><b>DBL HISTORY</b><small>{esc(LEAGUE_NAME.upper())}</small></span></a>
+<a class="logo" href="/">{self.sprite("b", 4)}<span><b>{esc(SITE_NAME.upper())}</b><small>{esc(LEAGUE_NAME.upper())}</small></span></a>
 <dl class="status" aria-label="League status">{leds}</dl>
 </div>
 <nav class="menu" aria-label="Main"><ul>{nav}</ul></nav>
@@ -939,7 +970,7 @@ class Site:
 <div><h2>Transactions</h2><ul><li><a href="/trades/">Trades</a></li><li><a href="/drafts/">Drafts</a></li></ul></div>
 <div><h2>Rulebook</h2><ul><li><a href="/constitution/">Constitution</a></li><li><a href="/constitution/#changelog">Changelog</a></li></ul></div>
 </div>
-<p class="fine">{esc(LEAGUE_NAME)}, founded 2026. Game results come from Fantrax; honors and the Dynasty Pot come from the Commissioner's records. Updated {esc(long_date(self.built))}.</p>
+<p class="fine">{esc(LEAGUE_NAME)}, founded {esc(LEAGUE_EST)}. Game results come from Fantrax; honors and the Dynasty Pot come from the Commissioner's records. Updated {esc(long_date(self.built))}.</p>
 </div></footer>
 </body>
 </html>
@@ -968,8 +999,8 @@ class Site:
         for key, rows in SPRITES.items():
             pal = {**PAL, "P": LEAGUE_JERSEY[0], "S": LEAGUE_JERSEY[1]} if key == "jersey" else PAL
             self.put_asset(f"sprites/{key}.svg", sprite_svg(rows, pal).encode())
-        sheet = [a + b for a, b in zip(*RESURFACER)]
-        self.put_asset("sprites/resurfacer.svg", sprite_svg(sheet, RESURFACER_PAL).encode())
+        sheet = [a + b for a, b in zip(*tractor_frames())]   # the drag tractor's two frames side by side
+        self.put_asset("sprites/resurfacer.svg", sprite_svg(sheet, TRACTOR_PAL).encode())
         for name, source, width in IMAGES:
             if not source.exists():
                 continue
@@ -982,7 +1013,7 @@ class Site:
             s = self.fslug(p["key"])
             colors[s] = p["colors"]
             main = safe_color(p["colors"][0] if p["colors"] else None, DEFAULT_COLORS[0])
-            second = safe_color(p["colors"][1] if len(p["colors"]) > 1 else None, "#FCFCFC")
+            second = safe_color(p["colors"][1] if len(p["colors"]) > 1 else None, WHITE)
             self.put_asset(f"sprites/jersey-{s}.svg", sprite_svg(SPRITES["jersey"], {**PAL, "P": main, "S": second}).encode())
             logo = p.get("logo")
             if logo and (ROOT / logo).is_file():
@@ -1012,10 +1043,10 @@ class Site:
     def banner(self, season: int, award: str | None, key: str | None) -> str:
         if award is None:
             return (f'<li class="banner pending"><span class="rod"></span><div class="cloth">'
-                    f'<span class="what">DBL Champions</span><span class="team">To be decided</span>'
+                    f'<span class="what">{esc(LEAGUE_SHORT)} Champions</span><span class="team">To be decided</span>'
                     f'<span class="year">{season}</span></div></li>')
         gold = award == "champion"
-        what = "DBL Champions" if gold else AWARDS[award]
+        what = f"{LEAGUE_SHORT} Champions" if gold else AWARDS[award]
         cup = self.sprite("cup", 3) if gold else ""
         name = esc(self.hist.name(key)) if key else ""
         return (f'<li class="banner{"" if gold else " cream"}"><span class="rod"></span>'
@@ -1033,11 +1064,11 @@ class Site:
         pending = self.pending_season()
         if pending is not None:
             items.append(self.banner(pending, None, None))
-        rink = '<div class="rink" aria-hidden="true"><span class="zam"></span></div>'
+        field = '<div class="field" aria-hidden="true"><span class="zam"></span></div>'   # the drag tractor
         more = '<a class="more" href="/seasons/">Every season</a>'
         return (f'<section class="rafters" aria-labelledby="rafters"><div class="in">'
-                f'{sec_head("In the rafters", "rafters", more)}'
-                f'<ol class="banners">{"".join(items)}</ol></div>{rink}</section>')
+                f'{sec_head("Pennants over the park", "rafters", more)}'
+                f'<ol class="banners">{"".join(items)}</ol></div>{field}</section>')
 
     def pending_season(self) -> int | None:
         latest = self.hist.archive.latest_season()
@@ -1076,7 +1107,7 @@ class Site:
         status_html = f'<p class="note">{esc(status)}</p>' if status else ""
         intro = (f'<div class="in intro"><div><h1>League history</h1>'
                  f'<p class="lead">Every champion, standing, trade and draft of the {esc(LEAGUE_NAME)}, '
-                 f'a 12-franchise dynasty fantasy hockey league.</p>{pills_html}{progress}{status_html}</div>'
+                 f'a 12-franchise dynasty fantasy baseball league.</p>{pills_html}{progress}{status_html}</div>'
                  f'{self.latest_scores()}</div>')
 
         # standings, the Dynasty Pot and the latest champion
@@ -1101,7 +1132,7 @@ class Site:
                 [[esc(f"Seasons {c['started']}–{c['ended']}"), esc(c["winner"]), esc(money(c["payout"]))] for c in pot["past"]],
                 num={2})
         pot_win = window("Dynasty Pot", f'<p class="potamt">{esc(money(pot["balance"]))}</p>'
-                         f'<p class="note">The first franchise to win {need} DBL Championships in one cycle takes the whole pot. '
+                         f'<p class="note">The first franchise to win {need} {esc(LEAGUE_SHORT)} Championships in one cycle takes the whole pot. '
                          f'{cycle}</p>{race}{past}', small="Article IV", ident="pot")
         right = [pot_win]
         champ_season = next((s for s in sorted(hist.records.seasons, reverse=True) if self.honors(s).get("champion")), None)
@@ -1170,9 +1201,9 @@ class Site:
         articles = len([1 for _, n, _ in (self.constitution[1] if self.constitution else []) if n])
         levels = [("seasons", "calendar", "Seasons", "Standings, playoffs and every week", plural(len(self.all_seasons()), "season")),
                   ("franchises", "jersey", "Franchises", "The clubs, their banners and rivals", plural(len(self.profiles), "franchise")),
-                  ("head-to-head", "net", "Head-to-head", "Every matchup, every rivalry", "Lifetime records"),
+                  ("head-to-head", "plate", "Head-to-head", "Every matchup, every rivalry", "Lifetime records"),
                   ("trades", "swap", "Trades", "Trade log and trade trees", plural(len(hist.trades()), "trade")),
-                  ("drafts", "sticks", "Drafts", "Draft boards and retrospectives", plural(len(hist.drafts()), "draft")),
+                  ("drafts", "bats", "Drafts", "Draft boards and retrospectives", plural(len(hist.drafts()), "draft")),
                   ("constitution", "scroll", "Constitution", "The rules and every change to them", plural(articles, "article"))]
         cards = "".join(f'<a class="level" href="/{href}/"><span class="ico">{self.sprite(icon, 4)}</span><b>{esc(t)}</b>'
                         f'<span>{esc(d)}</span><em>{esc(n)}</em></a>' for href, icon, t, d, n in levels)
@@ -1263,7 +1294,7 @@ class Site:
         body = (self.head(f"Season {season}", esc(sub), pager=pager) + f'<div class="in">{jump}</div>' + "".join(parts)
                 + f'<div class="band flush"><div class="in stack">{"".join(stack)}</div></div>')
         self.write(f"seasons/{season}/index.html", f"Season {season}", body, section="seasons",
-                   description=f"DBL Season {season}: honors, standings and every weekly result.",
+                   description=f"{LEAGUE_SHORT} Season {season}: honors, standings and every weekly result.",
                    crumbs=[("Home", "/"), ("Seasons", "/seasons/"), (f"Season {season}", f"/seasons/{season}/")])
 
     def bracket(self, season: int, standings: list[dict[str, Any]]) -> str:
@@ -1342,7 +1373,7 @@ class Site:
             rows.append([self.who(p["key"]), esc(p["owner"] or "To be announced"),
                          esc(f"Season {p['founded']}") if p.get("founded") else "—",
                          esc(len(p["titles"])), esc(p["lifetime"])])
-        body = self.head("Franchises", "The franchises of the DBL, their owners and their records.")
+        body = self.head("Franchises", f"The franchises of the {LEAGUE_SHORT}, their owners and their records.")
         if rows:
             body += (f'<div class="band flush"><div class="in">'
                      + window("Every franchise", table(["Franchise", "Owner", "Founded", "Titles", "Lifetime W-L-T"], rows, num={3}),
@@ -1451,7 +1482,7 @@ class Site:
                 f'<section class="band dark" aria-labelledby="others"><div class="in">{sec_head("All franchises", "others")}'
                 f'{self.jersey_grid(key)}</div></section>')
         self.write(f"franchises/{s}/index.html", p["name"], body, section="franchises",
-                   description=f"{p['name']} of the DBL: championships, season-by-season record, head-to-head, trades and draft picks.",
+                   description=f"{p['name']} of the {LEAGUE_SHORT}: championships, season-by-season record, head-to-head, trades and draft picks.",
                    crumbs=[("Home", "/"), ("Franchises", "/franchises/"), (p["name"], self.furl(key))], before_main=hero)
 
     # --- head-to-head -------------------------------------------------------------------
@@ -1639,7 +1670,7 @@ class Site:
     def constitution_page(self) -> None:
         crumbs = [("Home", "/"), ("Constitution", "/constitution/")]
         if not self.constitution:
-            body = (self.head("The Constitution", "The rules of the DBL, and every change to them.")
+            body = (self.head("The Constitution", f"The rules of the {LEAGUE_SHORT}, and every change to them.")
                     + f'<div class="band flush"><div class="in">{empty("The Constitution has not been published yet.")}</div></div>')
             self.write("constitution/index.html", "Constitution", body, section="constitution", crumbs=crumbs)
             return
@@ -1667,7 +1698,7 @@ class Site:
                 f'{log}<article class="doc">{text}</article>'
                 f'<a class="btn top-btn" href="#main">&#9650; Top</a></div></div></div></div>')
         self.write("constitution/index.html", "Constitution", body, section="constitution",
-                   description="The Constitution of the Dynasty Baseball League, with its changelog.", crumbs=crumbs)
+                   description=f"The Constitution of the {LEAGUE_NAME}, with its changelog.", crumbs=crumbs)
 
     # --- the rest -----------------------------------------------------------------------
     def not_found(self) -> None:
@@ -1747,37 +1778,23 @@ def shrink(source: Path, target: Path, width: int | None, smooth: bool = False) 
 
 def social_card(target: Path) -> bool:
     """The 1200x630 picture shown when a link to the site is shared: the 8-bit title screen with the
-    DBL lockup, LEAGUE HISTORY and the ice resurfacer (False without Pillow)."""
+    league lockup, LEAGUE HISTORY and the ballpark strip with the drag tractor (False without Pillow)."""
     try:
-        from PIL import Image
+        from PIL import Image  # noqa: F401
         sys.path.insert(0, str(ROOT / "tools"))
         import pixel_kit as px
     except ImportError:
         return False
     k, aw, ah = 5, 240, 126
-    a = px.bg_plain(aw, ah, px.BLACK)
-    px.dither(a, 0, 2, aw, 40, px.CHARCOAL, down=False)
-    ice_h, top = 34, ah - 2 - 34 - 6
-    iy = top + 6
-    px.rect(a, 0, top, aw, 1, px.STEEL_DK)
-    px.rect(a, 0, top + 1, aw, 1, px.STEEL)
-    px.rect(a, 0, top + 2, aw, 3, px.PAPER)
-    px.rect(a, 0, top + 5, aw, 1, px.GOLD)
-    px.rect(a, 0, iy, aw, ice_h, px.ICE)
-    px.rect(a, aw // 2 - 1, iy, 2, ice_h, px.RED)
-    px.rect(a, round(aw * .3) - 1, iy, 2, ice_h, px.BLUE)
-    px.rect(a, round(aw * .7) - 1, iy, 2, ice_h, px.BLUE)
-    px.rect(a, 0, iy + ice_h - 6, 150, 6, (248, 251, 253))  # fresh ice behind the resurfacer
-    pal = {ch: tuple(int(c[i:i + 2], 16) for i in (1, 3, 5)) for ch, c in RESURFACER_PAL.items()}
-    for y, row in enumerate(RESURFACER[0]):
-        for x, ch in enumerate(row):
-            if ch in pal:
-                a.putpixel((150 + x, iy + ice_h - 29 + y), pal[ch])
-    px.rect(a, 0, 0, aw, 2, px.GOLD)
-    px.rect(a, 0, ah - 2, aw, 2, px.GOLD)
+    a = px.bg_plain(aw, ah, px.NAVY_DK)
+    px.dither(a, 0, 2, aw, 40, px.NAVY, down=False)
+    field_h = 34
+    px.field_scene(a, ah - 2 - field_h - px.WALL_H, field_h, 150, ball_x=214)
+    px.rect(a, 0, 0, aw, 2, px.RED)
+    px.rect(a, 0, ah - 2, aw, 2, px.RED)
     img = px.enlarge(a, k, (1200, 630))
-    px.place(img, px.lockup(18, 3), 600, 150, snap=3)
-    px.draw_text(img, "LEAGUE HISTORY", "silk-bold", 5, 600, 300, px.GOLD, align="c", shadow=px.BLACK)
+    px.place(img, px.fit_lockup(18, 3, 1040, 250), 600, 150, snap=3)
+    px.draw_text(img, "LEAGUE HISTORY", "silk-bold", 5, 600, 300, px.RED_LT, align="c", shadow=px.NAVY_DK)
     target.parent.mkdir(parents=True, exist_ok=True)
     img.convert("RGB").save(target, optimize=True)
     return True

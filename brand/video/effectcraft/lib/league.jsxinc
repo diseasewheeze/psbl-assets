@@ -14,11 +14,14 @@ var DBL = (function () {
     B.built = [];
 
     // ------------------------------------------------------------ brand
+    // The league palette is navy, red and white. The keys keep their first names so every script keeps
+    // working: "black" and "charcoal" are deep navy and navy, "gold" is the red accent (the lighter red
+    // that reads on navy), "cream" and "ice" are white and chalk.
     B.COLORS = {
-        black: [14, 15, 18], charcoal: [43, 45, 49], charLight: [49, 51, 56], charDark: [38, 40, 44],
-        stands: [29, 31, 35], gold: [255, 184, 28], goldLight: [255, 215, 106], goldDark: [198, 138, 0],
-        cream: [244, 239, 228], ice: [238, 245, 250], paper: [252, 252, 252], blue: [36, 87, 197],
-        red: [200, 36, 31], green: [63, 163, 77], muted: [184, 185, 190], steel: [154, 161, 169]
+        black: [7, 21, 40], charcoal: [12, 35, 64], charLight: [16, 41, 73], charDark: [9, 29, 54],
+        stands: [8, 26, 48], gold: [217, 84, 92], goldLight: [235, 122, 129], goldDark: [189, 48, 57],
+        cream: [255, 255, 255], ice: [236, 240, 246], paper: [255, 255, 255], blue: [44, 86, 150],
+        red: [189, 48, 57], green: [63, 163, 77], muted: [160, 174, 196], steel: [154, 161, 169]
     };
 
     // Pixel fonts: `k` is screen pixels per font pixel, so text stays on the pixel grid.
@@ -37,7 +40,7 @@ var DBL = (function () {
                 var h = c.substring(1);
                 if (h.length === 3) h = h.charAt(0) + h.charAt(0) + h.charAt(1) + h.charAt(1) + h.charAt(2) + h.charAt(2);
                 v = [parseInt(h.substring(0, 2), 16), parseInt(h.substring(2, 4), 16), parseInt(h.substring(4, 6), 16)];
-                if (h.length !== 6 || isNaN(v[0]) || isNaN(v[1]) || isNaN(v[2])) throw new Error("\"" + c + "\" is not a color. Write colors like #FFB81C.");
+                if (h.length !== 6 || isNaN(v[0]) || isNaN(v[1]) || isNaN(v[2])) throw new Error("\"" + c + "\" is not a color. Write colors like #BD3039.");
             } else {
                 v = B.COLORS[c];
                 if (!v) throw new Error("Unknown color \"" + c + "\". Use a #RRGGBB value or a brand color name.");

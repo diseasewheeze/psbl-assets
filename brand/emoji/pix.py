@@ -1,7 +1,8 @@
 """Tiny pixel-art kit for the DBL Discord emoji: a 32 x 32 canvas, shape helpers, an automatic
 black keyline, and exporters for 128 x 128 PNG (static) and GIF (animated) emoji.
 
-Colors are one-letter keys (see PAL) or RGB tuples. Every emoji is drawn on 32 x 32 art pixels and
+Colors are one-letter keys (see PAL) or RGB tuples. The league palette is navy, red and white; gold is kept
+for objects that really are gold (coins, crowns, medals, beer) and the yellow reaction faces. Every emoji is drawn on 32 x 32 art pixels and
 enlarged x4 with nearest-neighbor, so each art pixel is a hard 4 x 4 square.
 """
 from __future__ import annotations
@@ -12,27 +13,30 @@ from PIL import Image, ImageDraw, ImageFont
 
 SIZE, SCALE = 32, 4
 PAL = {
-    "K": (14, 15, 18),     # black keyline
-    "A": (43, 45, 49),     # charcoal
-    "M": (58, 61, 66),     # mid charcoal
+    "K": (7, 21, 40),      # deep navy keyline
+    "A": (30, 38, 52),     # dark slate (navy-tinted charcoal)
+    "M": (52, 62, 78),     # mid slate
     "N": (110, 116, 124),  # steel dark
     "S": (154, 161, 169),  # steel
-    "W": (252, 252, 252),  # paper white
-    "C": (244, 239, 228),  # cream
-    "I": (238, 245, 250),  # ice
-    "L": (127, 183, 240),  # light blue
-    "B": (36, 87, 197),    # blue
-    "b": (47, 111, 219),   # rink blue
-    "G": (255, 184, 28),   # gold
+    "W": (255, 255, 255),  # white
+    "C": (246, 247, 249),  # off-white paper
+    "I": (236, 240, 246),  # chalk (glass, foam shadows, cool whites)
+    "L": (143, 166, 199),  # sky: light navy
+    "B": (44, 86, 150),    # bright navy (opponents, water)
+    "b": (60, 104, 170),   # bright navy, lighter
+    "n": (12, 35, 64),     # league navy #0C2340
+    "G": (255, 184, 28),   # gold: only for things that are gold (coins, crowns, medals, beer) and the faces
     "Y": (255, 215, 106),  # gold light
     "D": (198, 138, 0),    # gold dark
-    "R": (200, 36, 31),    # red
-    "r": (255, 106, 74),   # light red / LED
+    "R": (189, 48, 57),    # league red #BD3039
+    "r": (226, 92, 100),   # light red / LED
+    "u": (142, 31, 39),    # dark red
     "F": (255, 138, 30),   # flame orange
-    "E": (63, 163, 77),    # green (emoji-only: money, stonks, go)
+    "E": (63, 163, 77),    # green (emoji-only: money, stonks, leaves)
     "e": (127, 209, 139),  # light green
     "O": (184, 118, 58),   # wood
     "o": (138, 84, 38),    # wood dark
+    "c": (140, 52, 54),    # infield clay
     "P": (242, 160, 180),  # pink
     "V": (122, 79, 192),   # violet
 }
@@ -287,13 +291,13 @@ def face(c: Canvas | None = None, cx: float = 15.5, cy: float = 15.5, r: int = 1
     return c
 
 
-def player(c: Canvas, x: int, y: int, jersey="G", trim="K", flip=False) -> Canvas:
-    """A 10 x 14 skater (helmet, visor, jersey with stripe, black pants, skates) with its top-left at x, y.
-    League players wear gold (G) with black trim; opponents wear blue (B) with white (W) trim."""
+def player(c: Canvas, x: int, y: int, jersey="R", trim="W", flip=False) -> Canvas:
+    """A 10 x 14 ballplayer (batting helmet, jersey with stripe, pants, cleats) with its top-left at x, y.
+    League players wear red (R) with white trim; opponents wear bright navy (B) with white (W) trim."""
     rows = [
         "...KKKK...",
-        "..KMMMMK..",
-        "..KMLLMK..",
+        "..KnnnnK..",
+        "..KnnnnnKK",
         "...KKKK...",
         ".KJJJJJJK.",
         "KJJJJJJJJK",
@@ -301,9 +305,9 @@ def player(c: Canvas, x: int, y: int, jersey="G", trim="K", flip=False) -> Canva
         "KJJJJJJJJK",
         ".KJJJJJJK.",
         ".KKKKKKKK.",
-        ".KAAKKAAK.",
-        ".KAAK.KAK.",
-        ".KSSK.KSSK",
+        ".KIIKKIIK.",
+        ".KIIK.KIK.",
+        ".KnnK.KnnK",
         "KKKKK.KKKK",
     ]
     if flip:

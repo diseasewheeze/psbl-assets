@@ -7,15 +7,22 @@ pixel = 8 export pixels). Text uses the OFL pixel fonts in brand/fonts
 design pixel, thresholded to 1-bit and enlarged by whole numbers, so letter
 edges stay crisp too.
 
-The B mark is generated here: B_BODY is the white body of the official B,
-traced once from the original artwork and stored as run-length rows. b_sprite()
-rasterises it at any height and wraps it in gold and black keylines.
+Palette: navy, red and white (see the palette block below). The league emblem
+is a pixel baseball generated here: ball_sprite() paints a white ball with red
+seams and stitches at any size and wraps it in red and navy keylines; the small
+14 x 14 ball for avatars and emoji is drawn by hand in SPRITES. The ballpark
+scenes (bleachers, outfield wall, mown outfield, infield dirt and the drag
+tractor) replace the old arena and rink.
+
+League text comes from brand/identity.json (LEAGUE_NAME, LEAGUE_SHORT,
+LEAGUE_EST): rename the league there and rebuild.
 
 Pillow only: the CI workflow installs nothing else.
 """
 
 from __future__ import annotations
 
+import json
 import math
 import random
 from functools import lru_cache
@@ -26,98 +33,239 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parents[1]
 FONTS = ROOT / "brand" / "fonts"
 
+# ---------------------------------------------------------------- league identity
+# The league's name lives in brand/identity.json: rename it there, then rebuild.
+IDENTITY = json.loads((ROOT / "brand" / "identity.json").read_text(encoding="utf-8"))
+LEAGUE_NAME = IDENTITY["league_name"]                      # Dynasty Baseball League
+LEAGUE_SHORT = IDENTITY["short_name"]                      # DBL
+LEAGUE_EST = str(IDENTITY["established"])                  # 2026
+LEAGUE_TAGLINE = f"{LEAGUE_NAME} • Est. {LEAGUE_EST}"
+LEAGUE_LINE = f"{LEAGUE_NAME.upper()} • EST. {LEAGUE_EST}"  # sign-off line on headers and cards
+
 # ---------------------------------------------------------------- palette
-BLACK = (14, 15, 18)        # #0E0F12
-CHARCOAL = (43, 45, 49)     # #2B2D31
-GOLD = (255, 184, 28)       # #FFB81C
-CREAM = (244, 239, 228)     # #F4EFE4
-ICE = (238, 245, 250)       # #EEF5FA
-PAPER = (252, 252, 252)     # #FCFCFC
-BLUE = (36, 87, 197)        # #2457C5
-RED = (200, 36, 31)         # #C8241F
+# Navy, red and white. Everything else is a one-step shade of those three or a neutral grey.
+NAVY = (12, 35, 64)         # #0C2340  main ground: banners, headers, embed side color
+NAVY_DK = (7, 21, 40)       # #071528  deep ground, outer keylines, counters
+RED = (189, 48, 57)         # #BD3039  the accent: keylines, rails, rules, bars; red status stamps
+WHITE = (255, 255, 255)     # #FFFFFF  letter fill of DBL, the ball, titles on navy
+PAPER = (246, 247, 249)     # #F6F7F9  off-white paper ground
 GREEN = (63, 163, 77)       # #3FA34D  status green: stamps only
 
-# Tones: one-step shades of the palette for grain, dither, bevels, the crowd and the boards.
-GOLD_LT, GOLD_DK = (255, 215, 106), (198, 138, 0)
-CHAR_LT, CHAR_DK, STANDS = (49, 51, 56), (38, 40, 44), (29, 31, 35)
-BLACK_LT, BLACK_DK = (22, 23, 27), (10, 11, 13)
-SEAT, SEAT_DK, SEAT_LT = (59, 63, 74), (50, 53, 60), (71, 76, 87)
+# Tones: shades of the palette for grain, dither, bevels, the crowd and the ballpark.
+RED_LT, RED_DK = (217, 84, 92), (142, 31, 39)          # #D9545C small red text on navy / #8E1F27
+NAVY_LT = (22, 50, 90)                                 # #16325A panels, the outfield wall
+NAVY_HI, NAVY_LO = (16, 41, 73), (9, 29, 54)           # grain on navy
+DEEP_HI, DEEP_LO = (11, 27, 49), (4, 14, 28)           # grain on deep navy
+STANDS = (8, 26, 48)                                   # #081A30 the bleachers
+SEAT, SEAT_DK, SEAT_LT = (30, 58, 98), (22, 46, 80), (42, 74, 120)
+SKY = (143, 166, 199)       # #8FA6C7  light navy: pending and amended stamps
+BLUE = (44, 86, 150)        # #2C5696  bright navy: canopy, links
+MUTED = (160, 174, 196)     # #A0AEC4  sign-off text on navy
 STEEL, STEEL_DK = (154, 161, 169), (110, 116, 124)
-MUTED = (184, 185, 190)
-CREAM_DK, CREAM_MD, CREAM_DKR, INK = (230, 222, 204), (237, 231, 218), (218, 209, 189), (58, 54, 49)
+TIRE = (40, 44, 52)
+CHALK = (214, 221, 231)     # #D6DDE7  the ball's shaded side, chalk in shadow
+PAPER_DK, PAPER_MD, PAPER_DKR, INK = (232, 235, 240), (238, 240, 244), (222, 226, 233), NAVY
+TURF, TURF_LT = (15, 44, 80), (20, 54, 96)             # the outfield, mown in navy stripes
+CLAY, CLAY_DK, CLAY_LT = (140, 52, 54), (114, 40, 44), (160, 66, 66)   # infield dirt
 
 # Sprite letters -> colors ("." is transparent)
-PAL = {"K": BLACK, "W": PAPER, "G": GOLD, "D": GOLD_DK, "S": STEEL, "N": STEEL_DK,
-       "B": BLUE, "R": RED, "L": ICE, "C": CREAM}
+PAL = {"K": NAVY_DK, "V": NAVY, "W": WHITE, "C": PAPER, "T": CHALK, "R": RED, "D": RED_DK, "L": RED_LT,
+       "U": BLUE, "S": STEEL, "N": STEEL_DK, "M": TIRE}
 
 SPRITES = {
-    # the league site's small B (14 x 14): avatars, emoji, favicon
-    "b": ["KKKKKKKKKK....", "KGGGGGGGGGK...", "KGWWWWWWWWGK..", "KGWWKKKKWWWGK.", "KGWWKGGKWWWGK.",
-          "KGWWKKKKWWGK..", "KGWWWWWWWWGK..", "KGWWWWWWWWWGK.", "KGWWKKKKKWWWGK", "KGWWKGGGKWWWGK",
-          "KGWWKKKKKWWWGK", "KGWWWWWWWWWWGK", "KGGGGGGGGGGGK.", "KKKKKKKKKKKK.."],
-    # the ice resurfacer (56 x 28, drives right); its own colors are in SPRITE_PALS["resurfacer"]
-    "resurfacer": [
-        ".......................KKKKKKKNNNNNNNNKKKK..............", "............KKKK......KBBBBBBBBBBBBBBBBBBBKKK...........",
-        "...........KGGGGKK...KBBBBBBBBBBBBBBBBBBBBBBBK..........", ".........KKKGGGGGGK.KBBBBBBBBBBBBBBBBBBBBBBBBBK.........",
-        "........KSSSSCCKKK..KSSSSSSSSSSSSSSSSSSSSSSSSSK.........", "........KSMKKCCCK..KKWWWWWWWWWWWWWWWWWWWWWWWWWK.........",
-        "........KSMKBBWBKKKKSKWLWWLWWLWWLWWLWWLWWLWWLWK.........", "........KSMKBBBBBBBKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-        "........KSMKBBBBKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........", "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-        "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWWK........", "........KSSSSSSSSSSSSWWWWWWWWWWWWWWWWWWWWWWWWWWWK.......",
-        ".........KKWWWWWWWWWWWWWWWKKWWKWWWKWKWWKWWWWWWWWWK......", "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWKKK...",
-        "..........KWWWWWWWWWWWWWWWKKWWKWWWKKKWKKKWWWWWWWWWWGCK..", "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWWGGK..",
-        "..........KWWWWWWWWWWWWWWWKKWWKKKWKWKWKWKWWWWWWSSSSWWK..", "...KKKKKKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK..",
-        "..KSSSSSSGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGKKKKKKKKKK..", "..KSMMMMMBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK...",
-        "..KSMMMMMBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK...", "..KSSSSSSBBBBKKKBBBBBBKKKBBBBBBBBBBBBBKKKBBBBBBKKKBBK...",
-        "..KSMMMMMBBBKKKKKBBBBKKKKKBBBBBBBBBBBKKKKKBBBBKKKKKBK...", "..KSSSSSSKKKKKSKKKKKKKKSKKKKKKKKKKKKKKKSKKKKKKKKSKKKK...",
-        "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK....", "CCCCCCK.....KKKKK....KKKKK...........KKKKK....KKKKK.....",
-        "KCCCCCCK.....KKK......KKK.............KKK......KKK......", ".KKKKKK.................................................",
+    # the league's small baseball (14 x 14): avatars, emoji, favicon, sign-offs
+    "ball": [
+        "....KKKKKK....",
+        "..KKWWWWWWKK..",
+        ".KWRWWWWWWRWK.",
+        ".KWWRWWWWRWWK.",
+        "KWWWRWWWWRWWTK",
+        "KWWWWRWWRWWWTK",
+        "KWWWWRWWRWWWTK",
+        "KWWWWRWWRWWWTK",
+        "KWWWWRWWRWWTTK",
+        "KWWWRWWWWRWTTK",
+        ".KWWRWWWWRWTK.",
+        ".KTRTTWWTTRTK.",
+        "..KKTTTTTTKK..",
+        "....KKKKKK....",
     ],
-    "puck": ["..KKKKKK..", ".KNNNNNNK.", "KKNNNNNNKK", "KKKKKKKKKK", ".KKKKKKKK."],
-    "sticks": ["CC............CC", "CCC..........CCC", ".CCC........CCC.", "..CCC......CCC..", "...CCC....CCC...",
-               "....CCC..CCC....", ".....CCCCCC.....", "......CCCC......", ".....CCCCCC.....", "....CCC..CCC....",
-               "...CCC....CCC...", "..CCC......CCC..", "GGGC........CGGG", "GGG..........GGG"],
+    # a ball at rest on the field (7 x 7)
+    "pebble": ["..KKK..", ".KWWWK.", "KRWWWRK", "KWRWRWK", "KRWWWRK", ".KWWTK.", "..KKK.."],
+    # crossed bats (16 x 14)
+    "bats": [
+        "..KK........KK..",
+        ".KCCK......KTTK.",
+        "KCCCCK....KTTTTK",
+        ".KCCCCK..KTTTTK.",
+        "..KCCCCKKTTTTK..",
+        "...KCCCCKTTTK...",
+        "....KCCCCKTK....",
+        ".....KCCCCK.....",
+        ".....KKCCCK.....",
+        "....KRTKKCRK....",
+        "...KRRK..KRRK...",
+        ".KKRRK....KRRKK.",
+        "KDDDK......KDDDK",
+        ".KDK........KDK.",
+    ],
 }
 
-# Sprite-specific colors (the resurfacer's rink blue, light-blue ribs, navy hatch and charcoal seat)
-SPRITE_PALS = {"resurfacer": {"B": (47, 111, 219), "L": (127, 183, 240), "N": (31, 79, 168), "M": (58, 61, 66)}}
+# The infield drag tractor (56 x 28, drives right, dragging the mat), its body left blank for the league's
+# short name; frame 1 has the body bobbed up a pixel. SPRITES["tractor"] / ["tractor1"] carry the name.
+TRACTOR_FRAMES = ([
+    "........................................................",
+    "........................................................",
+    "........................................................",
+    "..............................KKKKKKKKKKKKKKKKKKKK......",
+    ".............................KUUUUUUUUUUUUUUUUUUUUK.....",
+    "..............................KNKKKKKKKKKKKKKKKNKK......",
+    "..............................KNK.............KNK.......",
+    "..............................KNK.............KNK.......",
+    "..............................KNK....KKK......KNK.......",
+    "..............................KNK...KRRRK.....KNK.......",
+    "..............................KNK.KKKRRRRKKK..KNK.......",
+    "..............................KNKKVVVTTTKKKKK.KNK.......",
+    "..............................KNKKVVUUUUUKNK..KNK.......",
+    "..............................KNKKVVUUUUUKNKKKKNKKKKK...",
+    ".........................KKKKKKNKKVVUUUUUKNKWWWWWWWWWK..",
+    "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWTWK.",
+    "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWLWK.",
+    "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+    ".....................KKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+    "....................KNNNNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+    "...................KKKKKKRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+    ".................KKSNK..KRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+    "..............KKKSNKK....KKMSSNNNNSSMKKKKKKKKKMMSSSMMK..",
+    "KKKKKKKKKKKKKKNSNKK.......KMSSNWNNSSMK.......KMSNNNSMK..",
+    "NNNNNNNNNNNNNNKKK.........KMMSNNNNSMMK.......KMSWNNSMK..",
+    "NSNSNSNSNSNSNNK...........KMMSSSSSSMMK.......KMMSSSMMK..",
+    "NNNNNNNNNNNNNNK............KMMMSSMMMK........KMMMMMMMK..",
+    "KKKKKKKKKKKKKK..............KMMMMMMK..........KKMMMKK...",
+], [
+    "........................................................",
+    "........................................................",
+    "..............................KKKKKKKKKKKKKKKKKKKK......",
+    ".............................KUUUUUUUUUUUUUUUUUUUUK.....",
+    "..............................KNKKKKKKKKKKKKKKKNKK......",
+    "..............................KNK.............KNK.......",
+    "..............................KNK.............KNK.......",
+    "..............................KNK....KKK......KNK.......",
+    "..............................KNK...KRRRK.....KNK.......",
+    "..............................KNK.KKKRRRRKKK..KNK.......",
+    "..............................KNKKVVVTTTKKKKK.KNK.......",
+    "..............................KNKKVVUUUUUKNK..KNK.......",
+    "..............................KNKKVVUUUUUKNKKKKNKKKKK...",
+    ".........................KKKKKKNKKVVUUUUUKNKWWWWWWWWWK..",
+    "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWTWK.",
+    "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWLWK.",
+    "........................KWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+    ".....................KKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+    "....................KNNNNWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK.",
+    ".....................KKKKRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+    "...................KK...KRRRRRRRRRRRRRRRRRRRRRRRRRRRRRK.",
+    ".................KKSNK...KKMMSNNNNSMMKKKKKKKKKMMMMMMMK..",
+    "..............KKKSNKK.....KMSSNNNNSSMK.......KMMSSSMMK..",
+    "KKKKKKKKKKKKKKNSNKK.......KMSSNNNWSSMK.......KMSNNNSMK..",
+    "NNNNNNNNNNNNNNKKK.........KMMSNNNNSMMK.......KMSNNWSMK..",
+    "NSNSNSNSNSNSNNK...........KMMSSSSSSMMK.......KMMSSSMMK..",
+    "NNNNNNNNNNNNNNK............KMMMSSMMMK........KMMMMMMMK..",
+    "KKKKKKKKKKKKKK..............KMMMMMMK..........KKMMMKK...",
+])
+TRACTOR_TEXT_AT = ((28, 15), (28, 14))   # where the name starts on each frame
+TRACTOR_TEXT_MAX = 23                    # pixels of body side the name may use
 
-# ---------------------------------------------------------------- the B mark
-# White body of the official B (171 x 202 cells, quarter resolution of the original
-# artwork); each row lists its filled runs as start+length.
-B_BODY = (
-    "171x202|0+119;0+121;0+122;0+124;0+126;0+128;0+129;0+131;0+133;0+135;0+137;0+139;0+141;0+142;0+144;"
-    "0+146;0+148;0+150;0+152;0+153;0+155;0+157;0+158;0+161;0+162;0+164;0+166;0+168;0+170;0+170;0+171;"
-    "0+171;0+171;0+171;0+171;0+35,108+63;0+35,115+56;0+35,123+48;0+35,128+43;0+35,131+40;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,130+41;0+35,128+43;0+35,127+44;0+35,125+46;0+35,124+47;0+35,122+49;"
-    "0+35,120+51;0+35,119+52;0+35,117+54;0+35,116+55;0+35,114+56;0+35,113+56;0+35,111+56;0+35,109+56;"
-    "0+35,108+56;0+35,106+56;0+35,104+57;0+35,103+56;0+35,101+57;0+156;0+155;0+153;0+151;0+150;0+148;"
-    "0+146;0+145;0+144;0+141;0+140;0+138;0+137;0+135;0+134;0+133;0+134;0+136;0+137;0+139;0+141;0+142;"
-    "0+144;0+146;0+147;0+149;0+150;0+153;0+154;0+156;0+157;0+159;0+36,101+59;0+35,103+59;0+35,105+59;"
-    "0+35,106+59;0+35,108+59;0+35,110+59;0+35,112+58;0+35,113+58;0+35,115+56;0+35,116+55;0+35,118+53;"
-    "0+35,120+51;0+35,122+49;0+35,123+48;0+35,125+46;0+35,127+44;0+35,129+42;0+35,130+41;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;0+35,131+40;"
-    "0+35,131+40;0+35,131+40;0+35,131+40;0+35,126+45;0+35,122+49;0+35,115+56;0+35,107+64;0+171;0+171;"
-    "0+171;0+171;0+171;0+171;0+171;0+171;0+169;0+167;0+165;0+163;0+162;0+159;0+157;0+155;0+153;0+151;"
-    "0+149;0+147;0+145;0+144;0+141;0+139;0+137;0+135;0+133;0+131;0+129;0+127;0+125;0+123;0+121;0+119"
-)
+# 3 x 5 letters for names painted on sprites
+TINY = {
+    "A": ["###", "#.#", "###", "#.#", "#.#"], "B": ["##.", "#.#", "##.", "#.#", "##."], "C": ["###", "#..", "#..", "#..", "###"],
+    "D": ["##.", "#.#", "#.#", "#.#", "##."], "E": ["###", "#..", "##.", "#..", "###"], "F": ["###", "#..", "##.", "#..", "#.."],
+    "G": ["###", "#..", "#.#", "#.#", "###"], "H": ["#.#", "#.#", "###", "#.#", "#.#"], "I": ["###", ".#.", ".#.", ".#.", "###"],
+    "J": ["..#", "..#", "..#", "#.#", "###"], "K": ["#.#", "#.#", "##.", "#.#", "#.#"], "L": ["#..", "#..", "#..", "#..", "###"],
+    "M": ["#.#", "###", "###", "#.#", "#.#"], "N": ["##.", "#.#", "#.#", "#.#", "#.#"], "O": ["###", "#.#", "#.#", "#.#", "###"],
+    "P": ["###", "#.#", "###", "#..", "#.."], "Q": ["###", "#.#", "#.#", "###", "..#"], "R": ["##.", "#.#", "##.", "#.#", "#.#"],
+    "S": ["###", "#..", "###", "..#", "###"], "T": ["###", ".#.", ".#.", ".#.", ".#."], "U": ["#.#", "#.#", "#.#", "#.#", "###"],
+    "V": ["#.#", "#.#", "#.#", "#.#", ".#."], "W": ["#.#", "#.#", "###", "###", "#.#"], "X": ["#.#", "#.#", ".#.", "#.#", "#.#"],
+    "Y": ["#.#", "#.#", ".#.", ".#.", ".#."], "Z": ["###", "..#", ".#.", "#..", "###"], "0": ["###", "#.#", "#.#", "#.#", "###"],
+    "1": [".#", "##", ".#", ".#", ".#"], "2": ["###", "..#", "###", "#..", "###"], "3": ["###", "..#", "###", "..#", "###"],
+    "4": ["#.#", "#.#", "###", "..#", "..#"], "5": ["###", "#..", "###", "..#", "###"], "6": ["###", "#..", "###", "#.#", "###"],
+    "7": ["###", "..#", "..#", "..#", "..#"], "8": ["###", "#.#", "###", "#.#", "###"], "9": ["###", "#.#", "###", "..#", "###"],
+}
 
 
+def lettered(rows, text: str, x: int, y: int, ink: str = "V", room: int | None = None) -> list[str]:
+    """Rows with `text` stamped in 3 x 5 letters from (x, y); letters that would pass `room` px are left off."""
+    g = [list(r) for r in rows]
+    start = x
+    for ch in text.upper():
+        glyph = TINY.get(ch)
+        if glyph is None:
+            x += 2
+            continue
+        if room is not None and x + len(glyph[0]) - start > room:
+            break
+        for j, line in enumerate(glyph):
+            for i, bit in enumerate(line):
+                if bit == "#":
+                    g[y + j][x + i] = ink
+        x += len(glyph[0]) + 1
+    return ["".join(r) for r in g]
+
+
+SPRITES["tractor"] = lettered(TRACTOR_FRAMES[0], LEAGUE_SHORT, *TRACTOR_TEXT_AT[0], room=TRACTOR_TEXT_MAX)
+SPRITES["tractor1"] = lettered(TRACTOR_FRAMES[1], LEAGUE_SHORT, *TRACTOR_TEXT_AT[1], room=TRACTOR_TEXT_MAX)
+
+SPRITE_PALS: dict[str, dict] = {}
+
+
+# ---------------------------------------------------------------- the emblem: a pixel baseball
 @lru_cache(maxsize=None)
-def _b_body_image() -> Image.Image:
-    size, rows = B_BODY.split("|")
-    w, h = (int(v) for v in size.split("x"))
-    img = Image.new("L", (w, h), 0)
-    draw = ImageDraw.Draw(img)
-    for y, row in enumerate(rows.split(";")):
-        for run in filter(None, row.split(",")):
-            start, length = (int(v) for v in run.split("+"))
-            draw.line((start, y, start + length - 1, y), fill=255)
-    return img
+def ball_body(d: int, theta: float = 38, bulge: float = .30) -> tuple[str, ...]:
+    """A d x d baseball: white with a chalk-shaded lower right, and two red seams that curve toward the
+    middle, each stitched with chevrons. Seams and stitches thicken with the size."""
+    R = c = d / 2
+    cells = {}
+    for y in range(d):
+        for x in range(d):
+            if math.hypot(x + .5 - c, y + .5 - c) <= R:
+                shaded = math.hypot(x + .5 - c + R * .3, y + .5 - c + R * .3) > R * 1.08
+                cells[(x, y)] = "T" if shaded else "W"
+    t = 1 if d < 36 else 2 if d < 64 else 3              # seam thickness
+    inset = 1.2 if d < 36 else 2.2 if d < 64 else 3.5    # seams stop short of the edge
+    gap = 3 if d < 36 else 4 if d < 64 else 6            # stitch spacing along the seam
+    tick = 1 if d < 36 else 2 if d < 64 else 3           # stitch length each side
+    th = math.radians(theta)
+    ex, ey = R * math.sin(th), R * math.cos(th)          # seam ends on the rim
+    mx = ex - bulge * R                                  # seam middle, closer to the center
+    ccx = (ex * ex + ey * ey - mx * mx) / (2 * (ex - mx))
+    r = ccx - mx
+    a0 = math.atan2(ey, ex - ccx)
+    for side in (-1, 1):
+        run, last, n = 0.0, None, 2000
+        for i in range(n + 1):
+            a = -a0 + 2 * a0 * i / n
+            x, y = side * (ccx - r * math.cos(a)), r * math.sin(a)
+            if math.hypot(x, y) > R - inset:
+                continue
+            nx, ny = side * math.cos(a), -math.sin(a)       # across the seam
+            tx, ty = side * math.sin(a), math.cos(a)        # along the seam
+            for k in range(t):
+                off = (k - (t - 1) / 2) * .9
+                q = (int(math.floor(c + x + nx * off)), int(math.floor(c + y + ny * off)))
+                if q in cells:
+                    cells[q] = "R"
+            if last is not None:
+                run += math.hypot(x - last[0], y - last[1])
+            last = (x, y)
+            if run >= gap:
+                run = 0.0
+                for s in (-1, 1):
+                    for j in range(1, tick + 1):
+                        dd = t / 2 + j * .9
+                        q = (int(math.floor(c + x + s * nx * dd - tx * j * .75)),
+                             int(math.floor(c + y + s * ny * dd - ty * j * .75)))
+                        if q in cells:
+                            cells[q] = "R"
+    return tuple("".join(cells.get((x, y), ".") for x in range(d)) for y in range(d))
 
 
 def _layer_of(cells: set, x: int, y: int, reach: int) -> int:
@@ -131,45 +279,27 @@ def _layer_of(cells: set, x: int, y: int, reach: int) -> int:
 
 
 @lru_cache(maxsize=None)
-def b_sprite(total_h: int, outer: str = "GGK", counter: str = "GK") -> tuple[str, ...]:
-    """The B at total_h rows: white body, then `outer` keylines outside, `counter` lining the counters."""
+def ball_sprite(total: int, outer: str = "RK") -> tuple[str, ...]:
+    """The emblem at total x total: the ball, then one keyline per letter of `outer` (red, then navy)."""
     reach = len(outer)
-    bh = total_h - 2 * reach
-    src = _b_body_image()
-    bw = max(1, round(src.width / src.height * bh))
-    body = src.resize((bw, bh), Image.BOX)
-    bp = body.load()
-    w, h = bw + 2 * reach, bh + 2 * reach
-    cells = {(x + reach, y + reach) for y in range(bh) for x in range(bw) if bp[x, y] >= 128}
-    outside, stack = set(), [(x, y) for x in range(w) for y in (0, h - 1)] + [(x, y) for y in range(h) for x in (0, w - 1)]
-    while stack:
-        x, y = stack.pop()
-        if 0 <= x < w and 0 <= y < h and (x, y) not in cells and (x, y) not in outside:
-            outside.add((x, y))
-            stack += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+    body = ball_body(total - 2 * reach)
+    cells = {(x + reach, y + reach) for y, row in enumerate(body) for x, ch in enumerate(row) if ch != "."}
     rows = []
-    for y in range(h):
+    for y in range(total):
         row = []
-        for x in range(w):
+        for x in range(total):
             if (x, y) in cells:
-                row.append("W")
+                row.append(body[y - reach][x - reach])
                 continue
-            layer = _layer_of(cells, x, y, max(reach, len(counter)))
-            if (x, y) in outside:
-                row.append(outer[layer - 1] if layer <= reach else ".")
-            else:
-                row.append(counter[min(layer, len(counter)) - 1])
+            layer = _layer_of(cells, x, y, reach)
+            row.append(outer[layer - 1] if layer <= reach else ".")
         rows.append("".join(row))
-    while all(r[-1] == "." for r in rows):
-        rows = [r[:-1] for r in rows]
-    while all(r[0] == "." for r in rows):
-        rows = [r[1:] for r in rows]
     return tuple(rows)
 
 
-B32 = lambda: b_sprite(32, "GGK", "GK")            # logos, icons, the primary mark
-B48 = lambda: b_sprite(48, "GGKK", "GGK")          # channel headers
-B86 = lambda: b_sprite(86, "GGGGKK", "GGGK")       # the official seal
+EMBLEM32 = lambda: ball_sprite(32, "RK")            # logos, icons, the primary mark
+EMBLEM48 = lambda: ball_sprite(48, "RRK")           # channel headers
+EMBLEM_SEAL = lambda: ball_sprite(100, "RRRRKK")    # the official seal (100 x 100)
 
 
 def sprite(rows, scale: int = 1) -> Image.Image:
@@ -221,7 +351,7 @@ def grain(img, colors, density, seed):
 
 
 def crowd(img, top, h, seed):
-    """Stands full of fans: staggered seat dots, a few in gold and cream."""
+    """Bleachers full of fans: staggered seat dots in navy, a few fans in red and white."""
     w = img.width
     rect(img, 0, top, w, h, STANDS)
     rnd = random.Random(seed)
@@ -229,7 +359,7 @@ def crowd(img, top, h, seed):
     for j in range(0, h, 2):
         for i in range((j // 2) % 2, w, 2):
             t = rnd.random()
-            px[i, top + j] = (GOLD if t < .05 else CREAM if t < .085 else SEAT if t < .4 else SEAT_DK if t < .72 else SEAT_LT) + (255,)
+            px[i, top + j] = (RED if t < .05 else WHITE if t < .085 else SEAT if t < .4 else SEAT_DK if t < .72 else SEAT_LT) + (255,)
 
 
 def frame(img, x, y, w, h, t, step, color, wear=0.0, seed=1):
@@ -356,26 +486,26 @@ def draw_text(img, text, face, scale, x, cap_y, color, align="l", layers=(), sha
 # ---------------------------------------------------------------- the wordmark lockup
 VARIANTS = {
     #          fill    keylines (half font-pixel steps)  (whole-pixel steps)  sub/est  sub keyline
-    "white": (PAPER, (GOLD, GOLD, BLACK), (GOLD, BLACK), CREAM, BLACK),
-    "black": (BLACK, (PAPER, GOLD, GOLD), (GOLD,), BLACK, None),
-    "cream": (BLACK, (CREAM, GOLD, GOLD), (GOLD,), BLACK, None),
+    "white": (WHITE, (RED, RED, NAVY_DK), (RED, NAVY_DK), WHITE, NAVY_DK),
+    "black": (NAVY, (WHITE, RED, RED), (RED,), NAVY, None),     # navy letters for light grounds
+    "paper": (NAVY, (PAPER, RED, RED), (RED,), NAVY, None),
 }
 
 
 def lockup(a: int, b: int, variant: str = "white", sub_bold: bool = True) -> Image.Image:
-    """DBL in Jersey 10 (a px per font pixel) over DYNASTY BASEBALL LEAGUE and EST. 2026
-    in Silkscreen (b px per font pixel). Keylines: gold then black on the white version."""
+    """The short name (DBL) in Jersey 10 (a px per font pixel) over the league name and EST. year in
+    Silkscreen (b px per font pixel). Keylines: red then navy on the white version."""
     fill, keys, whole_keys, ink, subkey = VARIANTS[variant]
-    mask, cap_top = font("jersey").mask("DBL")
+    mask, cap_top = font("jersey").mask(LEAGUE_SHORT)
     if a % 2 == 0:  # keylines on a half-pixel grid
         top = outlined(mask.resize((mask.width * 2, mask.height * 2), Image.NEAREST), fill, keys)
         top = top.resize((top.width * a // 2, top.height * a // 2), Image.NEAREST)
     else:           # odd scale: one keyline per font pixel
         top = outlined(mask, fill, whole_keys)
         top = top.resize((top.width * a, top.height * a), Image.NEAREST)
-    sub, sub_cap = text_image("DYNASTY BASEBALL LEAGUE", "silk-bold" if sub_bold else "silk", b, ink,
+    sub, sub_cap = text_image(LEAGUE_NAME.upper(), "silk-bold" if sub_bold else "silk", b, ink,
                               (subkey,) if subkey else ())
-    est, est_cap = text_image("EST. 2026", "silk", b, ink, (subkey,) if subkey else ())
+    est, est_cap = text_image(f"EST. {LEAGUE_EST}", "silk", b, ink, (subkey,) if subkey else ())
     rule_w, rule_h, gap = 34 * b, 2 * b, 4 * b
     est_w = est.width + 2 * (rule_w + gap)
     W = max(top.width, sub.width, est_w)
@@ -387,10 +517,24 @@ def lockup(a: int, b: int, variant: str = "white", sub_bold: bool = True) -> Ima
     out.alpha_composite(sub, ((W - sub.width) // 2, sub_y))
     ex = (W - est_w) // 2
     rule_y = est_y + est_cap + (5 * b - rule_h) // 2
-    rect(out, ex, rule_y, rule_w, rule_h, GOLD)
+    rect(out, ex, rule_y, rule_w, rule_h, RED)
     out.alpha_composite(est, (ex + rule_w + gap, est_y))
-    rect(out, ex + est_w - rule_w, rule_y, rule_w, rule_h, GOLD)
+    rect(out, ex + est_w - rule_w, rule_y, rule_w, rule_h, RED)
     return out
+
+
+def fit_lockup(a: int, b: int, max_w: int, max_h: int, variant: str = "white", sub_bold: bool = True) -> Image.Image:
+    """The largest lockup no bigger than the one asked for (a, b) that fits max_w x max_h, so a longer
+    league name steps the whole lockup down instead of clipping. Scales keep their even/odd parity."""
+    for pct in range(100, 19, -4):
+        a2 = max(2, round(a * pct / 100))
+        if a2 % 2 != a % 2:
+            a2 -= 1
+        b2 = max(1, round(b * pct / 100))
+        piece = lockup(a2, b2, variant, sub_bold)
+        if piece.width <= max_w and piece.height <= max_h:
+            return piece
+    return piece
 
 
 def place(img: Image.Image, piece: Image.Image, cx: int, cy: int, snap: int = 1) -> None:
@@ -402,62 +546,91 @@ def place(img: Image.Image, piece: Image.Image, cx: int, cy: int, snap: int = 1)
 # ---------------------------------------------------------------- painted backgrounds (art grid)
 def bg_plain(w, h, color, textured=True):
     img = art(w, h, color)
-    if textured and color == CHARCOAL:
-        grain(img, [CHAR_LT, CHAR_DK], .02, w + h)
-    elif textured and color == BLACK:
-        grain(img, [BLACK_LT, BLACK_DK], .02, w + h)
+    if textured and color == NAVY:
+        grain(img, [NAVY_HI, NAVY_LO], .02, w + h)
+    elif textured and color == NAVY_DK:
+        grain(img, [DEEP_HI, DEEP_LO], .02, w + h)
     return img
 
 
-def bg_cream(w, h):
-    img = art(w, h, CREAM)
-    grain(img, [CREAM_DK, CREAM_MD, CREAM_DKR], .06, 77)
+def bg_paper(w, h):
+    """Off-white paper with a light grey grain and a few navy specks."""
+    img = art(w, h, PAPER)
+    grain(img, [PAPER_DK, PAPER_MD, PAPER_DKR], .06, 77)
     grain(img, [INK], .0012, 5)
     return img
 
 
-def bg_banner(w, h, bars=1, sticks=False):
-    """Charcoal arena: gold boards top and bottom, a crowd fading into charcoal, a dithered fade to black."""
-    img = bg_plain(w, h, CHARCOAL)
+def bg_banner(w, h, bars=1, bats=False):
+    """Navy ballpark: red rails top and bottom, bleachers fading into navy, a dithered fade to deep navy."""
+    img = bg_plain(w, h, NAVY)
     ch = round(h * .24)
     f = round(ch * .5)
     crowd(img, bars, ch, w + h)
-    dither(img, 0, bars + ch - f, w, f, CHARCOAL)
+    dither(img, 0, bars + ch - f, w, f, NAVY)
     bf = round(h * .14)
-    dither(img, 0, h - bars - bf, w, bf, BLACK)
-    if sticks:
+    dither(img, 0, h - bars - bf, w, bf, NAVY_DK)
+    if bats:
         sy = round(h / 2 - 7) + 1
-        put(img, "sticks", 5, sy)
-        put(img, "sticks", w - 21, sy)
-    rect(img, 0, 0, w, bars, GOLD)
-    rect(img, 0, h - bars, w, bars, GOLD)
+        put(img, "bats", 5, sy)
+        put(img, "bats", w - 21, sy)
+    rect(img, 0, 0, w, bars, RED)
+    rect(img, 0, h - bars, w, bars, RED)
     return img
 
 
-SPLASH_ICE = 32
+WALL_H = 6          # the outfield wall above the field: red rail, padded navy wall, shadow
+SPLASH_FIELD = 32   # rows of field under the wall on the title screen
+
+
+def field_scene(img, top: int, field_h: int, tractor_x: int, frame: int = 0, ball_x: int | None = None) -> int:
+    """The ballpark strip, painted across the whole width from row `top`: the outfield wall, a mown navy
+    outfield, then the infield dirt with the drag tractor at tractor_x smoothing the clay behind it.
+    Returns the row where the field starts."""
+    w = img.width
+    rect(img, 0, top, w, 1, RED)                               # rail cap
+    rect(img, 0, top + 1, w, WALL_H - 2, NAVY_LT)              # padded wall
+    for x in range(5, w, 12):
+        rect(img, x, top + 1, 1, WALL_H - 2, NAVY)             # pad seams
+    rect(img, 0, top + WALL_H - 1, w, 1, NAVY_DK)
+    fy = top + WALL_H
+    grass = max(6, round(field_h * .36))
+    px = img.load()
+    for j in range(grass):                                     # diagonal mowing stripes
+        for i in range(w):
+            px[i, fy + j] = (TURF_LT if ((i + j) // 8) % 2 else TURF) + (255,)
+    rect(img, 0, fy + grass, w, 1, CLAY_DK)                    # the lip where grass meets dirt
+    dy, dh = fy + grass + 1, field_h - grass - 1
+    rect(img, 0, dy, w, dh, CLAY)
+    smooth = tractor_x + 14                                    # the mat has dragged everything left of here
+    rnd = random.Random(field_h * 7 + w)
+    for j in range(dh):
+        for i in range(w):
+            if i < smooth:
+                if j % 3 == 1:
+                    px[i, dy + j] = CLAY_LT + (255,)             # fresh drag lines
+            else:
+                t = rnd.random()
+                if t < .12:
+                    px[i, dy + j] = CLAY_DK + (255,)             # raked, cleat-scuffed dirt
+                elif t < .17:
+                    px[i, dy + j] = CLAY_LT + (255,)
+    put(img, "tractor1" if frame else "tractor", tractor_x, fy + field_h - 29)
+    if ball_x is not None:
+        put(img, "pebble", ball_x, fy + field_h - 9)
+    return fy
 
 
 def bg_splash(w=240, h=135):
-    """Title screen: black with a dithered arena glow, gold boards and the rink with the ice resurfacer."""
+    """Title screen: deep navy with a dithered stadium glow, red rails, and the ballpark strip with the
+    drag tractor working the infield."""
     bars = 2
-    img = bg_plain(w, h, BLACK)
-    dither(img, 0, bars, w, 44, CHARCOAL, down=False)
-    ice_h = SPLASH_ICE
-    top = h - bars - ice_h - 6
-    iy = top + 6
-    rect(img, 0, top, w, 1, STEEL_DK)
-    rect(img, 0, top + 1, w, 1, STEEL)
-    rect(img, 0, top + 2, w, 3, PAPER)
-    rect(img, 0, top + 5, w, 1, GOLD)
-    rect(img, 0, iy, w, ice_h, ICE)
-    rect(img, w // 2 - 1, iy, 2, ice_h, RED)
-    rect(img, round(w * .3) - 1, iy, 2, ice_h, BLUE)
-    rect(img, round(w * .7) - 1, iy, 2, ice_h, BLUE)
-    rect(img, 0, iy + 3, 26, ice_h - 3, (248, 251, 253))   # fresh ice behind the resurfacer
-    put(img, "resurfacer", 20, iy + ice_h - 29)
-    put(img, "puck", round(w * .6), iy + ice_h - 7)
-    rect(img, 0, 0, w, bars, GOLD)
-    rect(img, 0, h - bars, w, bars, GOLD)
+    img = bg_plain(w, h, NAVY_DK)
+    dither(img, 0, bars, w, 44, NAVY, down=False)
+    top = h - bars - SPLASH_FIELD - WALL_H
+    field_scene(img, top, SPLASH_FIELD, 20, ball_x=round(w * .62))
+    rect(img, 0, 0, w, bars, RED)
+    rect(img, 0, h - bars, w, bars, RED)
     return img
 
 
@@ -466,37 +639,39 @@ def wordmark_on(size, color, variant, b, dy=0, k=8):
     """Full lockup centered on a flat, lightly textured ground."""
     W, H = size
     aw, ah = math.ceil(W / k), math.ceil(H / k)
-    img = enlarge(bg_plain(aw, ah, color, textured=color in (CHARCOAL, BLACK)), k, size)
-    place(img, lockup(6 * b, b, variant), W // 2, H // 2 + dy, snap=b)
+    img = enlarge(bg_plain(aw, ah, color, textured=color in (NAVY, NAVY_DK)), k, size)
+    place(img, fit_lockup(6 * b, b, W * 3 // 4, H * 3 // 4, variant), W // 2, H // 2 + dy, snap=b)
     return img
 
 
 def wordmark_transparent(size, variant, b):
     img = Image.new("RGBA", size, (0, 0, 0, 0))
-    place(img, lockup(6 * b, b, variant), size[0] // 2, size[1] // 2, snap=b)
+    piece = fit_lockup(6 * b, b, size[0] * 9 // 10, size[1] * 9 // 10, variant)
+    place(img, piece, size[0] // 2, size[1] // 2, snap=b)
     return img
 
 
-def wordmark_cream(size=(1774, 887), b=6):
+def wordmark_paper(size=(1774, 887), b=6):
     W, H = size
-    img = enlarge(bg_cream(math.ceil(W / 8), math.ceil(H / 8)), 8, size)
-    place(img, lockup(6 * b, b, "cream"), W // 2, H // 2, snap=b)
+    img = enlarge(bg_paper(math.ceil(W / 8), math.ceil(H / 8)), 8, size)
+    place(img, fit_lockup(6 * b, b, W * 17 // 20, H * 4 // 5, "paper"), W // 2, H // 2, snap=b)
     return img
 
 
-def banner(size, a, b, dy=0, bars=1, sticks=False, sub_bold=True):
+def banner(size, a, b, dy=0, bars=1, bats=False, sub_bold=True):
     W, H = size
     aw, ah = math.ceil(W / 8), math.ceil(H / 8)
-    img = enlarge(bg_banner(aw, ah, bars, sticks), 8, size)
-    place(img, lockup(a, b, "white", sub_bold), W // 2, H // 2 + dy, snap=b)
+    img = enlarge(bg_banner(aw, ah, bars, bats), 8, size)
+    room = W - 2 * (26 * 8 if bats else round(W * .08))     # keep clear of the bats and the edges
+    place(img, fit_lockup(a, b, room, H - 2 * (bars + 3) * 8, "white", sub_bold), W // 2, H // 2 + dy, snap=b)
     return img
 
 
 def splash(size=(1920, 1080), b=5):
     W, H = size
     img = enlarge(bg_splash(), 8, size)
-    rink_top = (135 - 2 - SPLASH_ICE - 6) * 8
-    place(img, lockup(6 * b, b), W // 2, (16 + rink_top) // 2, snap=b)
+    wall_top = (135 - 2 - SPLASH_FIELD - WALL_H) * 8
+    place(img, fit_lockup(6 * b, b, W * 17 // 20, wall_top - 16 - 64), W // 2, (16 + wall_top) // 2, snap=b)
     return img
 
 
@@ -504,104 +679,111 @@ HEADER_W, HEADER_H, HEADER_K = 200, 67, 8
 
 
 def header(title: str, kicker: str, seed: int = 7) -> Image.Image:
-    """1600 x 533 channel header on a 200 x 67 art grid: gold eyebrow, big title, the B on the right."""
-    a = art(HEADER_W, HEADER_H, CHARCOAL)
-    grain(a, [CHAR_LT, CHAR_DK], .02, seed * 31)
+    """1600 x 533 channel header on a 200 x 67 art grid: red eyebrow, big title, the baseball on the right."""
+    a = art(HEADER_W, HEADER_H, NAVY)
+    grain(a, [NAVY_HI, NAVY_LO], .02, seed * 31)
     dither(a, 0, 56, HEADER_W, 9, STANDS)
-    rect(a, 9, 10, 2, 47, GOLD)
-    put(a, B48(), 144, 8)
-    rect(a, 0, 65, HEADER_W, 2, GOLD)
+    rect(a, 9, 10, 2, 47, RED)
+    put(a, EMBLEM48(), 141, 9)
+    rect(a, 0, 65, HEADER_W, 2, RED)
     img = enlarge(a, HEADER_K, (1600, 533), offset=(0, 1))
     x = 16 * HEADER_K
-    draw_text(img, kicker, "silk", 4, x, 100, GOLD)
-    avail = 118 * HEADER_K
+    draw_text(img, kicker, "silk", 4, x, 100, RED_LT)
+    avail = 116 * HEADER_K
     fp = next(s for s in (8, 6, 4, 3) if font("jersey").width(title, s) + s <= avail)
-    draw_text(img, title, "jersey", fp, x, 236 - 5 * fp, CREAM, shadow=BLACK)
-    draw_text(img, "DYNASTY BASEBALL LEAGUE • EST. 2026", "silk", 4, x, 372, MUTED)
+    draw_text(img, title, "jersey", fp, x, 236 - 5 * fp, WHITE, shadow=NAVY_DK)
+    draw_text(img, LEAGUE_LINE, "silk", 4, x, 372, MUTED)
     return img
 
 
 def footer_divider() -> Image.Image:
-    """Transparent 1600 x 180: cream and gold lines running into a center-ice ring (200 x 23 art grid)."""
+    """Transparent 1600 x 180: white and red lines running into a pixel baseball (200 x 23 art grid)."""
     a = art(200, 23)
-    rect(a, 8, 10, 86, 2, GOLD)
-    rect(a, 106, 10, 86, 2, GOLD)
+    rect(a, 8, 10, 84, 2, RED)
+    rect(a, 108, 10, 84, 2, RED)
     for y, step in ((8, 9), (13, 12)):
-        rect(a, 8, y, 84, 1, CREAM)
-        rect(a, 92, step, 1, 1, CREAM)
-        rect(a, 108, y, 84, 1, CREAM)
-        rect(a, 107, step, 1, 1, CREAM)
-    ring(a, 100, 11, 4.6, 5.9, GOLD, (90, 0, 110, 23))
+        rect(a, 8, y, 83, 1, WHITE)
+        rect(a, 91, step, 1, 1, WHITE)
+        rect(a, 109, y, 83, 1, WHITE)
+        rect(a, 108, step, 1, 1, WHITE)
+    put(a, "ball", 93, 4)
     return enlarge(a, 8, (1600, 180), offset=(0, 0))
 
 
 def thin_rule() -> Image.Image:
     a = art(400, 10)
-    rect(a, 16, 1, 368, 1, CREAM)
-    rect(a, 16, 3, 368, 4, GOLD)
-    rect(a, 16, 8, 368, 1, CREAM)
+    rect(a, 16, 1, 368, 1, WHITE)
+    rect(a, 16, 3, 368, 4, RED)
+    rect(a, 16, 8, 368, 1, WHITE)
     return enlarge(a, 4, (1600, 40))
 
 
-def gold_bar() -> Image.Image:
+def red_bar() -> Image.Image:
     a = art(200, 3)
-    rect(a, 0, 0, 200, 1, GOLD_LT)
-    rect(a, 0, 1, 200, 1, GOLD)
-    rect(a, 0, 2, 200, 1, GOLD_DK)
+    rect(a, 0, 0, 200, 1, RED_LT)
+    rect(a, 0, 1, 200, 1, RED)
+    rect(a, 0, 2, 200, 1, RED_DK)
     return enlarge(a, 8, (1600, 24))
 
 
-def b_icon(size: int, color, k: int = 21) -> Image.Image:
-    """Large B (28 x 32 art) centered on a flat color."""
+def emblem_icon(size: int, color, k: int = 21) -> Image.Image:
+    """The large baseball (32 x 32 art) centered on a flat color."""
     img = Image.new("RGBA", (size, size), color + (255,))
-    place(img, sprite(B32(), k), size // 2, size // 2)
+    place(img, sprite(EMBLEM32(), k), size // 2, size // 2)
     return img
 
 
-def b_mark(size: tuple[int, int], k: int) -> Image.Image:
+def emblem_mark(size: tuple[int, int], k: int) -> Image.Image:
+    """The large baseball on a transparent ground."""
     img = Image.new("RGBA", size, (0, 0, 0, 0))
-    place(img, sprite(B32(), k), size[0] // 2, size[1] // 2)
+    place(img, sprite(EMBLEM32(), k), size[0] // 2, size[1] // 2)
     return img
 
 
-def avatar(size: int, color=BLACK, round_=False) -> Image.Image:
-    """Small B (the site's 14 x 14 sprite) on a 20 x 20 grid that survives Discord's 40-48 px display."""
+def avatar(size: int, color=NAVY, round_=False) -> Image.Image:
+    """The small baseball (14 x 14) on a 20 x 20 grid that survives Discord's 40-48 px display."""
     a = art(20, 20, None if round_ else color)
     if round_:
         ring(a, 10, 10, 0, 10, color)
-    put(a, "b", 3, 3)
+    put(a, "ball", 3, 3)
     return enlarge(a, size // 20, (size, size), pad=None if round_ else color)
 
 
 def emoji(size: int, bg=None) -> Image.Image:
     a = art(16, 16, bg)
-    put(a, "b", 1, 1)
+    put(a, "ball", 1, 1)
     return enlarge(a, size // 16, (size, size))
 
 
 def seal(dark: bool = True, k: int = 4) -> Image.Image:
     """Round official seal on a 256 x 256 art grid (k=4 -> 1024 px, k=1 -> 256 px)."""
     N, m = 256, 128
-    fill, ink = (CHARCOAL, CREAM) if dark else (CREAM, BLACK)
+    fill, ink = (NAVY, WHITE) if dark else (PAPER, NAVY)
     a = art(N, N)
     ring(a, m, m, 0, 117.3, fill)
-    ring(a, m, m, 117.3, 124.7, GOLD)
-    ring(a, m, m, 124.7, 128, BLACK)
-    ring(a, m, m, 108, 109.6, GOLD)
-    ring(a, m, m, 70.7, 72.3, GOLD)
-    rect(a, 14, 127, 3, 3, GOLD)
-    rect(a, 239, 127, 3, 3, GOLD)
-    put(a, B86(), m - len(B86()[0]) // 2, m - len(B86()) // 2)
-    _arc_text(a, "DYNASTY BASEBALL LEAGUE", m, 94.5, ink, top=True)
-    _arc_text(a, "OFFICIAL • EST. 2026", m, 95, ink, top=False)
+    ring(a, m, m, 117.3, 124.7, RED)
+    ring(a, m, m, 124.7, 128, NAVY_DK)
+    ring(a, m, m, 108, 109.6, RED)
+    ring(a, m, m, 70.7, 72.3, RED)
+    rect(a, 14, 127, 3, 3, RED)
+    rect(a, 239, 127, 3, 3, RED)
+    e = EMBLEM_SEAL()
+    put(a, e, m - len(e[0]) // 2, m - len(e) // 2)
+    _arc_text(a, LEAGUE_NAME.upper(), m, 94.5, ink, top=True, fit=math.radians(150))
+    _arc_text(a, f"OFFICIAL • EST. {LEAGUE_EST}", m, 95, ink, top=False, fit=math.radians(150))
     return a if k == 1 else enlarge(a, k, (N * k, N * k))
 
 
-def _arc_text(img, text, c, r, color, top=True, size=24, gap=1.0):
-    """Text around a circle, each letter rotated and re-thresholded so it stays solid pixels."""
-    f = ImageFont.truetype(str(FONTS / "jersey10" / "Jersey10-Regular.ttf"), size)
-    widths = [f.getlength(ch) for ch in text]
-    total = sum(widths) + gap * (len(text) - 1)
+def _arc_text(img, text, c, r, color, top=True, size=24, gap=1.0, fit=None):
+    """Text around a circle, each letter rotated and re-thresholded so it stays solid pixels.
+    With `fit` (radians), the size steps down until the text spans no more than that angle."""
+    while True:
+        f = ImageFont.truetype(str(FONTS / "jersey10" / "Jersey10-Regular.ttf"), size)
+        widths = [f.getlength(ch) for ch in text]
+        total = sum(widths) + gap * (len(text) - 1)
+        if fit is None or total / r <= fit or size <= 14:
+            break
+        size -= 1
     pos = -total / 2
     tint = Image.new("RGBA", (64, 64), color + (255,))
     for ch, w in zip(text, widths):
@@ -649,11 +831,11 @@ def stamp(word: str, color, sub: str | None = None, seed: int = 1) -> Image.Imag
 def contact_sheet(title: str, groups, size: tuple[int, int], max_w=480, max_h=300) -> Image.Image:
     """Grid of thumbnails with Silkscreen labels; pixel art is shrunk by whole factors with NEAREST."""
     W, H = size
-    sheet = Image.new("RGBA", size, BLACK + (255,))
-    draw_text(sheet, title, "jersey", 4, 30, 30, PAPER)
+    sheet = Image.new("RGBA", size, NAVY_DK + (255,))
+    draw_text(sheet, title, "jersey", 4, 30, 30, WHITE)
     y = 30 + 40 + 34
     for group, items in groups:
-        draw_text(sheet, group, "silk-bold", 3, 30, y, GOLD)
+        draw_text(sheet, group, "silk-bold", 3, 30, y, RED_LT)
         y += 15 + 22
         x, rowh = 30, 0
         for name, im in items:
@@ -661,8 +843,8 @@ def contact_sheet(title: str, groups, size: tuple[int, int], max_w=480, max_h=30
             t = im.convert("RGBA").resize((max(1, im.width // f), max(1, im.height // f)), Image.NEAREST)
             if t.getextrema()[3][0] < 255:  # transparent asset: show it on a checkerboard
                 light = _mostly_dark(t)
-                tile = Image.new("RGBA", t.size, (CREAM if light else CHARCOAL) + (255,))
-                _checker(tile, CREAM_DKR if light else CHAR_DK)
+                tile = Image.new("RGBA", t.size, (PAPER if light else NAVY) + (255,))
+                _checker(tile, PAPER_DKR if light else NAVY_HI)
                 tile.alpha_composite(t)
                 t = tile
             cell = max(t.width, 200)
@@ -672,7 +854,7 @@ def contact_sheet(title: str, groups, size: tuple[int, int], max_w=480, max_h=30
                 x, y, rowh = 30, y + rowh + 28, 0
             sheet.alpha_composite(t, (x, y))
             for i, line in enumerate(lines):
-                draw_text(sheet, line, "silk", 2, x, y + t.height + 8 + 16 * i, CREAM)
+                draw_text(sheet, line, "silk", 2, x, y + t.height + 8 + 16 * i, PAPER)
             x += cell + 24
             rowh = max(rowh, h)
         y += rowh + 52
@@ -692,7 +874,7 @@ def _wrap_label(name: str, width: int, scale: int = 2) -> list[str]:
     return lines + [cur]
 
 
-def _checker(tile: Image.Image, color=CHAR_DK, cell: int = 8):
+def _checker(tile: Image.Image, color=NAVY_HI, cell: int = 8):
     d = ImageDraw.Draw(tile)
     for y in range(0, tile.height, cell):
         for x in range(0, tile.width, cell):
@@ -701,7 +883,7 @@ def _checker(tile: Image.Image, color=CHAR_DK, cell: int = 8):
 
 
 def _mostly_dark(img: Image.Image) -> bool:
-    """True when most opaque pixels are dark (a black wordmark needs a light backdrop)."""
+    """True when most opaque pixels are dark (a navy wordmark needs a light backdrop)."""
     lum = img.convert("L").load()
     alpha = img.getchannel("A").load()
     dark = total = 0
