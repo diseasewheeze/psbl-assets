@@ -14,7 +14,7 @@ import discohook_format as fmt  # noqa: E402
 
 class ChannelNames(unittest.TestCase):
     def test_full_name(self):
-        self.assertEqual(c.name("game-day"), "🏒│game-day")
+        self.assertEqual(c.name("game-day"), "⚾│game-day")
         self.assertEqual(c.ref("league-suggestions"), "**💡│league-suggestions**")
         self.assertEqual(c.CATEGORY_OF["lineup-alerts"], "🏆 LEAGUE COMPETITION")
         self.assertEqual(c.CATEGORY_OF["owner-handbook"], "🧑🏻‍⚖️ COMMISSIONER'S OFFICE")
@@ -30,7 +30,7 @@ class ChannelNames(unittest.TestCase):
 
     def test_restyle_short_forms(self):
         self.assertEqual(c.restyle("Debate in **gm-lounge**."), "Debate in **💬│gm-lounge**.")
-        self.assertEqual(c.restyle("Posts to #game-day daily"), "Posts to **🏒│game-day** daily")
+        self.assertEqual(c.restyle("Posts to #game-day daily"), "Posts to **⚾│game-day** daily")
         self.assertEqual(c.restyle("in the rulings-log channel"), "in the ⚖️│rulings-log channel")
         self.assertEqual(c.restyle("📜 **constitution** — rules"), "**📜│constitution** — rules")
         self.assertEqual(c.restyle("• **media** for clips"), "• **📸│media** for clips")

@@ -1,7 +1,7 @@
-"""The DBL server's real channel and category names, and the rule that writes them.
+"""The league server's channel and category names, and the rule that writes them.
 
 Every channel in the server is named "emoji│name" (U+2502 between them), for
-example 🏒│game-day. Messages refer to a channel by that full name, so a post
+example ⚾│game-day. Messages refer to a channel by that full name, so a post
 reads exactly like the server's channel list.
 
 Templates and code may still write a reference the short way, as **game-day**
@@ -19,18 +19,18 @@ import re
 
 BAR = "│"  # │
 
-# Category -> channels, in server order (read from the server on 2026-10-07).
+# Category -> channels, in server order (the plan for the new server).
 LAYOUT: dict[str, dict[str, str]] = {
     "🏛️ LEAGUE OFFICE": {
         "welcome": "👋🏻", "constitution": "📜", "announcements": "📢", "league-calendar": "📅",
         "league-ledger": "💰", "league-voting": "🗳️", "hall-of-champions": "🏆", "league-records": "📚",
     },
     "📰 THE WIRE": {
-        "breaking-news": "🚨", "nhl-news": "📰", "injury-report": "🏥", "nhl-transactions": "🔄",
+        "breaking-news": "🚨", "mlb-news": "📰", "injury-report": "🏥", "mlb-transactions": "🔄",
         "prospect-wire": "🌱", "news-desk": "💬",
     },
     "💼 GENERAL MANAGERS": {
-        "gm-lounge": "💬", "game-day": "🏒", "chirps-and-memes": "😂", "off-topic": "🍺", "media": "📸",
+        "gm-lounge": "💬", "game-day": "⚾", "chirps-and-memes": "😂", "off-topic": "🍺", "media": "📸",
     },
     "🔄 TRADE CENTER": {
         "trade-block": "📣", "looking-to-acquire": "🎯", "trade-discussion": "💬",
@@ -40,26 +40,26 @@ LAYOUT: dict[str, dict[str, str]] = {
     "💰 WAIVER WIRE": {"waiver-talk": "💵", "waiver-watch": "👀"},
     "🏆 LEAGUE COMPETITION": {
         "scoreboard": "📊", "standings": "📈", "weekly-recap": "📰", "playoff-race": "🏁",
-        "playoffs": "🏆", "consolation-bracket": "🥄",
-        "lineup-alerts": "🔔",  # new with the feature batch
+        "playoffs": "🏆", "consolation-bracket": "🥄", "lineup-alerts": "🔔",
     },
     "🧑🏻‍⚖️ COMMISSIONER'S OFFICE": {
         "commissioner-support": "🎫", "rules-questions": "❓", "league-suggestions": "💡",
         "open-a-ticket": "🎟️", "ticket-log": "📙", "ticket-transcripts": "📃",
         "commissioner-room": "🔒", "owner-issues": "👤", "league-accounting": "💰",
         "rulings-log": "⚖️", "automation-health": "⚙️", "backup-log": "💾", "commissioner-desk": "📃",
-        "owner-handbook": "📖",  # new with the feature batch
+        "owner-handbook": "📖",
     },
     "🎯 DRAFT CENTER": {
         "draft-announcements": "📢", "draft-room": "🎙️", "draft-day-trades": "🔄", "draft-results": "📋",
     },
-    "🏒 FRANCHISE HQ": {
-        "franchise-directory": "🏒", "franchise-news": "📰", "roster-showcase": "📋",
+    "⚾ FRANCHISE HQ": {
+        "franchise-directory": "🏟️", "franchise-news": "📰", "roster-showcase": "📋",
     },
 }
 
-# Channels that do not exist in the server yet (made during setup).
-NEW_CHANNELS = ("lineup-alerts", "owner-handbook")
+# Channels that do not exist in the server yet. The whole server is new, so
+# every channel is made during setup (tools/discord_server_plan.py prints the list).
+NEW_CHANNELS: tuple[str, ...] = ()
 
 EMOJI: dict[str, str] = {slug: e for chans in LAYOUT.values() for slug, e in chans.items()}
 CATEGORY_OF: dict[str, str] = {slug: cat for cat, chans in LAYOUT.items() for slug in chans}
