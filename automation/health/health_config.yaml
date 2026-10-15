@@ -59,11 +59,11 @@ workflows:
     # playoffs; the longest gap is overnight (about 12 hours).
     max_age_minutes: 1000
 
-  - id: morning-skate
-    name: "DBL Morning Skate"
-    file: "league-morning-skate.yml"
-    # Once a day at 08:30, all year (it simply posts nothing on nights
-    # without NHL games).
+  - id: morning-recap
+    name: "DBL Morning Recap"
+    file: "league-morning-recap.yml"
+    # Once a day at 08:30, all year (it simply posts nothing after days
+    # without MLB games).
     max_age_minutes: 1700
 
   - id: playoffs

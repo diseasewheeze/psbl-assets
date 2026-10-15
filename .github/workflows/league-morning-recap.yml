@@ -1,11 +1,11 @@
-name: DBL Morning Skate
-run-name: DBL Morning Skate — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
+name: DBL Morning Recap
+run-name: DBL Morning Recap — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
-# Every morning after a night with NHL games: last night's scores with NHL.com
-# recap and condensed-game links, the DBL Goal Reel and a few YouTube
-# highlights in 📸│media, once per NHL date. Timing lives in
-# automation/scheduler/schedule.yaml (08:30 ET, all year).
-# Code: automation/media/morning.py. Settings: automation/league.yaml (morning_skate).
+# Every morning after a day with MLB games: last night's finals with MLB.com
+# recap and condensed-game links and the DBL Home Run Reel in 📸│media, once
+# per MLB date. Timing lives in automation/scheduler/schedule.yaml (08:30 ET,
+# all year). Code: automation/media/morning.py. Settings: automation/league.yaml
+# (morning_recap).
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ on:
         type: choice
         options: [preview, test, live]
       date:
-        description: "Optional NHL date YYYY-MM-DD (default: last night)"
+        description: "Optional MLB date YYYY-MM-DD (default: yesterday)"
         required: false
         default: ""
         type: string
@@ -26,16 +26,16 @@ permissions:
   contents: write
 
 concurrency:
-  group: dbl-morning-skate
+  group: dbl-morning-recap
   cancel-in-progress: false
 
 jobs:
-  morning-skate:
+  morning-recap:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
       MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
-      NHL_DATE: ${{ inputs.date || '' }}
+      MLB_DATE: ${{ inputs.date || '' }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -43,7 +43,7 @@ jobs:
           fetch-depth: 1
 
       - name: Restore saved state
-        run: bash automation/tools/state_branch.sh restore "automation/media/state/morning_skate.json"
+        run: bash automation/tools/state_branch.sh restore "automation/media/state/morning_recap.json"
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -55,13 +55,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r automation/common-requirements.txt
 
-      - name: Run Morning Skate
+      - name: Run Morning Recap
         env:
           LEAGUE_WEBHOOK_MEDIA: ${{ secrets.LEAGUE_WEBHOOK_MEDIA }}
         shell: bash
         run: |
           ARGS=(--mode "$MODE")
-          if [[ -n "$NHL_DATE" ]]; then ARGS+=(--date "$NHL_DATE"); fi
+          if [[ -n "$MLB_DATE" ]]; then ARGS+=(--date "$MLB_DATE"); fi
           python automation/media/morning.py "${ARGS[@]}"
 
       # Saved even if a post failed, so the parts that did go out are never repeated.
@@ -69,6 +69,6 @@ jobs:
         if: ${{ !cancelled() && env.MODE == 'live' }}
         run: |
           bash automation/tools/state_branch.sh save \
-            "chore(media): save morning skate state" \
+            "chore(media): save morning recap state" \
             "DBL Fantrax Automation" \
-            "automation/media/state/morning_skate.json"
+            "automation/media/state/morning_recap.json"

@@ -176,30 +176,26 @@ probable_pitchers:
   post_from: "09:00"
 
 # ---------------------------------------------------------------------------
-# Morning Skate (automation/media/)
+# Morning Recap (automation/media/)
 #
-# Every morning after a night with NHL games (regular season and playoffs),
-# 📸│media gets last night's scores with NHL.com recap and condensed-game
-# links, the DBL Goal Reel (goals and assists by players on DBL rosters,
-# with clip links; left out when nobody scored) and a few YouTube highlight
-# videos. Links only, nothing is re-uploaded. Nobody is pinged.
-# enabled:           false stops the scheduled posts (manual preview/test
-#                    runs still work).
-# webhook:           GitHub Actions secret holding the 📸│media webhook URL
-#                    (the same one the Wire's podcast posts use).
-# post_time:         earliest local time the morning post goes out. The
-#                    scheduler starts the job at 08:30
-#                    (automation/scheduler/schedule.yaml); keep them in step.
-# max_youtube:       how many YouTube highlight videos to post (0 to 10). The
-#                    games with the most DBL goals + assists go first, then
-#                    overtime/shootout games, then the highest-scoring games.
-# include_goal_reel: false leaves out the Goal Reel (no Fantrax roster read).
-morning_skate:
+# Every morning after a day with MLB games (regular season and postseason),
+# 📸│media gets last night's finals with the pitchers of record and MLB.com
+# recap and condensed-game links, then the DBL Home Run Reel (home runs by
+# players on DBL rosters, with clip links; left out when none of them
+# homered). Links only, nothing is re-uploaded. Nobody is pinged.
+# enabled:               false stops the scheduled posts (manual preview/test
+#                        runs still work).
+# webhook:               GitHub Actions secret holding the 📸│media webhook URL
+#                        (the same one the Wire's podcast posts use).
+# post_time:             earliest local time the morning post goes out. The
+#                        scheduler starts the job at 08:30
+#                        (automation/scheduler/schedule.yaml); keep them in step.
+# include_home_run_reel: false leaves out the reel (no Fantrax roster read).
+morning_recap:
   enabled: true
   webhook: LEAGUE_WEBHOOK_MEDIA
   post_time: "08:30"
-  max_youtube: 3
-  include_goal_reel: true
+  include_home_run_reel: true
 
 # Playoff Pool (automation/playoff_pool/)
 #

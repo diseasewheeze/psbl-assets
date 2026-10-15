@@ -105,12 +105,12 @@ jobs:
     daily_at: ["09:15", "11:45", "15:30", "18:15", "21:30"]
     phases: [regular, playoffs]
 
-  # Morning Skate: last night's NHL scores, the DBL Goal Reel and a few
-  # YouTube highlights in 📸│media, once per NHL date. All year, so the NHL
-  # playoffs are covered after the DBL season ends; nights without NHL games
-  # post nothing. A failed post is retried at the next check.
-  - id: morning-skate
-    workflow: league-morning-skate.yml
+  # Morning Recap: last night's MLB finals with recap and condensed-game
+  # links and the DBL Home Run Reel in 📸│media, once per MLB date. All year,
+  # so the MLB postseason is covered after the DBL season ends; days without
+  # MLB games post nothing. A failed post is retried at the next check.
+  - id: morning-recap
+    workflow: league-morning-recap.yml
     daily_at: ["08:30"]
     retry_failures: 3
   # Playoff Pool (just for fun, no money): a free NHL playoff box pool in
