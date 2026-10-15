@@ -161,6 +161,7 @@ class RunTests(unittest.TestCase):
     def test_state_from_before_baseball_is_not_a_baseline(self):
         mlb = FakeMlb()
         mlb.people[2] = person(2, "Young Hitter", "SS", 118, at_bats=AB + 5)
+        # A state file saved before the move to baseball ("nhl" was its old cache key) has no "sport": "mlb".
         code, _, posts, state = self._run(mlb, {"eligible": {"f2": True}, "nhl": {}})
         self.assertEqual((code, posts), (0, []))
         self.assertEqual(json.loads(state.read_text())["eligible"]["f2"], False)

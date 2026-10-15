@@ -3,7 +3,7 @@ run-name: DBL History Posts — ${{ inputs.item }} — ${{ inputs.mode }}
 
 # Manual only. Posts league-history graphics and reports to Discord:
 #   dynasty-pot      Dynasty Pot graphic to 💰│league-ledger (one message)
-#   franchise-cards  one card per franchise to 🏒│franchise-directory (one message each)
+#   franchise-cards  one card per franchise to 🏟️│franchise-directory (one message each)
 #   draft-retro      a draft retrospective to 📋│draft-results (reads MLB stats)
 # preview builds everything and attaches the images to the run (Artifacts);
 # test posts one [TEST] message; live posts for real.
