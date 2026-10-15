@@ -20,7 +20,7 @@ only saves a baseline.
    toward the season's trades. A card for three or more teams says the feed
    can't separate trades made minutes apart.
 2. TRADE REVISIT at 6 and 12 months (same channel): for each side, the DBL
-   fantasy points its players have produced in NHL regular-season games since
+   fantasy points its players have produced in MLB regular-season games since
    the trade (trade_points.py), wherever they have played since; picks show
    "not yet used" or the player drafted with them (league archive); and the
    final poll result, read back from Discord. It never suggests a trade should
@@ -38,7 +38,7 @@ not fail. Posts are text and links only.
 
 Safety:
 - State is saved after detection and after every post, so a run that dies
-  later (a slow NHL API during revisits) never posts the same card twice.
+  later (a slow MLB API during revisits) never posts the same card twice.
   The order is detection, report cards, the tracker, then revisits, which
   have a time budget and resume on the next run.
 - A Fantrax error during detection keeps the saved snapshot; cards, the
@@ -96,9 +96,9 @@ TRACKER_OPENS = time(9, 0)
 FINAL_GRACE = timedelta(hours=6)       # the final tally still posts if the runs right after the deadline were missed
 REVISIT_MONTHS = (6, 12)
 REVISIT_AT = time(12, 0)               # local time a revisit is posted on its day
-REVISIT_GIVE_UP = timedelta(days=3)    # if the NHL can't be read, post with what is readable after this
+REVISIT_GIVE_UP = timedelta(days=3)    # if MLB can't be read, post with what is readable after this
 MAX_REVISITS_PER_RUN = 3
-REVISIT_BUDGET = timedelta(minutes=6)  # NHL reading time per run; the rest resumes next run
+REVISIT_BUDGET = timedelta(minutes=6)  # MLB reading time per run; the rest resumes next run
 CARD_RETRY = timedelta(hours=6)        # a report card that failed to post is retried this long
 CONFIRM_DELAY = 5                      # seconds before re-reading Fantrax to confirm a trade
 STALE_AFTER = timedelta(hours=3)       # a longer window over a waiver run can hide a drop and a claim
@@ -192,7 +192,7 @@ def show(payload: dict[str, Any]) -> None:
 # --- 1. detection -----------------------------------------------------------------
 
 def player_info(fx: Any, trades: list[dict[str, Any]]) -> None:
-    """Name, position and NHL team of every player in the trades (Fantrax getPlayerIds)."""
+    """Name, position and MLB team of every player in the trades (Fantrax getPlayerIds)."""
     wanted = {a.split(":", 1)[1] for t in trades for side in t["received"].values() for a in side
               if a.startswith("player:")}
     if not wanted:
@@ -460,7 +460,7 @@ def pick_text(trade: dict[str, Any], asset: str, hist: Any, today: date) -> str:
 
 def revisit_sides(trade: dict[str, Any], due: datetime, tz: ZoneInfo, stats: Any, hist: Any,
                   ) -> tuple[dict[str, list[dict[str, Any]]], tuple[str, str], bool]:
-    """(team -> lines, (first day, last day), complete). Incomplete = an NHL read failed."""
+    """(team -> lines, (first day, last day), complete). Incomplete = an MLB read failed."""
     after = when(trade["at"]).astimezone(tz).date()
     through = due.astimezone(tz).date()
     complete = True
@@ -475,26 +475,24 @@ def revisit_sides(trade: dict[str, Any], due: datetime, tz: ZoneInfo, stats: Any
             info = (trade.setdefault("players", {})).setdefault(value, {})
             label = tr.display_name(str(info.get("name") or f"Player {value}"))
             if getattr(stats, "out_of_time", lambda: False)():
-                complete = False   # no more NHL requests this run
-                lines.append({"kind": "player", "label": label, "points": 0.0, "games": 0, "goalie": False,
-                              "error": tp.OUT_OF_TIME, "missing_box": 0})
+                complete = False   # no more MLB requests this run
+                lines.append({"kind": "player", "label": label, "points": 0.0, "games": 0,
+                              "error": tp.OUT_OF_TIME})
                 continue
-            nhl_id = info.get("nhl_id")
-            if nhl_id is None and info.get("name"):
+            mlb_id = info.get("mlb_id")
+            if mlb_id is None and info.get("name"):
                 try:
-                    nhl_id = stats.find_id(str(info["name"]), str(info.get("team") or ""), str(info.get("position") or ""))
+                    mlb_id = stats.find_id(str(info["name"]), str(info.get("team") or ""), str(info.get("position") or ""))
                 except Exception as exc:  # noqa: BLE001
-                    print(f"NHL WARNING: player search failed for {info['name']} ({exc.__class__.__name__})")
+                    print(f"MLB WARNING: player search failed for {info['name']} ({exc.__class__.__name__})")
                     complete = False
-                if nhl_id is not None:
-                    info["nhl_id"] = nhl_id
-            prod = stats.production(nhl_id, str(info.get("position") or "") == "G", after, through)
-            if prod.error and nhl_id is not None:
+                if mlb_id is not None:
+                    info["mlb_id"] = mlb_id
+            prod = stats.production(mlb_id, after, through)
+            if prod.error and mlb_id is not None:
                 complete = False
-            lines.append({"kind": "player", "label": label,
-                          "points": prod.points, "games": prod.games, "goalie": prod.goalie,
-                          "error": "no NHL match" if nhl_id is None else prod.error,
-                          "missing_box": prod.missing_box})
+            lines.append({"kind": "player", "label": label, "points": prod.points, "games": prod.games,
+                          "error": "no MLB match" if mlb_id is None else prod.error})
         sides[team] = lines
     first = after + timedelta(days=1)
     window = (f"{first.strftime('%b')} {first.day}, {first.year}", f"{through.strftime('%b')} {through.day}, {through.year}")
@@ -535,7 +533,7 @@ def post_revisits(state: dict[str, Any], cfg: dict[str, Any], tz: ZoneInfo, now:
     if mode == "live" and not has_secret(name):
         print(f"SKIP {len(due)} trade revisit(s): the {name} secret is not set. They post once it is added.")
         return 0
-    stats = stats or tp.NhlStats()
+    stats = stats or tp.MlbStats()
     if stop_at is not None:
         stats.stop_at, stats.clock = stop_at, clock_fn
     hist = hist if hist is not None else history(cfg=cfg)
@@ -547,7 +545,7 @@ def post_revisits(state: dict[str, Any], cfg: dict[str, Any], tz: ZoneInfo, now:
             break
         sides, window, complete = revisit_sides(trade, when_due, tz, stats, hist)
         if not complete and now - when_due < REVISIT_GIVE_UP:
-            print(f"WAITING revisit {trade['id']} ({months} months): NHL stats could not be read"
+            print(f"WAITING revisit {trade['id']} ({months} months): MLB stats could not be read"
                   f"{' in time' if getattr(stats, 'out_of_time', lambda: False)() else ''}; will retry next run.")
             continue
         tally = read_tally(cfg, trade) if mode == "live" else None
@@ -701,8 +699,8 @@ def sample_trade(now: datetime) -> dict[str, Any]:
         "names": {"a": "Test 1", "b": "Test 2", "c": "Test 3"},
         "received": {"a": ["pick:2028|1|c", "player:02un4"], "b": ["player:01ztp"]},
         "sent": {"a": ["player:01ztp"], "b": ["pick:2028|1|c", "player:02un4"]},
-        "players": {"02un4": {"name": "McDavid, Connor", "position": "C", "team": "EDM"},
-                    "01ztp": {"name": "Hyman, Zach", "position": "RW", "team": "EDM"}},
+        "players": {"02un4": {"name": "Witt Jr., Bobby", "position": "SS", "team": "KC"},
+                    "01ztp": {"name": "Skubal, Tarik", "position": "SP", "team": "DET"}},
     }
 
 
@@ -722,9 +720,9 @@ def test_post(item: str) -> int:
             print(f"READ BACK (Get Webhook Message): {'ok' if got else why}; poll: {json.dumps(tally)}")
         return 0 if ok else 1
     if item == "revisit":
-        sides = {"a": [{"kind": "player", "label": "Connor McDavid", "points": 412.35, "games": 41, "goalie": False},
+        sides = {"a": [{"kind": "player", "label": "Bobby Witt Jr.", "points": 412.5, "games": 81},
                        {"kind": "pick", "text": "2028 1st, originally Test 3's (not yet used)"}],
-                 "b": [{"kind": "player", "label": "Zach Hyman", "points": 198.4, "games": 39, "goalie": False}]}
+                 "b": [{"kind": "player", "label": "Tarik Skubal", "points": 398.25, "games": 16}]}
         tally = {"answers": [("Test 1", 5), ("Test 2", 3), (tr.EVEN, 2)], "total": 10, "final": True}
         payload = tr.revisit(trade, 6, sides, cfg, window=("Jan 16, 2027", "Jul 15, 2027"), tally=tally, test=True)
         payload["embeds"][0]["description"] += "\n\nSample only. These numbers are made up."

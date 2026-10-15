@@ -63,7 +63,7 @@ def header(cfg: dict[str, Any]) -> str:
 
 
 def display_name(fantrax_name: str) -> str:
-    """'McDavid, Connor' -> 'Connor McDavid'."""
+    """'Witt Jr., Bobby' -> 'Bobby Witt Jr.'."""
     if fantrax_name.count(",") == 1:
         last, first = (part.strip() for part in fantrax_name.split(",", 1))
         return f"{first} {last}".strip()
@@ -85,7 +85,7 @@ def pick_parts(key: str) -> tuple[int, int, str] | None:
 
 
 def asset_label(trade: dict[str, Any], asset: str, *, short: bool = False) -> str:
-    """'Connor McDavid (C, EDM)' or '2028 1st round pick (Test 3)' (short: no position/team, '2028 1st (Test 3)')."""
+    """'Bobby Witt Jr. (SS, KC)' or '2028 1st round pick (Test 3)' (short: no position/team, '2028 1st (Test 3)')."""
     kind, _, value = str(asset).partition(":")
     if kind == "player":
         row = (trade.get("players") or {}).get(value) or {}
@@ -198,14 +198,14 @@ def revisit(trade: dict[str, Any], months: int, sides: dict[str, list[dict[str, 
             window: tuple[str, str], tally: dict[str, Any] | None = None, link: str | None = None,
             test: bool = False, now: datetime | None = None) -> dict[str, Any]:
     """TRADE REVISIT — N months. ``sides``: team -> lines, each
-    {kind: player, label, points, games, goalie, error, missing_box} or {kind: pick, text}."""
+    {kind: player, label, points, games, error} or {kind: pick, text}."""
     seen = _ts(trade["at"])
     names = " and ".join(f"**{team_name(trade, t)}**" for t in trade["teams"])
     first, last = window
     description = (f"{header(cfg)}\n"
                    f"The trade between {names}, seen in Fantrax <t:{seen}:D>."
                    + (f" [Original report card]({link})" if link else "") + "\n\n"
-                   f"Fantasy points from NHL regular-season games from {first} through {last}, scored with DBL "
+                   f"Fantasy points from MLB regular-season games from {first} through {last}, scored with DBL "
                    "values. Every game counts, even if a player has since moved to another DBL team.")
     fields = []
     for t in trade["teams"]:
@@ -218,17 +218,14 @@ def revisit(trade: dict[str, Any], months: int, sides: dict[str, list[dict[str, 
                 total = sum(x.get("points") or 0 for x in scored)
                 text.append(f"**{total:.2f} points** from the players received")
             for x in players:
-                label = x["label"] + (" (G)" if x.get("goalie") else "")
+                label = x["label"]
                 if x.get("error"):
-                    text.append(f"{label}: NHL stats not available ({x['error']})")
+                    text.append(f"{label}: MLB stats not available ({x['error']})")
                 elif not x.get("games"):
-                    text.append(f"{label}: no NHL games since the trade")
+                    text.append(f"{label}: no MLB games since the trade")
                 else:
                     games = x["games"]
                     text.append(f"{label}: {x['points']:.2f} in {games} game{'s' if games != 1 else ''}")
-            gaps = sum(int(x.get("missing_box") or 0) for x in players)
-            if gaps:
-                text.append(f"Hits and blocks couldn't be read for {gaps} game{'s' if gaps != 1 else ''}.")
         text += [x["text"] for x in lines if x["kind"] == "pick"]
         if not text:
             text = ["Nothing Fantrax's data feed shows (FAAB isn't in the feed)."]
@@ -282,7 +279,7 @@ def tracker(cfg: dict[str, Any], deadline: datetime, trades_today: list[dict[str
         title = f"{TRACKER_TITLE} — FINAL"
         description = (f"{header(cfg)}\n"
                        f"**Deadline passed — {_plural(n, 'trade')} today.**\n"
-                       "Trading reopens the day after the Stanley Cup Final ends (11.6).\n\n"
+                       "Trading reopens the day after the World Series ends (11.6).\n\n"
                        f"**Deadline:** <t:{d}:F>\n"
                        f"**Trades this season:** {season_count}\n\n"
                        f"Report cards and polls: {TRADE_DISCUSSION}")

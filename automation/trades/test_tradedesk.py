@@ -25,8 +25,10 @@ import trade_detect as td  # noqa: E402
 import trade_points as tp  # noqa: E402
 import trade_render as tr  # noqa: E402
 import tradedesk  # noqa: E402
+from core import mlb_people as mp  # noqa: E402
 from core import schedule as sched  # noqa: E402
 from core import season as cal  # noqa: E402
+from core import sport  # noqa: E402
 
 NY = ZoneInfo("America/New_York")
 FIXTURES = AUTOMATION / "tests" / "fixtures"
@@ -53,9 +55,9 @@ def picks_raw(owners: dict[tuple[int, int, str], str]) -> dict:
 
 BASE_TEAMS = {"a": ["p1", "p2", "p3"], "b": ["p4", "p5", "p6"], "c": ["p7", "p8"]}
 BASE_PICKS = {(2028, 1, "a"): "a", (2028, 1, "b"): "b", (2029, 2, "c"): "c"}
-PLAYER_IDS = {"p1": {"name": "McDavid, Connor", "position": "C", "team": "EDM"},
-              "p4": {"name": "Hyman, Zach", "position": "RW", "team": "EDM"},
-              "p5": {"name": "Shesterkin, Igor", "position": "G", "team": "NYR"}}
+PLAYER_IDS = {"p1": {"name": "Witt Jr., Bobby", "position": "SS", "team": "KC"},
+              "p4": {"name": "Skubal, Tarik", "position": "SP", "team": "DET"},
+              "p5": {"name": "Ohtani, Shohei", "position": "UT,SP", "team": "LAD"}}
 
 
 class FakeFantrax:
@@ -256,8 +258,8 @@ class ReportCardTests(unittest.TestCase):
         embed = tr.report_card(card_trade(), CFG)["embeds"][0]
         self.assertEqual(embed["title"], "TRADE REPORT CARD")
         fields = {f["name"]: f["value"] for f in embed["fields"]}
-        self.assertEqual(fields["TEST 1 RECEIVES"], "Zach Hyman (RW, EDM)\n2028 1st round pick (Test 3)")
-        self.assertEqual(fields["TEST 2 RECEIVES"], "Connor McDavid (C, EDM)")
+        self.assertEqual(fields["TEST 1 RECEIVES"], "Tarik Skubal (SP, DET)\n2028 1st round pick (Test 3)")
+        self.assertEqual(fields["TEST 2 RECEIVES"], "Bobby Witt Jr. (SS, KC)")
         footer = embed["footer"]["text"]
         self.assertIn("JUST FOR FUN", footer)
         self.assertIn("NEVER AFFECTS THE TRADE", footer)
@@ -289,113 +291,139 @@ class ReportCardTests(unittest.TestCase):
 
 # --- revisits: scoring -------------------------------------------------------------------
 
-class FakeNhl:
-    """Search, game logs and boxscores in the NHL API's public shape (fixtures, no network)."""
+def hit(day, pk, game_type="R", **stat):
+    """A hitting game line in the MLB Stats API's gameLog shape (fixtures/mlb_game_log_660271_2026.json)."""
+    return ("hitting", {"date": day, "gameType": game_type, "game": {"gamePk": pk}, "team": {"id": 118},
+                        "opponent": {"id": 147}, "stat": stat})
+
+
+def pitch(day, pk, **stat):
+    return ("pitching", {"date": day, "gameType": "R", "game": {"gamePk": pk}, "team": {"id": 116},
+                         "opponent": {"id": 147}, "stat": stat})
+
+
+WITT, SKUBAL, OHTANI = 677951, 669373, 660271
+# SYNTHETIC game lines in the documented shape (the real ones would tie the tests to a season's results).
+LOGS = {
+    (WITT, 2027): [
+        hit("2027-03-10", 900, "S", hits=4, homeRuns=2, runs=2, rbi=5),          # spring training: never counts
+        hit("2027-05-10", 1001, hits=2, homeRuns=1, runs=1, rbi=2, strikeOuts=1),
+        hit("2027-05-11", 1002, hits=1, doubles=1, runs=1, rbi=1, baseOnBalls=1, stolenBases=1),
+        hit("2027-06-01", 1003, hits=3, triples=1, runs=2, rbi=1, hitByPitch=1, caughtStealing=1, strikeOuts=2),
+    ],
+    (WITT, 2028): [
+        hit("2028-04-02", 2001, hits=1, homeRuns=1, runs=1, rbi=1, strikeOuts=1),
+        hit("2028-06-01", 2002, hits=4, runs=3),
+    ],
+    (SKUBAL, 2026): [
+        pitch("2026-05-12", 1101, outs=18, inningsPitched="6.0", strikeOuts=9, hits=4, baseOnBalls=1, earnedRuns=1, wins=1),
+        pitch("2026-05-18", 1102, inningsPitched="6.2", strikeOuts=7, hits=6, baseOnBalls=2, hitBatsmen=1,
+              earnedRuns=3, losses=1),
+    ],
+    (OHTANI, 2027): [
+        hit("2027-04-10", 3001, hits=2, homeRuns=1, runs=1, rbi=2),
+        pitch("2027-04-10", 3001, outs=15, strikeOuts=8, hits=3, earnedRuns=1, wins=1),
+    ],
+}
+PEOPLE = [
+    {"id": WITT, "fullName": "Bobby Witt Jr.", "active": True, "primaryPosition": {"abbreviation": "SS"}, "currentTeam": {"id": 118}},
+    {"id": SKUBAL, "fullName": "Tarik Skubal", "active": True, "primaryPosition": {"abbreviation": "P"}, "currentTeam": {"id": 116}},
+    {"id": OHTANI, "fullName": "Shohei Ohtani", "active": True, "primaryPosition": {"abbreviation": "TWP"}, "currentTeam": {"id": 119}},
+    {"id": 669257, "fullName": "Will Smith", "active": True, "primaryPosition": {"abbreviation": "C"}, "currentTeam": {"id": 119}},
+    {"id": 519293, "fullName": "Will Smith", "active": False, "primaryPosition": {"abbreviation": "P"}, "currentTeam": {"id": 118}},
+    {"id": 700003, "fullName": "Luis Garcia", "active": True, "primaryPosition": {"abbreviation": "P"}, "currentTeam": {"id": 119}},
+    {"id": 700004, "fullName": "Luis Garcia", "active": True, "primaryPosition": {"abbreviation": "P"}, "currentTeam": {"id": 135}},
+]
+
+
+class FakeMlb:
+    """MLB player search and game logs in the Stats API's shape (no network)."""
 
     def __init__(self) -> None:
         self.calls: list[str] = []
-        self.logs = {
-            (8478402, 20262027): [
-                {"gameId": 2026020500, "gameDate": "2027-01-15", "goals": 3, "assists": 0, "shots": 9, "pim": 0},
-                {"gameId": 2026020600, "gameDate": "2027-01-16", "goals": 1, "assists": 2, "shots": 5, "pim": 2},
-                {"gameId": 2026020700, "gameDate": "2027-03-01", "goals": 0, "assists": 1, "shots": 2, "pim": 0},
-            ],
-            (8478402, 20272028): [
-                {"gameId": 2027020010, "gameDate": "2027-10-10", "goals": 1, "assists": 0, "shots": 3, "pim": 0},
-                {"gameId": 2027020900, "gameDate": "2028-02-01", "goals": 4, "assists": 4, "shots": 9, "pim": 0},
-            ],
-            (8478048, 20262027): [
-                {"gameId": 2026020601, "gameDate": "2027-01-17", "gamesStarted": 1, "shotsAgainst": 30,
-                 "goalsAgainst": 2, "goals": 0, "assists": 0, "pim": 0},
-                {"gameId": 2026020602, "gameDate": "2027-01-19", "gamesStarted": 1, "shotsAgainst": 30,
-                 "goalsAgainst": 0, "goals": 0, "assists": 1, "pim": 0},
-            ],
-        }
-        self.boxes = {
-            "2026020600": {"playerByGameStats": {"awayTeam": {"forwards": [{"playerId": 8478402, "hits": 3, "blockedShots": 1}]},
-                                                 "homeTeam": {"defense": [], "goalies": []}}},
-            "2026020700": {"playerByGameStats": {"homeTeam": {"forwards": [{"playerId": 8478402, "hits": 0, "blockedShots": 2}]}}},
-            "2027020010": {"playerByGameStats": {"homeTeam": {"forwards": [{"playerId": 8478402, "hits": 1, "blockedShots": 0}]}}},
-        }
-        self.search = {
-            "Connor McDavid": [{"playerId": "8478402", "name": "Connor McDavid", "positionCode": "C", "teamAbbrev": "EDM"}],
-            "Igor Shesterkin": [{"playerId": "8478048", "name": "Igor Shesterkin", "positionCode": "G", "teamAbbrev": "NYR"}],
-            "Elias Pettersson": [{"playerId": "8480012", "name": "Elias Pettersson", "positionCode": "C", "teamAbbrev": "VAN"},
-                                 {"playerId": "8483678", "name": "Elias Pettersson", "positionCode": "D", "teamAbbrev": "VAN"}],
-            "Sebastian Aho": [{"playerId": "8478427", "name": "Sebastian Aho", "positionCode": "C", "teamAbbrev": "CAR"},
-                              {"playerId": "8480222", "name": "Sebastian Aho", "positionCode": "D", "teamAbbrev": "PIT"}],
-        }
+        self.logs = {k: list(v) for k, v in LOGS.items()}
 
-    def get(self, url: str, **params):
-        self.calls.append(url)
-        if url == tp.SEARCH:
-            return self.search.get(params["q"], [])
-        if "/game-log/" in url:
-            parts = url.split("/")
-            return {"gameLog": self.logs.get((int(parts[-4]), int(parts[-2])), [])}
-        if url.endswith("/boxscore"):
-            game = url.split("/")[-2]
-            if game not in self.boxes:
-                raise RuntimeError("HTTP 500")
-            return self.boxes[game]
-        return None
+    def fetch(self, url: str, params: dict):
+        self.calls.append(f"{url}?{params}")
+        if url.endswith("/people/search"):
+            q = mp.norm_name(params["names"])
+            return {"people": [p for p in PEOPLE if q in (mp.norm_name(p["fullName"]),
+                                                          mp.norm_name(mp.split_name(p["fullName"])[1]))]}
+        if "/stats" in url:
+            pid = int(url.split("/people/")[1].split("/")[0])
+            groups: dict[str, list] = {}
+            for group, split in self.logs.get((pid, int(params["season"])), []):
+                groups.setdefault(group, []).append(split)
+            return {"stats": [{"group": {"displayName": g}, "type": {"displayName": "gameLog"}, "splits": rows}
+                              for g, rows in groups.items()]}
+        raise AssertionError(url)
+
+    def stats(self) -> tp.MlbStats:
+        return tp.MlbStats(mp.MlbApi(self.fetch))
+
+
+def fake_stats() -> tp.MlbStats:
+    return FakeMlb().stats()
+
+
+def points(*lines) -> float:
+    """What the league's rules (core/sport.py) give these game lines."""
+    return round(sum(sport.pitching_points(split["stat"]) if group == "pitching" else sport.hitting_points(split["stat"])
+                     for group, split in lines), 2)
 
 
 class ScoringTests(unittest.TestCase):
-    def test_values_come_from_the_constitution(self):
-        self.assertEqual(tp.SKATER, {"goals": 5.0, "assists": 2.95, "shots": 0.55, "blockedShots": 0.35,
-                                     "hits": 0.20, "pim": -0.54})
-        self.assertEqual(tp.GOALIE, {"gamesStarted": 6.5, "saves": 0.49, "goalsAgainst": -5.0, "goals": 5.0,
-                                     "assists": 2.95})
+    def test_values_come_from_the_rules_module(self):
+        self.assertIs(tp.hitting_points, sport.hitting_points)
+        self.assertIs(tp.pitching_points, sport.pitching_points)
+        line = {"hits": 1, "homeRuns": 1, "runs": 1, "rbi": 1, "strikeOuts": 1}
+        self.assertAlmostEqual(tp.hitting_points(line), sport.HITTING["homeRuns"] + sport.HITTING["runs"]
+                               + sport.HITTING["rbi"] + sport.HITTING["strikeOuts"])
+        start = {"inningsPitched": "6.2", "strikeOuts": 7, "earnedRuns": 3, "losses": 1}
+        self.assertAlmostEqual(tp.pitching_points(start), 20 * sport.PITCHING["outs"] + 7 * sport.PITCHING["strikeOuts"]
+                               + 3 * sport.PITCHING["earnedRuns"] + sport.PITCHING["losses"])
 
-    def test_skater_game_math(self):
-        row = {"goals": 1, "assists": 2, "shots": 5, "pim": 2, "hits": 3, "blockedShots": 1}
-        # 5 + 5.90 + 2.75 - 1.08 + 0.60 + 0.35
-        self.assertAlmostEqual(tp.game_points(row, False), 13.52, places=6)
+    def test_mlb_seasons_are_calendar_years(self):
+        self.assertEqual(tp.seasons_between(date(2027, 1, 15), date(2028, 1, 15)), [2027, 2028])
 
-    def test_goalie_game_math_matches_the_scoring_explainer(self):
-        # "28 saves on 30 shots -> +10.22" and "30-save shutout -> +21.20" (16_scoring_explained.json)
-        self.assertAlmostEqual(tp.game_points({"gamesStarted": 1, "shotsAgainst": 30, "goalsAgainst": 2}, True), 10.22, places=6)
-        self.assertAlmostEqual(tp.game_points({"gamesStarted": 1, "shotsAgainst": 30, "goalsAgainst": 0}, True), 21.20, places=6)
-
-    def test_nhl_seasons(self):
-        self.assertEqual(tp.nhl_season(date(2027, 1, 15)), 20262027)
-        self.assertEqual(tp.nhl_season(date(2027, 10, 1)), 20272028)
-        self.assertEqual(tp.seasons_between(date(2027, 1, 15), date(2028, 1, 15)), [20262027, 20272028])
-
-    def test_production_counts_games_after_the_trade_day_through_the_revisit_day_across_seasons(self):
-        nhl = FakeNhl()
-        stats = tp.NhlStats(nhl.get)
-        prod = stats.production(8478402, False, date(2027, 1, 15), date(2028, 1, 15))
-        # Jan 15 is the trade day (not counted); Feb 1 2028 is after the revisit (not counted).
-        g16 = 5 + 2 * 2.95 + 5 * 0.55 - 2 * 0.54 + 3 * 0.20 + 1 * 0.35
-        m01 = 2.95 + 2 * 0.55 + 2 * 0.35
-        o10 = 5 + 3 * 0.55 + 0.20
+    def test_production_counts_regular_season_games_after_the_trade_day_through_the_revisit_day(self):
+        mlb = FakeMlb()
+        prod = mlb.stats().production(WITT, date(2027, 5, 10), date(2028, 5, 10))
+        # May 10 is the trade day; spring training never counts; June 1 2028 is after the revisit.
+        counted = LOGS[(WITT, 2027)][2:] + LOGS[(WITT, 2028)][:1]
         self.assertEqual(prod.games, 3)
-        self.assertAlmostEqual(prod.points, round(g16 + m01 + o10, 2), places=6)
-        self.assertEqual(prod.missing_box, 0)
-        self.assertTrue(any("20272028" in c for c in nhl.calls))
+        self.assertAlmostEqual(prod.points, points(*counted), places=6)
+        self.assertEqual([d for d, _ in prod.by_game], ["2027-05-11", "2027-06-01", "2028-04-02"])
+        self.assertFalse(prod.pitcher)
+        self.assertTrue(any("'season': 2028" in c for c in mlb.calls))
 
-    def test_unreadable_boxscore_only_loses_hits_and_blocks(self):
-        nhl = FakeNhl()
-        del nhl.boxes["2027020010"]
-        prod = tp.NhlStats(nhl.get).production(8478402, False, date(2027, 1, 15), date(2028, 1, 15))
-        self.assertEqual(prod.missing_box, 1)
-        self.assertEqual(prod.games, 3)
-
-    def test_goalie_production(self):
-        prod = tp.NhlStats(FakeNhl().get).production(8478048, True, date(2027, 1, 15), date(2027, 7, 15))
+    def test_pitcher_production(self):
+        prod = fake_stats().production(SKUBAL, date(2026, 5, 1), date(2026, 7, 1))
         self.assertEqual(prod.games, 2)
-        self.assertAlmostEqual(prod.points, round(10.22 + 21.20 + 2.95, 2), places=6)
-        self.assertTrue(prod.goalie)
+        self.assertAlmostEqual(prod.points, points(*LOGS[(SKUBAL, 2026)]), places=6)
+        self.assertTrue(prod.pitcher)
 
-    def test_nhl_id_matching_uses_team_and_position_and_refuses_to_guess(self):
-        stats = tp.NhlStats(FakeNhl().get)
-        self.assertEqual(stats.find_id("McDavid, Connor", "EDM", "C"), 8478402)
-        self.assertEqual(stats.find_id("Pettersson, Elias", "VAN", "D"), 8483678)
-        self.assertEqual(stats.find_id("Aho, Sebastian", "CAR", "C"), 8478427)
-        self.assertIsNone(stats.find_id("Pettersson, Elias", "VAN", ""))
-        self.assertIsNone(stats.find_id("Nobody, Real", "TOR", "C"))
+    def test_two_way_game_counts_once_with_both_lines(self):
+        prod = fake_stats().production(OHTANI, date(2027, 4, 1), date(2027, 5, 1))
+        self.assertEqual(prod.games, 1)
+        self.assertAlmostEqual(prod.points, points(*LOGS[(OHTANI, 2027)]), places=6)
+
+    def test_unreadable_game_log_is_an_error_not_zero(self):
+        class Broken(FakeMlb):
+            def fetch(self, url, params):
+                raise RuntimeError("HTTP 500")
+        prod = Broken().stats().production(WITT, date(2027, 1, 15), date(2027, 7, 15))
+        self.assertIn("MLB game log unavailable", prod.error)
+        self.assertEqual(fake_stats().production(None, date(2027, 1, 1), date(2027, 2, 1)).error,
+                         "not matched to an MLB player")
+
+    def test_mlb_id_matching_uses_team_and_position_and_refuses_to_guess(self):
+        stats = fake_stats()
+        self.assertEqual(stats.find_id("Witt Jr., Bobby", "KC", "SS"), WITT)
+        self.assertEqual(stats.find_id("Smith, Will", "KC", "RP"), 519293)
+        self.assertEqual(stats.find_id("Garcia, Luis", "SD", "RP"), 700004)
+        self.assertIsNone(stats.find_id("Garcia, Luis", "", "RP"))
+        self.assertIsNone(stats.find_id("Nobody, Real", "NYY", "C"))
 
 
 # --- revisits: timing and message ----------------------------------------------------------
@@ -412,7 +440,7 @@ class FakeHistory:
         return self._sel.get(key)
 
     def player_name(self, pid):
-        return {"z9": "Gavin McKenna"}.get(pid, pid)
+        return {"z9": "Konnor Griffin"}.get(pid, pid)
 
 
 class RevisitTests(unittest.TestCase):
@@ -435,7 +463,7 @@ class RevisitTests(unittest.TestCase):
         self.assertEqual(tradedesk.pick_text(own, "pick:2028|1|b", hist, date(2027, 7, 15)), "2028 1st (not yet used)")
         drafted = FakeHistory({2028: {}}, {"2028|1|c": {"round": 1, "in_round": 3, "player": "z9"}})
         self.assertEqual(tradedesk.pick_text(t, "pick:2028|1|c", drafted, date(2029, 1, 15)),
-                         "2028 1st, originally Test 3's: Gavin McKenna (1.03)")
+                         "2028 1st, originally Test 3's: Konnor Griffin (1.03)")
 
     def run_revisit(self, trade_overrides=None, message=None, now=None):
         state = {"trades": [{**card_trade(), "players": {"p1": dict(PLAYER_IDS["p1"]), "p4": dict(PLAYER_IDS["p4"])},
@@ -443,11 +471,9 @@ class RevisitTests(unittest.TestCase):
                              "league_id": "L1", "season": 2026, "test": True, **(trade_overrides or {})}]}
         fake = Discord()
         fake.message = message
-        nhl = FakeNhl()
-        nhl.search["Zach Hyman"] = [{"playerId": "8475786", "name": "Zach Hyman", "positionCode": "R", "teamAbbrev": "EDM"}]
         with discord(fake):
             errors, log = quiet(tradedesk.post_revisits, state, CFG, NY, now or ny(2027, 7, 15, 12, 5), "live",
-                                tp.NhlStats(nhl.get), FakeHistory())
+                                fake_stats(), FakeHistory())
         return state, fake, errors, log
 
     def test_six_month_revisit(self):
@@ -463,11 +489,11 @@ class RevisitTests(unittest.TestCase):
         embed = payload["embeds"][0]
         self.assertEqual(embed["title"], "TRADE REVISIT — 6 months")
         fields = {f["name"]: f["value"] for f in embed["fields"]}
-        # Test 2 received McDavid: Jan 16 and Mar 1 games count (Jan 15 is the trade day).
-        mcdavid = round((5 + 2 * 2.95 + 5 * 0.55 - 2 * 0.54 + 0.60 + 0.35) + (2.95 + 2 * 0.55 + 2 * 0.35), 2)
-        self.assertIn(f"**{mcdavid:.2f} points**", fields["TEST 2 RECEIVED"])
-        self.assertIn(f"Connor McDavid: {mcdavid:.2f} in 2 games", fields["TEST 2 RECEIVED"])
-        self.assertIn("Zach Hyman: no NHL games since the trade", fields["TEST 1 RECEIVED"])
+        # Test 2 received Witt: his three regular-season games from Jan 16 through Jul 15 count.
+        witt = points(*LOGS[(WITT, 2027)][1:])
+        self.assertIn(f"**{witt:.2f} points**", fields["TEST 2 RECEIVED"])
+        self.assertIn(f"Bobby Witt Jr.: {witt:.2f} in 3 games", fields["TEST 2 RECEIVED"])
+        self.assertIn("Tarik Skubal: no MLB games since the trade", fields["TEST 1 RECEIVED"])
         self.assertIn("2028 1st, originally Test 3's (not yet used)", fields["TEST 1 RECEIVED"])
         self.assertEqual(fields["THE ORIGINAL VOTE"], "Test 1: 0 votes\nTest 2: 6 votes\nEven: 0 votes")
         self.assertIn("https://discord.com/channels/9/8/55", embed["description"])
@@ -476,7 +502,7 @@ class RevisitTests(unittest.TestCase):
         for word in ("should be reversed", "unfair", "lopsided", "veto", "winner"):
             self.assertNotIn(word, text)
         self.assertIn("6", state["trades"][0]["revisits"])
-        self.assertEqual(state["trades"][0]["players"]["p1"]["nhl_id"], 8478402)
+        self.assertEqual(state["trades"][0]["players"]["p1"]["mlb_id"], WITT)
 
     def test_poll_result_left_out_when_discord_cannot_return_it(self):
         _, fake, errors, log = self.run_revisit(message=None)
@@ -494,11 +520,11 @@ class RevisitTests(unittest.TestCase):
         self.assertEqual(fake.sent, [])  # a TEST-league trade is never revisited in the real league
 
     def test_no_points_total_when_no_player_could_be_scored(self):
-        sides = {"a": [{"kind": "player", "label": "Zach Hyman", "points": 0, "games": 0, "error": "no NHL match"}],
+        sides = {"a": [{"kind": "player", "label": "Tarik Skubal", "points": 0, "games": 0, "error": "no MLB match"}],
                  "b": [{"kind": "pick", "text": "2029 2nd (not yet used)"}]}
         payload = tr.revisit(card_trade(), 6, sides, CFG, window=("Jan 16, 2027", "Jul 15, 2027"))
         fields = {f["name"]: f["value"] for f in payload["embeds"][0]["fields"]}
-        self.assertEqual(fields["TEST 1 RECEIVED"], "Zach Hyman: NHL stats not available (no NHL match)")
+        self.assertEqual(fields["TEST 1 RECEIVED"], "Tarik Skubal: MLB stats not available (no MLB match)")
         self.assertEqual(fields["TEST 2 RECEIVED"], "2029 2nd (not yet used)")
 
     def test_twelve_month_revisit_after_six(self):
@@ -605,7 +631,7 @@ class RunTests(unittest.TestCase):
             setattr(fx, key, value)
         with discord(fake, env):
             code, log = quiet(tradedesk.run, mode, now=now, fx=fx, cfg=CFG, state_path=self.state,
-                              stats=tp.NhlStats(FakeNhl().get), hist=FakeHistory(), sleep=no_sleep)
+                              stats=fake_stats(), hist=FakeHistory(), sleep=no_sleep)
         return code, log, fx
 
     def saved(self):
@@ -631,7 +657,7 @@ class RunTests(unittest.TestCase):
         self.assertIn("poll", payload)
         trade = self.saved()["trades"][0]
         self.assertEqual((trade["card"], trade["message_id"], trade["poll"]), ("posted", "101", True))
-        self.assertEqual(trade["players"]["p1"]["name"], "McDavid, Connor")
+        self.assertEqual(trade["players"]["p1"]["name"], "Witt Jr., Bobby")
         # Nothing changes on the next run: no second post, and only updated_at moves (the state save skips that).
         before = self.saved()
         self.run_desk([TRADED], ny(2027, 1, 10, 13, 0), fake)
@@ -650,7 +676,7 @@ class RunTests(unittest.TestCase):
                                           for t, v in original()["rosters"].items()}}
         with discord(fake):
             quiet(tradedesk.run, "live", now=ny(2027, 1, 10, 12, 30), fx=fx, cfg=CFG, state_path=self.state,
-                  stats=tp.NhlStats(FakeNhl().get), hist=FakeHistory(), sleep=no_sleep)
+                  stats=fake_stats(), hist=FakeHistory(), sleep=no_sleep)
         self.assertEqual(self.saved()["snapshot"], before)
 
     def test_trade_seen_half_way_is_confirmed_by_the_second_read(self):
@@ -761,7 +787,7 @@ class SafetyTests(RunTests):
     def test_a_posted_card_is_saved_even_if_the_run_dies_in_revisits(self):
         fake = Discord()
         self.run_desk([(BASE_TEAMS, BASE_PICKS)], ny(2027, 1, 10, 12, 0), fake)
-        with patch.object(tradedesk, "post_revisits", side_effect=RuntimeError("NHL API hung")):
+        with patch.object(tradedesk, "post_revisits", side_effect=RuntimeError("MLB API hung")):
             with self.assertRaises(RuntimeError):
                 self.run_desk([TRADED], ny(2027, 1, 10, 12, 30), fake)
         trade = self.saved()["trades"][0]
@@ -802,23 +828,23 @@ class SafetyTests(RunTests):
         state = self.revisit_state(2)
         now = ny(2027, 7, 15, 12, 5)
         clock_now = [0.0]
-        nhl = FakeNhl()
+        mlb = FakeMlb()
 
-        def slow_get(url, **params):
-            clock_now[0] += 10   # every NHL request takes 10 seconds
-            return nhl.get(url, **params)
+        def slow_fetch(url, params):
+            clock_now[0] += 10   # every MLB request takes 10 seconds; a revisit here makes 4
+            return mlb.fetch(url, params)
 
         fake = Discord()
         with discord(fake):
-            errors, log = quiet(tradedesk.post_revisits, state, CFG, NY, now, "live", tp.NhlStats(slow_get), FakeHistory(),
-                                stop_at=70.0, clock_fn=lambda: clock_now[0])
+            errors, log = quiet(tradedesk.post_revisits, state, CFG, NY, now, "live", tp.MlbStats(mp.MlbApi(slow_fetch)),
+                                FakeHistory(), stop_at=55.0, clock_fn=lambda: clock_now[0])
         self.assertEqual(errors, 0, log)
         self.assertEqual(len(fake.sent), 1, log)            # the first fits in the budget
         self.assertIn("6", state["trades"][0]["revisits"])
         self.assertNotIn("6", state["trades"][1]["revisits"])
         self.assertIn("could not be read in time", log)
         with discord(fake):
-            quiet(tradedesk.post_revisits, state, CFG, NY, now, "live", tp.NhlStats(nhl.get), FakeHistory(),
+            quiet(tradedesk.post_revisits, state, CFG, NY, now, "live", mlb.stats(), FakeHistory(),
                   stop_at=None)
         self.assertEqual(len(fake.sent), 2)                 # the second posts on the next run
         self.assertIn("6", state["trades"][1]["revisits"])
@@ -828,7 +854,7 @@ class SafetyTests(RunTests):
         fake = Discord()
         with discord(fake):
             _, log = quiet(tradedesk.post_revisits, state, CFG, NY, ny(2027, 7, 15, 12, 5), "live",
-                           tp.NhlStats(FakeNhl().get), FakeHistory(), stop_at=5.0, clock_fn=lambda: 10.0)
+                           fake_stats(), FakeHistory(), stop_at=5.0, clock_fn=lambda: 10.0)
         self.assertEqual(fake.sent, [])
         self.assertIn("resume next run", log)
 
@@ -837,7 +863,7 @@ class SafetyTests(RunTests):
         fake = Discord()
         late = ny(2027, 7, 15, 12, 5) + tradedesk.REVISIT_GIVE_UP + timedelta(hours=1)
         with discord(fake):
-            quiet(tradedesk.post_revisits, state, CFG, NY, late, "live", tp.NhlStats(FakeNhl().get), FakeHistory(),
+            quiet(tradedesk.post_revisits, state, CFG, NY, late, "live", fake_stats(), FakeHistory(),
                   stop_at=5.0, clock_fn=iter([0.0] + [10.0] * 50).__next__)
         self.assertEqual(len(fake.sent), 1)
         self.assertIn(tp.OUT_OF_TIME, json.dumps(fake.sent[0][1]))
@@ -954,7 +980,7 @@ class SafetyTests(RunTests):
         fx.league_info = lambda: (_ for _ in ()).throw(TimeoutError("getLeagueInfo"))
         with discord(fake):
             code, log = quiet(tradedesk.run, "live", now=ny(2027, 1, 10, 13, 0), fx=fx, cfg=CFG, state_path=self.state,
-                              stats=tp.NhlStats(FakeNhl().get), hist=FakeHistory(), sleep=no_sleep)
+                              stats=fake_stats(), hist=FakeHistory(), sleep=no_sleep)
         self.assertEqual(code, 1)
         self.assertEqual(len(fake.sent), 1)
 
@@ -1008,7 +1034,7 @@ class SafetyTests(RunTests):
         self.assertEqual((code, len(fake.sent)), (0, 1), log)
         fields = {f["name"]: f["value"] for f in fake.sent[0][1]["embeds"][0]["fields"]}
         self.assertIn("2028 1st round pick (Test 2)", fields["TEST 1 RECEIVES"])
-        self.assertEqual(fields["TEST 2 RECEIVES"], "Connor McDavid (C, EDM)")
+        self.assertEqual(fields["TEST 2 RECEIVES"], "Bobby Witt Jr. (SS, KC)")
 
     def test_players_post_without_picks_once_picks_stay_unreadable_too_long(self):
         fake = Discord()
