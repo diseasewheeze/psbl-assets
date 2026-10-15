@@ -12,7 +12,7 @@
     {
       "title": "DBL LEAGUE CALENDAR",
       "description": "Official dates and deadlines for the current DBL season.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL LEAGUE CALENDAR"
       },
@@ -24,12 +24,12 @@
         },
         {
           "name": "HOW DATES ARE SET",
-          "value": "The Constitution gives each date as a formula, such as \"end of Week 20\" or \"14 to 21 days after the NHL Entry Draft\". The calendar turns those formulas into exact dates. If the two ever disagree, the formula wins (Article V).",
+          "value": "The Constitution gives each date as a formula, such as \"end of Week 20\" or \"between January 20 and February 10\". The calendar turns those formulas into exact dates. If the two ever disagree, the formula wins (Article V).",
           "inline": false
         },
         {
           "name": "CHANGES",
-          "value": "A published date changes only when the NHL schedule, a platform limitation or events outside the league's control require it, with at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the NHL schedule forces it.",
+          "value": "A published date changes only when the MLB schedule, a platform limitation or events outside the league's control require it, with at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the MLB schedule forces it.",
           "inline": false
         },
         {
@@ -38,7 +38,7 @@
           "inline": false
         },
         {
-          "name": "**━━━━━━━━ GET EVENT REMINDERS FROM SESH ━━━━━━━━**",
+          "name": "**━━━ SESH REMINDERS ━━━**",
           "value": "League events on this calendar run through **Sesh**. Sesh reminds you by direct message, so it only works if Discord lets Sesh message you. One-time setup, about a minute.",
           "inline": false
         },
@@ -58,7 +58,7 @@
           "inline": false
         },
         {
-          "name": "ADD THE CALENDAR TO YOUR PHONE",
+          "name": "CALENDAR ON YOUR PHONE",
           "value": "Type `/link` in any channel. Sesh replies privately with a calendar feed. Add it to Google, Apple or Outlook Calendar and every league date shows up there, updated automatically.",
           "inline": false
         },

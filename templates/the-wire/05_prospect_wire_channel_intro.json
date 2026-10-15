@@ -12,14 +12,14 @@
     {
       "title": "DBL PROSPECT WIRE",
       "description": "Development news for dynasty owners who look beyond this season. Stories are posted by automation as a headline, a source name and a direct link. Full articles are never copied; open the link to read the source.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL NEWS DESK"
       },
       "fields": [
         {
           "name": "POSTED HERE",
-          "value": "AHL and rookie news • NCAA and college hockey • CHL, OHL, WHL and QMJHL • Junior and international events • Development camps • NHL Draft prospects • World Juniors",
+          "value": "Minor-league promotions and call-ups • Prospect rankings and updates • MLB Draft and international signings • Arizona Fall League and winter ball • Spring training standouts",
           "inline": false
         },
         {

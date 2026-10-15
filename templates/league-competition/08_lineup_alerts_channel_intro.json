@@ -12,14 +12,14 @@
     {
       "title": "DBL LINEUP ALERTS",
       "description": "A daily heads-up before games start when a lineup can be improved.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL COMPETITION DESK"
       },
       "fields": [
         {
           "name": "WHAT IT CATCHES",
-          "value": "A player in your active lineup has no NHL game today while one of your reserves who can fill that slot does play.",
+          "value": "A hitter in your active lineup has no MLB game today, or a starting pitcher in your lineup is not starting today, while a reserve who can fill that slot does play.",
           "inline": false
         },
         {

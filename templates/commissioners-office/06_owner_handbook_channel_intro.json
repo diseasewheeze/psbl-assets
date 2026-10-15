@@ -12,24 +12,24 @@
     {
       "title": "DBL OWNER HANDBOOK",
       "description": "Everything an owner needs week to week, in one place. The Constitution has the full rules; section numbers are in brackets.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL COMMISSIONER'S OFFICE"
       },
       "fields": [
         {
           "name": "DAILY LINEUPS",
-          "value": "Set your lineup in Fantrax every day. Each player locks about one minute before his NHL game (5.3). Active slots: 3 C, 3 LW, 3 RW, 3 F (any forward), 6 D and 2 G (6.2).",
+          "value": "Set your lineup in Fantrax every day. Each player locks about one minute before his MLB game (5.3). Active slots: C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL (any hitter), 5 SP and 3 RP (6.2).",
           "inline": false
         },
         {
-          "name": "GOALIE STARTS",
-          "value": "A maximum of 4 goalie starts count each Week, and 8 across the two-week Championship (9.2, 9.3). The live scoreboard shows how many starts each team has used.",
+          "name": "PITCHER STARTS",
+          "value": "A maximum of 7 pitcher starts count each Week, and 14 across the two-week Championship (9.2, 9.3). The live scoreboard shows how many starts each team has used.",
           "inline": false
         },
         {
-          "name": "MINORS AND IR",
-          "value": "10 minors spots for players 25 or younger on NHL opening day with 100 or fewer NHL games (goalies 50) (7.2, 7.3). When a player stops qualifying you have 3 days to move him (7.4). Up to 5 IR spots. An illegal roster must be fixed within 24 hours (6.4).",
+          "name": "MINORS AND IL",
+          "value": "15 minors spots for players with no more than 130 career MLB at-bats and 50 career MLB innings (7.2). When a player stops qualifying you have 3 days to move him (7.4). Up to 4 IL spots. An illegal roster must be fixed within 24 hours (6.4).",
           "inline": false
         },
         {
@@ -49,7 +49,7 @@
         },
         {
           "name": "LEAGUE BOT (2027 ON)",
-          "value": "`/myteam` your roster, picks and next matchup • `/minor` a player's eligibility • `/rule` any section • `/deadlines` the next dates • `/tradecheck` a trade against the rules • Pick'em in **🏒│game-day**.",
+          "value": "`/myteam` your roster, picks and next matchup • `/minor` a player's eligibility • `/rule` any section • `/deadlines` the next dates • `/tradecheck` a trade against the rules • Pick'em in **⚾│game-day**.",
           "inline": false
         },
         {

@@ -12,7 +12,7 @@
     {
       "title": "DBL DRAFT ANNOUNCEMENTS",
       "description": "Official draft notices. Fantrax remains the authoritative platform for actual selections.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL DRAFT CENTER"
       },
@@ -24,7 +24,7 @@
         },
         {
           "name": "DATES",
-          "value": "Drafts begin 14 to 21 days after the NHL Entry Draft and are announced at least 30 days ahead (Articles V, XIII and XIV).",
+          "value": "The Startup Draft begins in late January 2027 and each Annual Draft between January 20 and February 10. Both are announced at least 30 days ahead (Articles V, XIII and XIV).",
           "inline": false
         },
         {

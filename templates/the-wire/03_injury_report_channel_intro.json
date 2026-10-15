@@ -11,15 +11,15 @@
     },
     {
       "title": "DBL INJURY REPORT",
-      "description": "Injury updates across the NHL. Stories are posted by automation as a headline, a source name and a direct link. Full articles are never copied; open the link to read the source.",
-      "color": 16758812,
+      "description": "Injury updates across MLB. Stories are posted by automation as a headline, a source name and a direct link. Full articles are never copied; open the link to read the source.",
+      "color": 12398649,
       "footer": {
         "text": "DBL NEWS DESK"
       },
       "fields": [
         {
           "name": "POSTED HERE",
-          "value": "New injuries • Day-to-day, week-to-week and long-term updates • Injured reserve moves • Surgeries and concussions • Returns and activations",
+          "value": "New injuries • Day-to-day updates • Injured list placements, transfers and activations (10, 15 and 60-day) • Surgeries and rehab assignments • Returns",
           "inline": false
         },
         {

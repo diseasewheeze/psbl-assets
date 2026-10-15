@@ -12,19 +12,19 @@
     {
       "title": "DBL NEWS DESK",
       "description": "The discussion room for everything the wire posts. No automation posts here, so conversation stays readable.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL NEWS DESK"
       },
       "fields": [
         {
           "name": "USE THIS ROOM FOR",
-          "value": "Reactions to news • Injury impact • Player outlook • General hockey talk",
+          "value": "Reactions to news • Injury impact • Player outlook • General baseball talk",
           "inline": false
         },
         {
           "name": "FEEDS",
-          "value": "🚨│breaking-news • 📰│nhl-news • 🏥│injury-report • 🔄│nhl-transactions • 🌱│prospect-wire",
+          "value": "🚨│breaking-news • 📰│mlb-news • 🏥│injury-report • 🔄│mlb-transactions • 🌱│prospect-wire",
           "inline": false
         },
         {

@@ -10,16 +10,16 @@
       }
     },
     {
-      "title": "DBL NHL TRANSACTIONS",
-      "description": "Real-NHL roster moves. These are not DBL transactions. Stories are posted by automation as a headline, a source name and a direct link. Full articles are never copied; open the link to read the source.",
-      "color": 16758812,
+      "title": "DBL MLB TRANSACTIONS",
+      "description": "Real-MLB roster moves. These are not DBL transactions. Stories are posted by automation as a headline, a source name and a direct link. Full articles are never copied; open the link to read the source.",
+      "color": 12398649,
       "footer": {
         "text": "DBL NEWS DESK"
       },
       "fields": [
         {
           "name": "POSTED HERE",
-          "value": "Trades • Signings and extensions • Waivers and claims • Recalls and call-ups • Assignments and loans",
+          "value": "Trades • Signings and extensions • Call-ups and options • Designations for assignment and waiver claims • Releases and outrights",
           "inline": false
         },
         {

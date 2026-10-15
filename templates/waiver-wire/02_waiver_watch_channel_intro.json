@@ -12,14 +12,14 @@
     {
       "title": "DBL WAIVER WATCH",
       "description": "Players worth watching before the next waiver run.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL WAIVER WIRE"
       },
       "fields": [
         {
           "name": "USE THIS ROOM FOR",
-          "value": "Breakout candidates • Call-ups • Goalie opportunities • Streaming targets",
+          "value": "Breakout candidates • Call-ups • Closer and setup changes • Two-start pitchers • Streaming targets",
           "inline": false
         },
         {

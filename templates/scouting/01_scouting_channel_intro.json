@@ -11,8 +11,8 @@
     },
     {
       "title": "DBL SCOUTING",
-      "description": "One forum for every prospect: college, juniors, Europe, the AHL, the NHL Draft and the DBL draft.",
-      "color": 16758812,
+      "description": "One forum for every prospect: the minors, college, international signings, the MLB Draft and the DBL draft.",
+      "color": 12398649,
       "footer": {
         "text": "DBL SCOUTING DEPARTMENT"
       },
@@ -24,17 +24,17 @@
         },
         {
           "name": "TAGS",
-          "value": "**League:** NCAA • CHL • AHL • EUROPE/INTL • NHL DRAFT\n**Status:** TOP PROSPECT • SLEEPER • RISER • FALLER • NHL READY • LONG SHOT\n**Position:** FORWARD • DEFENSE • GOALIE\n**DBL draft:** DBL DRAFT • RANKINGS • MOCK DRAFT",
+          "value": "**Level:** AAA • AA • HIGH-A • LOW-A • ROOKIE • COLLEGE • INTERNATIONAL • MLB DRAFT\n**Status:** TOP PROSPECT • SLEEPER • RISER • FALLER • MLB READY • LONG SHOT\n**Position:** HITTER • PITCHER\n**DBL draft:** DBL DRAFT • RANKINGS • MOCK DRAFT",
           "inline": false
         },
         {
           "name": "MINOR-LEAGUE RULES",
-          "value": "Minor-league spots are for players 25 or younger on NHL opening day (per Fantrax's age calculation) with 100 or fewer career NHL games (50 for goalies). Details are in Article VII.",
+          "value": "Minor-league spots are for players with no more than 130 career MLB at-bats and no more than 50 career MLB innings pitched (MLB's rookie limits; no age limit). Details are in Article VII.",
           "inline": false
         },
         {
           "name": "THE DBL DRAFT",
-          "value": "5 rounds, linear order, starting 14 to 21 days after the NHL Entry Draft; the first Annual Draft is in 2028. The pool is any unowned player who qualifies for a minor-league spot, not just the NHL Draft class (Article XIV). Official draft notices are in the Draft Center.",
+          "value": "5 rounds, linear order, starting between January 20 and February 10; the first Annual Draft is in 2028. The pool is any unowned player who qualifies for a minor-league spot, not just the MLB Draft class (Article XIV). Official draft notices are in the Draft Center.",
           "inline": false
         },
         {

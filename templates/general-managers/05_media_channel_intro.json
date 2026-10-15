@@ -12,7 +12,7 @@
     {
       "title": "DBL MEDIA",
       "description": "Clips, highlights, photos and graphics.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL GENERAL MANAGERS"
       },
@@ -23,8 +23,13 @@
           "inline": false
         },
         {
+          "name": "MORNING RECAP",
+          "value": "Every morning after a day of MLB games: the final scores with recap and condensed-game links.",
+          "inline": false
+        },
+        {
           "name": "PODCASTS",
-          "value": "New episodes from a few fantasy hockey podcasts are posted here automatically by the Wire, one post per episode.",
+          "value": "New episodes from a few fantasy baseball podcasts are posted here automatically by the Wire, one post per episode.",
           "inline": false
         },
         {

@@ -11,20 +11,20 @@
     },
     {
       "title": "DBL GM LOUNGE",
-      "description": "The clubhouse. This is where general managers talk hockey, discuss league business and enjoy the league.",
-      "color": 16758812,
+      "description": "The clubhouse. This is where general managers talk baseball, discuss league business and enjoy the league.",
+      "color": 12398649,
       "footer": {
         "text": "DBL GENERAL MANAGERS"
       },
       "fields": [
         {
           "name": "USE THIS ROOM FOR",
-          "value": "League talk • Proposal discussion before a vote • Hockey conversation • Getting to know your fellow owners",
+          "value": "League talk • Proposal discussion before a vote • Baseball conversation • Getting to know your fellow owners",
           "inline": false
         },
         {
           "name": "OTHER ROOMS",
-          "value": "**🏒│game-day** for live games • **😂│chirps-and-memes** for trash talk • **🍺│off-topic** for everything else • **📸│media** for clips and photos",
+          "value": "**⚾│game-day** for live games • **😂│chirps-and-memes** for trash talk • **🍺│off-topic** for everything else • **📸│media** for clips and photos",
           "inline": false
         },
         {

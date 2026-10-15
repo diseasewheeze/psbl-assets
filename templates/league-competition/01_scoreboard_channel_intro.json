@@ -12,14 +12,14 @@
     {
       "title": "DBL SCOREBOARD",
       "description": "Live matchup results for the current week, posted by the DBL Competition Desk and read directly from Fantrax.",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DBL COMPETITION DESK"
       },
       "fields": [
         {
           "name": "POSTED HERE",
-          "value": "Weekly matchup previews • NHL games grid for the Week (games per team, back-to-backs, light nights) • Live scoreboards with goalie starts used • Final scoreboards when a week ends",
+          "value": "Weekly matchup previews • MLB games grid for the Week (games per team, doubleheaders, off days, two-start pitchers) • Live scoreboards with pitcher starts used • Final scoreboards when a week ends",
           "inline": false
         },
         {

@@ -11,20 +11,20 @@
     },
     {
       "title": "DBL GAME DAY",
-      "description": "Live reaction for NHL game nights and DBL matchups.",
-      "color": 16758812,
+      "description": "Live reaction for MLB games and DBL matchups.",
+      "color": 12398649,
       "footer": {
         "text": "DBL GENERAL MANAGERS"
       },
       "fields": [
         {
           "name": "USE THIS ROOM FOR",
-          "value": "Live game chat • Matchup swings • Goalie-start watching • Late-night lineup panic",
+          "value": "Live game chat • Matchup swings • Pitcher-start watching • Late-night West Coast lineup panic",
           "inline": false
         },
         {
-          "name": "STARTING GOALIES",
-          "value": "Each game day from late morning, one message lists tonight's expected starters (Confirmed, Likely or Unconfirmed) and tags goalies on DBL rosters. It updates quietly until the last game starts.",
+          "name": "PROBABLE PITCHERS",
+          "value": "Each game day from late morning, one message lists every game's probable starters and tags pitchers on DBL rosters. It updates quietly when a team changes its starter.",
           "inline": false
         },
         {

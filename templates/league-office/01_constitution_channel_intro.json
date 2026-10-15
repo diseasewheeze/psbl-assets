@@ -12,16 +12,16 @@
     {
       "title": "DBL CONSTITUTION",
       "description": "The Constitution is the controlling rules document of the Dynasty Baseball League. Every owner accepts it as a condition of joining and is responsible for knowing it.",
-      "color": 16758812,
+      "color": 12398649,
       "fields": [
         {
           "name": "CURRENT DOCUMENT",
-          "value": "**Edition:** Charter Edition\n**Effective:** Season 2027 (inaugural season 2027–28)\n**Last amended:** Not yet amended",
+          "value": "**Edition:** Preliminary Draft\n**Effective:** Season 2027 once adopted (the 2027 MLB season)\n**Last amended:** Not yet amended",
           "inline": false
         },
         {
           "name": "HOW DATES WORK",
-          "value": "The Constitution defines deadlines by formula. Exact dates for each season are published in **📅│league-calendar** within 14 days after the NHL releases its schedule.",
+          "value": "The Constitution defines deadlines by formula. Exact dates for each season are published in **📅│league-calendar** within 14 days after MLB releases its schedule.",
           "inline": false
         },
         {

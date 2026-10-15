@@ -20,7 +20,7 @@ import discohook_format as fmt  # noqa: E402
 import posted_messages as posted  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1] / "templates"
-GOLD = 16758812
+GOLD = 12398649  # league red #BD3039
 
 NEWS = "DBL NEWS DESK"
 COMP = "DBL COMPETITION DESK"
@@ -64,8 +64,8 @@ def more(path: str, title: str, desc: str, footer: str, fields: list[tuple[str, 
 # ------------------------------------------------------------------ League Office
 card("league-office/01_constitution_channel_intro.json", "DBL CONSTITUTION",
      "The Constitution is the controlling rules document of the Dynasty Baseball League. Every owner accepts it as a condition of joining and is responsible for knowing it.", LO,
-     [("CURRENT DOCUMENT", "**Edition:** Charter Edition\n**Effective:** Season 2027 (inaugural season 2027–28)\n**Last amended:** Not yet amended"),
-      ("HOW DATES WORK", "The Constitution defines deadlines by formula. Exact dates for each season are published in **league-calendar** within 14 days after the NHL releases its schedule."),
+     [("CURRENT DOCUMENT", "**Edition:** Preliminary Draft\n**Effective:** Season 2027 once adopted (the 2027 MLB season)\n**Last amended:** Not yet amended"),
+      ("HOW DATES WORK", "The Constitution defines deadlines by formula. Exact dates for each season are published in **league-calendar** within 14 days after MLB releases its schedule."),
       ("CHANGING THE RULES", "Material Amendments need 8 of 12 franchise votes, are held only in the offseason, and must pass before the dues deadline of the season they first apply to (Article XX). The first amendment vote can happen after Season 2027."),
       ("HOW TO USE THIS CHANNEL", "The current Constitution, adopted amendments and the amendment history live here. Questions about what a rule means go to **rules-questions**."),
       ("AUTHORITY", "Fantrax controls gameplay records and transactions. The Constitution controls league rules and governance. The newest published version controls.")])
@@ -77,11 +77,11 @@ card("league-office/02_announcements_channel_intro.json", "OFFICIAL DBL ANNOUNCE
 card("league-office/03_calendar_channel_intro.json", "DBL LEAGUE CALENDAR",
      "Official dates and deadlines for the current DBL season.", LO,
      [("TRACKED HERE", "Draft dates • Dues deadline • Trade deadline and reopening • Roster deadlines • Playoff weeks • Offseason milestones"),
-      ("HOW DATES ARE SET", "The Constitution gives each date as a formula, such as \"end of Week 20\" or \"14 to 21 days after the NHL Entry Draft\". The calendar turns those formulas into exact dates. If the two ever disagree, the formula wins (Article V)."),
-      ("CHANGES", "A published date changes only when the NHL schedule, a platform limitation or events outside the league's control require it, with at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the NHL schedule forces it."),
+      ("HOW DATES ARE SET", "The Constitution gives each date as a formula, such as \"end of Week 20\" or \"between January 20 and February 10\". The calendar turns those formulas into exact dates. If the two ever disagree, the formula wins (Article V)."),
+      ("CHANGES", "A published date changes only when the MLB schedule, a platform limitation or events outside the league's control require it, with at least 7 days' notice where possible. Deadlines may be extended but are not moved earlier unless the MLB schedule forces it."),
       ("TIME STANDARD", "Unless a post states otherwise, all times are **Eastern Time**.")])
 # The Sesh reminder steps travel in the same message as the calendar intro.
-more("league-office/03_calendar_channel_intro.json", "GET EVENT REMINDERS FROM SESH",
+more("league-office/03_calendar_channel_intro.json", "SESH REMINDERS",
      "League events on this calendar run through **Sesh**. Sesh reminds you by direct message, so it only works if Discord lets Sesh message you. One-time setup, about a minute.",
      "DBL LEAGUE CALENDAR",
      [("1. ALLOW DMS FROM THIS SERVER",
@@ -90,7 +90,7 @@ more("league-office/03_calendar_channel_intro.json", "GET EVENT REMINDERS FROM S
        "Under server settings, pick this server and turn on **Direct messages**."),
       ("2. RSVP TO THE EVENT", "Press **Attending** (or your answer) on the event post in this channel. Sesh sends you a confirmation DM right away."),
       ("3. PICK YOUR REMINDER", "In that DM, choose when Sesh should remind you. Reminders are set one event at a time."),
-      ("ADD THE CALENDAR TO YOUR PHONE",
+      ("CALENDAR ON YOUR PHONE",
        "Type `/link` in any channel. Sesh replies privately with a calendar feed. Add it to Google, Apple or Outlook Calendar "
        "and every league date shows up there, updated automatically."),
       ("NO DM FROM SESH?",
@@ -122,49 +122,49 @@ card("league-office/07_league_records_channel_intro.json", "DBL LEAGUE RECORDS",
 
 # ------------------------------------------------------------------------ The Wire
 card("the-wire/01_breaking_news_channel_intro.json", "DBL BREAKING NEWS",
-     "High-impact NHL news that may change a roster decision right now. " + AUTO, NEWS,
+     "High-impact MLB news that may change a roster decision right now. " + AUTO, NEWS,
      [("POSTED HERE", "Season-ending or indefinite injuries • Retirements • Indefinite suspensions • Firings • Major blockbuster trades"),
       ("HOW A STORY QUALIFIES", "It must come from a trusted primary source and describe a high-impact event. Ordinary signings, depth trades and routine roster moves go to other channels."),
       ("NOT POSTED HERE", "Rumors, opinion pieces, predictions, game threads or discussion. Talk it over in **news-desk**.")])
-card("the-wire/02_nhl_news_channel_intro.json", "DBL NHL NEWS",
-     "The league-wide hockey news feed: reports worth knowing that don't belong in a specialty channel. " + AUTO, NEWS,
-     [("POSTED HERE", "Team and league developments • Coaching and front-office changes • Captaincy news • Interviews • Meaningful analysis"),
+card("the-wire/02_mlb_news_channel_intro.json", "DBL MLB NEWS",
+     "The league-wide baseball news feed: reports worth knowing that don't belong in a specialty channel. " + AUTO, NEWS,
+     [("POSTED HERE", "Team and league developments • Managerial and front-office changes • Role changes: closer jobs, rotation spots, lineup spots • Interviews • Meaningful analysis"),
       ("FILTERED OUT", "Scores, routine highlights, daily discussion threads and feed-section labels."),
-      ("LOOKING FOR SOMETHING ELSE?", "Injuries go to **injury-report**, signings and trades to **nhl-transactions**, prospects to **prospect-wire**, and major news to **breaking-news**.")])
+      ("LOOKING FOR SOMETHING ELSE?", "Injuries go to **injury-report**, signings and trades to **mlb-transactions**, prospects to **prospect-wire**, and major news to **breaking-news**.")])
 card("the-wire/03_injury_report_channel_intro.json", "DBL INJURY REPORT",
-     "Injury updates across the NHL. " + AUTO, NEWS,
-     [("POSTED HERE", "New injuries • Day-to-day, week-to-week and long-term updates • Injured reserve moves • Surgeries and concussions • Returns and activations"),
+     "Injury updates across MLB. " + AUTO, NEWS,
+     [("POSTED HERE", "New injuries • Day-to-day updates • Injured list placements, transfers and activations (10, 15 and 60-day) • Surgeries and rehab assignments • Returns"),
       ("OWNER ALERTS", "The wire checks injury stories against DBL rosters. An owner who has opted in is mentioned when one of their own players appears, and only for their own players."),
       ("MAJOR INJURIES", "A season-ending or indefinite injury may be posted in **breaking-news** instead.")])
-card("the-wire/04_nhl_transactions_channel_intro.json", "DBL NHL TRANSACTIONS",
-     "Real-NHL roster moves. These are not DBL transactions. " + AUTO, NEWS,
-     [("POSTED HERE", "Trades • Signings and extensions • Waivers and claims • Recalls and call-ups • Assignments and loans"),
+card("the-wire/04_mlb_transactions_channel_intro.json", "DBL MLB TRANSACTIONS",
+     "Real-MLB roster moves. These are not DBL transactions. " + AUTO, NEWS,
+     [("POSTED HERE", "Trades • Signings and extensions • Call-ups and options • Designations for assignment and waiver claims • Releases and outrights"),
       ("DBL TRANSACTIONS", "Moves inside your DBL franchise happen in Fantrax, and Fantrax is the official record. League trade talk belongs in the Trade Center."),
       ("ROUTINE MOVES", "Routine moves post here. Major trades and major news may appear in **breaking-news** instead.")])
 card("the-wire/05_prospect_wire_channel_intro.json", "DBL PROSPECT WIRE",
      "Development news for dynasty owners who look beyond this season. " + AUTO, NEWS,
-     [("POSTED HERE", "AHL and rookie news • NCAA and college hockey • CHL, OHL, WHL and QMJHL • Junior and international events • Development camps • NHL Draft prospects • World Juniors"),
+     [("POSTED HERE", "Minor-league promotions and call-ups • Prospect rankings and updates • MLB Draft and international signings • Arizona Fall League and winter ball • Spring training standouts"),
       ("DISCUSSION", "Use the **scouting** forum to talk about prospects, draft rankings and trade targets.")])
 card("the-wire/06_news_desk_channel_intro.json", "DBL NEWS DESK",
      "The discussion room for everything the wire posts. No automation posts here, so conversation stays readable.", NEWS,
-     [("USE THIS ROOM FOR", "Reactions to news • Injury impact • Player outlook • General hockey talk"),
-      ("FEEDS", "🚨│breaking-news • 📰│nhl-news • 🏥│injury-report • 🔄│nhl-transactions • 🌱│prospect-wire"),
+     [("USE THIS ROOM FOR", "Reactions to news • Injury impact • Player outlook • General baseball talk"),
+      ("FEEDS", "🚨│breaking-news • 📰│mlb-news • 🏥│injury-report • 🔄│mlb-transactions • 🌱│prospect-wire"),
       ("GUIDELINES", "Link the story you're discussing. Keep rumors labeled as rumors. Anything official goes through the League Office.")])
 
 card("league-competition/08_lineup_alerts_channel_intro.json", "DBL LINEUP ALERTS",
      "A daily heads-up before games start when a lineup can be improved.", COMP,
-     [("WHAT IT CATCHES", "A player in your active lineup has no NHL game today while one of your reserves who can fill that slot does play."),
+     [("WHAT IT CATCHES", "A hitter in your active lineup has no MLB game today, or a starting pitcher in your lineup is not starting today, while a reserve who can fill that slot does play."),
       ("WHO GETS ALERTS", "Owners who opt in. Ask the Commissioner to add you; the alert mentions you once a day at most, around 3:00 PM ET."),
       ("YOUR CALL", "Alerts are a reminder, not a rule. Lineups are yours to set in Fantrax (9.1)."),
       ("DISCUSSION", "Owners can react here but not post. Talk about it in **gm-lounge**.")])
 card("commissioners-office/06_owner_handbook_channel_intro.json", "DBL OWNER HANDBOOK",
      "Everything an owner needs week to week, in one place. The Constitution has the full rules; section numbers are in brackets.", CO,
-     [("DAILY LINEUPS", "Set your lineup in Fantrax every day. Each player locks about one minute before his NHL game (5.3). "
-       "Active slots: 3 C, 3 LW, 3 RW, 3 F (any forward), 6 D and 2 G (6.2)."),
-      ("GOALIE STARTS", "A maximum of 4 goalie starts count each Week, and 8 across the two-week Championship (9.2, 9.3). "
+     [("DAILY LINEUPS", "Set your lineup in Fantrax every day. Each player locks about one minute before his MLB game (5.3). "
+       "Active slots: C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL (any hitter), 5 SP and 3 RP (6.2)."),
+      ("PITCHER STARTS", "A maximum of 7 pitcher starts count each Week, and 14 across the two-week Championship (9.2, 9.3). "
        "The live scoreboard shows how many starts each team has used."),
-      ("MINORS AND IR", "10 minors spots for players 25 or younger on NHL opening day with 100 or fewer NHL games (goalies 50) (7.2, 7.3). "
-       "When a player stops qualifying you have 3 days to move him (7.4). Up to 5 IR spots. An illegal roster must be fixed within 24 hours (6.4)."),
+      ("MINORS AND IL", "15 minors spots for players with no more than 130 career MLB at-bats and 50 career MLB innings (7.2). "
+       "When a player stops qualifying you have 3 days to move him (7.4). Up to 4 IL spots. An illegal roster must be fixed within 24 hours (6.4)."),
       ("FAAB AND ADDS", "$1,000 FAAB each Season. Bids are hidden, in $1 steps, and $0 is allowed; the earliest bid wins a tie. "
        "Claims process daily around 11:00 AM ET. Up to 5 acquisitions per Week (Article X)."),
       ("TRADES AND PICKS", "No votes or vetoes. The deadline is Sunday 11:59 PM ET at the end of Week 20 (11.6). "
@@ -177,32 +177,33 @@ card("commissioners-office/06_owner_handbook_channel_intro.json", "DBL OWNER HAN
 
 # -------------------------------------------------------------- General Managers
 card("general-managers/01_gm_lounge_channel_intro.json", "DBL GM LOUNGE",
-     "The clubhouse. This is where general managers talk hockey, discuss league business and enjoy the league.", GM,
-     [("USE THIS ROOM FOR", "League talk • Proposal discussion before a vote • Hockey conversation • Getting to know your fellow owners"),
+     "The clubhouse. This is where general managers talk baseball, discuss league business and enjoy the league.", GM,
+     [("USE THIS ROOM FOR", "League talk • Proposal discussion before a vote • Baseball conversation • Getting to know your fellow owners"),
       ("OTHER ROOMS", "**game-day** for live games • **chirps-and-memes** for trash talk • **off-topic** for everything else • **media** for clips and photos"),
       ("NOT FOR OFFICIAL BUSINESS", "Votes, rulings, trades and deadlines belong in their own rooms. Nothing said in the lounge changes a rule or a result.")])
 card("general-managers/02_game_day_channel_intro.json", "DBL GAME DAY",
-     "Live reaction for NHL game nights and DBL matchups.", GM,
-     [("USE THIS ROOM FOR", "Live game chat • Matchup swings • Goalie-start watching • Late-night lineup panic"),
-      ("STARTING GOALIES", "Each game day from late morning, one message lists tonight's expected starters (Confirmed, Likely or Unconfirmed) and tags goalies on DBL rosters. It updates quietly until the last game starts."),
+     "Live reaction for MLB games and DBL matchups.", GM,
+     [("USE THIS ROOM FOR", "Live game chat • Matchup swings • Pitcher-start watching • Late-night West Coast lineup panic"),
+      ("PROBABLE PITCHERS", "Each game day from late morning, one message lists every game's probable starters and tags pitchers on DBL rosters. It updates quietly when a team changes its starter."),
       ("PICK'EM", "From Season 2027 the DBL League Bot posts each Week's matchups here. Pick the winners before the Week starts; a season leaderboard keeps score."),
       ("KEEP IT READABLE", "Spoiler courtesy goes a long way. Use **news-desk** for deeper discussion of a story.")])
 card("general-managers/03_chirps_and_memes_channel_intro.json", "DBL CHIRPS AND MEMES",
-     "Friendly trash talk and hockey humor.", GM,
+     "Friendly trash talk and baseball humor.", GM,
      [("KEEP IT GOOD", "Chirp the team, not the person. Keep it fun and respectful, and remember everyone here is a co-owner of the league."),
       ("NOT HERE", "Rule disputes, trade negotiations or anything that needs a ruling. Take those to the Commissioner's Office.")])
 card("general-managers/04_off_topic_channel_intro.json", "DBL OFF TOPIC",
-     "Everything that isn't hockey or league business.", GM,
+     "Everything that isn't baseball or league business.", GM,
      [("USE THIS ROOM FOR", "Other sports • Food and drink • Movies, games and music • Life outside the league"),
       ("HOUSE RULES", "Server-wide conduct rules still apply. Keep it friendly.")])
 card("general-managers/05_media_channel_intro.json", "DBL MEDIA",
      "Clips, highlights, photos and graphics.", GM,
      [("POSTED HERE", "Highlight clips • Game photos • Franchise graphics and logos • Anything worth sharing visually"),
-      ("PODCASTS", "New episodes from a few fantasy hockey podcasts are posted here automatically by the Wire, one post per episode."),
+      ("MORNING RECAP", "Every morning after a day of MLB games: the final scores with recap and condensed-game links."),
+      ("PODCASTS", "New episodes from a few fantasy baseball podcasts are posted here automatically by the Wire, one post per episode."),
       ("PLEASE", "Credit the source where you can, and keep conversation in the matching discussion channel.")])
 
 # ------------------------------------------------------------------- Trade Center
-TRADE_RULES = ("TRADE RULES", "Trades are unlimited and are not subject to a league vote. The deadline is the end of Week 20 and trading reopens the day after the Stanley Cup Final (Article XI). Future 1st- and 2nd-round pick trades require prepayment (Article XII).")
+TRADE_RULES = ("TRADE RULES", "Trades are unlimited and are not subject to a league vote. The deadline is the end of Week 20 and trading reopens the day after the World Series ends (Article XI). Future 1st- and 2nd-round pick trades require prepayment (Article XII).")
 OFFICIAL = ("OFFICIAL RECORD", "A trade is official only when it is processed in Fantrax. Posts here don't bind anyone.")
 card("trade-center/01_trade_block_channel_intro.json", "DBL TRADE BLOCK",
      "Players and picks you're willing to move.", TC,
@@ -226,13 +227,13 @@ card("trade-center/05_player_values_channel_intro.json", "DBL PLAYER VALUES",
       ("REMEMBER", "Values are opinions. A trade isn't reversible just because someone believes one side received more value (Article XI).")])
 
 # --------------------------------------------------------------------- Scouting
-MINORS = ("MINOR-LEAGUE RULES", "Minor-league spots are for players 25 or younger on NHL opening day (per Fantrax's age calculation) with 100 or fewer career NHL games (50 for goalies). Details are in Article VII.")
+MINORS = ("MINOR-LEAGUE RULES", "Minor-league spots are for players with no more than 130 career MLB at-bats and no more than 50 career MLB innings pitched (MLB's rookie limits; no age limit). Details are in Article VII.")
 card("scouting/01_scouting_channel_intro.json", "DBL SCOUTING",
-     "One forum for every prospect: college, juniors, Europe, the AHL, the NHL Draft and the DBL draft.", SD,
+     "One forum for every prospect: the minors, college, international signings, the MLB Draft and the DBL draft.", SD,
      [("HOW IT WORKS", "Make one post per player or topic, and search before you post so each prospect keeps one thread. Add tags for the league, the player's status and position."),
-      ("TAGS", "**League:** NCAA • CHL • AHL • EUROPE/INTL • NHL DRAFT\n**Status:** TOP PROSPECT • SLEEPER • RISER • FALLER • NHL READY • LONG SHOT\n**Position:** FORWARD • DEFENSE • GOALIE\n**DBL draft:** DBL DRAFT • RANKINGS • MOCK DRAFT"),
+      ("TAGS", "**Level:** AAA • AA • HIGH-A • LOW-A • ROOKIE • COLLEGE • INTERNATIONAL • MLB DRAFT\n**Status:** TOP PROSPECT • SLEEPER • RISER • FALLER • MLB READY • LONG SHOT\n**Position:** HITTER • PITCHER\n**DBL draft:** DBL DRAFT • RANKINGS • MOCK DRAFT"),
       MINORS,
-      ("THE DBL DRAFT", "5 rounds, linear order, starting 14 to 21 days after the NHL Entry Draft; the first Annual Draft is in 2028. The pool is any unowned player who qualifies for a minor-league spot, not just the NHL Draft class (Article XIV). Official draft notices are in the Draft Center."),
+      ("THE DBL DRAFT", "5 rounds, linear order, starting between January 20 and February 10; the first Annual Draft is in 2028. The pool is any unowned player who qualifies for a minor-league spot, not just the MLB Draft class (Article XIV). Official draft notices are in the Draft Center."),
       ("NEWS FEED", "Automated prospect news appears in **prospect-wire**. Come here to talk about what it means.")])
 
 # ------------------------------------------------------------------- Waiver Wire
@@ -244,14 +245,14 @@ card("waiver-wire/01_waiver_talk_channel_intro.json", "DBL WAIVER TALK",
       ("OFFICIAL CLAIMS", "Actual claims stay in Fantrax. Discord never submits or changes a claim.")])
 card("waiver-wire/02_waiver_watch_channel_intro.json", "DBL WAIVER WATCH",
      "Players worth watching before the next waiver run.", WW,
-     [("USE THIS ROOM FOR", "Breakout candidates • Call-ups • Goalie opportunities • Streaming targets"),
+     [("USE THIS ROOM FOR", "Breakout candidates • Call-ups • Closer and setup changes • Two-start pitchers • Streaming targets"),
       ("ACQUISITION LIMIT", "Up to 5 acquisitions per normal fantasy week. The two-week championship counts as two separate weeks (Article X).")])
 
 # -------------------------------------------------------------- League Competition
 DISCUSS = ("DISCUSSION", "Owners can react here but not post. Talk about it in **gm-lounge** or **chirps-and-memes**.")
 card("league-competition/01_scoreboard_channel_intro.json", "DBL SCOREBOARD",
      "Live matchup results for the current week, posted by the DBL Competition Desk and read directly from Fantrax.", COMP,
-     [("POSTED HERE", "Weekly matchup previews • NHL games grid for the Week (games per team, back-to-backs, light nights) • Live scoreboards with goalie starts used • Final scoreboards when a week ends"),
+     [("POSTED HERE", "Weekly matchup previews • MLB games grid for the Week (games per team, doubleheaders, off days, two-start pitchers) • Live scoreboards with pitcher starts used • Final scoreboards when a week ends"),
       ("OFFICIAL RESULTS", FANTRAX), ("DISCUSSION", "Matchup talk and trash talk belong in **gm-lounge** and **chirps-and-memes**.")])
 card("league-competition/02_standings_channel_intro.json", "DBL STANDINGS",
      "League standings after each completed week, posted by the DBL Competition Desk from Fantrax data.", COMP,
@@ -308,7 +309,7 @@ card("commissioners-office/04_rulings_log_channel_intro.json", "DBL RULINGS LOG"
 card("draft-center/01_draft_announcements_channel_intro.json", "DBL DRAFT ANNOUNCEMENTS",
      "Official draft notices. Fantrax remains the authoritative platform for actual selections.", DC,
      [("POSTED HERE", "Draft date and start time • Order • Pick-clock and pause rules • Roster-compliance deadline"),
-      ("DATES", "Drafts begin 14 to 21 days after the NHL Entry Draft and are announced at least 30 days ahead (Articles V, XIII and XIV)."),
+      ("DATES", "The Startup Draft begins in late January 2027 and each Annual Draft between January 20 and February 10. Both are announced at least 30 days ahead (Articles V, XIII and XIV)."),
       ("ON THE CLOCK", "Fantrax alerts each manager when it's their pick, so Discord doesn't repeat those alerts. Round results are posted in **draft-results**.")])
 card("draft-center/03_draft_room_channel_intro.json", "DBL DRAFT ROOM",
      "Live discussion while the draft runs.", DC,
@@ -357,6 +358,8 @@ def main() -> None:
         "league-competition/03_power_rankings_channel_intro.json", "draft-center/02_on_the_clock_channel_intro.json",
         # Oct 2026: the Sesh reminder steps are part of the calendar intro message.
         "league-office/34_calendar_sesh_reminders.json",
+        # Hockey-era Wire intros, renamed for baseball.
+        "the-wire/02_nhl_news_channel_intro.json", "the-wire/04_nhl_transactions_channel_intro.json",
     ):
         p = ROOT / rel
         if p.exists():
