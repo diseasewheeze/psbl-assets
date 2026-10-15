@@ -68,7 +68,7 @@ class Fantrax:
         return self.get("getAdp", **filters)
 
     def player_ids(self) -> dict[str, Any]:
-        response = self.session.get(f"{BASE}/getPlayerIds", params={"sport": "NHL"}, timeout=self.timeout)
+        response = self.session.get(f"{BASE}/getPlayerIds", params={"sport": "MLB"}, timeout=self.timeout)
         response.raise_for_status()
         raw = response.json()
         return raw if isinstance(raw, dict) else {}
@@ -139,7 +139,7 @@ def category_values(categories: Any, side: str) -> dict[str, float]:
     Each category is listed once per matchup with an ``away`` and a ``home``
     entry. Fantrax fills an entry ({display, value, points}) only when the
     value is non-zero, so an empty entry means 0. Keyed by ``shortName``
-    (for example ``GS`` = goalie games started).
+    (for example ``GS`` = games started).
     """
     values: dict[str, float] = {}
     for category in categories if isinstance(categories, list) else []:

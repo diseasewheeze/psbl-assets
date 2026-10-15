@@ -1,8 +1,9 @@
 """The DBL season calendar, derived entirely from Fantrax's own week dates.
 
-Fantrax weeks do not end at midnight. Each week ends when the first NHL game
-of the following Monday starts (for example Mon 6:59 PM), and the next week
-begins at that moment. So by Monday morning every game of the outgoing week
+Fantrax weeks do not end at midnight. Each week ends when the first MLB game
+of the following Monday starts, and the next week begins at that moment
+(check the exact boundary with tools/fantrax_probe.py once the MLB league
+exists). So by Monday morning every game of the outgoing week
 has been played, even though Fantrax still lists the week as open until the
 evening. ``final_at`` captures that: a week is treated as final from 6:00 AM
 local time on the day it ends.
@@ -92,21 +93,24 @@ def is_final(p: Period, now: datetime, tz: ZoneInfo) -> bool:
     return now >= final_at(p, tz)
 
 
-GOALIE_STARTS_PER_WEEK = 4  # Constitution 9.2
 
 
 def calendar_weeks(p: Period) -> int:
     """Calendar weeks a period spans, rounded (never less than 1).
 
     A normal Fantrax week runs about 6.75 to 7.25 days, so it counts as 1; the
-    two-week Championship or a week stretched over an NHL break counts as 2.
+    two-week Championship, Week 1 from Opening Night, or a week stretched over
+    the All-Star break counts as 2.
     """
     days = (p.end - p.start).total_seconds() / 86400
     return max(1, round(days / 7))
 
 
-def goalie_start_cap(p: Period, per_week: int = GOALIE_STARTS_PER_WEEK) -> int:
-    """Credited goalie starts allowed in a period: 4 per calendar week (9.2, 9.3)."""
+def pitcher_start_cap(p: Period, per_week: int | None = None) -> int:
+    """Credited pitcher starts allowed in a period: the weekly cap per calendar week (9.2, 9.3)."""
+    if per_week is None:
+        from core import sport
+        per_week = sport.PITCHER_STARTS_PER_WEEK
     return per_week * calendar_weeks(p)
 
 

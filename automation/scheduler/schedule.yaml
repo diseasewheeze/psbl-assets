@@ -110,8 +110,8 @@ jobs:
     workflow: league-morning-recap.yml
     daily_at: ["08:30"]
     retry_failures: 3
-  # Playoff Pool: parked while the league moves to baseball (its NHL-based
-  # schedule condition is gone). Its workflow can still be run by hand.
+  # Playoff Pool: parked in parked/playoff_pool/ for a possible MLB postseason
+  # version; it has no workflow or job.
 
   # Live bracket; saves seeds automatically after the final regular week.
   - id: playoffs

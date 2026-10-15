@@ -358,7 +358,7 @@ def main() -> None:
         "league-competition/03_power_rankings_channel_intro.json", "draft-center/02_on_the_clock_channel_intro.json",
         # Oct 2026: the Sesh reminder steps are part of the calendar intro message.
         "league-office/34_calendar_sesh_reminders.json",
-        # Hockey-era Wire intros, renamed for baseball.
+        # Earlier Wire intro file names, replaced by the MLB channel intros.
         "the-wire/02_nhl_news_channel_intro.json", "the-wire/04_nhl_transactions_channel_intro.json",
     ):
         p = ROOT / rel

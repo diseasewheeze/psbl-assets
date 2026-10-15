@@ -2,8 +2,8 @@
 #
 # Every task fires once, in the private commissioner channel, when its anchor
 # moment plus offset arrives. Anchors come from the Fantrax season, so they
-# move on their own when the real 2027-28 calendar is created. Dates that
-# depend on the NHL or on money (dues deadline, draft announcement, the day
+# move on their own when the real Season 2027 calendar is created. Dates that
+# depend on MLB or on money (dues deadline, draft announcement, the day
 # trading reopens) cannot be derived from Fantrax; those are reminders in
 # automation/league-office/events.yaml sent to the same channel.
 #
@@ -35,8 +35,8 @@ tasks:
     title: "Week 1 starts in 7 days"
     section: "1. Before Season"
     items:
-      - "Every $150 is confirmed in the League Ledger; unpaid franchises have written notice (Art. 3.3, 3.4)."
-      - "Fantrax: FAAB is $1,000 per team (last consolation champion $1,050), trade deadline set, Games Started - Goalies max 4 with prorating on, minors age condition is Player age up to start of season, waiver tiebreaker Earliest Bid."
+      - "Every $200 is confirmed in the League Ledger; unpaid franchises have written notice (Art. 3.3, 3.4)."
+      - "Fantrax: FAAB is $1,000 per team (last consolation champion $1,050), trade deadline set, pitcher Games Started max 7 a week with prorating on, 5 acquisitions a week, minors limited to players under the rookie limits (130 career AB, 50 career IP), waiver tiebreaker Earliest Bid."
       - "League Calendar pinned."
       - "league.yaml and events.yaml point at this season; Xenon backup taken."
       - "Wooden Spoon: last Season's holder has posted the Season preview (due before Week 1)."
@@ -62,7 +62,7 @@ tasks:
     items:
       - "Confirm Fantrax now blocks trades, including draft picks. If it does not, lock them by hand and post a notice (11.6)."
       - "Fantrax can still process a trade that was pending at the deadline. Check the transaction log for any trade processed after the deadline and reverse it (11.6)."
-      - "Trading stays closed until you renew the league the day after the Stanley Cup Final ends; the reminder is in events.yaml."
+      - "Trading stays closed until you renew the league the day after the World Series ends; the reminder is in events.yaml."
 
   - id: wrapup
     anchor: last_regular_final
@@ -112,7 +112,7 @@ tasks:
     title: "Championship week starts in 6 hours"
     section: "4. Playoffs"
     items:
-      - "Two-week cumulative final: 8 credited goalie starts total and 5 acquisitions in each underlying week (9.3, 10.5)."
+      - "Two-week cumulative final: 14 credited pitcher starts total and 5 acquisitions in each underlying week (9.3, 10.5)."
       - "Third-place matchup is staged, or the 16.4 fallback has been announced."
       - "Consolation final is staged."
 
@@ -137,8 +137,8 @@ tasks:
     overdue_days: 16
     section: "3. End of Season, Part B"
     items:
-      - "Pay Champion $650, Runner-Up $350, Third $150 and Presidents' Trophy $200, and record each in the Ledger."
-      - "Publish the Season Ledger in 💰│league-ledger: dues, prizes, reserve spending, $100 League Services Allocation, Dynasty Pot balance (3.9, 4.7)."
+      - "Pay Champion $850, Runner-Up $450, Third $200 and Presidents' Trophy $250, and record each in the Ledger."
+      - "Publish the Season Ledger in 💰│league-ledger: dues, prizes, reserve spending, $150 League Services Allocation, Dynasty Pot balance (3.9, 4.7)."
 
   - id: prizes-day-25
     anchor: season_end_final

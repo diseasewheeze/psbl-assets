@@ -6,7 +6,7 @@ workflow runs. One folder per Fantrax season, keyed by Fantrax's
 ``seasonYear`` (DBL Season 2027 = 2027-28 = seasonYear 2027), so renewing the
 league in Fantrax never overwrites an earlier season:
 
-  archive/players.json               Fantrax player id -> name, position, NHL team
+  archive/players.json               Fantrax player id -> name, position, MLB team
                                      (only players the archive mentions)
   archive/<season>/meta.json         league id and label, team names, week dates,
                                      playoff settings, when snapshots were taken

@@ -64,13 +64,13 @@ class CollectIssuesTests(unittest.TestCase):
         self.assertIn("stale:wire", issues)
 
 
-class PlayoffPoolGateTests(unittest.TestCase):
-    """The Playoff Pool is checked only inside the NHL playoff window, like the scheduler runs it."""
+class ConditionGateTests(unittest.TestCase):
+    """A job with a `when` condition is checked only while that condition is open, like the scheduler runs it."""
 
     NOW = datetime(2027, 5, 1, 12, 0, tzinfo=timezone.utc)
-    CFG = {"workflows": [{"id": "playoff-pool", "name": "Pool", "file": "league-playoff-pool.yml",
+    CFG = {"workflows": [{"id": "draft-center", "name": "Draft Center", "file": "league-draft-center.yml",
                           "max_age_minutes": 900}]}
-    SCHEDULE = {"jobs": [{"workflow": "league-playoff-pool.yml", "daily_at": ["07:45"], "when": "nhl-playoffs"}]}
+    SCHEDULE = {"jobs": [{"workflow": "league-draft-center.yml", "daily_at": ["07:45"], "when": "draft-window"}]}
 
     def _run(self, opened):
         from core import schedule
@@ -83,14 +83,14 @@ class PlayoffPoolGateTests(unittest.TestCase):
                 patch.object(health, "current_season", lambda now: ("offseason", "offseason", None)), \
                 patch.object(health, "load_schedule", lambda: self.SCHEDULE), \
                 patch.object(health, "scheduled_runs", lambda *a: rows), \
-                patch.dict(schedule.CONDITIONS, {"nhl-playoffs": (lambda now=None: opened, "outside")}):
+                patch.dict(schedule.CONDITIONS, {"draft-window": (lambda now=None: opened, "outside")}):
             return health.collect_issues(self.CFG)
 
     def test_outside_the_window_is_not_checked(self) -> None:
         self.assertEqual(self._run(None), {})
 
     def test_inside_the_window_a_missed_run_alerts(self) -> None:
-        self.assertIn("stale:playoff-pool", self._run(self.NOW - timedelta(days=10)))
+        self.assertIn("stale:draft-center", self._run(self.NOW - timedelta(days=10)))
 
     def test_window_just_opened_gets_a_grace_period(self) -> None:
         self.assertEqual(self._run(self.NOW - timedelta(hours=2)), {})

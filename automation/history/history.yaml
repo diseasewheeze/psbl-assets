@@ -38,12 +38,12 @@ franchises: {}
 # Every field is optional; fill each one in when it is final.
 #   champion, runner_up, third_place, presidents_trophy,
 #   consolation_champion, wooden_spoon (last place): franchise keys
-#   pool_shark:        winner of the just-for-fun NHL Playoff Pool held at the
-#                      end of that Season (automation/playoff_pool/), a
+#   pool_shark:        winner of a just-for-fun playoff pool, if one is held at the
+#                      end of that Season (parked/playoff_pool/), a
 #                      franchise key. Cosmetic only, like the Pool Shark role.
 #   dynasty_pot:
-#     dues:            dues added to the pot that Season (at least $200, Section 4.2)
-#     unused_reserve:  unused League Operating Reserve added after expenses (3.8, 4.2)
+#     dues:            dues added to the pot that Season (at least $300, Section 4.2)
+#     unused_reserve:  unused League Operating Reserve added after expenses (3.7, 4.2)
 #     balance:         optional; the pot after this Season's additions, before any
 #                      payout, as published in the Season Ledger. Checked against
 #                      the contributions since the cycle began.
@@ -56,9 +56,9 @@ franchises: {}
 #       runner_up: north-stars
 #       third_place: ice-dogs
 #       presidents_trophy: north-stars
-#       consolation_champion: puck-luck
-#       wooden_spoon: zamboni-drivers
-#       pool_shark: puck-luck
+#       consolation_champion: rally-caps
+#       wooden_spoon: bullpen-blues
+#       pool_shark: rally-caps
 #       dynasty_pot:
 #         dues: 200
 #         unused_reserve: 35
