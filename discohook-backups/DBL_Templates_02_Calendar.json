@@ -6,7 +6,7 @@
           {
             "title": "CALENDAR EVENT",
             "description": "**`[EVENT NAME]`**",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE CALENDAR"
             },
@@ -64,7 +64,7 @@
           {
             "title": "LEAGUE CALENDAR PUBLISHED",
             "description": "The League Calendar for **Season `[YEAR]`** is live. Every date comes from the formulas in Article V of the Constitution.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE CALENDAR"
             },
@@ -152,7 +152,7 @@
           {
             "title": "DBL WINTER MEETINGS",
             "description": "The yearly owners' meeting, held in the Offseason before the amendment window opens.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE CALENDAR"
             },
@@ -191,7 +191,7 @@
           {
             "title": "ADD THE LEAGUE CALENDAR TO YOUR PHONE",
             "description": "Every DBL date can live in the calendar you already use.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE CALENDAR"
             },

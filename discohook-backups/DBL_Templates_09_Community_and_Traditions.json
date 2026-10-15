@@ -6,7 +6,7 @@
           {
             "title": "DBL AWARDS NIGHT",
             "description": "Season `[YEAR]` ballots are open in **🗳️│league-voting**. Owners choose the winners.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL RECORDS DEPARTMENT"
             },
@@ -50,7 +50,7 @@
           {
             "title": "DBL AWARDS NIGHT: THE WINNERS",
             "description": "Season `[YEAR]`, as voted by the owners: `[N]` of `[N]` franchises returned a ballot. 5 points for a first-place vote, 3 for second, 1 for third.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL RECORDS DEPARTMENT"
             },
@@ -99,7 +99,7 @@
           {
             "title": "NEW TRADITION? THE WOODEN SPOON",
             "description": "A just-for-fun tradition for the last-place team. Owners decide whether we do it.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • DISCUSSION"
             },
@@ -133,7 +133,7 @@
           {
             "title": "THE WOODEN SPOON",
             "description": "**`[FRANCHISE]`** finishes last in Season `[YEAR]` and takes home the Spoon.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL RECORDS DEPARTMENT"
             },
@@ -162,7 +162,7 @@
           {
             "title": "MEET THE DBL LEAGUE BOT",
             "description": "League tools, right in Discord. Every command reads Fantrax and the Constitution; nothing here changes Fantrax.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },

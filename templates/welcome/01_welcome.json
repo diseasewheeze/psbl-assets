@@ -12,7 +12,7 @@
     {
       "title": "WELCOME TO THE DYNASTY BASEBALL LEAGUE",
       "description": "**DBL** is a 12-franchise dynasty fantasy baseball league built around long-term roster construction, prospect development, an active trade market, daily competition, and permanent league history.\n\n**Fantrax runs the game. Discord runs the league.**",
-      "color": 16758812,
+      "color": 12398649,
       "fields": [
         {
           "name": "START HERE",
@@ -29,7 +29,7 @@
     {
       "title": "HOW THE DBL WORKS",
       "description": "The league uses two homes with different jobs. Keeping those jobs separate makes disputes, records, and league administration much cleaner.",
-      "color": 16758812,
+      "color": 12398649,
       "fields": [
         {
           "name": "FANTRAX — THE GAME RECORD",
@@ -51,7 +51,7 @@
     {
       "title": "SERVER MAP",
       "description": "Every category has a job. Use the right room and the server stays useful instead of becoming one giant chat.",
-      "color": 16758812,
+      "color": 12398649,
       "fields": [
         {
           "name": "🏛️ LEAGUE OFFICE",
@@ -108,7 +108,7 @@
     {
       "title": "FRANCHISE OWNERSHIP & ROLES",
       "description": "Discord roles reflect league function. They are not extra votes or extra franchises.",
-      "color": 16758812,
+      "color": 12398649,
       "fields": [
         {
           "name": "⚾ FRANCHISE OWNER",
@@ -140,7 +140,7 @@
     {
       "title": "KEEP OFFICIAL BUSINESS OFFICIAL",
       "description": "The DBL should feel like a baseball league, not paperwork. The easiest way to keep it that way is to put official actions in the places designed for them.",
-      "color": 16758812,
+      "color": 12398649,
       "fields": [
         {
           "name": "TRADES",
@@ -172,7 +172,7 @@
     {
       "title": "YOU'RE CLEARED FOR THE ROOM",
       "description": "Before jumping in, confirm your **Franchise Owner** or **Co-Owner** role and make sure you can see the league categories you need.\n\nThen review the constitution, check the league calendar, and head to **💬│gm-lounge**.\n\n**Welcome to the DBL. Grab a hot dog. Set your lineup. Make bad trades confidently.**",
-      "color": 16758812,
+      "color": 12398649,
       "footer": {
         "text": "DYNASTY BASEBALL LEAGUE • EST. 2026"
       },

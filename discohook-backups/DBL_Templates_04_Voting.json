@@ -6,7 +6,7 @@
           {
             "title": "AMENDMENT PROPOSAL — DISCUSSION",
             "description": "`[PROPOSAL TITLE]`",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE VOTING • DISCUSSION ONLY"
             },
@@ -50,7 +50,7 @@
           {
             "title": "OFFICIAL DBL VOTE",
             "description": "`[PROPOSAL TITLE]`",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE VOTING • OFFICIAL"
             },
@@ -99,7 +99,7 @@
           {
             "title": "VOTE RESULT",
             "description": "`[PROPOSAL TITLE]`",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE VOTING • FINAL RESULT"
             },

@@ -6,7 +6,7 @@
           {
             "title": "CONSTITUTION UPDATED",
             "description": "An updated DBL Constitution has been published.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },
@@ -50,7 +50,7 @@
           {
             "title": "CONSTITUTION AMENDMENT",
             "description": "A formally adopted amendment has been added to the DBL Constitution.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },
@@ -94,7 +94,7 @@
           {
             "title": "OFFICIAL RULE INTERPRETATION",
             "description": "`[SHORT ISSUE TITLE]`",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL RULING"
             },
@@ -138,7 +138,7 @@
           {
             "title": "COMMISSIONER RECUSAL",
             "description": "The Commissioner's franchise is involved in `[MATTER]`. A neutral party will decide it.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },
@@ -172,7 +172,7 @@
           {
             "title": "APPEAL OUTCOME",
             "description": "Review of `[RULING TITLE]`",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL RULING"
             },

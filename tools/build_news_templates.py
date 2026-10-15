@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[1]
 T = ROOT / "templates"
 OUT = ROOT / "discohook-backups"
 
-GOLD, ALERT, RECORD = 16758812, 10697266, 13012757
+GOLD, ALERT, RECORD = 12398649, 10697266, 795456  # red #BD3039, dark red, navy #0C2340
 LO = "DBL LEAGUE OFFICE"
 
 

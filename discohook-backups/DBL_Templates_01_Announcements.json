@@ -6,7 +6,7 @@
           {
             "title": "DBL ANNOUNCEMENT",
             "description": "`[ANNOUNCEMENT TEXT]`",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },
@@ -30,7 +30,7 @@
           {
             "title": "ACTION REQUIRED",
             "description": "`[WHAT MANAGERS MUST DO]`",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • ACTION REQUIRED"
             },
@@ -98,7 +98,7 @@
           {
             "title": "THE DBL SEASON IS OPEN",
             "description": "`[SEASON]` is officially underway.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "LATE ICE • LONG SEASONS • LIFETIME GRUDGES"
             },
@@ -132,7 +132,7 @@
           {
             "title": "DBL SEASON COMPLETE",
             "description": "`[SEASON, for example 2027]` is officially in the books.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL RECORDS DEPARTMENT"
             },
@@ -186,7 +186,7 @@
           {
             "title": "COMMISSIONER CORRECTION",
             "description": "A clerical, Fantrax configuration or platform correction under Section 2.5 of the Constitution.",
-            "color": 16758812,
+            "color": 12398649,
             "footer": {
               "text": "DBL LEAGUE OFFICE • OFFICIAL NOTICE"
             },

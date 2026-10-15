@@ -6,7 +6,7 @@
           {
             "title": "SEASON LEDGER",
             "description": "`[SEASON]` • Published within 30 days after the DBL Championship.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE LEDGER"
             },
@@ -50,7 +50,7 @@
           {
             "title": "FRANCHISE DUES STATUS",
             "description": "`[SEASON / DATE]`",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE LEDGER • NO PAYMENT CREDENTIALS POSTED"
             },
@@ -89,7 +89,7 @@
           {
             "title": "DBL PRIZE POOL",
             "description": "`[SEASON]` • 12 franchises × $150 = $1,800",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE LEDGER"
             },
@@ -143,7 +143,7 @@
           {
             "title": "PAYMENT CONFIRMED",
             "description": "`[FRANCHISE]` is confirmed paid through **Season `[YEAR]`**.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE LEDGER • NO PAYMENT CREDENTIALS POSTED"
             },
@@ -177,7 +177,7 @@
           {
             "title": "PRIZE PAID",
             "description": "`[PRIZE]` for **Season `[YEAR]`** has been paid to `[FRANCHISE]`.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE LEDGER"
             },
@@ -211,7 +211,7 @@
           {
             "title": "DYNASTY POT UPDATE",
             "description": "The pot stands at **`$[BALANCE]`**.",
-            "color": 13012757,
+            "color": 795456,
             "footer": {
               "text": "DBL LEAGUE LEDGER"
             },
