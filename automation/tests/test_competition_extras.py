@@ -443,7 +443,7 @@ class MonthGroupTests(unittest.TestCase):
 
     def test_month_ending_on_a_sunday_keeps_its_last_week(self) -> None:
         # October 2027 ends on a Sunday. Fantrax ends the Oct 25-31 week on
-        # Monday, November 1 at the first puck drop; it is still an October week.
+        # Monday, November 1 at the first game; it is still an October week.
         info = {"scoringPeriods": [
             {"number": 1, "startDate": "2027-10-18T19:00:00.0-0400", "endDate": "2027-10-25T18:59:59.0-0400"},
             {"number": 2, "startDate": "2027-10-25T19:00:00.0-0400", "endDate": "2027-11-01T18:59:59.0-0400"},

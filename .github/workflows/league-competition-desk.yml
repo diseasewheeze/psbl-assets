@@ -3,7 +3,7 @@ run-name: DBL Competition Desk — ${{ github.event_name == 'workflow_dispatch' 
 
 # Weekly report: recap (with all-play), weekly awards, power rankings (with the
 # Luck Index), Monthly Awards, bounty claims, standings, playoff race (from
-# week 16), matchup preview (with projected games) and the NHL games grid.
+# week 16), matchup preview (with projected games) and the MLB games grid.
 # Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler starts
 # this workflow with mode=live at 08:00 and 20:00 ET during the season.
 

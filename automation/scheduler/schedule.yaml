@@ -21,9 +21,6 @@
 #   faster: run more often while a condition holds, e.g.
 #           faster: {when: trade-deadline-day, every_minutes: 15}
 #           on a job that otherwise runs every_minutes: 30.
-#           draft finishes. nhl-playoffs = from 5 days before the NHL regular
-#           season's last day until 2 days after the NHL's last scheduled
-#           playoff date (NHL schedule data; see automation/core/nhl_playoffs.py).
 #   phases: only run during these parts of the Fantrax season:
 #           preseason, regular, playoffs, offseason.
 #           The current phase comes from Fantrax's own week dates.
@@ -60,11 +57,11 @@ jobs:
 
   # Weekly report: recap (with all-play), weekly awards, power rankings (with
   # Luck), Monthly Awards, bounty claims, standings, playoff race (from week
-  # 16), matchup preview (with projected games) and NHL games grid.
+  # 16), matchup preview (with projected games) and MLB games grid.
   # The 08:00 check posts the report the morning a fantasy week ends; the
   # 20:00 check only posts anything Fantrax was not ready for in the morning.
-  # Each check also reads the NHL scores of finished nights not checked yet,
-  # for the hat-trick bounty while it is unclaimed.
+  # Each check also reads the MLB scoring plays of finished days not checked
+  # yet, for the multi-homer bounty while it is unclaimed.
   - id: competition-desk
     workflow: league-competition-desk.yml
     daily_at: ["08:00", "20:00"]
@@ -113,17 +110,8 @@ jobs:
     workflow: league-morning-recap.yml
     daily_at: ["08:30"]
     retry_failures: 3
-  # Playoff Pool (just for fun, no money): a free NHL playoff box pool in
-  # 🏒│game-day. Posts the boxes once the NHL playoff field is set, standings
-  # each morning after the first puck drop, and a final post naming the Pool
-  # Shark. The NHL playoffs fall in the DBL Offseason, so no phases: only
-  # the NHL's own dates gate it. The 19:45 check posts the boxes the same day
-  # if the field was set during the day, and retries a failed morning post.
-  - id: playoff-pool
-    workflow: league-playoff-pool.yml
-    daily_at: ["07:45", "19:45"]
-    retry_failures: 2
-    when: nhl-playoffs
+  # Playoff Pool: parked while the league moves to baseball (its NHL-based
+  # schedule condition is gone). Its workflow can still be run by hand.
 
   # Live bracket; saves seeds automatically after the final regular week.
   - id: playoffs
