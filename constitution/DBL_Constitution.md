@@ -188,15 +188,15 @@
 
 **PITCHERS**
 • Inning Pitched (IP), +1 per out — **+3.00**
-• Strikeout (K) — **+1.00**
+• Strikeout (K) — **+1.25**
 • Hit Allowed (H) — **-1.00**
 • Walk Issued (BB) — **-1.00**
 • Hit Batter (HB) — **-1.00**
 • Earned Run (ER) — **-2.00**
-• Win (W) — **+3.00**
-• Loss (L) — **-2.00**
-• Save (SV) — **+5.00**
-• Hold (HLD) — **+3.00**
+• Win (W) — **+2.00**
+• Loss (L) — **-1.00**
+• Save (SV) — **+6.00**
+• Hold (HLD) — **+4.00**
 
 **8.2** Partial innings score by the out: each out recorded is one point, so a full inning is three. Quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not separately scored. Fantrax's final stat corrections control.
 

@@ -53,7 +53,11 @@ MINORS_MAX_OUTS = 150  # 50 innings pitched
 
 # --- Scoring (Constitution Article VIII) ----------------------------------------
 
-# Points per stat, by MLB Stats API field name. "singles" is derived as
+# Points per stat, by MLB Stats API field name. The values were set against every
+# MLB player's 2024-2026 regular seasons (research/scoring/): they make a
+# league's starters at each position worth about what their share of the lineup
+# is, and make each player's points as repeatable from season to season as the
+# stats allow (see the scoring explainer in tools/build_news_templates.py). "singles" is derived as
 # hits - doubles - triples - homeRuns. "outs" are outs recorded while
 # pitching (3 per inning), so 1 point per out is 3 points per inning.
 HITTING: dict[str, float] = {
@@ -72,15 +76,15 @@ HITTING: dict[str, float] = {
 
 PITCHING: dict[str, float] = {
     "outs": 1,
-    "strikeOuts": 1,
+    "strikeOuts": 1.25,
     "hits": -1,
     "baseOnBalls": -1,
     "hitBatsmen": -1,
     "earnedRuns": -2,
-    "wins": 3,
-    "losses": -2,
-    "saves": 5,
-    "holds": 3,
+    "wins": 2,
+    "losses": -1,
+    "saves": 6,
+    "holds": 4,
 }
 
 # Display labels for each scored stat, in the order the Constitution lists them.
