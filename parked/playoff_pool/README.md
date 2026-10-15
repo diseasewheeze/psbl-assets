@@ -1,6 +1,6 @@
 # DBL Playoff Pool
 
-**Parked.** This is the old NHL playoff pool, kept for a possible MLB postseason version. It is not run, scheduled or tested: its workflow, scheduler job, Automation Health entry, regression test and League Bot `/pool` commands were removed when the league moved to baseball, and it still reads the NHL's API. Everything below describes the NHL version.
+**Parked.** This is the old NHL playoff pool, kept for a possible MLB postseason version. It is not run, scheduled or tested: its workflow, scheduler job, Automation Health entry, regression test, `playoff_pool` settings in `automation/league.yaml` and League Bot `/pool` commands were removed when the league moved to baseball, and it still reads the NHL's API (the deleted `core/nhl.py` and `core/nhl_playoffs.py`). Everything below describes the NHL version.
 
 A free NHL playoff pool for the 12 owners, run in **🏒│game-day** during the NHL
 playoffs (mid-April to June), after the fantasy season is over.
