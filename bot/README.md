@@ -32,12 +32,12 @@ Fantrax is only ever read, never written. The bot posts nothing that Fantrax alr
 | --- | --- | --- |
 | `/rule <query>` | Anyone | The Constitution by section (`12.4`), article (`XII`, `Article 12`) or keyword (`prepayment`, up to 3 best matches). Public by default; `ephemeral: True` shows it only to you |
 | `/deadlines` | Anyone | The next 3 dates on the League Calendar (`automation/league-office/events.yaml`, enabled and dated events only), in each member's own time zone. Private Commissioner Desk reminders are never shown |
-| `/minor <player>` | Anyone | Age on NHL opening day, career NHL regular-season games, the limit that applies (skaters 100, goalies 50) and **DBL minor-eligible: YES/NO** (7.2, 7.3). Add `team: CAR` when two players share a name |
+| `/minor <player>` | Anyone | Career MLB regular-season at-bats (as a hitter) and innings pitched against the rookie limits (130 at-bats, 50 innings) and **DBL minor-eligible: YES/NO** (7.2, 7.3). Add `team: LAD` when two players share a name |
 | `/myteam` | Franchise Owner or Co-Owner | Private. Roster counts against the 6.1 limits, future picks owned and traded away, paid-through Season from the League Ledger, this Week's opponent and score, and the next 2 deadlines. FAAB isn't in Fantrax's data feed, so it says "check Fantrax" |
 | `/tradecheck` | Franchise Owner, Co-Owner or Commissioner | Compliance only, never value: future 1st and 2nd prepayment (12.2 to 12.4), roster limits after the trade (6.1), the trade window (11.6), and a reminder of what it can't detect (11.3, 11.4, 11.5). Private by default; `post: True` posts it in the channel |
 | `/pickem leaderboard` | Anyone | Pick'em season standings |
 
-- **Minor eligibility** uses the NHL's player search and stats, the same source as the nightly minor-eligibility watch. Age is measured on the first day of the NHL regular season, which is the start of Fantrax Week 1 (Article V). Before Fantrax has the next Season's calendar, October 1 is used and labeled as an estimate. Every answer says "By NHL data. Fantrax's age calculation is final (7.2)."
+- **Minor eligibility** uses MLB's player search (every level, so a prospect with no MLB time is found too) and career totals, through `automation/core/mlb_people.py`, with the same rule as the nightly minor-eligibility watch (`sport.minor_eligible`). At-bats come from the hitting stats only; the at-bats a pitcher faced never count. There is no age limit. Every answer says "By MLB's official career statistics. The Commissioner's determination is final (7.3)."
 - **Trade check assumptions:** players are typed as names (`Quinn Hughes, Elias Pettersson`) and matched to the giving team's Fantrax roster; picks as `2029 1st, 2028 3rd`. Incoming players fill open active spots first, then reserve, unless listed in `to_minors`. The trade deadline is Sunday 11:59 PM ET at the end of Week 20, from the Fantrax calendar. The reopening date comes from the `commissioner-trading-reopens` event in events.yaml once it has a date.
 - **Paid through** comes from the League Ledger's Pick Clearance tab (`LEAGUE_LEDGER_CLEARANCE_CSV`, the same link the Pick Trades alert uses). Without it, the bot says so and asks for a manual check.
 
@@ -197,7 +197,7 @@ Awards carry no money and change nothing in the standings or the draft.
 
 - **Fantrax** (read-only): the season calendar and schedule (`getLeagueInfo`), rosters (`getTeamRosters`), draft picks (`getDraftPicks`), player names (`getPlayerIds`), live and final scores (`getMatchupScores`, also for DBL Bucks lines and settlement) and standings (`getStandings`, for the Awards Ballot's Comeback and Bust), through the shared client in `automation/core/`. Reads are cached for 3 to 30 minutes (player names for 12 hours) and run off the event loop, so a slow Fantrax never freezes the bot.
 - **Power Rankings math:** DBL Bucks reuses the recent-form window and placeholder-week handling of `automation/competition/weekly.py`.
-- **NHL stats API:** player search and career totals for `/minor`, through `automation/commissioner/minors.py`, cached for hours.
+- **MLB Stats API:** player search and career totals for `/minor`, through `automation/core/mlb_people.py`, cached for hours.
 - **League Calendar:** `automation/league-office/events.yaml`, read the same way as the League Office automation.
 - **Playoff Pool boxes:** the automation's `boxes.json` on the `automation-state` branch (`raw.githubusercontent.com`), cached for 10 minutes.
 - The bot's league logic lives in plain modules next to `app.py` (`constitution`, `deadlines`, `minor`, `team`, `trade`, `pickem`, `pool`, `book`, `awards`), so it is tested without Discord.

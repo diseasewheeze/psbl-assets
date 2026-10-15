@@ -1,10 +1,10 @@
 """Cached, read-only data for the bot's league commands.
 
-Every method here blocks (Fantrax, the NHL API, the League Ledger CSV, the
-events file, the Playoff Pool boxes), so the Discord layer calls them with
+Every method here blocks (Fantrax, the MLB Stats API, the League Ledger CSV,
+the events file, the Playoff Pool boxes), so the Discord layer calls them with
 ``asyncio.to_thread``.
 Results are cached for a few minutes (rosters, scores) up to half a day
-(Fantrax's player list), so busy commands don't hammer Fantrax or the NHL.
+(Fantrax's player list), so busy commands don't hammer Fantrax or MLB.
 Nothing here writes to Fantrax.
 """
 
@@ -17,7 +17,9 @@ import time
 from dataclasses import dataclass
 from typing import Any, Callable
 
-from .shared import minors, picktrades
+from .shared import picktrades
+
+from core import mlb_people as mp  # noqa: E402  (path set up by .shared)
 
 USER_AGENT = "DBL-LeagueBot/1.0"
 log = logging.getLogger("league.bot")
@@ -33,7 +35,8 @@ TTL = {
     "clearance": 10 * 60,
     "clearance_error": 60,
     "events": 60,
-    "nhl_search": 6 * 3600,
+    "mlb_search": 6 * 3600,
+    "mlb_career": 3 * 3600,  # career totals change at most once a day
     "pool_boxes": 10 * 60,  # boxes.json gains its deadline once the NHL publishes it
 }
 
@@ -226,29 +229,21 @@ class LeagueData:
         return self.cache.get("pool_entries_via", TTL["info"], load)
 
 
-class NHLLookup:
-    """NHL player search and landing pages through minors.py's rate-limited client."""
+class MlbLookup:
+    """MLB player search and career totals (core/mlb_people.py), cached.
 
-    def __init__(self, session: Any = None, clock: Callable[[], float] = time.monotonic) -> None:
-        import requests
+    One client is shared by the command threads; its request pacing is locked.
+    """
 
-        self.m = minors()
-        self.session = session or requests.Session()
-        if hasattr(self.session, "headers"):
-            self.session.headers.setdefault("User-Agent", USER_AGENT)
+    def __init__(self, api: Any = None, clock: Callable[[], float] = time.monotonic) -> None:
+        self.api = api or mp.MlbApi()
         self.cache = TTLCache(clock)
-        self._lock = threading.Lock()  # minors._get's pacing is not thread-safe
 
-    def _get(self, url: str, **params: Any) -> Any:
-        with self._lock:
-            return self.m._get(self.session, url, **params)
+    def search(self, query: str) -> list[Any]:
+        """Players at every level whose name matches (mp.Person)."""
+        return self.cache.get(("search", mp.norm_name(query)), TTL["mlb_search"], lambda: self.api.search(query))
 
-    def search(self, query: str) -> list[dict[str, Any]]:
-        key = ("search", self.m.norm(query))
-        return self.cache.get(key, TTL["nhl_search"],
-                              lambda: self._get(self.m.SEARCH, culture="en-us", limit=20, q=query) or [])
-
-    def landing(self, player_id: int) -> dict[str, Any]:
-        """Bio and career totals, reused for minors.py's CACHE_HOURS like the nightly watch."""
-        return self.cache.get(("landing", int(player_id)), self.m.CACHE_HOURS * 3600,
-                              lambda: self._get(f"{self.m.NHL}/player/{int(player_id)}/landing") or {})
+    def career(self, person_id: int) -> tuple[Any, Any] | None:
+        """(mp.Person, mp.Career) for one player, or None when MLB has no record."""
+        pid = int(person_id)
+        return self.cache.get(("career", pid), TTL["mlb_career"], lambda: self.api.careers([pid]).get(pid))

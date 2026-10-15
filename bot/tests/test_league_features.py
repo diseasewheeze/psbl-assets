@@ -2,7 +2,7 @@
 """Offline tests for the DBL League Bot's league commands.
 
 Everything runs from the Fantrax samples in automation/tests/fixtures and
-fake NHL, Fantrax and League Ledger sources; nothing touches the network.
+fake MLB, Fantrax and League Ledger sources; nothing touches the network.
 """
 
 from __future__ import annotations
@@ -24,11 +24,13 @@ sys.path.insert(0, str(HERE.parent))
 
 from league_bot import constitution, deadlines, embeds, minor, pickem, rules, team, trade  # noqa: E402
 from league_bot.config import load  # noqa: E402
-from league_bot.league_data import Clearance, LeagueData, NHLLookup, TTLCache  # noqa: E402
+from league_bot.league_data import Clearance, LeagueData, MlbLookup, TTLCache  # noqa: E402
 from league_bot.shared import FIXTURES, build_constitution  # noqa: E402
 from league_bot.store import Store  # noqa: E402
 
+from core import mlb_people as mp  # noqa: E402
 from core import season  # noqa: E402
+from core import sport  # noqa: E402
 from core.fantrax import normalize_scores  # noqa: E402
 
 UTC = timezone.utc
@@ -155,10 +157,24 @@ class RuleTests(unittest.TestCase):
         self.assertEqual(s.text, self.source_text(15, 5))
 
     def test_tables_are_not_numbered(self) -> None:
-        self.assertTrue(constitution.section("3.6").text.startswith("The League Services Allocation is paid"))
+        # The allocation table follows 3.5 without a number of its own, so 3.6 is the next paragraph.
+        self.assertTrue(constitution.section("3.5").text.endswith("is:"))
+        self.assertEqual(constitution.section("3.6").text, self.source_text(3, 6))
+        self.assertTrue(constitution.section("3.6").text.startswith("The League Services Allocation is"))
         self.assertEqual(constitution.section("5.9").text, "The key dates and how each is set:")
         self.assertIsNone(constitution.section("5.10"))
         self.assertEqual(constitution.articles()[19].sections[-1].ref, "20.8")  # history table not numbered
+
+    def test_scoring_tables_are_shown_but_not_numbered(self) -> None:
+        build = build_constitution()
+        scoring = constitution.articles()[7]
+        self.assertEqual(scoring.title, "Scoring")
+        paragraphs = [b for b in build.S.ARTICLES[7]["blocks"] if b[0] == "p"]
+        self.assertEqual(len(scoring.sections), len(paragraphs))
+        tables = [line for line in scoring.lines if "Home Run (HR)" in line]
+        self.assertEqual(len(tables), 1)
+        self.assertIsNone(constitution.SECTION_LINE.match(tables[0]))
+        self.assertIn("Home Run (HR)", constitution.article_embeds(scoring)[0]["description"])
 
     def test_numbering_mirrors_the_published_build(self) -> None:
         build = build_constitution()
@@ -191,7 +207,7 @@ class RuleTests(unittest.TestCase):
         self.assertEqual(len(found), 3)
         self.assertTrue(all(s.article == 12 for s in found))
         self.assertEqual(constitution.search("trade deadline")[0].ref, "11.6")
-        self.assertEqual(constitution.search("minor age")[0].ref, "7.2")
+        self.assertEqual(constitution.search("minor at-bats")[0].ref, "7.2")
         embed = constitution.answer("prepayment").embeds[0]
         self.assertEqual(len(embed["fields"]), 3)
 
@@ -200,7 +216,7 @@ class RuleTests(unittest.TestCase):
         self.assertTrue(constitution.answer("mix").message)
 
     def test_every_answer_fits_discord(self) -> None:
-        queries = [a.numeral for a in constitution.articles()] + ["prepayment", "dues", "goalie", "the draft order"]
+        queries = [a.numeral for a in constitution.articles()] + ["prepayment", "dues", "pitcher", "the draft order"]
         for q in queries:
             a = constitution.answer(q)
             if a.embeds:
@@ -252,121 +268,124 @@ class DeadlineTests(unittest.TestCase):
 
 
 # -------------------------------------------------------------------- /minor
-class MinorRuleTests(unittest.TestCase):
-    OPENING = date(2026, 10, 7)
-
-    def test_birthday_on_or_before_opening_day_counts(self) -> None:
-        self.assertFalse(minor.verdict("2000-10-07", 0, False, self.OPENING).eligible)  # turns 26 on opening day
-        v = minor.verdict("2000-10-08", 0, False, self.OPENING)  # turns 26 the day after
-        self.assertEqual(v.age, 25)
-        self.assertTrue(v.eligible)
-
-    def test_age_is_fixed_for_the_whole_season(self) -> None:
-        # Turns 26 in November: still eligible all Season, because age is measured on opening day (7.2).
-        self.assertTrue(minor.verdict("2000-11-15", 10, False, self.OPENING).eligible)
-
-    def test_skater_and_goalie_thresholds(self) -> None:
-        young = "2004-01-01"
-        self.assertTrue(minor.verdict(young, 100, False, self.OPENING).eligible)
-        self.assertFalse(minor.verdict(young, 101, False, self.OPENING).eligible)
-        self.assertTrue(minor.verdict(young, 50, True, self.OPENING).eligible)
-        self.assertFalse(minor.verdict(young, 51, True, self.OPENING).eligible)
-        v = minor.verdict(young, 60, True, self.OPENING)
-        self.assertEqual(v.limit, 50)
-        self.assertIn("60 career NHL regular-season games (limit 50)", v.reasons)
-        self.assertTrue(minor.verdict(young, 60, False, self.OPENING).eligible)
-
-    def test_both_reasons(self) -> None:
-        v = minor.verdict("1990-01-01", 500, False, self.OPENING)
-        self.assertEqual(len(v.reasons), 2)
-
-    def test_opening_day_from_fantrax_week_one(self) -> None:
-        o = minor.opening_day(INFO, DURING_WEEK_2, NY)
-        self.assertEqual((o.day, o.season, o.estimated), (date(2026, 9, 29), 2026, False))
-        before = minor.opening_day(INFO, datetime(2026, 8, 1, tzinfo=UTC), NY)
-        self.assertEqual(before.day, date(2026, 9, 29))
-
-    def test_opening_day_estimated_after_the_season_or_without_fantrax(self) -> None:
-        after = minor.opening_day(INFO, datetime(2027, 6, 1, tzinfo=UTC), NY)
-        self.assertEqual((after.day, after.season, after.estimated), (date(2027, 10, 1), 2027, True))
-        none = minor.opening_day(None, datetime(2027, 1, 15, tzinfo=UTC), NY)
-        self.assertEqual((none.season, none.estimated), (2026, True))
-        new_league = minor.opening_day({"seasonYear": 2027, "scoringPeriods": []}, datetime(2027, 7, 1, tzinfo=UTC), NY)
-        self.assertEqual(new_league.day, date(2027, 10, 1))
+AB, OUTS = sport.MINORS_MAX_AB, sport.MINORS_MAX_OUTS
 
 
-HITS = [
-    {"playerId": "8478427", "name": "Sebastian Aho", "positionCode": "C", "teamAbbrev": "CAR", "active": True},
-    {"playerId": "8480222", "name": "Sebastian Aho", "positionCode": "D", "teamAbbrev": "PIT", "active": True},
-    {"playerId": "8484801", "name": "Macklin Celebrini", "positionCode": "C", "teamAbbrev": "SJS", "active": True},
-    {"playerId": "8471679", "name": "Carey Price", "positionCode": "G", "teamAbbrev": None, "active": False},
-    {"playerId": "8400001", "name": "Carey Price", "positionCode": "G", "teamAbbrev": "MTL", "active": True},
+def mlb_person(pid, name, pos, team, at_bats=None, outs=None, pitching_ab=0, active=True, debut="2025-04-01"):
+    """A /people entry with career stats, in MLB's shape (automation/tests/fixtures/mlb_people_careers.json)."""
+    stats = []
+    if at_bats is not None:
+        stats.append({"group": {"displayName": "hitting"}, "type": {"displayName": "career"},
+                      "splits": [{"stat": {"atBats": at_bats}, "sport": {"id": 1}, "gameType": "R"}]})
+    if outs is not None:
+        stats.append({"group": {"displayName": "pitching"}, "type": {"displayName": "career"},
+                      "splits": [{"stat": {"outs": outs, "atBats": pitching_ab}, "sport": {"id": 1}, "gameType": "R"}]})
+    row = {"id": pid, "fullName": name, "active": active, "birthDate": "2004-05-06",
+           "primaryPosition": {"abbreviation": pos}, "currentTeam": team}
+    if debut:
+        row["mlbDebutDate"] = debut
+    if stats:
+        row["stats"] = stats
+    return row
+
+
+PEOPLE = [
+    mlb_person(804606, "Konnor Griffin", "SS", {"id": 134, "name": "Pittsburgh Pirates"}, at_bats=312),
+    mlb_person(822298, "Logan Reddemann", "P", {"id": 1994, "name": "ACL Rockies", "parentOrgId": 115}, debut=None),
+    mlb_person(669257, "Will Smith", "C", {"id": 119, "name": "Los Angeles Dodgers"}, at_bats=2300),
+    mlb_person(519293, "Will Smith", "P", {"id": 118, "name": "Kansas City Royals"}, outs=1500, active=False),
+    mlb_person(700001, "Prospect Pitcher", "P", {"id": 147, "name": "New York Yankees"}, outs=OUTS - 3, pitching_ab=AB + 10),
+    mlb_person(700002, "Near Hitter", "2B", {"id": 147, "name": "New York Yankees"}, at_bats=AB - 5),
+    mlb_person(700003, "Luis Garcia", "P", {"id": 119, "name": "Los Angeles Dodgers"}, outs=900),
+    mlb_person(700004, "Luis Garcia", "P", {"id": 135, "name": "San Diego Padres"}, outs=600),
 ]
-LANDINGS = {
-    8484801: {"firstName": {"default": "Macklin"}, "lastName": {"default": "Celebrini"}, "birthDate": "2006-06-13",
-              "position": "C", "currentTeamAbbrev": "SJS", "careerTotals": {"regularSeason": {"gamesPlayed": 82}}},
-    8400001: {"firstName": {"default": "Carey"}, "lastName": {"default": "Price"}, "birthDate": "2004-08-16",
-              "position": "G", "currentTeamAbbrev": "MTL", "careerTotals": {"regularSeason": {"gamesPlayed": 49}}},
-    8478427: {"firstName": {"default": "Sebastian"}, "lastName": {"default": "Aho"}, "birthDate": "1997-07-26",
-              "position": "C", "currentTeamAbbrev": "CAR", "careerTotals": {"regularSeason": {"gamesPlayed": 800}}},
-}
 
 
-class FakeNHL:
+class FakeMlbFetch:
+    """MLB player search and /people in the API's shape; counts requests."""
+
     def __init__(self) -> None:
-        self.calls = []
+        self.calls: list[str] = []
 
-    def search(self, query):
-        self.calls.append(("search", query))
-        return HITS
+    def __call__(self, url, params):
+        self.calls.append(url)
+        if url.endswith("/people/search"):
+            q = mp.norm_name(params["names"])
+            return {"people": [p for p in PEOPLE if q in mp.norm_name(p["fullName"])]}
+        if url.endswith("/people"):
+            ids = {int(x) for x in params["personIds"].split(",")}
+            return {"people": [p for p in PEOPLE if p["id"] in ids]}
+        raise AssertionError(url)
 
-    def landing(self, pid):
-        self.calls.append(("landing", pid))
-        return LANDINGS.get(pid, {})
+
+def lookup_client() -> tuple[MlbLookup, FakeMlbFetch]:
+    fetch = FakeMlbFetch()
+    return MlbLookup(mp.MlbApi(fetch)), fetch
+
+
+class MinorRuleTests(unittest.TestCase):
+    def test_limits_come_from_the_rules_module(self) -> None:
+        self.assertTrue(minor.verdict(AB, OUTS).eligible)
+        self.assertFalse(minor.verdict(AB + 1, 0).eligible)
+        self.assertFalse(minor.verdict(0, OUTS + 1).eligible)
+        v = minor.verdict(AB + 1, OUTS + 1)
+        self.assertEqual(v.reasons, (f"{AB + 1} career MLB at-bats (limit {AB})",
+                                     f"{mp.innings_text(OUTS + 1)} career MLB innings (limit {OUTS // 3})"))
 
 
 class MinorLookupTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.mlb, self.fetch = lookup_client()
+
     def test_candidates_tiers(self) -> None:
-        self.assertEqual([c["id"] for c in minor.candidates(HITS, "Macklin Celebrini")], [8484801])
-        self.assertEqual([c["id"] for c in minor.candidates(HITS, "celebrini")], [8484801])
-        self.assertEqual([c["id"] for c in minor.candidates(HITS, "Celebrini, Macklin")], [8484801])
-        self.assertEqual(len(minor.candidates(HITS, "Sebastian Aho")), 2)
-        self.assertEqual([c["team"] for c in minor.candidates(HITS, "Sebastian Aho", "car")], ["CAR"])
-        self.assertEqual(minor.candidates(HITS, "Nobody"), [])
+        def ids(query, team=None):
+            return [p.id for p in minor.candidates(self.mlb.search(minor.query_name(query)), query, team)]
+        self.assertEqual(ids("Konnor Griffin"), [804606])
+        self.assertEqual(ids("griffin"), [804606])
+        self.assertEqual(ids("Griffin, Konnor"), [804606])
+        self.assertEqual(ids("Will Smith"), [669257])                 # the only active Will Smith
+        self.assertEqual(len(ids("Luis Garcia")), 2)
+        self.assertEqual(ids("Luis Garcia", "sd"), [700004])
+        self.assertEqual(ids("Nobody"), [])
 
-    def test_active_player_wins_a_shared_name(self) -> None:
-        self.assertEqual([c["id"] for c in minor.candidates(HITS, "Carey Price")], [8400001])
-
-    def test_lookup_yes(self) -> None:
-        e, msg = minor.lookup(FakeNHL(), INFO, "Macklin Celebrini", None, DURING_WEEK_2, NY)
+    def test_prospect_without_mlb_time_is_eligible(self) -> None:
+        e, msg = minor.lookup(self.mlb, "Logan Reddemann", None)
         self.assertIsNone(msg)
         self.assertIn("**DBL minor-eligible: YES**", e["description"])
+        self.assertIn("COL, ACL Rockies", e["description"])
+        self.assertIn("no MLB debut yet", e["description"])
         text = json.dumps(e)
-        self.assertIn("By NHL data. Fantrax's age calculation is final (7.2).", text)
-        self.assertIn("Skater: 100 or fewer", text)
-        self.assertIn("**20** on September 29, 2026", text)
+        self.assertIn(f"**0** of {AB}", text)
+        self.assertIn("The Commissioner's determination is final (7.3).", text)
         self.assertTrue(embeds.fits([e]))
 
-    def test_lookup_goalie_and_no(self) -> None:
-        e, _ = minor.lookup(FakeNHL(), INFO, "Carey Price", None, DURING_WEEK_2, NY)
-        self.assertIn("Goalie: 50 or fewer", json.dumps(e))
-        self.assertIn("Within 1 games of the limit", json.dumps(e))
-        e, _ = minor.lookup(FakeNHL(), INFO, "Sebastian Aho", "CAR", DURING_WEEK_2, NY)
+    def test_over_the_at_bat_limit(self) -> None:
+        e, _ = minor.lookup(self.mlb, "Konnor Griffin", None)
         self.assertIn("**DBL minor-eligible: NO**", e["description"])
+        self.assertIn(f"312 career MLB at-bats (limit {AB})", json.dumps(e))
         self.assertIn("WHY NOT", json.dumps(e))
 
+    def test_at_bats_faced_as_a_pitcher_do_not_count(self) -> None:
+        e, _ = minor.lookup(self.mlb, "Prospect Pitcher", None)
+        text = json.dumps(e)
+        self.assertIn("**DBL minor-eligible: YES**", e["description"])
+        self.assertIn(f"**0** of {AB}", text)
+        self.assertIn(f"Within {mp.innings_text(3)} innings of a limit", text)
+
+    def test_near_the_at_bat_limit(self) -> None:
+        e, _ = minor.lookup(self.mlb, "Near Hitter", None)
+        self.assertIn("Within 5 at-bats of a limit", json.dumps(e))
+
     def test_lookup_unknown_and_ambiguous(self) -> None:
-        e, msg = minor.lookup(FakeNHL(), INFO, "Wayne Nobody", None, DURING_WEEK_2, NY)
+        e, msg = minor.lookup(self.mlb, "Wayne Nobody", None)
         self.assertIsNone(e)
-        self.assertIn("No NHL player matches", msg)
-        e, msg = minor.lookup(FakeNHL(), INFO, "Aho", None, DURING_WEEK_2, NY)
+        self.assertIn("No player matches", msg)
+        e, msg = minor.lookup(self.mlb, "Garcia", None)
         self.assertIsNone(e)
         self.assertIn("More than one player", msg)
-        self.assertIn("team: CAR", msg)
-
-    def test_estimated_opening_is_labeled(self) -> None:
-        e, _ = minor.lookup(FakeNHL(), None, "Macklin Celebrini", None, datetime(2027, 6, 1, tzinfo=UTC), NY)
-        self.assertIn("isn't in Fantrax yet", json.dumps(e))
+        self.assertIn("team: LAD", msg)
+        e, _ = minor.lookup(self.mlb, "Luis Garcia", "LAD")
+        self.assertIn("**DBL minor-eligible: NO**", e["description"])
 
 
 # ------------------------------------------------------------------- /myteam
@@ -832,48 +851,18 @@ class CacheTests(unittest.TestCase):
         self.assertEqual(bad.clearance().status, "error")
 
 
-class FakeResponse:
-    def __init__(self, data, status=200) -> None:
-        self._d, self.status_code = data, status
-
-    def json(self):
-        return self._d
-
-    def raise_for_status(self) -> None:
-        if self.status_code >= 400:
-            raise RuntimeError(self.status_code)
-
-
-class FakeSession:
-    def __init__(self) -> None:
-        self.headers: dict[str, str] = {}
-        self.urls: list[str] = []
-
-    def get(self, url, params=None, timeout=None):
-        self.urls.append(url)
-        if "search" in url:
-            return FakeResponse(HITS)
-        pid = int(url.split("/player/")[1].split("/")[0])
-        return FakeResponse(LANDINGS.get(pid), 200 if pid in LANDINGS else 404)
-
-
-class NHLLookupTests(unittest.TestCase):
-    def test_search_and_landing_are_cached(self) -> None:
-        from league_bot.shared import minors
-        m = minors()
-        session = FakeSession()
-        nhl = NHLLookup(session)
-        with patch.object(m, "MIN_GAP", 0):
-            nhl.search("Macklin Celebrini")
-            nhl.search("macklin  celebrini")
-            nhl.landing(8484801)
-            nhl.landing(8484801)
-            self.assertEqual(nhl.landing(1), {})  # 404 -> empty
-        self.assertEqual(len(session.urls), 3)
-        self.assertEqual(session.headers["User-Agent"], "DBL-LeagueBot/1.0")
-        e, _ = minor.lookup(nhl, INFO, "Macklin Celebrini", None, DURING_WEEK_2, NY)
-        self.assertIn("YES", e["description"])
-        self.assertEqual(len(session.urls), 3)
+class MlbLookupTests(unittest.TestCase):
+    def test_search_and_career_are_cached(self) -> None:
+        mlb, fetch = lookup_client()
+        mlb.search("Konnor Griffin")
+        mlb.search("konnor  griffin")
+        mlb.career(804606)
+        mlb.career(804606)
+        self.assertIsNone(mlb.career(1))   # MLB has no record
+        self.assertEqual(len(fetch.calls), 3)
+        e, _ = minor.lookup(mlb, "Konnor Griffin", None)
+        self.assertIn("NO", e["description"])
+        self.assertEqual(len(fetch.calls), 3)
 
 
 class EmbedHelperTests(unittest.TestCase):

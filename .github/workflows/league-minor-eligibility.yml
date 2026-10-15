@@ -1,7 +1,8 @@
 name: DBL Minor Eligibility
 run-name: DBL Minor Eligibility — ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'live' }}
 
-# Private alert when a rostered player stops being minor-eligible (Constitution Article VII).
+# Private alert when a rostered player stops being minor-eligible (Constitution Article VII):
+# more than 130 career MLB at-bats or 50 career MLB innings, from the MLB Stats API.
 # Timing lives in automation/scheduler/schedule.yaml; the DBL Scheduler starts
 # this workflow with mode=live. Posts go to the Commissioner Desk channel.
 

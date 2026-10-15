@@ -32,7 +32,7 @@ DBL Bucks Weeks, and closes the Awards Ballot at its deadline.
 
 League logic lives in the pure modules next to this one (rules, constitution,
 deadlines, minor, team, trade, pickem, pool, book, awards); blocking reads (Fantrax,
-the NHL API, the League Ledger CSV, events.yaml, the Playoff Pool boxes) run in
+the MLB Stats API, the League Ledger CSV, events.yaml, the Playoff Pool boxes) run in
 threads through league_data.
 """
 
@@ -57,7 +57,7 @@ from . import awards, book, constitution, deadlines, embeds, minor, pickem, rule
 from . import pool as pool_view
 from . import team as team_view
 from .config import BotConfig
-from .league_data import LeagueData, NHLLookup
+from .league_data import LeagueData, MlbLookup
 from .store import Store, parse
 
 from core import season  # noqa: E402  (automation/ is on sys.path via .league_data -> .shared)
@@ -342,14 +342,14 @@ class AwardsBallotView(discord.ui.View):
 
 class VoteBot(discord.Client):
     def __init__(self, cfg: BotConfig, store: Store, data: LeagueData | None = None,
-                 nhl: NHLLookup | None = None) -> None:
+                 mlb: MlbLookup | None = None) -> None:
         intents = discord.Intents.default()
         intents.members = True  # Review Panel draws read role members
         super().__init__(intents=intents, allowed_mentions=discord.AllowedMentions.none())
         self.cfg = cfg
         self.store = store
         self.data = data or LeagueData()
-        self._nhl = nhl
+        self._mlb = mlb
         self.tree = app_commands.CommandTree(self)
         self.rng = random.SystemRandom()
         self._pickem_after: datetime | None = None
@@ -362,10 +362,10 @@ class VoteBot(discord.Client):
         return [replace(f, orphaned=f.name in orphaned) for f in self.cfg.franchises]
 
     @property
-    def nhl(self) -> NHLLookup:
-        if self._nhl is None:
-            self._nhl = NHLLookup()
-        return self._nhl
+    def mlb(self) -> MlbLookup:
+        if self._mlb is None:
+            self._mlb = MlbLookup()
+        return self._mlb
 
     @staticmethod
     def role_ids(member: Any) -> set[int]:
@@ -1537,29 +1537,20 @@ class VoteBot(discord.Client):
             await interaction.response.send_message(embed=discord.Embed.from_dict(deadlines.embed(found)),
                                                     ephemeral=ephemeral)
 
-        @app_commands.command(name="minor", description="Is a player DBL minor-eligible? Age and NHL games (Article VII)")
-        @app_commands.describe(player="Player name, e.g. Macklin Celebrini",
-                               team="NHL team if two players share the name, e.g. CAR",
+        @app_commands.command(name="minor",
+                              description="Is a player DBL minor-eligible? Career MLB at-bats and innings (Article VII)")
+        @app_commands.describe(player="Player name, e.g. Konnor Griffin",
+                               team="MLB team if two players share the name, e.g. LAD",
                                ephemeral="Only you see the answer")
         @app_commands.guild_only()
         async def minor_cmd(interaction: discord.Interaction, player: str, team: Optional[str] = None,
                             ephemeral: bool = False) -> None:
             await interaction.response.defer(ephemeral=ephemeral, thinking=True)
-            now = utcnow()
-
-            def work() -> tuple[dict[str, Any] | None, str | None]:
-                try:
-                    info = bot.data.league_info()
-                except Exception as exc:  # opening day falls back to an estimate
-                    log.warning("Fantrax unavailable for /minor: %s", exc)
-                    info = None
-                return minor.lookup(bot.nhl, info, player, team, now, bot.cfg.timezone)
-
             try:
-                embed, message = await asyncio.to_thread(work)
+                embed, message = await asyncio.to_thread(minor.lookup, bot.mlb, player, team)
             except Exception as exc:
                 log.warning("/minor lookup failed: %s", exc)
-                await interaction.followup.send("Couldn't reach the NHL's stats service right now. Try again later.")
+                await interaction.followup.send("Couldn't reach MLB's stats service right now. Try again later.")
                 return
             if embed is None:
                 await interaction.followup.send(message or "No match.")

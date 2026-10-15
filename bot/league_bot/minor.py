@@ -1,212 +1,154 @@
 """/minor: is a player DBL minor-eligible? (Article VII)
 
-7.2  Age 25 or younger on the first day of the NHL regular season, measured on
-     that date for the whole Season. Fantrax's age calculation is final.
-7.3  Skaters: 100 or fewer career NHL regular-season games. Goalies: 50 or fewer.
+7.2  A player is minor-eligible while his career MLB regular-season totals stay
+     within MLB's rookie limits: no more than sport.MINORS_MAX_AB at-bats and no
+     more than sport.MINORS_MAX_OUTS outs pitched (50 innings). No age limit.
+7.3  Career totals keep accumulating during the Season. At-bats count only from
+     the player's own plate appearances (his hitting stats; the at-bats he
+     faced as a pitcher never count). The Commissioner's determination is final.
 
-The NHL lookups and the age and games rules are reused from
-automation/commissioner/minors.py. Opening day is the start of Fantrax Week 1,
-which the Constitution aligns with the NHL opener (Article V). When Fantrax has
-no calendar for the Season yet, October 1 is used and labeled as an estimate.
+The rule is sport.minor_eligible, the same one the nightly watch uses
+(automation/commissioner/minors.py), and the lookups go through
+core/mlb_people.py: a search across every level, so a prospect without MLB time
+is found too, and career MLB totals.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, datetime
 from typing import Any
-from zoneinfo import ZoneInfo
 
 from . import embeds as E
-from .shared import minors
+from . import shared  # noqa: F401  (puts automation/ on the path)
 
-from core import season  # noqa: E402  (path set up by .shared)
+from core import mlb_people as mp  # noqa: E402
+from core import sport  # noqa: E402
 
-NOTE = "By NHL data. Fantrax's age calculation is final (7.2)."
+NOTE = "By MLB's official career statistics. The Commissioner's determination is final (7.3)."
 FOOTER = "DBL LEAGUE BOT • MINOR ELIGIBILITY"
-ESTIMATED_OPENING = (10, 1)
-NEAR_LIMIT = 10
-
-
-@dataclass(frozen=True)
-class Opening:
-    day: date
-    season: int
-    estimated: bool
+NEAR_AB = 20      # "close to the limit" note within this many at-bats
+NEAR_OUTS = 15    # or this many outs (5 innings)
 
 
 @dataclass(frozen=True)
 class Verdict:
-    age: int
-    games: int
-    goalie: bool
-    limit: int
+    at_bats: int
+    outs: int
     eligible: bool
     reasons: tuple[str, ...]
 
+    @property
+    def innings(self) -> str:
+        return mp.innings_text(self.outs)
 
-def verdict(birth: str | date, games: int, goalie: bool, opening_day: date) -> Verdict:
-    """The Article VII test, with age measured on opening day (7.2) and the skater or goalie limit (7.3)."""
-    m = minors()
-    born = birth.isoformat() if isinstance(birth, date) else str(birth)
-    age = m.age_on(born, opening_day)
-    limit = m.MAX_GP["goalie" if goalie else "skater"]
+
+def verdict(at_bats: int, outs: int) -> Verdict:
+    """The Article VII test on career MLB regular-season at-bats (hitting only) and outs pitched."""
     reasons = []
-    if age > m.MAX_AGE:
-        reasons.append(f"age {age} on opening day (limit {m.MAX_AGE})")
-    if games > limit:
-        reasons.append(f"{games} career NHL regular-season games (limit {limit})")
-    return Verdict(age, games, goalie, limit, m.eligible(age, games, goalie), tuple(reasons))
+    if at_bats > sport.MINORS_MAX_AB:
+        reasons.append(f"{at_bats} career MLB at-bats (limit {sport.MINORS_MAX_AB})")
+    if outs > sport.MINORS_MAX_OUTS:
+        reasons.append(f"{mp.innings_text(outs)} career MLB innings (limit {sport.MINORS_MAX_OUTS // 3})")
+    return Verdict(at_bats, outs, sport.minor_eligible(at_bats, outs), tuple(reasons))
 
 
-def opening_day(info: dict[str, Any] | None, now: datetime, tz: ZoneInfo) -> Opening:
-    """Opening day of the Season minor eligibility is measured for.
-
-    During a Season (and before it, once Fantrax has its calendar) this is the
-    start of Week 1. After the Fantrax season ends, it is the next Season's
-    opener, estimated as October 1 until the new calendar exists.
-    """
-    local = now.astimezone(tz)
-    fallback_year = local.year if local.month >= 5 else local.year - 1
-    if info:
-        weeks = season.periods(info)
-        year = int(info.get("seasonYear") or 0) or None
-        if weeks and now <= weeks[-1].end:
-            first = weeks[0].start.astimezone(tz).date()
-            return Opening(first, year or first.year, False)
-        if weeks:
-            year = (year or weeks[0].start.astimezone(tz).year) + 1
-        fallback_year = year or fallback_year
-    return Opening(date(fallback_year, *ESTIMATED_OPENING), fallback_year, True)
-
-
-# ------------------------------------------------------------ NHL responses
+# ------------------------------------------------------------ MLB lookups
 def query_name(query: str) -> str:
     """Accept Fantrax-style "Last, First" as well as "First Last"."""
     query = " ".join(query.split())
-    if "," in query:
-        first, last = minors().fantrax_name(query)
-        return f"{first} {last}".strip()
-    return query
+    return mp.display_name(query) if "," in query else query
 
 
-def candidates(hits: Any, query: str, team: str | None = None) -> list[dict[str, Any]]:
-    """Players from the NHL search response that match the query, best tier first.
+def candidates(people: list[mp.Person], query: str, team: str | None = None) -> list[mp.Person]:
+    """Players from the MLB search that match the query, best tier first.
 
     Tiers: exact full name, then exact last name, then a partial name. When
     several share the exact name and only one is active, that one wins.
     """
-    m = minors()
-    rows = []
-    for h in hits if isinstance(hits, list) else []:
-        if not isinstance(h, dict) or not h.get("playerId") or not h.get("name"):
-            continue
-        try:
-            pid = int(h["playerId"])
-        except (TypeError, ValueError):
-            continue
-        rows.append({
-            "id": pid, "name": str(h["name"]), "position": str(h.get("positionCode") or ""),
-            "team": str(h.get("teamAbbrev") or h.get("lastTeamAbbrev") or ""),
-            "active": bool(h.get("active", True)),
-        })
+    rows = [p for p in people if isinstance(p, mp.Person)]
     if team:
-        wanted = m.TEAM_ALIAS.get(team.strip().upper(), team.strip().upper())
-        rows = [r for r in rows if r["team"].upper() == wanted]
-    q = m.norm(query_name(query))
+        wanted = mp.team_code(team)
+        rows = [p for p in rows if p.team == wanted]
+    q = mp.norm_name(query_name(query))
     if not q:
         return []
     tiers = (
-        lambda r: m.norm(r["name"]) == q,
-        lambda r: m.norm(r["name"].split()[-1]) == q,
-        lambda r: q in m.norm(r["name"]),
+        lambda p: mp.norm_name(p.name) == q,
+        lambda p: mp.norm_name(mp.split_name(p.name)[1]) == q,
+        lambda p: q in mp.norm_name(p.name),
     )
     for test in tiers:
-        found = [r for r in rows if test(r)]
+        found = [p for p in rows if test(p)]
         if found:
-            active = [r for r in found if r["active"]]
+            active = [p for p in found if p.active]
             return active if len(found) > 1 and len(active) == 1 else found
     return []
 
 
-def landing_facts(landing: Any) -> dict[str, Any]:
-    """Birth date, career regular-season games and position from the NHL player landing page."""
-    landing = landing if isinstance(landing, dict) else {}
-    first = (landing.get("firstName") or {}).get("default", "")
-    last = (landing.get("lastName") or {}).get("default", "")
-    totals = (landing.get("careerTotals") or {}).get("regularSeason") or {}
-    try:
-        games = int(totals.get("gamesPlayed") or 0)
-    except (TypeError, ValueError):
-        games = 0
-    return {
-        "name": f"{first} {last}".strip(),
-        "birthDate": landing.get("birthDate"),
-        "games": games,
-        "position": str(landing.get("position") or ""),
-        "team": str(landing.get("currentTeamAbbrev") or ""),
-    }
+def _where(p: mp.Person) -> str:
+    if p.team and p.level_team and p.level_team != mp.TEAM_NAMES.get(p.team):
+        return f"{p.team}, {p.level_team}"
+    return p.team or p.level_team or "no team"
 
 
-def ambiguous_message(query: str, found: list[dict[str, Any]]) -> str:
-    shown = ", ".join(f"{r['name']} ({r['team'] or 'no team'}, {r['position'] or '?'})" for r in found[:6])
+def ambiguous_message(query: str, found: list[mp.Person]) -> str:
+    shown = ", ".join(f"{p.name} ({_where(p)}, {p.position or '?'})" for p in found[:6])
     more = f" and {len(found) - 6} more" if len(found) > 6 else ""
     return (f"More than one player matches “{E.clip(query, 60)}”: {shown}{more}. "
-            "Use the full name, or add the NHL team, e.g. `team: CAR`.")
+            "Use the full name, or add the MLB team, e.g. `team: LAD`.")
 
 
 def unknown_message(query: str) -> str:
-    return (f"No NHL player matches “{E.clip(query, 60)}”. Check the spelling. The lookup uses the NHL's "
-            "player search, so a prospect without an NHL player page can't be found.")
+    return (f"No player matches “{E.clip(query, 60)}”. Check the spelling. The lookup uses MLB's player "
+            "search, which covers the majors and the affiliated minor leagues; an amateur who hasn't signed "
+            "can't be found.")
 
 
-def lookup(nhl: Any, info: dict[str, Any] | None, query: str, team: str | None, now: datetime,
-           tz: ZoneInfo) -> tuple[dict[str, Any] | None, str | None]:
+def lookup(mlb: Any, query: str, team: str | None) -> tuple[dict[str, Any] | None, str | None]:
     """(embed, None) for one matched player, or (None, message) when unknown or ambiguous.
 
-    ``nhl`` is an NHLLookup (search and landing); blocking, so run it in a thread.
+    ``mlb`` is an MlbLookup (search and career totals); blocking, so run it in a thread.
     """
-    found = candidates(nhl.search(query_name(query)), query, team)
+    found = candidates(mlb.search(query_name(query)), query, team)
     if not found:
         return None, unknown_message(query + (f" ({team})" if team else ""))
     if len(found) > 1:
         return None, ambiguous_message(query, found)
     hit = found[0]
-    facts = landing_facts(nhl.landing(hit["id"]))
-    if not facts["birthDate"]:
-        return None, f"The NHL has no birth date for {hit['name']}, so the bot can't check eligibility."
-    position = facts["position"] or hit["position"]
-    opening = opening_day(info, now, tz)
-    v = verdict(str(facts["birthDate"]), facts["games"], position == "G", opening.day)
-    player = {"name": facts["name"] or hit["name"], "team": facts["team"] or hit["team"],
-              "position": position, "birthDate": facts["birthDate"]}
-    return embed(player, v, opening), None
+    got = mlb.career(hit.id)
+    if got is None:
+        return None, f"MLB has no record for {hit.name} right now, so the bot can't check eligibility."
+    person, career = got
+    v = verdict(career.at_bats, career.outs)
+    return embed(person or hit, v), None
 
 
-def _day(d: date) -> str:
-    return f"{d:%B} {d.day}, {d.year}"
-
-
-def embed(player: dict[str, Any], v: Verdict, opening: Opening) -> dict[str, Any]:
-    kind = "Goalie" if v.goalie else "Skater"
-    about = " • ".join(x for x in (player.get("team") or "No NHL team", player.get("position"),
-                                    f"born {player.get('birthDate')}") if x)
-    estimate = (f"\nOpening day for Season {opening.season} isn't in Fantrax yet, so this uses {_day(opening.day)}."
-                if opening.estimated else "")
+def embed(player: mp.Person, v: Verdict) -> dict[str, Any]:
+    about = " • ".join(x for x in (_where(player), player.position,
+                                    f"born {player.birth_date}" if player.birth_date else "",
+                                    f"MLB debut {player.debut}" if player.debut else "no MLB debut yet") if x)
     note = NOTE
-    if v.eligible and v.games >= v.limit - NEAR_LIMIT:
-        note += f" Within {v.limit - v.games} games of the limit; career games keep counting during the Season (7.3)."
+    if v.eligible:
+        near = []
+        if v.at_bats >= sport.MINORS_MAX_AB - NEAR_AB:
+            near.append(f"{sport.MINORS_MAX_AB - v.at_bats} at-bats")
+        if v.outs >= sport.MINORS_MAX_OUTS - NEAR_OUTS:
+            near.append(f"{mp.innings_text(sport.MINORS_MAX_OUTS - v.outs)} innings")
+        if near:
+            note += f" Within {' and '.join(near)} of a limit; career totals keep counting during the Season (7.3)."
     fields = [
-        ("AGE ON OPENING DAY", f"**{v.age}** on {_day(opening.day)} (Season {opening.season}). Measured on that "
-                               f"date for the whole Season: 25 or younger (7.2).{estimate}"),
-        ("CAREER NHL GAMES", f"**{v.games}** regular-season games"),
-        ("THRESHOLD", f"{kind}: {v.limit} or fewer career NHL regular-season games (7.3)"),
+        ("CAREER MLB AT-BATS", f"**{v.at_bats}** of {sport.MINORS_MAX_AB} (regular season, as a hitter; at-bats "
+                               "faced as a pitcher don't count)"),
+        ("CAREER MLB INNINGS", f"**{v.innings}** of {sport.MINORS_MAX_OUTS // 3} (regular season)"),
+        ("THRESHOLD", f"No more than {sport.MINORS_MAX_AB} career MLB at-bats and no more than "
+                      f"{sport.MINORS_MAX_OUTS // 3} career MLB innings: MLB's rookie limits. No age limit (7.2)."),
     ]
     if not v.eligible:
-        fields.append(("WHY NOT", "; ".join(v.reasons).capitalize() + "."))
+        why = "; ".join(v.reasons)
+        fields.append(("WHY NOT", why[:1].upper() + why[1:] + "."))
     fields.append(("NOTE", note))
     return E.card(
-        f"MINOR ELIGIBILITY — {str(player.get('name') or '').upper()}",
+        f"MINOR ELIGIBILITY — {player.name.upper()}",
         f"{about}\n\n**DBL minor-eligible: {'YES' if v.eligible else 'NO'}**",
         fields,
         FOOTER,

@@ -66,15 +66,19 @@ The first run only saves a baseline. Use mode `test` for a sample alert and
 
 ## Minor-eligibility watch
 
-`minors.py` (workflow DBL Minor Eligibility, once a day at 7 AM) reads birth
-dates and career games from the NHL's public stats API and matches your
-rostered players to NHL players by name. It posts here when a rostered player
-crosses the Article VII line since the last run: turns 26, or passes 100 career
-games (50 for goalies). Fantrax's data feed has no ages or career games and does
-not say who is in a minor slot, so the message tells you to check whether he is
-in one; his franchise then has three calendar days (7.4). Players who were
-already ineligible are never repeated. The first run only saves a baseline.
-`preview` mode also prints any players it could not match to an NHL player.
+`minors.py` (workflow DBL Minor Eligibility, once a day at 7 AM) matches every
+rostered player to an MLB player by name, MLB team and position and reads his
+career MLB regular-season totals from the MLB Stats API
+(`automation/core/mlb_people.py`). It posts here when a rostered player crosses
+an Article VII limit since the last run: more than 130 career at-bats or more
+than 50 career innings pitched (the numbers come from `automation/core/sport.py`).
+At-bats count from his hitting stats only; the at-bats a pitcher faced never
+count. There is no age limit. The message says whether Fantrax shows the player
+in a minor slot right now; if he is, his franchise has three calendar days after
+notice (7.4). Players who were already ineligible are never repeated. The first
+run only saves a baseline. `preview` mode also prints any players it could not
+match to an MLB player (a name shared by two players on no clear team, or an
+amateur MLB has no record of yet).
 
 ## One-time setup
 
