@@ -14,17 +14,17 @@ settings:
 channels:
   league-calendar:
     secret: LEAGUE_WEBHOOK_LEAGUE_CALENDAR
-    color: 0xC68F15
+    color: 0x0C2340
     label: "LEAGUE CALENDAR"
   league-announcements:
     secret: LEAGUE_WEBHOOK_LEAGUE_ANNOUNCEMENTS
-    color: 0xD4AF37
+    color: 0xBD3039
     label: "LEAGUE ANNOUNCEMENT"
   # Private commissioner channel: reminders for manual work that keeps the
   # league on track. Fantrax-timed reminders live in commissioner/tasks.yaml.
   commissioner-desk:
     secret: LEAGUE_WEBHOOK_COMMISSIONER_DESK
-    color: 0xFFB81C
+    color: 0xBD3039
     label: "COMMISSIONER DESK"
 
 # Keep events disabled until their actual DBL dates are finalized.
@@ -41,6 +41,16 @@ channels:
 events:
   # Draft countdowns are posted by the Draft Center from the Fantrax draft date
   # (automation/draft/), so there are no draft events here.
+
+  - id: commissioner-lockout-decision
+    enabled: true
+    title: "Launch decision: is MLB in a lockout?"
+    type: commissioner
+    starts_at: "2026-12-02T09:00:00"
+    channel: commissioner-desk
+    priority: high
+    description: "MLB's labor agreement expired at the end of December 1. If a lockout or strike is in effect today, the inaugural Season becomes 2028 (Section 1.6): hold recruiting, collect no dues and buy no Fantrax Premium for 2027. If not, open recruiting, publish the Season 2027 League Calendar, create the Fantrax league and buy Premium."
+    reminders: [3d, 1d, start]
 
   - id: trade-deadline
     enabled: false
@@ -96,7 +106,7 @@ events:
     enabled: false
     title: "Publish the League Calendar"
     type: commissioner
-    starts_at: null   # NHL schedule release date + 14 days (Art. 5.5)
+    starts_at: null   # MLB schedule release date + 14 days (Art. 5.5); for Season 2027, before owners are invited
     channel: commissioner-desk
     priority: high
     description: "The League Calendar is due within 14 days after the NHL releases its schedule. Convert every formula date, post it in 📅│league-calendar and create the Sesh events."
@@ -156,7 +166,7 @@ events:
     enabled: false
     title: "Renew the league: trading reopens"
     type: commissioner
-    starts_at: null   # The day after the Stanley Cup Final ends (Art. 5.9, 11.6)
+    starts_at: null   # The day after the World Series ends (Art. 5.9, 11.6)
     channel: commissioner-desk
     priority: high
     description: "Renew the league in Fantrax for next season today; Fantrax lets you renew a day or two after the NHL regular season, but wait until now. Renewal reopens all transactions, including trades and draft-pick trades, keeps traded picks and Premium, and resets every FAAB budget to $1,000: add the consolation champion's $50 by hand (10.7) and don't use Recalculate free agent budgets afterward. If the renewed league has a new league ID, run DBL Season Rollover with it. Then announce that trading is open."
@@ -186,10 +196,10 @@ events:
     enabled: true
     title: "Confirm when amendment votes open"
     type: commissioner
-    starts_at: "2027-08-02T09:00:00"
+    starts_at: "2027-09-01T09:00:00"
     channel: commissioner-desk
     priority: normal
-    description: "No amendment vote before the Offseason after Season 2027 (20.1). Once the Season 2027 League Calendar is published, check amendment_votes_from in bot/config.yaml (now 2028-04-10) is the day after the Championship's final scoring period, and change it if not."
+    description: "No amendment vote before the Offseason after Season 2027 (20.1). Once the Season 2027 League Calendar is published, check amendment_votes_from in bot/config.yaml is 2027-09-27, the day after the Championship's final scoring period (Sunday, September 26, 2027), and change it if not."
     reminders: [start]
 
   - id: commissioner-premium-renewal
