@@ -3,7 +3,7 @@
   "section": "Before owners join",
   "title": "Recruiting trailer (45 seconds)",
   "notes": [
-   "Post it wherever you recruit and link it in invite messages. Templates: PSBL Hype Trailer, 01 Brand Kit, bed-hype-45s."
+   "Post it wherever you recruit and link it in invite messages. Templates: PSBL Hype Trailer, 01 Brand Kit, bed-hype-45s. If an MLB lockout is in effect on December 2, 2026, the first season becomes 2028 and the Startup Draft moves a year with it (1.6), so change the year on the end card and in the last line."
   ],
   "rows": [
    [
@@ -13,18 +13,18 @@
    ],
    [
     "0:03",
-    "Arena and crowd (from the hype intro)",
+    "Ballpark and crowd (from the hype intro)",
     "Twelve franchises. One league office. Built to last."
    ],
    [
     "0:08",
     "PSBL logo",
-    "This is the Pitch Slapped Baseball League, a dynasty fantasy hockey league on Fantrax."
+    "This is the Pitch Slapped Baseball League, a dynasty fantasy baseball league on Fantrax."
    ],
    [
     "0:14",
-    "Card: 20 ACTIVE · 10 MINORS",
-    "Draft a franchise and keep it for years. Twenty active players, ten minor-league spots and a five-round draft every summer."
+    "Card: 18 ACTIVE · 15 MINORS",
+    "Draft a franchise and keep it for years. Eighteen active players, fifteen minor-league spots and a five-round draft every winter."
    ],
    [
     "0:23",
@@ -43,8 +43,8 @@
    ],
    [
     "0:38",
-    "End card: FOUNDING OWNERS WANTED · $150 A SEASON · STARTUP DRAFT SUMMER 2027",
-    "Twelve founding owners. The Startup Draft is summer 2027. Message me to claim your franchise."
+    "End card: FOUNDING OWNERS WANTED · $200 A SEASON · STARTUP DRAFT JANUARY 2027",
+    "Twelve founding owners. The Startup Draft is January 2027. Message me to claim your franchise."
    ]
   ],
   "header": [
@@ -59,8 +59,8 @@
   "notes": [
    "Pin it in 👋🏻│welcome. Templates: PSBL Talking Head, 01 Brand Kit (lower third: [YOUR NAME] · COMMISSIONER at 0:03, end card at the close).",
    "Hey, I'm [your first name], the Commissioner of the PSBL, and welcome to the league.",
-   "You're one of twelve founding owners. That means the record book starts with you: the first champion, the first trade of the year, the first banner in the rafters.",
-   "Here's how it works. Fantrax is where the hockey happens: your roster, your lineup, trades and scoring. Discord is the league office and the clubhouse. That's where you'll find the news, the votes, the rulings and a lot of chirping.",
+   "You're one of twelve founding owners. That means the record book starts with you: the first champion, the first trade of the year, the first banner in the hall of champions.",
+   "Here's how it works. Fantrax is where the baseball happens: your roster, your lineup, trades and scoring. Discord is the league office and the clubhouse. That's where you'll find the news, the votes, the rulings and a lot of chirping.",
    "Before anything else, read the Constitution. It's short, and joining the league means you've agreed to it. Then pay your dues through Fantrax Treasurer, name your franchise and say hello in the GM lounge.",
    "If you have a question about a rule, ask in rules-questions. If it's private, open a ticket and it comes straight to me.",
    "Build something you're proud of. Trade often. Set your lineup. I'll see you at the draft."
@@ -88,12 +88,12 @@
    [
     "0:30",
     "📰 THE WIRE",
-    "The Wire is NHL news, posted automatically: breaking news, injuries, transactions and prospects. Talk about any of it in news-desk."
+    "The Wire is MLB news, posted automatically: breaking news, injuries, transactions and prospects. Talk about any of it in news-desk."
    ],
    [
     "0:45",
     "💼 GENERAL MANAGERS",
-    "General Managers is the clubhouse. GM lounge for league talk, game-day for live games and starting goalies, chirps-and-memes for trash talk, and off-topic and media for everything else."
+    "General Managers is the clubhouse. GM lounge for league talk, game-day for live games, probable pitchers and Pick'em, chirps-and-memes for trash talk, media for the morning recap of last night's games, and off-topic for everything else."
    ],
    [
     "1:05",
@@ -117,7 +117,7 @@
    ],
    [
     "2:10",
-    "🎯 DRAFT CENTER and 🏒 FRANCHISE HQ",
+    "🎯 DRAFT CENTER and ⚾ FRANCHISE HQ",
     "The Draft Center comes alive around each draft. Franchise HQ is yours: the franchise directory, your team's news and your roster."
    ],
    [
@@ -147,17 +147,17 @@
    [
     "0:10",
     "Card: ROSTER",
-    "Every team has twenty active players: three centers, three left wings, three right wings, three forwards of any kind, six defensemen and two goalies. Add six reserves, ten minor-league spots and up to five IR spots."
+    "Every team has eighteen active players: a catcher, one at each infield spot, three outfielders, two utility hitters, five starting pitchers and three relievers. Add eight reserves, fifteen minor-league spots and up to four IL spots."
    ],
    [
     "0:28",
     "Card: MINORS",
-    "A minor-leaguer has to be 25 or younger on the NHL's opening night, as Fantrax calculates it. Skaters stay eligible through 100 career NHL games, goalies through 50. When Fantrax flags a player, you have three days to move him."
+    "A minor-leaguer can have no more than 130 career MLB at-bats and no more than 50 career innings pitched: MLB's rookie limits. There's no age limit. Once he passes either one, you have three days to move him."
    ],
    [
     "0:45",
-    "Card: LINEUPS AND GOALIES",
-    "Lineups are daily. Each player locks about a minute before his game. Only four goalie starts count each week, and eight across the two-week Championship."
+    "Card: LINEUPS AND STARTS",
+    "Lineups are daily. Each player locks about a minute before his game. Only seven pitcher starts count each week, and fourteen across the two-week Championship."
    ],
    [
     "1:00",
@@ -182,12 +182,12 @@
    [
     "2:05",
     "Card: DRAFT ORDER",
-    "The Annual Draft is five rounds every summer. The six non-playoff teams pick first, ordered by Potential Points, so benching your stars won't move you up."
+    "The Annual Draft is five rounds every winter. The six non-playoff teams pick first, ordered by Potential Points, so benching your stars won't move you up."
    ],
    [
     "2:20",
     "Card: MONEY",
-    "Dues are a hundred and fifty dollars a season. Most of it goes to prizes: six-fifty for the champion, three-fifty for the runner-up, one-fifty for third and two hundred for the Presidents' Trophy. Two hundred a season builds the Dynasty Pot."
+    "Dues are two hundred dollars a season. Most of it goes to prizes: eight-fifty for the champion, four-fifty for the runner-up, two hundred for third and two-fifty for the Presidents' Trophy. Three hundred a season builds the Dynasty Pot."
    ],
    [
     "2:40",
@@ -220,23 +220,23 @@
    ],
    [
     "0:04",
-    "Card: SKATERS with every value",
-    "For skaters, a goal is five points and an assist is two point nine five. A shot on goal is point five five, a block point three five and a hit point two. Each penalty minute costs point five four."
+    "Card: HITTERS with every value",
+    "For hitters, a single is one point, a double two, a triple three, a homer four. Runs, RBIs, walks and hit-by-pitches are one each. Steals are two. Caught stealing costs one, a strikeout half a point."
    ],
    [
     "0:20",
-    "Card: GOALIES with every value",
-    "Goalies get six and a half points just for starting, point four nine for every save, and lose five for every goal against. A goalie who scores or sets one up gets the same points as a skater."
+    "Card: PITCHERS with every value",
+    "Pitchers get a point per out, three an inning, and one and a quarter per strikeout. Hits, walks and hit batters cost one, earned runs two. Wins are two, losses minus one, saves six, holds four."
    ],
    [
     "0:35",
-    "Tiles: +15.90, +11.20, −14.19",
-    "So two goals, an assist, five shots and a hit is a fifteen-point-nine night. Thirty saves on thirty-two shots is eleven-twenty. And a goalie who gives up six on twenty-five shots costs you fourteen."
+    "Tiles: +16.50, +18.75, −11.50",
+    "So a two-homer night with three runs and four RBIs is sixteen-fifty. A six-inning win with seven strikeouts is eighteen seventy-five. And a starter knocked out in the fourth after six runs costs you eleven-fifty."
    ],
    [
     "0:50",
     "Card: NOT SCORED",
-    "There are no points for wins, shutouts, plus-minus or power-play bonuses. Shots, blocks and hits matter more than you'd think."
+    "No points for quality starts, complete games, shutouts, blown saves or bonuses. Steals, holds and strikeouts add up fast."
    ],
    [
     "0:58",
@@ -260,22 +260,22 @@
    [
     "0:00",
     "Title: WHERE THE MONEY GOES",
-    "Every franchise pays a hundred and fifty dollars a season. Twelve franchises make eighteen hundred dollars, and here's where all of it goes."
+    "Every franchise pays two hundred dollars a season. Twelve franchises make twenty-four hundred dollars, and here's where all of it goes."
    ],
    [
     "0:08",
     "Card: PRIZES",
-    "Six-fifty to the PSBL Champion, three-fifty to the runner-up, one-fifty for third place, and two hundred for the Presidents' Trophy, the best regular-season record."
+    "Eight-fifty to the PSBL Champion, four-fifty to the runner-up, two hundred for third place, and two-fifty for the Presidents' Trophy, the best regular-season record."
    ],
    [
     "0:20",
     "Card: DYNASTY POT",
-    "Two hundred goes into the Dynasty Pot. The first franchise to win three championships in the same cycle takes all of it."
+    "Three hundred goes into the Dynasty Pot. The first franchise to win three championships in the same cycle takes all of it."
    ],
    [
     "0:30",
     "Card: RESERVE AND LEAGUE SERVICES",
-    "A hundred and fifty covers Fantrax Premium and other approved costs, and whatever's left joins the Dynasty Pot. The last hundred is the Commissioner's allocation for running the league."
+    "Two hundred covers Fantrax Premium and League Bot hosting, and whatever's left joins the Dynasty Pot. The last hundred and fifty is the Commissioner's allocation for running the league."
    ],
    [
     "0:40",
@@ -298,7 +298,7 @@
   "rows": [
    [
     "Title: MOVING A PLAYER TO MINORS",
-    "After the Startup Draft, every team has thirty-six players and a twenty-six-player limit. Ten of them have to go to minors, and you move them yourself."
+    "After the Startup Draft, every team has forty-one players and a twenty-six-player limit. Fifteen of them have to go to minors, and you move them yourself."
    ],
    [
     "Your roster in Fantrax, lineup editor open",
@@ -306,19 +306,19 @@
    ],
    [
     "Dragging a player into a Minors slot, then saving",
-    "Move a prospect into one of your ten minor-league slots, then save. [show]"
+    "Move a prospect into one of your fifteen minor-league slots, then save. [show]"
    ],
    [
     "Card: WHO QUALIFIES",
-    "To qualify, a player has to be 25 or younger on the NHL's opening night, with a hundred or fewer career NHL games. For goalies it's fifty."
+    "To qualify, a player can have no more than a hundred and thirty career MLB at-bats and fifty career innings pitched. There's no age limit."
    ],
    [
     "Card: IF HE STOPS QUALIFYING",
-    "If Fantrax flags one as ineligible later, you have three days to promote, trade or drop him. Any illegal roster has to be fixed within twenty-four hours."
+    "If he passes either limit, you have three days after notice to promote, trade or drop him. Any illegal roster has to be fixed within twenty-four hours."
    ],
    [
     "Roster counts",
-    "Check your counts when you're done: twenty active, six reserve, ten minors."
+    "Check your counts when you're done: eighteen active, eight reserve, fifteen minors."
    ]
   ],
   "header": [
@@ -337,23 +337,23 @@
    ],
    [
     "Lineup page, today's games showing",
-    "Check who plays today and move anyone without a game to your reserves. [show]"
+    "Check who plays today and bench hitters without a game and starters who aren't pitching. [show]"
    ],
    [
-    "Card: 3 C · 3 LW · 3 RW · 3 F · 6 D · 2 G",
-    "You start three centers, three left wings, three right wings, three F, six defensemen and two goalies. The F slots take any forward."
+    "Card: C · 1B · 2B · 3B · SS · 3 OF · 2 UTIL",
+    "You start a catcher, one at each infield spot, three outfielders, two utility hitters, five starters and three relievers. UTIL takes any hitter."
    ],
    [
     "Card: LOCKS",
     "Each player locks about a minute before his own game, so you can still change players who haven't started."
    ],
    [
-    "Card: GOALIES",
-    "Only four goalie starts count each week, so plan your starts."
+    "Card: PITCHER STARTS",
+    "Seven pitcher starts count each week, so plan your starts."
    ],
    [
     "🔔│lineup-alerts",
-    "Want a reminder? Ask me to add you to Lineup Alerts and you'll get a ping around 3 p.m. when a starter has no game and a reserve does."
+    "Want a reminder? Ask me to add you to Lineup Alerts: a ping around 3 p.m. when a hitter is off or a starter isn't pitching, and a reserve could play."
    ]
   ],
   "header": [
@@ -368,7 +368,7 @@
   "rows": [
    [
     "Title: PAYING YOUR DUES",
-    "Dues are a hundred and fifty dollars per franchise each season, and they're paid through Fantrax Treasurer."
+    "Dues are two hundred dollars per franchise each season, and they're paid through Fantrax Treasurer."
    ],
    [
     "Fantrax: the league's Treasurer page",
@@ -403,7 +403,7 @@
   "rows": [
    [
     "Title: YOUR DRAFT QUEUE",
-    "The Startup Draft is thirty-six rounds with a four-hour clock, so you won't be at your desk for every pick. That's what the queue is for."
+    "The Startup Draft is forty-one rounds with a two-hour clock, so you won't be at your desk for every pick. That's what the queue is for."
    ],
    [
     "Fantrax draft room: adding players to the queue",
@@ -485,7 +485,7 @@
    ],
    [
     "Card: DEADLINE",
-    "The deadline is 11:59 p.m. Eastern on the Sunday that ends Week 20. Trading reopens the day after the Stanley Cup Final."
+    "The deadline is 11:59 p.m. Eastern on the Sunday that ends Week 20. Trading reopens the day after the World Series ends."
    ],
    [
     "📣│trade-block",
@@ -499,16 +499,16 @@
  },
  {
   "section": "How-tos",
-  "title": "Using IR (30 seconds)",
+  "title": "Using the IL (30 seconds)",
   "notes": [],
   "rows": [
    [
-    "Title: INJURED RESERVE",
-    "You have up to five IR spots."
+    "Title: INJURED LIST",
+    "You have up to four IL spots."
    ],
    [
-    "Fantrax: moving an injured player to IR",
-    "A player Fantrax lists as IR-eligible can move there, and he stops counting against your roster limit. [show]"
+    "Fantrax: moving an injured player to the IL",
+    "A player Fantrax lists as IL-eligible can move there, and he stops counting against your roster limit. [show]"
    ],
    [
     "Card: COMING BACK",
@@ -596,7 +596,7 @@
     "Slash tradecheck checks a trade against the rules before you send it: picks, prepayment, roster limits and the deadline. It never grades a trade."
    ],
    [
-    "🏒│game-day: Pick'em and PSBL Bucks",
+    "⚾│game-day: Pick'em and PSBL Bucks",
     "In game-day there's a weekly Pick'em and PSBL Bucks, a play-money sportsbook on our matchups. You can't bet on your own."
    ],
    [
@@ -623,18 +623,18 @@
    ],
    [
     "0:03",
-    "Empty rink",
+    "Empty ballpark",
     "Every player in the pool is unowned. For one more day."
    ],
    [
     "0:08",
-    "Card: 12 FRANCHISES · 36 ROUNDS",
-    "Twelve franchises. Thirty-six rounds. Four hundred and thirty-two picks."
+    "Card: 12 FRANCHISES · 41 ROUNDS",
+    "Twelve franchises. Forty-one rounds. Four hundred and ninety-two picks."
    ],
    [
     "0:14",
-    "Card: SNAKE · 4-HOUR CLOCK",
-    "It's a slow snake draft with a four-hour clock, and the clock sleeps from midnight to 8 AM Eastern."
+    "Card: SNAKE · 2-HOUR CLOCK",
+    "It's a slow snake draft with a two-hour clock, and the clock sleeps from midnight to 8 AM Eastern."
    ],
    [
     "0:21",
@@ -649,7 +649,7 @@
    [
     "0:33",
     "09 Countdown",
-    "The rosters you build this week are the rosters you'll be trading for years."
+    "The rosters you build this winter are the rosters you'll be trading for years."
    ],
    [
     "0:39",
@@ -716,7 +716,7 @@
    [
     "0:00",
     "Title card: THE ANNUAL DRAFT ORDER",
-    "Every summer the PSBL holds a five-round draft. Here's how the order is set."
+    "Every winter the PSBL holds a five-round draft. Here's how the order is set."
    ],
    [
     "0:06",
@@ -769,7 +769,7 @@
   "section": "Season",
   "title": "Opening night (45 seconds)",
   "notes": [
-   "Post it in 📢│announcements the morning of the NHL's opening night. Templates: PSBL Hype Trailer, 09 Countdown (set to the first puck drop), bed-hype-45s."
+   "Post it in 📢│announcements the morning of MLB's Opening Night. Templates: PSBL Hype Trailer, 09 Countdown (set to the first pitch), bed-hype-45s."
   ],
   "rows": [
    [
@@ -779,7 +779,7 @@
    ],
    [
     "0:03",
-    "Arena lights up",
+    "Ballpark lights up",
     "The draft is done. The trades are in. Tonight, it counts."
    ],
    [
@@ -795,12 +795,12 @@
    [
     "0:19",
     "Card: SET YOUR LINEUP",
-    "Lineups lock about a minute before each player's game, so set yours before puck drop tonight."
+    "Lineups lock about a minute before each player's game, so set yours before first pitch tonight."
    ],
    [
     "0:25",
-    "Card: 4 GOALIE STARTS · 5 ADDS",
-    "Four goalie starts count each week, and you get five pickups. Spend them wisely."
+    "Card: 7 PITCHER STARTS · 5 ADDS",
+    "Seven pitcher starts count each week, and you get five pickups. Spend them wisely."
    ],
    [
     "0:31",
@@ -809,8 +809,8 @@
    ],
    [
     "0:37",
-    "End card: PUCK DROP · [TIME] ET",
-    "Puck drops at [time] Eastern. Good luck, everybody. Except [rival franchise]."
+    "End card: FIRST PITCH · [TIME] ET",
+    "First pitch is at [time] Eastern. Good luck, everybody. Except [rival franchise]."
    ]
   ],
   "header": [
@@ -824,7 +824,7 @@
   "title": "Week in 60 Seconds (fill-in script, every week)",
   "notes": [
    "Post it in 📰│weekly-recap on Monday, after the League Bot's recap goes up. Pull every number from that recap, the Weekly Awards and the standings post. Templates: PSBL Week in 60, 02 Week in 60, bed-week-60s. Keep it to about 150 words. Cut a line before you rush one.",
-   "Optional lines to swap in when they happen: a trade (\"The big deal of the week: [team] sent [player] to [team] for [return].\"), a closest game under 2 points, a hat trick bounty, or the playoff line once the race starts (\"Six spots, [N] weeks left. [Team] is [X] points back of sixth.\")."
+   "Optional lines to swap in when they happen: a trade (\"The big deal of the week: [team] sent [player] to [team] for [return].\"), a closest game under 5 points, a bounty claim, or the playoff line once the race starts (\"Six spots, [N] weeks left. [Team] is [X] points back of sixth.\")."
   ],
   "rows": [
    [
@@ -947,8 +947,8 @@
    ],
    [
     "0:34",
-    "Card: TRADES REOPEN AFTER THE CUP FINAL",
-    "That's it until the day after the Stanley Cup Final. What you have now is what you're playing for."
+    "Card: TRADES REOPEN AFTER THE WORLD SERIES",
+    "That's it until the day after the World Series. What you have now is what you're playing for."
    ],
    [
     "0:41",
@@ -979,7 +979,7 @@
    "06 Clinched renders the whole clip. Post it in 🏁│playoff-race. Sound: sfx-clinch. Use one of these:",
    "• \"[Team] has clinched a playoff spot.\"",
    "• \"[Team] has clinched a first-round bye.\"",
-   "• \"[Team] has clinched the Presidents' Trophy and the two hundred dollars that comes with it.\"",
+   "• \"[Team] has clinched the Presidents' Trophy and the two hundred and fifty dollars that comes with it.\"",
    "• \"[Team] has been eliminated from playoff contention. Next stop, the consolation bracket.\"",
    "Only post a clinch once it's certain in the standings, tiebreakers included (15.4). If you're not sure, wait a week."
   ],
@@ -1050,7 +1050,7 @@
   "title": "Round preview (45 seconds, once per round)",
   "notes": [
    "Post it in 🏁│playoff-race the Monday each round starts. Templates: PSBL Playoff Show, 07 Playoff Bracket, bed-hype-45s. Read one block per matchup.",
-   "For the Championship preview, swap the last line for \"Two weeks. Total points. Eight goalie starts and ten pickups across both weeks.\""
+   "For the Championship preview, swap the last line for \"Two weeks. Total points. Fourteen pitcher starts and ten pickups across both weeks.\""
   ],
   "rows": [
    [
@@ -1070,8 +1070,8 @@
    ],
    [
     "0:20",
-    "Card: GAMES THIS WEEK",
-    "[Team] has [N] NHL games this week. [Team] has [N]. That could decide it."
+    "Card: STARTS THIS WEEK",
+    "[Team] has [N] pitcher starts this week. [Team] has [N]. That could decide it."
    ],
    [
     "0:26",
@@ -1124,13 +1124,13 @@
    ],
    [
     "0:29",
-    "Card: $650 · BANNER · DYNASTY POT",
-    "The winner takes six hundred and fifty dollars, a banner in the hall of champions, and one step toward the Dynasty Pot."
+    "Card: $850 · BANNER · DYNASTY POT",
+    "The winner takes eight hundred and fifty dollars, a banner in the hall of champions, and one step toward the Dynasty Pot."
    ],
    [
     "0:37",
     "09 Countdown",
-    "The runner-up gets three fifty. Nobody remembers the runner-up."
+    "The runner-up gets four fifty. Nobody remembers the runner-up."
    ],
    [
     "0:42",
@@ -1203,7 +1203,7 @@
    [
     "0:06",
     "Score card",
-    "[Team] beat [team], [score] to [score], and takes third place and one hundred and fifty dollars."
+    "[Team] beat [team], [score] to [score], and takes third place and two hundred dollars."
    ],
    [
     "0:14",
@@ -1237,7 +1237,7 @@
    [
     "Cold open",
     "Intro sting, then [YEAR] SEASON IN REVIEW",
-    "Twenty-two weeks, four playoff rounds and [number] trades. This was the [year] PSBL season."
+    "Twenty-two weeks, four playoff weeks and [number] trades. This was the [year] PSBL season."
    ],
    [
     "The draft",
@@ -1296,10 +1296,10 @@
    "(Play the Season in Review.)",
    "2. The season's honors. Read each one and pause for the card.",
    "• The consolation champion, with fifty dollars of extra FAAB next season: [team].",
-   "• The Presidents' Trophy, for the best regular-season record, and two hundred dollars: [team], at [record].",
-   "• Third place, and one hundred and fifty dollars: [team].",
-   "• The runner-up, and three hundred and fifty dollars: [team].",
-   "• And your [year] PSBL Champion, with six hundred and fifty dollars and a banner in the hall of champions: [team]. (Let the sting play. Give the champion's owner the floor if it's live.)",
+   "• The Presidents' Trophy, for the best regular-season record, and two hundred and fifty dollars: [team], at [record].",
+   "• Third place, and two hundred dollars: [team].",
+   "• The runner-up, and four hundred and fifty dollars: [team].",
+   "• And your [year] PSBL Champion, with eight hundred and fifty dollars and a banner in the hall of champions: [team]. (Let the sting play. Give the champion's owner the floor if it's live.)",
    "3. The owners' awards. Before the first one, say this:",
    "Every franchise got one ballot: a first, second and third choice for each award, worth five, three and one points. Nobody could vote for their own franchise, their own pickups, or a trade they were part of. Bust of the Year is the one exception. These awards are for bragging rights. No money, no picks.",
    "Then, for each award, the same three lines: \"The nominees for [award] are [third place], [second place] and [first place].\" Pause. \"And the winner, with [points] points, is... [winner].\" Then one sentence on why.",
@@ -1312,7 +1312,7 @@
    "4. The Dynasty Pot",
    "The Dynasty Pot now stands at [balance]. The first franchise to win three championships in this cycle takes all of it. [Team] has [number]. (If nobody has two: \"Nobody has two yet. It's wide open.\")",
    "5. What's next",
-   "The Season Ledger goes up in league-ledger within thirty days, with every dollar in and out. Trading reopens the day after the Stanley Cup Final. The Annual Draft starts two to three weeks after the NHL Entry Draft, and dues are due before it. The dates are on the league calendar. Thank you all for a great season. See you at the draft."
+   "The Season Ledger goes up in league-ledger within thirty days, with every dollar in and out. Trading reopens the day after the World Series. The Annual Draft starts between January 20 and February 10, and dues are due before it. The dates are on the league calendar. Thank you all for a great season. See you at the draft."
   ],
   "rows": [],
   "header": null
@@ -1332,7 +1332,7 @@
    [
     "0:04",
     "Card: $[BALANCE]",
-    "It's at [balance]. Two hundred dollars goes in every season, plus whatever the operating reserve didn't spend."
+    "It's at [balance]. Three hundred dollars goes in every season, plus whatever the operating reserve didn't spend."
    ],
    [
     "0:12",
@@ -1429,7 +1429,7 @@
   "notes": [
    "Talk on a Discord call, and have each of you record your own voice at the same time: you in SoundCraft, the owner with their phone's voice memo app. Clap once at the start so the two tracks are easy to line up in SoundCraft afterward. Post it in 💬│gm-lounge. Templates: PSBL Talking Head, 04 Franchise Cards for the open. Pick six to eight questions.",
    "• How did you pick your franchise's name?",
-   "• Which NHL team do you cheer for, and how did that start?",
+   "• Which MLB team do you cheer for, and how did that start?",
    "• What's your plan: win now or build for later?",
    "• Your best move so far, and the one you'd take back.",
    "• Which owner is the toughest to trade with?",

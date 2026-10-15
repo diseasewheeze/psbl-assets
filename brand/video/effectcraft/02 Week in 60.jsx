@@ -8,26 +8,26 @@
 
 var DATA = {
     week: 5,
-    dates: "OCT 26 - NOV 1",
+    dates: "APR 26 - MAY 2",
 
     // All six results: [team, points, team, points]. The higher score is drawn as the winner.
     scores: [
-        ["TEAM A", 123.45, "TEAM B", 98.10],
-        ["TEAM C", 140.25, "TEAM D", 131.10],
-        ["TEAM E", 128.40, "TEAM F", 112.75],
-        ["TEAM G", 101.20, "TEAM H", 99.85],
-        ["TEAM I", 117.60, "TEAM J", 121.05],
-        ["TEAM K", 88.20, "TEAM L", 86.90]
+        ["TEAM A", 351.50, "TEAM B", 298.25],
+        ["TEAM C", 402.75, "TEAM D", 377.00],
+        ["TEAM E", 368.25, "TEAM F", 322.50],
+        ["TEAM G", 301.00, "TEAM H", 297.75],
+        ["TEAM I", 336.50, "TEAM J", 344.25],
+        ["TEAM K", 262.50, "TEAM L", 258.00]
     ],
 
-    upset: { winner: "TEAM G", winnerPoints: 101.20, loser: "TEAM H", loserPoints: 99.85 },
+    upset: { winner: "TEAM G", winnerPoints: 301.00, loser: "TEAM H", loserPoints: 297.75 },
 
     // The League Bot's Weekly Awards
-    firstStar: ["TEAM C", 140.25],
-    secondStar: ["TEAM D", 131.10],
-    thirdStar: ["TEAM E", 128.40],
-    toughLuck: { team: "TEAM D", points: 131.10, lostTo: "TEAM C" },
-    luckyWin: { team: "TEAM K", points: 88.20, beat: "TEAM L" },
+    firstStar: ["TEAM C", 402.75],
+    secondStar: ["TEAM D", 377.00],
+    thirdStar: ["TEAM E", 368.25],
+    toughLuck: { team: "TEAM D", points: 377.00, lostTo: "TEAM C" },
+    luckyWin: { team: "TEAM K", points: 262.50, beat: "TEAM L" },
 
     // Standings movers: [team, new place, places moved (plus is up, minus is down)]
     movers: [

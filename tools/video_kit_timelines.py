@@ -279,7 +279,7 @@ def hype_trailer(S: Scripts):
     # Recruiting trailer: cut together from the league's hype intro, ready for a voice.
     q = Seq("Recruiting Trailer", 45)
     intro(q)
-    cuts = [(3.0, 4.0, 5.4, "Arena and crowd"), (8.4, 9.6, 5.6, "PSBL logo"), (14.0, 24.0, 8.8, "20 active, 10 minors"),
+    cuts = [(3.0, 4.0, 5.4, "Ballpark and crowd"), (8.4, 9.6, 5.6, "PSBL logo"), (14.0, 24.0, 8.8, "18 active, 15 minors"),
             (22.8, 46.0, 4.4, "Unlimited trades"), (27.2, 50.4, 5.6, "Dynasty Pot coins"), (32.8, 56.0, 5.6, "Championship banners"),
             (38.4, 67.2, 6.6, "End card: claim your franchise")]
     for at, src, dur, name in cuts:
@@ -315,11 +315,11 @@ def hype_trailer(S: Scripts):
 
     seqs.append(hype("Startup Draft Hype", "Startup Draft hype", "Startup Draft Hype Cards",
                      [(8, 13), (27, 6), (39, 6)],
-                     [(3, 5, "hype", "Empty rink", 4.0), (21, 6, "render", "04 Franchise Cards", "Franchise Cards - All"),
+                     [(3, 5, "hype", "Empty ballpark", 4.0), (21, 6, "render", "04 Franchise Cards", "Franchise Cards - All"),
                       (33, 6, "render", "09 Countdown", "Countdown - STARTUP DRAFT")], wipes=(21, 33)))
     seqs.append(hype("Opening Night", "Opening night", "Opening Night Cards",
                      [(8, 23), (37, 8)],
-                     [(3, 5, "hype", "Arena lights up", 4.0), (31, 6, "render", "04 Franchise Cards", "Franchise Cards - All")],
+                     [(3, 5, "hype", "Ballpark lights up", 4.0), (31, 6, "render", "04 Franchise Cards", "Franchise Cards - All")],
                      wipes=(31,)))
     s = Seq("Trade Deadline Day", 45)
     s.media("A3", 0, "sting-intro")
@@ -395,7 +395,7 @@ def talking_head(S: Scripts):
 
 
 HOWTOS = ["Moving a player to minors", "Setting your daily lineup", "Paying dues with Fantrax Treasurer",
-          "Building your draft queue", "Placing a FAAB bid", "Making a trade", "Using IR",
+          "Building your draft queue", "Placing a FAAB bid", "Making a trade", "Using the IL",
           "Turning on Fantrax notifications", "Opening a ticket", "Meet the League Bot"]
 
 

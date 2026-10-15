@@ -24,8 +24,8 @@ var DATA = {
     },
     endCard: {
         line1: "FOUNDING OWNERS WANTED",
-        line2: "$150 A SEASON",
-        line3: "STARTUP DRAFT - SUMMER 2027",
+        line2: "$200 A SEASON",
+        line3: "STARTUP DRAFT - JANUARY 2027",
         seconds: 7
     },
     cornerBug: {

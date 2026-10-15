@@ -12,13 +12,13 @@
 #include "lib/league.jsxinc"
 
 var DATA = {
-    season: "2027-28",
+    season: "2027",
     honors: [
         { label: "CONSOLATION CHAMPION", prize: "+$50 FAAB NEXT SEASON", team: "TEAM K" },
-        { label: "PRESIDENTS' TROPHY", prize: "$200", team: "TEAM A" },
-        { label: "THIRD PLACE", prize: "$150", team: "TEAM D" },
-        { label: "RUNNER-UP", prize: "$350", team: "TEAM C" },
-        { label: "PSBL CHAMPION", prize: "$650 AND A BANNER", team: "TEAM B" }
+        { label: "PRESIDENTS' TROPHY", prize: "$250", team: "TEAM A" },
+        { label: "THIRD PLACE", prize: "$200", team: "TEAM D" },
+        { label: "RUNNER-UP", prize: "$450", team: "TEAM C" },
+        { label: "PSBL CHAMPION", prize: "$850 AND A BANNER", team: "TEAM B" }
     ],
     awards: [
         { include: true, name: "BUST OF THE YEAR", about: "THE SEASON'S BIGGEST LETDOWN", shared: false,
@@ -32,10 +32,10 @@ var DATA = {
         { include: true, name: "GM OF THE YEAR", about: "THE BEST JOB RUNNING A FRANCHISE", shared: false,
           top3: [["NOMINEE ONE", 31], ["NOMINEE TWO", 22], ["NOMINEE THREE", 14]] }
     ],
-    dynastyPot: { balance: "$400", closest: "TEAM B: 1 CHAMPIONSHIP" },
+    dynastyPot: { balance: "$300", closest: "TEAM B: 1 CHAMPIONSHIP" },
     next: [
         ["SEASON LEDGER", "WITHIN 30 DAYS"],
-        ["TRADING REOPENS", "THE DAY AFTER THE CUP FINAL"],
+        ["TRADING REOPENS", "THE DAY AFTER THE WORLD SERIES"],
         ["ANNUAL DRAFT", "[DATES]"],
         ["DUES", "DUE BEFORE THE DRAFT"]
     ]

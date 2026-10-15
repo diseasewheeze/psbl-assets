@@ -7,7 +7,7 @@
 
 var DATA = {
     event: "STARTUP DRAFT",
-    when: "SATURDAY, JULY 17 - 8:00 PM ET",
+    when: "SATURDAY, JANUARY 23 - 8:00 PM ET",
     // time left when the clip starts
     days: 3,
     hours: 12,

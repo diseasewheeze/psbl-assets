@@ -10,7 +10,7 @@ var DATA = {
     teamAGets: ["PLAYER ONE", "2028 2ND ROUND"],
     teamB: "TEAM B",
     teamBGets: ["PLAYER TWO", "$50 FAAB"],
-    date: "OCT 14"
+    date: "MAY 14"
 };
 
 PSBL.run("05 Trade Alert", function () {

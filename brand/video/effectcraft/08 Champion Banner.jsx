@@ -1,16 +1,16 @@
 // 08 Champion Banner
-// The champion's banner drops into the rafters (12 seconds, with its sound). Fill in DATA once
+// The champion's banner drops in over the ballpark (12 seconds, with its sound). Fill in DATA once
 // the Championship is final in Fantrax, save, and run this file in EffectCraft
 // (File > Scripts > Run Script File). Render it as an H.264 movie with audio.
 
 #include "lib/league.jsxinc"
 
 var DATA = {
-    year: "2028",
+    year: "2027",
     city: "CITY",
     team: "TEAM A",
     bannerName: "TEAM A",          // shorter name for the banner itself; "\n" starts a second line
-    finalScore: "TEAM A 312.40 - TEAM B 298.15",
+    finalScore: "TEAM A 712.50 - TEAM B 688.25",
     titlesThisCycle: 1             // this franchise's championships in the current Dynasty Pot cycle
 };
 

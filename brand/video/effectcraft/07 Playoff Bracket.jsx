@@ -9,7 +9,7 @@
 #include "lib/league.jsxinc"
 
 var DATA = {
-    year: "2028",
+    year: "2027",
     // Final regular-season standings, seeds 1 to 6: [team, record]
     seeds: [
         ["TEAM A", "15-6-1"],

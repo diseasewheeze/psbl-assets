@@ -7,11 +7,11 @@
 #include "lib/league.jsxinc"
 
 var DATA = {
-    month: "OCTOBER",
-    hardLuck: { team: "TEAM B", detail: "195.00 POINTS IN 2 LOSSES" },
-    biggestWeek: { team: "TEAM D", detail: "140.00 POINTS IN WEEK 3" },
-    bestRecord: { team: "TEAM C", detail: "3-0-1" },
-    managerOfTheMonth: { team: "TEAM B", detail: "325.00 POINTS", owner: "OWNER NAME" }
+    month: "MAY",
+    hardLuck: { team: "TEAM B", detail: "690.50 POINTS IN 2 LOSSES" },
+    biggestWeek: { team: "TEAM D", detail: "448.75 POINTS IN WEEK 7" },
+    bestRecord: { team: "TEAM C", detail: "4-0-1" },
+    managerOfTheMonth: { team: "TEAM B", detail: "1,746.25 POINTS", owner: "OWNER NAME" }
 };
 
 PSBL.run("03 Monthly Awards", function () {
