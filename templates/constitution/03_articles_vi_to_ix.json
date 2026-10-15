@@ -1,0 +1,24 @@
+{
+  "embeds": [
+    {
+      "title": "ARTICLE VI — ROSTERS AND POSITIONS",
+      "description": "**6.1** Normal roster limits are 18 active players and 8 reserves, for 26 major-league roster spots, plus 15 minor-league spots and up to 4 IL spots. That is 41 controlled roster spots excluding IL, or 45 including IL.\n\n**6.2** Active positions are C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL, 5 SP, and 3 RP. An OF slot may be filled by any outfielder and a UTIL slot by any hitter. An SP slot takes a player Fantrax lists as a starting pitcher and an RP slot a player Fantrax lists as a relief pitcher. Fantrax's position eligibility controls.\n\n**6.3** Minor-league players do not count toward the normal 26-player roster limit. Players properly placed on IL do not count toward normal roster limitations while Fantrax recognizes them as IL-eligible.\n\n**6.4** Managers are responsible for maintaining legal rosters. When a roster becomes illegal because of a transaction, eligibility change, or player activation, the manager must correct the violation within 24 hours of notice from Fantrax or the Commissioner, or within any shorter limit Fantrax enforces.",
+      "color": 12398649
+    },
+    {
+      "title": "ARTICLE VII — MINOR-LEAGUE ELIGIBILITY",
+      "description": "**7.1** The DBL maintains 15 minor-league roster spots.\n\n**7.2** A player is minor-eligible while he has no more than **130 career MLB regular-season at-bats** and no more than **50 career MLB regular-season innings pitched**. These are MLB's rookie limits; MLB's count of days on an active roster is not used, and there is no age limit. A two-way player must stay within both limits.\n\n**7.3** Career totals keep accumulating during the Season. Eligibility is measured from MLB's official career statistics; at-bats count only from a player's own plate appearances. The Commissioner's determination, aided by the league's eligibility check, is final.\n\n**7.4** Once a minor-league player passes either limit, the franchise has three calendar days after notice from the Commissioner or Fantrax to promote, trade, drop, or otherwise remove the player from the minor slot.\n\n**7.5** Promotion does not permanently burn minor eligibility. A player who still satisfies the DBL minor rules may later return to a minor slot where Fantrax permits.",
+      "color": 12398649
+    },
+    {
+      "title": "ARTICLE VIII — SCORING",
+      "description": "**8.1** The DBL scoring system rewards what players control: getting on base, hitting for power, running, missing bats, and preventing runs. Categories not listed below are disabled unless this Constitution is formally amended.\n\n**HITTERS**\n• Single (1B) — **+1.00**\n• Double (2B) — **+2.00**\n• Triple (3B) — **+3.00**\n• Home Run (HR) — **+4.00**\n• Run Scored (R) — **+1.00**\n• Run Batted In (RBI) — **+1.00**\n• Walk (BB) — **+1.00**\n• Hit by Pitch (HBP) — **+1.00**\n• Stolen Base (SB) — **+2.00**\n• Caught Stealing (CS) — **-1.00**\n• Strikeout (K) — **-0.50**\n\n**PITCHERS**\n• Inning Pitched (IP), +1 per out — **+3.00**\n• Strikeout (K) — **+1.00**\n• Hit Allowed (H) — **-1.00**\n• Walk Issued (BB) — **-1.00**\n• Hit Batter (HB) — **-1.00**\n• Earned Run (ER) — **-2.00**\n• Win (W) — **+3.00**\n• Loss (L) — **-2.00**\n• Save (SV) — **+5.00**\n• Hold (HLD) — **+3.00**\n\n**8.2** Partial innings score by the out: each out recorded is one point, so a full inning is three. Quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not separately scored. Fantrax's final stat corrections control.",
+      "color": 12398649
+    },
+    {
+      "title": "ARTICLE IX — LINEUPS AND PITCHER STARTS",
+      "description": "**9.1** Lineups are set daily. Managers are responsible for maintaining legal, reasonably competitive active lineups throughout the Season.\n\n**9.2** A franchise may receive credit for a maximum of 7 pitcher starts during a normal fantasy Week. A start counts when a pitcher in an active lineup slot starts an MLB game.\n\n**9.3** The two-week DBL Championship permits a maximum of 14 credited pitcher starts across the full championship period. Any other Week longer than one calendar week, such as Week 1 or a scoring period that includes the All-Star break, uses the same rule: 7 credited starts and 5 acquisitions for each calendar week it spans.\n\n**9.4** Fantrax enforcement settings govern the technical application of the pitcher-start limit. A manager may not intentionally exploit a platform timing or scoring behavior to obtain credit beyond the constitutional maximum.",
+      "color": 12398649
+    }
+  ]
+}

@@ -1,21 +1,22 @@
-# DBL Constitution — Charter Edition
+# DBL Constitution — Preliminary Draft
 
 *A permanent framework for competition, governance, and long-term franchise management.*
 
 ## Quick Reference
 
-- **League:** 12-franchise dynasty fantasy hockey league hosted on Fantrax, with Discord serving as the league office and clubhouse.
-- **Inaugural season:** 2027–28 (Season 2027). Startup draft is held in the 2027 offseason.
+- **League:** 12-franchise dynasty fantasy baseball league hosted on Fantrax, with Discord serving as the league office and clubhouse.
+- **Inaugural season:** Season 2027 (the 2027 MLB season), with the Startup Draft before Opening Day. If an MLB lockout or strike is in effect on December 2, 2026, the inaugural Season becomes 2028 (Section 1.6).
 - **Format:** Head-to-Head Points, daily lineups, 22-week regular season, each opponent twice, no divisions.
-- **Roster:** 20 active (3 C, 3 LW, 3 RW, 3 F, 6 D, 2 G), 6 reserve, 10 minors, 5 IR. 36 controlled spots excluding IR.
-- **Minors:** Age 25 or younger on NHL opening day, as calculated by Fantrax; skaters ≤100 career NHL regular-season GP; goalies ≤50.
+- **Roster:** 18 active (C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL, 5 SP, and 3 RP), 8 reserve, 15 minors, 4 IL. 41 controlled spots excluding IL.
+- **Minors:** MLB rookie limits: no more than 130 career MLB at-bats and no more than 50 career MLB innings pitched. No age limit.
 - **FAAB:** $1,000 per season; no rollover; $0 bids allowed; hidden bids; daily processing; no FCFS.
-- **Acquisitions:** Maximum 5 per normal fantasy week; the two-week championship uses two separate five-acquisition weekly limits.
-- **Goalies:** Maximum 4 credited starts per normal fantasy week; 8 total across the two-week championship.
-- **Trades:** Unlimited, no vote or veto. Deadline: Sunday 11:59 PM ET at the end of Week 20. Reopens the day after the Stanley Cup Final.
-- **Annual draft:** 5 rounds, linear; begins 14–21 days after the NHL Entry Draft.
+- **Acquisitions:** Maximum 5 per normal fantasy week; a longer scoring period allows 5 for each calendar week it spans.
+- **Pitcher starts:** Maximum 7 credited starts per normal fantasy week; 14 across the two-week championship.
+- **Trades:** Unlimited, no vote or veto. Deadline: Sunday 11:59 PM ET at the end of Week 20. Reopens the day after the World Series ends.
+- **Startup draft:** One combined slow snake draft of major-league players and prospects, 41 rounds, finished at least 7 days before Week 1.
+- **Annual draft:** 5 rounds, linear; held each January or February from the unowned minor-eligible pool.
 - **Playoffs:** 6 teams; top 2 byes; reseeding; 1-week quarterfinals and semifinals; 2-week cumulative championship. Non-playoff teams play a consolation bracket.
-- **Dues:** $150 per franchise per season, due before that season's draft.
+- **Dues:** $200 per franchise per season, due before that season's draft.
 - **Future picks:** Future 1st- and 2nd-round picks cannot be traded until all required future-season dues are paid and confirmed through the pick's season.
 - **Dates:** Defined by formula in this Constitution; exact dates are published each season on the League Calendar.
 
@@ -23,26 +24,28 @@
 
 | Allocation | Amount |
 |---|---:|
-| DBL Champion | $650 |
-| Runner-Up | $350 |
-| Third Place | $150 |
-| Presidents' Trophy | $200 |
-| Dynasty Pot | $200 |
-| Fantrax / League Operating Reserve | $150 |
-| League Services Allocation | $100 |
-| **Total** | **$1,800** |
+| DBL Champion | $850 |
+| Runner-Up | $450 |
+| Third Place | $200 |
+| Presidents' Trophy | $250 |
+| Dynasty Pot | $300 |
+| Fantrax / League Operating Reserve | $200 |
+| League Services Allocation | $150 |
+| **Total** | **$2,400** |
 
 ## Article I — League Identity and Purpose
 
-**1.1** The Dynasty Baseball League (DBL) is a 12-franchise dynasty fantasy hockey league established in 2026. Its inaugural season is 2027–28. It is designed around long-term roster construction, prospect development, active trading, daily competition, and permanent league history.
+**1.1** The Dynasty Baseball League (DBL) is a 12-franchise dynasty fantasy baseball league established in 2026. Its inaugural season is Season 2027. It is designed around long-term roster construction, prospect development, active trading, daily competition, and permanent league history.
 
 **1.2** Fantrax is the authoritative platform for gameplay, rosters, scoring, transactions, standings, draft results, and playoff results. Discord is the league's communication, governance, trade-market, scouting, recordkeeping, and community platform.
 
 **1.3** The DBL is intended to reward sustained franchise management. Rebuilding, prospect accumulation, veteran contention windows, and aggressive trading are legitimate strategies when conducted in good faith and within this Constitution.
 
-**1.4** **Definitions.** **Season** means the NHL season a DBL season covers, identified by its starting year (Season 2027 is 2027–28). **Active Season** runs from the first lineup lock of Week 1 through the final scoring period of the DBL Championship; **Offseason** is every other time. **Week** means a Fantrax scoring week. **Annual Draft** means the draft held in an Offseason for the next Season, identified by the year it is held (the 2028 Annual Draft supplies Season 2028). **Franchise** means a team with one league vote; **Owner** means a person who manages it. **League Ledger** means the Commissioner's record of dues, prepayments, operating expenses, prizes, and the Dynasty Pot; its summary, the Season Ledger, is published in the league-ledger channel.
+**1.4** **Definitions.** **Season** means the MLB regular season a DBL season covers, identified by its year (Season 2027 is the 2027 MLB season). **Active Season** runs from the first lineup lock of Week 1 through the final scoring period of the DBL Championship; **Offseason** is every other time. **Week** means a Fantrax scoring week. **Annual Draft** means the draft held in an Offseason for the next Season, identified by the year it is held (the 2028 Annual Draft supplies Season 2028). **Franchise** means a team with one league vote; **Owner** means a person who manages it. **League Ledger** means the Commissioner's record of dues, prepayments, operating expenses, prizes, and the Dynasty Pot; its summary, the Season Ledger, is published in the league-ledger channel.
 
 **1.5** **Material Amendment** means any change to dues, prizes, the financial allocation, scoring, roster or minor-league rules, trade, pick, or prepayment rules, playoff or draft-order formats, voting thresholds, or Commissioner powers, and any other change that alters franchise rights or obligations. Clerical corrections, platform-conformance fixes, and League Calendar dates are not Material Amendments.
+
+**1.6** **Labor stoppage before launch.** If an MLB lockout or strike is in effect on December 2, 2026, the day after MLB's labor agreement expires, the inaugural Season becomes Season 2028. Every date, draft, and Season number in this Constitution that is tied to the inaugural Season then moves one year later, and no dues are collected for Season 2027.
 
 ## Article II — Governance and League Authority
 
@@ -60,9 +63,9 @@
 
 **2.6** The current published Constitution controls when it conflicts with old messages, prior drafts, informal discussions, or outdated documents. The League Calendar implements this Constitution and cannot override it (Article V).
 
-## Article III — Franchise Ownership, Dues, Expenses, and Prizes
+## Article III — Ownership, Dues, and Prizes
 
-**3.1** Annual dues are **$150 per franchise**. A franchise is one dues obligation even when co-owners are present. The Commissioner pays the same annual franchise dues as every other franchise.
+**3.1** Annual dues are **$200 per franchise**. A franchise is one dues obligation even when co-owners are present. The Commissioner pays the same annual franchise dues as every other franchise.
 
 **3.2** The dues deadline for each Season is published on the League Calendar with at least 30 days' notice and falls before that Season's draft: the Startup Draft for Season 2027 and the Annual Draft for later Seasons. A franchise must be fully paid by that deadline to participate in the draft or begin the Season, unless the Commissioner has announced a league-wide alternative payment schedule.
 
@@ -70,20 +73,20 @@
 
 **3.4** If a franchise is not fully paid by the deadline, the Commissioner gives written notice in Discord and by direct message. If payment is still not confirmed 7 days after the deadline, the franchise may be treated as orphaned under Article XVIII, including replacement of the owner.
 
-**3.5** The annual allocation of the $1,800 league pool (12 franchises × $150) is:
+**3.5** The annual allocation of the $2,400 league pool (12 franchises × $200) is:
 
-• DBL Champion — **$650**
-• Runner-Up — **$350**
-• Third Place — **$150**
-• Presidents' Trophy — **$200**
-• Dynasty Pot — **$200**
-• Fantrax / League Operating Reserve — **$150**
-• League Services Allocation — **$100**
-• **TOTAL — $1,800**
+• DBL Champion — **$850**
+• Runner-Up — **$450**
+• Third Place — **$200**
+• Presidents' Trophy — **$250**
+• Dynasty Pot — **$300**
+• Fantrax / League Operating Reserve — **$200**
+• League Services Allocation — **$150**
+• **TOTAL — $2,400**
 
-**3.6** The League Services Allocation is paid to the Commissioner for recurring league administration, setup, records, Discord infrastructure, automation maintenance, league communications, and related management duties. Any increase to the League Services Allocation is a Material Amendment. On any vote that changes the League Services Allocation, the Commissioner's franchise does not vote and approval requires at least 8 of the other 11 franchises.
+**3.6** The League Services Allocation is the league service fee. It is paid to the Commissioner for recurring league administration, setup, records, Discord infrastructure, automation maintenance, league communications, and related management duties. Any increase to the League Services Allocation is a Material Amendment. On any vote that changes the League Services Allocation, the Commissioner's franchise does not vote and approval requires at least 8 of the other 11 franchises.
 
-**3.7** The League Operating Reserve may be used only for Fantrax Premium and other disclosed, authorized league operating costs. Any portion of the $150 reserve remaining after the Season's authorized expenses are settled is added to the Dynasty Pot.
+**3.7** The League Operating Reserve may be used only for Fantrax Premium, League Bot hosting, and other disclosed, authorized league operating costs. Any portion of the $200 reserve remaining after the Season's authorized expenses are settled is added to the Dynasty Pot.
 
 **3.8** Guaranteed competitive prizes will not be reduced during an Active Season to cover an unanticipated operating overage. Any additional assessment or material change to the annual allocation requires league approval under this Constitution.
 
@@ -97,7 +100,7 @@
 
 **4.1** The DBL maintains a rolling Dynasty Pot designed to reward sustained championship success across multiple Seasons. The first Dynasty Pot cycle begins with Season 2027.
 
-**4.2** At least $200 from each Season's dues is added to the Dynasty Pot. Any unused portion of the annual League Operating Reserve is also added to the Dynasty Pot after the Season's authorized expenses are settled.
+**4.2** At least $300 from each Season's dues is added to the Dynasty Pot. Any unused portion of the annual League Operating Reserve is also added to the Dynasty Pot after the Season's authorized expenses are settled.
 
 **4.3** The first franchise to win three DBL Championships during the same active Dynasty Pot cycle wins the entire accumulated Dynasty Pot. Championships do not need to be consecutive.
 
@@ -111,19 +114,19 @@
 
 **4.8** If the DBL permanently dissolves before the Dynasty Pot is won, remaining Dynasty Pot funds are distributed equally among the active, fully paid franchises after any authorized outstanding league expenses are satisfied.
 
-## Article V — League Format, Schedule, and Calendar
+## Article V — Format, Schedule, and Calendar
 
 **5.1** The DBL uses Head-to-Head Points scoring with daily lineups.
 
-**5.2** The regular season consists of 22 fantasy Weeks. Each franchise plays every other franchise twice. The league does not use divisions or conferences.
+**5.2** The regular season consists of 22 fantasy Weeks. Each franchise plays every other franchise twice. The league does not use divisions or conferences. Week 1 opens with MLB's Opening Night and may run longer than one calendar week. If Fantrax combines the All-Star break with an adjacent week, that scoring period counts as one Week. If Fantrax's MLB calendar cannot fit 22 regular-season Weeks and the four playoff Weeks, or MLB shortens its schedule, the Commissioner shortens the regular season to fit and announces it before Week 1 as a platform-conformance correction.
 
-**5.3** Individual players lock at approximately one minute before their NHL game begins, subject to Fantrax system behavior and the league's configured lineup settings.
+**5.3** Individual players lock at approximately one minute before their MLB game begins, subject to Fantrax system behavior and the league's configured lineup settings.
 
-**5.4** **Dates are set by formula.** NHL and Fantrax schedules change every Season, so this Constitution defines deadlines and key dates as an anchor event plus an offset rather than as fixed calendar dates. The League Calendar converts those formulas into exact dates and times each Season.
+**5.4** **Dates are set by formula.** MLB and Fantrax schedules change every Season, so this Constitution defines deadlines and key dates as an anchor event plus an offset rather than as fixed calendar dates. The League Calendar converts those formulas into exact dates and times each Season.
 
-**5.5** **Publication.** The Commissioner publishes the League Calendar for each Season within 14 days after the NHL releases its regular-season schedule, and keeps it current.
+**5.5** **Publication.** The Commissioner publishes the League Calendar for each Season within 14 days after MLB releases its regular-season schedule, and keeps it current. For Season 2027 it is published before owners are invited.
 
-**5.6** **Changes.** After a date is published it changes only when the NHL schedule, a platform limitation, or events outside the league's control require it. The Commissioner gives at least 7 days' notice of a change where possible. A published deadline may be extended but is not made earlier unless the NHL schedule forces it.
+**5.6** **Changes.** After a date is published it changes only when the MLB schedule, a platform limitation, or events outside the league's control require it. The Commissioner gives at least 7 days' notice of a change where possible. A published deadline may be extended but is not made earlier unless the MLB schedule forces it.
 
 **5.7** **Formulas control.** If the League Calendar conflicts with a formula in this Constitution, the formula controls and the Commissioner corrects the Calendar. The League Calendar cannot create or change substantive rules.
 
@@ -131,70 +134,81 @@
 
 **5.9** The key dates and how each is set:
 
-• **Week 1:** Begins with the first Fantrax scoring period of the Season, aligned with the NHL regular-season opening.
+• **Week 1:** Begins with the first Fantrax scoring period of the Season, which opens with MLB's Opening Night; it may run longer than one calendar week.
 • **Dues deadline:** Set by the Commissioner with at least 30 days' notice, and always before that Season's draft (Article III).
-• **Startup Draft and Annual Draft:** Begin 14 to 21 days after the final day of the NHL Entry Draft, announced at least 30 days ahead (Articles XIII and XIV).
+• **Startup Draft:** Begins in late January before Season 2027, announced at least 30 days ahead, and ends at least 7 days before Week 1 (Article XIII).
+• **Annual Draft:** Begins between January 20 and February 10 of each Offseason, announced at least 30 days ahead (Article XIV).
 • **Trade deadline:** Sunday 11:59 PM ET at the end of Week 20.
-• **Trading reopens:** The day after the Stanley Cup Final ends, when the Commissioner renews the league in Fantrax for the next Season.
+• **Trading reopens:** The day after the World Series ends, when the Commissioner renews the league in Fantrax for the next Season.
 • **Regular season ends:** Sunday 11:59 PM ET at the end of Week 22.
-• **Playoffs:** Four consecutive Weeks after Week 22: Quarterfinals, Semifinals, then the two-week Championship. Scheduled to end about six days before the NHL regular season ends where the NHL schedule permits.
+• **Playoffs:** Four consecutive Weeks after Week 22: Quarterfinals, Semifinals, then the two-week Championship, ending with the last day of the MLB regular season.
 • **Waiver processing:** Daily at about 11:00 AM ET; Fantrax system behavior controls.
-• **Lineup locks:** About one minute before each player's NHL game; Fantrax system behavior controls.
+• **Lineup locks:** About one minute before each player's MLB game; Fantrax system behavior controls.
 • **Prizes and Season Ledger:** Within 30 days after the DBL Championship concludes (Article III).
 • **Amendment votes:** Offseason only, and always before the dues deadline of the Season they first apply to (Article XX).
 
 ## Article VI — Rosters and Positions
 
-**6.1** Normal roster limits are 20 active players and 6 reserves, for 26 non-minor controlled roster spots, plus 10 minor-league spots and up to 5 IR spots. That is 36 controlled roster spots excluding IR, or 41 including IR.
+**6.1** Normal roster limits are 18 active players and 8 reserves, for 26 major-league roster spots, plus 15 minor-league spots and up to 4 IL spots. That is 41 controlled roster spots excluding IL, or 45 including IL.
 
-**6.2** Active positions are 3 C, 3 LW, 3 RW, 3 F, 6 D, and 2 G. An F slot may be filled by any forward (C, LW, or RW).
+**6.2** Active positions are C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL, 5 SP, and 3 RP. An OF slot may be filled by any outfielder and a UTIL slot by any hitter. An SP slot takes a player Fantrax lists as a starting pitcher and an RP slot a player Fantrax lists as a relief pitcher. Fantrax's position eligibility controls.
 
-**6.3** Minor-league players do not count toward the normal 26-player roster limit. Players properly placed on IR do not count toward normal roster limitations while Fantrax recognizes them as IR-eligible.
+**6.3** Minor-league players do not count toward the normal 26-player roster limit. Players properly placed on IL do not count toward normal roster limitations while Fantrax recognizes them as IL-eligible.
 
 **6.4** Managers are responsible for maintaining legal rosters. When a roster becomes illegal because of a transaction, eligibility change, or player activation, the manager must correct the violation within 24 hours of notice from Fantrax or the Commissioner, or within any shorter limit Fantrax enforces.
 
 ## Article VII — Minor-League Eligibility
 
-**7.1** The DBL maintains 10 minor-league roster spots.
+**7.1** The DBL maintains 15 minor-league roster spots.
 
-**7.2** A player must be age 25 or younger on the first day of the NHL regular season, as Fantrax calculates it. Age is measured on that date for the whole Season, so a birthday during the Season does not change a player's eligibility. Fantrax's age calculation is final.
+**7.2** A player is minor-eligible while he has no more than **130 career MLB regular-season at-bats** and no more than **50 career MLB regular-season innings pitched**. These are MLB's rookie limits; MLB's count of days on an active roster is not used, and there is no age limit. A two-way player must stay within both limits.
 
-**7.3** Skaters remain minor-eligible through 100 career NHL regular-season games played. Goalies remain minor-eligible through 50 career NHL regular-season games played. Career NHL games played continue to accumulate during the Season.
+**7.3** Career totals keep accumulating during the Season. Eligibility is measured from MLB's official career statistics; at-bats count only from a player's own plate appearances. The Commissioner's determination, aided by the league's eligibility check, is final.
 
-**7.4** Once Fantrax identifies a minor-league player as ineligible, the franchise has three calendar days to promote, trade, drop, or otherwise remove the player from the minor slot.
+**7.4** Once a minor-league player passes either limit, the franchise has three calendar days after notice from the Commissioner or Fantrax to promote, trade, drop, or otherwise remove the player from the minor slot.
 
 **7.5** Promotion does not permanently burn minor eligibility. A player who still satisfies the DBL minor rules may later return to a minor slot where Fantrax permits.
 
 ## Article VIII — Scoring
 
-**8.1** The DBL scoring system is intentionally compact. Categories not listed below are disabled unless this Constitution is formally amended.
+**8.1** The DBL scoring system rewards what players control: getting on base, hitting for power, running, missing bats, and preventing runs. Categories not listed below are disabled unless this Constitution is formally amended.
 
-**SKATERS**
-• Goal — **+5.00**
-• Assist — **+2.95**
-• Shot on Goal — **+0.55**
-• Block — **+0.35**
-• Hit — **+0.20**
-• Penalty Minute — **-0.54**
+**HITTERS**
+• Single (1B) — **+1.00**
+• Double (2B) — **+2.00**
+• Triple (3B) — **+3.00**
+• Home Run (HR) — **+4.00**
+• Run Scored (R) — **+1.00**
+• Run Batted In (RBI) — **+1.00**
+• Walk (BB) — **+1.00**
+• Hit by Pitch (HBP) — **+1.00**
+• Stolen Base (SB) — **+2.00**
+• Caught Stealing (CS) — **-1.00**
+• Strikeout (K) — **-0.50**
 
-**GOALIES**
-• Game Started — **+6.50**
-• Save — **+0.49**
-• Goal Against — **-5.00**
-• Goalie Goal — **+5.00**
-• Goalie Assist — **+2.95**
+**PITCHERS**
+• Inning Pitched (IP), +1 per out — **+3.00**
+• Strikeout (K) — **+1.00**
+• Hit Allowed (H) — **-1.00**
+• Walk Issued (BB) — **-1.00**
+• Hit Batter (HB) — **-1.00**
+• Earned Run (ER) — **-2.00**
+• Win (W) — **+3.00**
+• Loss (L) — **-2.00**
+• Save (SV) — **+5.00**
+• Hold (HLD) — **+3.00**
 
-**8.2** Goalie wins, shutouts, plus/minus, power-play bonuses, game-winning-goal bonuses, faceoff wins, and other unlisted scoring categories are not separately scored.
+**8.2** Partial innings score by the out: each out recorded is one point, so a full inning is three. Quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not separately scored. Fantrax's final stat corrections control.
 
-## Article IX — Lineups and Goalie Starts
+## Article IX — Lineups and Pitcher Starts
 
 **9.1** Lineups are set daily. Managers are responsible for maintaining legal, reasonably competitive active lineups throughout the Season.
 
-**9.2** A franchise may receive credit for a maximum of 4 goalie starts during a normal fantasy Week.
+**9.2** A franchise may receive credit for a maximum of 7 pitcher starts during a normal fantasy Week. A start counts when a pitcher in an active lineup slot starts an MLB game.
 
-**9.3** The two-week DBL Championship permits a maximum of 8 credited goalie starts across the full championship period. Any other Week longer than one calendar week, such as over an NHL break, uses the same rule: 4 credited goalie starts and 5 acquisitions for each calendar week it spans.
+**9.3** The two-week DBL Championship permits a maximum of 14 credited pitcher starts across the full championship period. Any other Week longer than one calendar week, such as Week 1 or a scoring period that includes the All-Star break, uses the same rule: 7 credited starts and 5 acquisitions for each calendar week it spans.
 
-**9.4** Fantrax enforcement settings govern the technical application of the goalie-start limit. A manager may not intentionally exploit a platform timing or scoring behavior to obtain credit beyond the constitutional maximum.
+**9.4** Fantrax enforcement settings govern the technical application of the pitcher-start limit. A manager may not intentionally exploit a platform timing or scoring behavior to obtain credit beyond the constitutional maximum.
 
 ## Article X — Waivers, FAAB, and Acquisitions
 
@@ -224,9 +238,9 @@
 
 **11.5** Conditional draft picks are prohibited.
 
-**11.6** The trade deadline is the end of Week 20 (Article V). Trading reopens the day after the Stanley Cup Final ends. No trades, including draft picks, may be made between the deadline and the reopening. A trade must be fully processed in Fantrax before the deadline; Fantrax can still process a trade that was pending at the deadline, and any trade processed after the deadline is void and is reversed by the Commissioner.
+**11.6** The trade deadline is the end of Week 20 (Article V). Trading reopens the day after the World Series ends. No trades, including draft picks, may be made between the deadline and the reopening. A trade must be fully processed in Fantrax before the deadline; Fantrax can still process a trade that was pending at the deadline, and any trade processed after the deadline is void and is reversed by the Commissioner.
 
-## Article XII — Future Draft Picks and Required Prepayment
+## Article XII — Future Picks and Prepayment
 
 > **PAYMENT FIRST** — Pay first, then trade. A future 1st- or 2nd-round pick trade made before the required dues are confirmed is reversed.
 
@@ -246,11 +260,11 @@
 
 ## Article XIII — Startup Draft (Transitional)
 
-**13.1** This Article applies only to the inaugural startup draft for Season 2027. It is a 36-round slow snake draft with a 4-hour pick clock.
+**13.1** This Article applies only to the inaugural startup draft for Season 2027. It is a 41-round slow snake draft in which major-league players and prospects are drafted together, with a 2-hour pick clock.
 
 **13.2** Startup draft order is set by a random draw conducted by the Commissioner and published in Discord before the draft.
 
-**13.3** The Startup Draft follows the date formula in Article V. If all 12 franchises are not filled and fully paid in time, the Commissioner may postpone the draft with at least 14 days' notice, but it must be completed at least 14 days before Week 1. If the draft is not on pace to finish in time, the Commissioner may shorten the pick clock with 7 days' notice.
+**13.3** The Startup Draft begins in late January on a date announced at least 30 days ahead, once all 12 franchises are filled and fully paid, and must be completed at least 7 days before Week 1. If the draft is not on pace to finish in time, the Commissioner may shorten the pick clock with 7 days' notice.
 
 **13.4** A nightly clock pause runs from midnight through 8:00 AM ET. Picks may be made during the pause where Fantrax allows, but the active pick timer is suspended.
 
@@ -262,31 +276,31 @@
 
 **14.1** The annual DBL draft is 5 rounds and is linear rather than snake. Each franchise therefore holds the same draft position in every round unless a pick has been traded. The first Annual Draft is the 2028 Annual Draft.
 
-**14.2** The Annual Draft begins 14 to 21 days after the final day of the NHL Entry Draft (Article V).
+**14.2** The Annual Draft begins between January 20 and February 10 of each Offseason, announced at least 30 days ahead (Article V), so that the previous summer's MLB draftees and the new international signings are in the player pool.
 
 **14.3** The draft uses an 8-hour pick clock with a midnight–8:00 AM ET pause. Managers are encouraged to maintain queues. Timeout handling may use Fantrax queue, auto-draft, or temporary-skip tools as announced before the draft.
 
-**14.4** The player pool is not restricted to the current NHL draft class. Any unowned player in the Fantrax player pool who satisfies DBL minor-league eligibility for the Season that Annual Draft supplies may be selected.
+**14.4** The player pool is not restricted to a draft class. Any unowned player in the Fantrax player pool who satisfies DBL minor-league eligibility for the Season that Annual Draft supplies may be selected.
 
-**14.5** Draft order is based on the results of the Season just completed. Picks 1.01 through 1.06 belong to the six non-playoff franchises and are ordered by ascending Potential Points / Max Points For, with the lowest total receiving 1.01. Potential Points is Fantrax's measure of the points a franchise would have scored with its best possible lineup each Week, using its active and reserve players; players in minor-league and IR slots are not counted. Ties are broken under Section 15.5.
+**14.5** Draft order is based on the results of the Season just completed. Picks 1.01 through 1.06 belong to the six non-playoff franchises and are ordered by ascending Potential Points / Max Points For, with the lowest total receiving 1.01. Potential Points is Fantrax's measure of the points a franchise would have scored with its best possible lineup each Week, using its active and reserve players; players in minor-league and IL slots are not counted. Ties are broken under Section 15.5.
 
 **14.6** Picks 1.07 and 1.08 belong to the two Quarterfinal losers, with the lower regular-season seed selecting earlier. Pick 1.09 belongs to the fourth-place finisher. Pick 1.10 belongs to the third-place finisher. Pick 1.11 belongs to the Runner-Up. Pick 1.12 belongs to the DBL Champion.
 
 **14.7** The same order repeats in Rounds 2 through 5. The consolation bracket does not alter annual draft position.
 
-## Article XV — Regular Season, Standings, and Presidents' Trophy
+## Article XV — Standings and Presidents' Trophy
 
 **15.1** The regular season consists of 22 Weeks. Every franchise plays every other franchise twice.
 
 **15.2** Regular-season standings and head-to-head results are recorded by Fantrax.
 
-**15.3** The Presidents' Trophy is awarded to the franchise with the best regular-season Head-to-Head record after Week 22 and carries the annual $200 prize. It is independent of postseason results.
+**15.3** The Presidents' Trophy is awarded to the franchise with the best regular-season Head-to-Head record after Week 22 and carries the annual $250 prize. It is independent of postseason results.
 
 **15.4** **Standings tiebreakers.** These apply to every standings position, including the Presidents' Trophy, playoff qualification and seeding, and consolation seeding. If two or more franchises are tied: (1) regular-season fantasy points scored; (2) head-to-head record among the tied franchises; (3) the next configured Fantrax standings tiebreaker; (4) a random draw conducted by the Commissioner and recorded in Discord.
 
 **15.5** **Draft-order ties.** If non-playoff franchises are tied on Potential Points / Max Points For, the franchise with fewer regular-season fantasy points scored selects earlier. If still tied, a random draw conducted by the Commissioner and recorded in Discord decides.
 
-## Article XVI — Playoffs, Third Place, and Consolation
+## Article XVI — Playoffs and Consolation
 
 > **POSTSEASON** — Six playoff teams. Top two seeds receive byes. The DBL Championship is a two-week cumulative matchup.
 
@@ -294,17 +308,17 @@
 
 **16.2** **Quarterfinals:** Seed 3 vs. Seed 6 and Seed 4 vs. Seed 5. **Semifinals:** Seed 1 and Seed 2 join the four-team field; the playoff bracket reseeds after each round, with the highest remaining seed facing the lowest remaining seed. Quarterfinals and Semifinals are one fantasy Week each. The **DBL Championship** is a two-week cumulative matchup.
 
-**16.3** The two Semifinal losers play a third-place matchup during the same two-week period as the DBL Championship. The winner receives third place and the $150 third-place prize. The Commissioner enters this matchup in Fantrax once the Semifinals are final.
+**16.3** The two Semifinal losers play a third-place matchup during the same two-week period as the DBL Championship. The winner receives third place and the $200 third-place prize. The Commissioner enters this matchup in Fantrax once the Semifinals are final.
 
 **16.4** If Fantrax cannot technically stage the third-place matchup, the fallback is the Semifinal loser who scores the most fantasy points during the same two-week championship period. If the fallback total is exactly tied, the higher playoff seed receives third place.
 
 **16.5** If any playoff, third-place, or consolation matchup ends in an exact tie, the higher seed advances or wins.
 
-**16.6** The playoff schedule should end approximately six days before the NHL regular season concludes to reduce late-season NHL lineup volatility where the NHL schedule permits (Article V).
+**16.6** The playoffs end with the last day of the MLB regular season (Article V).
 
 **16.7** **Consolation bracket.** The six non-playoff franchises play a consolation bracket during the same Weeks as the playoffs, using the same structure: seeded 1 through 6 by their regular-season standings rank among non-playoff franchises, top two seeds receive byes, reseeding after each round, and a two-week cumulative final. The consolation-bracket champion receives the next-Season $50 FAAB bonus described in Article X. Consolation results do not change annual draft order, standings, or the Presidents' Trophy.
 
-## Article XVII — Competitive Integrity and Anti-Tanking
+## Article XVII — Competitive Integrity
 
 **17.1** Managers are expected to compete in good faith and maintain legal, reasonably competitive lineups. Deliberate lineup sabotage, collusion, coordinated dumping of assets, or manipulation intended to distort standings, playoff qualification, or draft position is prohibited.
 
@@ -316,7 +330,7 @@
 
 **17.5** Any owner may report suspected violations to the Commissioner. Enforcement follows Article XIX.
 
-## Article XVIII — Orphan Franchises and Ownership Changes
+## Article XVIII — Orphans and Ownership Changes
 
 **18.1** A franchise is **orphaned** when its owner resigns, is removed under Article III, or is inactive (no lineup or transaction activity and no response to Commissioner contact) for 7 consecutive days during an Active Season or 14 consecutive days during the Offseason.
 
@@ -328,7 +342,7 @@
 
 **18.5** The Commissioner may temporarily lock an abandoned franchise from transactions while replacement ownership is being arranged. The Commissioner should avoid making discretionary long-term roster moves for an orphan except where necessary to maintain a legal lineup or prevent an obvious competitive distortion.
 
-## Article XIX — Commissioner Authority, Conflicts, and Appeals
+## Article XIX — Commissioner and Appeals
 
 **19.1** The Commissioner may interpret and enforce this Constitution, correct administrative errors, and take reasonable action necessary to address situations not expressly anticipated by the rules. Such authority must be exercised to preserve the intent, competitive balance, and continuity of the league rather than to create new substantive rules during the Season.
 
@@ -344,7 +358,7 @@
 
 **19.7** All significant rulings, recusal decisions, and appeal outcomes are recorded in the rulings-log channel so that the league retains a permanent record.
 
-## Article XX — Amendments, Records, and Dissolution
+## Article XX — Amendments and Records
 
 **20.1** **Adoption.** The Commissioner finalizes this Constitution before any owner is invited to the league. Accepting a franchise is accepting this Constitution, and each owner agrees to be bound by it. The text as accepted (the Charter) is locked. No amendment vote may be held before the Offseason following Season 2027, and until then the Constitution changes only by clerical correction under Section 2.5.
 
@@ -356,13 +370,13 @@
 
 **20.5** Amendments do not retroactively alter completed competition, previously earned prizes, or finalized transactions.
 
-**20.6** **Records.** Official amendment results, effective dates, championship history, Presidents' Trophy winners, Dynasty Pot status, dues status, and other permanent league records are maintained in Discord and/or the league's designated archival system. Each adopted version of this Constitution is dated and posted, and prior versions are archived.
+**20.6** **Records.** Official amendment results, effective dates, championship history, Presidents' Trophy winners, Dynasty Pot status, dues status, and other permanent league records are maintained in Discord and/or the league's designated archival system. Each adopted text of this Constitution is dated and posted, and prior texts are archived.
 
 **20.7** **Dissolution.** If the DBL permanently dissolves, authorized outstanding league expenses are settled first. Remaining prize funds or other Season-specific funds are distributed according to the results already earned where reasonably possible. Any remaining Dynasty Pot balance is distributed equally among active, fully paid franchises as provided in Article IV. If the DBL dissolves before a Season's first lineup lock, that Season's dues not yet spent on authorized expenses are refunded to the franchises that paid them.
 
-**20.8** The latest published version of this Constitution is the controlling league document. Upon adoption of the Charter, all prior working drafts are superseded except as historical records.
+**20.8** The latest published text of this Constitution is the controlling league document. Upon adoption of the Charter, all prior working drafts are superseded except as historical records.
 
 **HISTORY**
-• **Charter** — Adopted by owner acceptance. Effective Season 2027.
+• **Preliminary Draft** — Working draft for review; not yet adopted. It becomes the Charter when the Commissioner finalizes it before owners are invited.
 
 *End of Constitution*

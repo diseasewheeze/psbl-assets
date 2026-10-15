@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_TEMPLATES = ROOT / "templates" / "constitution"
 OUT_DOCS = ROOT / "constitution"
 
-GOLD = 16758812
+GOLD = 12398649  # league red #BD3039 (the name is kept for the embed color role)
 MAX_DESC = 3900          # stay under Discord's 4096 per-embed description limit
 MAX_MESSAGE = 5600       # stay under Discord's 6000 per-message counted characters
 MAX_EMBEDS = 9           # leave room for the frozen footer image embed rule
@@ -51,9 +51,9 @@ def article_lines(art: dict, fmt: str) -> list[str]:
             rows.append(f"• **TOTAL — ${S.ALLOCATION_TOTAL:,}**")
             lines.append("\n".join(rows))
         elif kind == "scoring":
-            sk = "\n".join(f"• {k} — **{v}**" for k, v in S.SKATERS)
-            go = "\n".join(f"• {k} — **{v}**" for k, v in S.GOALIES)
-            lines.append(f"**SKATERS**\n{sk}\n\n**GOALIES**\n{go}")
+            sk = "\n".join(f"• {k} — **{v}**" for k, v in S.HITTING_TABLE)
+            go = "\n".join(f"• {k} — **{v}**" for k, v in S.PITCHING_TABLE)
+            lines.append(f"**HITTERS**\n{sk}\n\n**PITCHERS**\n{go}")
         elif kind == "dates":
             lines.append("\n".join(f"• **{k}:** {v}" for k, v in S.DATE_RULES))
         elif kind == "history":
@@ -237,7 +237,7 @@ def make_embeds() -> list[dict]:
     alloc = "\n".join(f"• {k} — **${v:,}**" for k, v in S.ALLOCATION)
     embeds.append({
         "title": "ANNUAL FINANCIAL ALLOCATION",
-        "description": f"12 franchises × $150 = **${S.ALLOCATION_TOTAL:,}** annual league pool.\n\n{alloc}\n• **TOTAL — ${S.ALLOCATION_TOTAL:,}**",
+        "description": f"{S.FRANCHISES} franchises × ${S.DUES} = **${S.ALLOCATION_TOTAL:,}** annual league pool.\n\n{alloc}\n• **TOTAL — ${S.ALLOCATION_TOTAL:,}**",
         "color": GOLD, "footer": {"text": S.FOOTER},
     })
     for art in S.ARTICLES:
@@ -245,7 +245,7 @@ def make_embeds() -> list[dict]:
         for i, chunk in enumerate(chunks):
             title = f"ARTICLE {art['num']} — {art['title'].upper()}"
             if i:
-                title += " (CONTINUED)"
+                title += " (CONT.)"
             embeds.append({"title": title, "description": chunk, "color": GOLD, "footer": {"text": S.FOOTER}, "_article": art["num"]})
     return embeds
 
@@ -305,42 +305,24 @@ def build_markdown() -> str:
 
 # ------------------------------------------------------------------------- PDF
 # The 8-bit league look, kept readable: Pixelify Sans for the text, Jersey 10 for headings and numbers,
-# Silkscreen for small labels, pixel frames and the ice resurfacer on the cover.
-RESURFACER = [
-    ".......................KKKKKKKNNNNNNNNKKKK..............",
-    "............KKKK......KBBBBBBBBBBBBBBBBBBBKKK...........",
-    "...........KGGGGKK...KBBBBBBBBBBBBBBBBBBBBBBBK..........",
-    ".........KKKGGGGGGK.KBBBBBBBBBBBBBBBBBBBBBBBBBK.........",
-    "........KSSSSCCKKK..KSSSSSSSSSSSSSSSSSSSSSSSSSK.........",
-    "........KSMKKCCCK..KKWWWWWWWWWWWWWWWWWWWWWWWWWK.........",
-    "........KSMKBBWBKKKKSKWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-    "........KSMKBBBBBBBKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-    "........KSMKBBBBKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-    "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWK.........",
-    "........KSMMMMKKKKKKKWWLWWLWWLWWLWWLWWLWWLWWLWWK........",
-    "........KSSSSSSSSSSSSWWWWWWWWWWWWWWWWWWWWWWWWWWWK.......",
-    ".........KKWWWWWWWWWWWWWWWKKWWKWWWKWKWWKWWWWWWWWWK......",
-    "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWKKK...",
-    "..........KWWWWWWWWWWWWWWWKKWWKWWWKKKWKKKWWWWWWWWWWGCK..",
-    "..........KWWWWWWWWWWWWWWWKWKWKWWWKWKWKWKWWWWWWWWWWGGK..",
-    "..........KWWWWWWWWWWWWWWWKKWWKKKWKWKWKWKWWWWWWSSSSWWK..",
-    "...KKKKKKKKWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWK..",
-    "..KSSSSSSGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGKKKKKKKKKK..",
-    "..KSMMMMMBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK...",
-    "..KSMMMMMBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBK...",
-    "..KSSSSSSBBBBKKKBBBBBBKKKBBBBBBBBBBBBBKKKBBBBBBKKKBBK...",
-    "..KSMMMMMBBBKKKKKBBBBKKKKKBBBBBBBBBBBKKKKKBBBBKKKKKBK...",
-    "..KSSSSSSKKKKKSKKKKKKKKSKKKKKKKKKKKKKKKSKKKKKKKKSKKKK...",
-    "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK....",
-    "CCCCCCK.....KKKKK....KKKKK...........KKKKK....KKKKK.....",
-    "KCCCCCCK.....KKK......KKK.............KKK......KKK......",
-    ".KKKKKK.................................................",
+# Silkscreen for small labels, pixel frames and a baseball diamond on the cover.
+BALL = [
+    "....KKKKKK....",
+    "..KKWWWWWWKK..",
+    ".KWRWWWWWWRWK.",
+    ".KWWRWWWWRWWK.",
+    "KWWWRWWWWRWWWK",
+    "KWWRWWWWWWRWWK",
+    "KWWRWWWWWWRWWK",
+    "KWWRWWWWWWRWSK",
+    "KWWRWWWWWWRWSK",
+    "KWWWRWWWWRWSSK",
+    ".KWWRWWWWRWSK.",
+    ".KWRWWWWWWRSK.",
+    "..KKWWWWWSSK..",
+    "....KKKKKK....",
 ]
-B_SPRITE = ["KKKKKKKKKK....", "KGGGGGGGGGK...", "KGWWWWWWWWGK..", "KGWWKKKKWWWGK.", "KGWWKGGKWWWGK.", "KGWWKKKKWWGK..",
-            "KGWWWWWWWWGK..", "KGWWWWWWWWWGK.", "KGWWKKKKKWWWGK", "KGWWKGGGKWWWGK", "KGWWKKKKKWWWGK", "KGWWWWWWWWWWGK",
-            "KGGGGGGGGGGGK.", "KKKKKKKKKKKK.."]
-SPRITE_PAL = {"K": "#0E0F12", "W": "#FCFCFC", "G": "#FFB81C", "S": "#9AA1A9", "B": "#2F6FDB", "L": "#7FB7F0",
-              "C": "#F4EFE4", "N": "#1F4FA8", "M": "#3A3D42"}
+SPRITE_PAL = {"K": "#0C2340", "W": "#FFFFFF", "R": "#BD3039", "S": "#C9D2DE"}
 
 
 def build_pdf(path: Path) -> None:
@@ -364,16 +346,16 @@ def build_pdf(path: Path) -> None:
     pdfmetrics.registerFont(TTFont("Label", str(fonts / "silkscreen" / "Silkscreen-Regular.ttf")))
     pdfmetrics.registerFont(TTFont("Label-Bold", str(fonts / "silkscreen" / "Silkscreen-Bold.ttf")))
 
-    BLACK = colors.HexColor("#0E0F12")
-    CHAR = colors.HexColor("#2B2D31")
-    GOLDC = colors.HexColor("#FFB81C")
-    CREAM = colors.HexColor("#F4EFE4")
-    INK = colors.HexColor("#14161A")
+    BLACK = colors.HexColor("#0C2340")   # navy
+    CHAR = colors.HexColor("#16325A")
+    GOLDC = colors.HexColor("#BD3039")   # red accent
+    CREAM = colors.HexColor("#FFFFFF")
+    INK = colors.HexColor("#0C1A2E")
     GRAY = colors.HexColor("#4C5563")
     SOFT = colors.HexColor("#B9BEC6")
-    ICE = colors.HexColor("#EEF5FA")
+    ICE = colors.HexColor("#EEF2F7")
     LINE = colors.HexColor("#C3CFDA")
-    CALL = colors.HexColor("#FFF4D6")
+    CALL = colors.HexColor("#FBE8E9")
 
     W, H = letter
     LM = RM = 0.9 * inch
@@ -381,7 +363,7 @@ def build_pdf(path: Path) -> None:
     body = ParagraphStyle("body", fontName="Body", fontSize=10.2, leading=15, textColor=INK, spaceAfter=6)
     small = ParagraphStyle("small", parent=body, fontSize=9.3, leading=12.8, spaceAfter=0)
     h_sec = ParagraphStyle("hsec", fontName="Pix", fontSize=24, leading=24, textColor=INK, spaceBefore=4, spaceAfter=4)
-    kick = ParagraphStyle("kick", fontName="Label-Bold", fontSize=7, leading=10, textColor=colors.HexColor("#8A5E00"))
+    kick = ParagraphStyle("kick", fontName="Label-Bold", fontSize=7, leading=10, textColor=colors.HexColor("#8E1F27"))
     sub = ParagraphStyle("sub", fontName="Body", fontSize=11, leading=15.5, textColor=GRAY, spaceAfter=10)
     toc_s = ParagraphStyle("toc", fontName="Body-Bold", fontSize=10.2, leading=13.5, textColor=INK)
     callout_s = ParagraphStyle("callout", parent=body, fontName="Body-Bold", fontSize=10.2, spaceAfter=0)
@@ -391,7 +373,7 @@ def build_pdf(path: Path) -> None:
         t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t)
 
-    def label(text: str, color: str = "#FFB81C", size: float = 7) -> str:
+    def label(text: str, color: str = "#FFFFFF", size: float = 7) -> str:
         return f'<font name="Label-Bold" size="{size}" color="{color}">{text.upper()}</font>'
 
     wordmark = ROOT / "brand" / "source" / "dbl-wordmark-white.png"
@@ -420,7 +402,7 @@ def build_pdf(path: Path) -> None:
         c.setFillColor(BLACK); c.rect(0, 0, W, H, stroke=0, fill=1)
         c.setFillColor(GOLDC); c.rect(0, H - 8, W, 8, stroke=0, fill=1); c.rect(0, 0, W, 8, stroke=0, fill=1)
         # dotted arena backdrop in the top half
-        c.setFillColor(colors.HexColor("#1A1C22"))
+        c.setFillColor(colors.HexColor("#16325A"))
         for yy in range(int(H * .42), int(H) - 8, 8):
             for xx in range((yy // 8 % 2) * 4, int(W), 8):
                 c.rect(xx, yy, 1.6, 1.6, stroke=0, fill=1)
@@ -433,31 +415,38 @@ def build_pdf(path: Path) -> None:
         c.setFillColor(SOFT); c.setFont("Body", 13)
         c.drawString(1.0 * inch, H - 5.45 * inch, "A permanent framework for competition, governance,")
         c.drawString(1.0 * inch, H - 5.7 * inch, "and long-term franchise management.")
-        pixel_frame(c, 1.0 * inch, H - 6.85 * inch, 4.0 * inch, 0.78 * inch, 4, colors.HexColor("#1A1C22"), GOLDC)
+        pixel_frame(c, 1.0 * inch, H - 6.85 * inch, 4.0 * inch, 0.78 * inch, 4, colors.HexColor("#16325A"), GOLDC)
         c.setFillColor(GOLDC); c.setFont("Label-Bold", 10); c.drawString(1.0 * inch + 14, H - 6.42 * inch, S.EDITION.upper())
         c.setFillColor(SOFT); c.setFont("Body", 10)
-        c.drawString(1.0 * inch + 14, H - 6.68 * inch, "Established 2026  •  Inaugural Season 2027–28")
-        # the rink, with the ice resurfacer
-        rink_y, rink_h = 1.25 * inch, 1.15 * inch
-        c.setFillColor(colors.HexColor("#6E747C")); c.rect(0, rink_y + rink_h, W, 6, stroke=0, fill=1)
-        c.setFillColor(GOLDC); c.rect(0, rink_y + rink_h - 3, W, 3, stroke=0, fill=1)
-        c.setFillColor(colors.HexColor("#E4EEF5")); c.rect(0, rink_y, W, rink_h - 3, stroke=0, fill=1)
-        c.setFillColor(colors.HexColor("#F8FBFD")); c.rect(0, rink_y, 2.3 * inch, rink_h - 12, stroke=0, fill=1)
-        c.setFillColor(colors.HexColor("#2457C5")); c.rect(W * .3, rink_y, 5, rink_h - 3, stroke=0, fill=1); c.rect(W * .7, rink_y, 5, rink_h - 3, stroke=0, fill=1)
-        c.setFillColor(colors.HexColor("#C8241F")); c.rect(W * .5 - 3, rink_y, 6, rink_h - 3, stroke=0, fill=1)
-        sprite(c, RESURFACER, 2.15 * inch, rink_y + 4, 2.6)
+        c.drawString(1.0 * inch + 14, H - 6.68 * inch, "Established 2026  •  Inaugural Season 2027")
+        # the ballpark: a navy field with a white-lined diamond and the pixel baseball
+        field_y, field_h = 1.15 * inch, 1.35 * inch
+        c.setFillColor(GOLDC); c.rect(0, field_y + field_h, W, 4, stroke=0, fill=1)
+        c.setFillColor(colors.HexColor("#16325A")); c.rect(0, field_y, W, field_h, stroke=0, fill=1)
+        cx, base_y, half = W * 0.68, field_y + 10, 0.52 * inch
+        c.setStrokeColor(CREAM); c.setLineWidth(3)
+        pts = [(cx, base_y), (cx + half, base_y + half), (cx, base_y + 2 * half), (cx - half, base_y + half)]
+        for (x0, y0), (x1, y1) in zip(pts, pts[1:] + pts[:1]):
+            c.line(x0, y0, x1, y1)
+        c.setLineWidth(2); c.line(cx, base_y, cx + 1.7 * half, base_y + 1.7 * half); c.line(cx, base_y, cx - 1.7 * half, base_y + 1.7 * half)
+        c.setFillColor(CREAM)
+        for (x, y) in pts[1:]:
+            c.rect(x - 4, y - 4, 8, 8, stroke=0, fill=1)
+        c.rect(cx - 4, base_y - 3, 8, 6, stroke=0, fill=1)
+        c.setFillColor(GOLDC); c.circle(cx, base_y + half, 5, stroke=0, fill=1)
+        sprite(c, BALL, 1.0 * inch, field_y + 0.3 * inch, 3.2)
         c.setFillColor(GOLDC); c.setFont("Label-Bold", 9); c.drawString(1.0 * inch, 0.82 * inch, "FANTRAX RUNS THE GAME.  DISCORD RUNS THE LEAGUE.")
         c.setFillColor(CREAM); c.setFont("Label", 7.5); c.drawString(1.0 * inch, 0.6 * inch, "DYNASTY BASEBALL LEAGUE  •  EST. 2026")
 
     def on_page(c, d):
         c.setFillColor(BLACK); c.rect(0, H - 0.82 * inch, W, 0.82 * inch, stroke=0, fill=1)
         c.setFillColor(GOLDC); c.rect(0, H - 0.82 * inch - 4, W, 4, stroke=0, fill=1)
-        sprite(c, B_SPRITE, LM, H - 0.66 * inch, 2)
+        sprite(c, BALL, LM, H - 0.68 * inch, 2.2)
         c.setFillColor(CREAM); c.setFont("Label-Bold", 7.5)
         c.drawString(LM + 40, H - 0.47 * inch, "DBL  /  CONSTITUTION")
         c.setFillColor(GOLDC); c.drawRightString(W - RM, H - 0.47 * inch, S.EDITION.upper())
         for i in range(int((W - LM - RM) // 8)):  # a stepped pixel rule
-            c.setFillColor(GOLDC if i % 2 == 0 else colors.HexColor("#FFD76A"))
+            c.setFillColor(GOLDC if i % 2 == 0 else colors.HexColor("#D9545C"))
             c.rect(LM + i * 8, 0.72 * inch, 8, 2.5, stroke=0, fill=1)
         c.setFillColor(GRAY); c.setFont("Label", 7)
         c.drawString(LM, 0.52 * inch, "DYNASTY BASEBALL LEAGUE  •  EST. 2026")
@@ -474,8 +463,8 @@ def build_pdf(path: Path) -> None:
     story: list = [NextPageTemplate("page"), PageBreak()]
 
     def stat_bar():
-        cells = [[Paragraph(f'<font name="Pix" size="30" color="#FFB81C">{a}</font>', ParagraphStyle("c", alignment=1, leading=30)) for a, _ in S.GLANCE_STATS],
-                 [Paragraph(label(b, "#F4EFE4", 6.5), ParagraphStyle("c2", alignment=1, leading=9)) for _, b in S.GLANCE_STATS]]
+        cells = [[Paragraph(f'<font name="Pix" size="30" color="#E8636B">{a}</font>', ParagraphStyle("c", alignment=1, leading=30)) for a, _ in S.GLANCE_STATS],
+                 [Paragraph(label(b, "#FFFFFF", 6.5), ParagraphStyle("c2", alignment=1, leading=9)) for _, b in S.GLANCE_STATS]]
         t = Table(cells, colWidths=[cw / 4] * 4, rowHeights=[0.5 * inch, 0.3 * inch])
         t.setStyle(TableStyle([("BACKGROUND", (0, 0), (-1, -1), BLACK), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
                                ("LINEAFTER", (0, 0), (-2, -1), 2, CHAR), ("LINEBELOW", (0, -1), (-1, -1), 4, GOLDC)]))
@@ -505,13 +494,13 @@ def build_pdf(path: Path) -> None:
     story += [Paragraph("Quick Reference", h_sec)]
     story += [label_table([[Paragraph(label(k), small), Paragraph(md(v), small)] for k, v in S.QUICK_REFERENCE], 1.3 * inch), Spacer(1, 10)]
     al_head = [Paragraph("Annual Financial Allocation", h_sec),
-               Paragraph(f"<b>12 franchises × $150 = ${S.ALLOCATION_TOTAL:,} annual league pool.</b>", ParagraphStyle("al", parent=small, textColor=GRAY, spaceAfter=5))]
+               Paragraph(f"<b>{S.FRANCHISES} franchises × ${S.DUES} = ${S.ALLOCATION_TOTAL:,} annual league pool.</b>", ParagraphStyle("al", parent=small, textColor=GRAY, spaceAfter=5))]
 
     def alloc_table():
         data = [[Paragraph(label("Annual allocation"), small), Paragraph(label("Amount"), right)]]
         for k, v in S.ALLOCATION:
             data.append([Paragraph(k, small), Paragraph(f'<font name="Pix" size="13">${v:,}</font>', right)])
-        data.append([Paragraph(label("Total", "#F4EFE4"), small), Paragraph(f'<font name="Pix" size="15" color="#FFB81C">${S.ALLOCATION_TOTAL:,}</font>', right)])
+        data.append([Paragraph(label("Total", "#FFFFFF"), small), Paragraph(f'<font name="Pix" size="15" color="#E8636B">${S.ALLOCATION_TOTAL:,}</font>', right)])
         t = Table(data, colWidths=[cw - 1.3 * inch, 1.3 * inch])
         st = [("BACKGROUND", (0, 0), (-1, 0), BLACK), ("BACKGROUND", (0, -1), (-1, -1), BLACK),
               ("ROWBACKGROUNDS", (0, 1), (-1, -2), [colors.white, ICE]), ("LINEBELOW", (0, 1), (-1, -2), 0.6, LINE),
@@ -527,7 +516,7 @@ def build_pdf(path: Path) -> None:
     # TOC
     story += heading_rule("Table of Contents")
     story += [Paragraph(f"{len(S.ARTICLES)} articles define the DBL's competitive rules, financial structure, governance, and long-term franchise protections.", sub)]
-    toc_rows = [[Paragraph(f'<font name="Pix" size="14" color="#FFB81C">{a["num"]}</font>', ParagraphStyle("tn", alignment=1, leading=13.5)),
+    toc_rows = [[Paragraph(f'<font name="Pix" size="14" color="#BD3039">{a["num"]}</font>', ParagraphStyle("tn", alignment=1, leading=13.5)),
                  Paragraph(a["title"], toc_s)] for a in S.ARTICLES]
     tt = Table(toc_rows, colWidths=[0.55 * inch, cw - 0.55 * inch])
     tt.setStyle(TableStyle([("BACKGROUND", (0, 0), (0, -1), BLACK), ("ROWBACKGROUNDS", (1, 0), (1, -1), [colors.white, ICE]),
@@ -537,7 +526,7 @@ def build_pdf(path: Path) -> None:
 
     def article_header(art):
         num = Paragraph(f'<font name="Pix" size="24" color="#0E0F12">{art["num"]}</font>', ParagraphStyle("n", alignment=1, leading=24))
-        ttl = Paragraph(f'{label("Article " + art["num"], "#FFB81C", 6.5)}<br/><font name="Pix" size="20" color="#F4EFE4">{art["title"]}</font>',
+        ttl = Paragraph(f'{label("Article " + art["num"], "#BD3039", 6.5)}<br/><font name="Pix" size="20" color="#FFFFFF">{art["title"]}</font>',
                         ParagraphStyle("t", leading=19))
         t = Table([[num, ttl]], colWidths=[0.95 * inch, cw - 0.95 * inch], rowHeights=[0.62 * inch])
         t.setStyle(TableStyle([("BACKGROUND", (0, 0), (0, 0), GOLDC), ("BACKGROUND", (1, 0), (1, 0), BLACK), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
@@ -568,13 +557,13 @@ def build_pdf(path: Path) -> None:
             kind = block[0]
             if kind == "p":
                 n += 1
-                chip = f'<font name="Pix" size="12" color="#FFB81C" backColor="#14161A">&nbsp;{art_num(art)}.{n}&nbsp;</font>'
+                chip = f'<font name="Pix" size="12" color="#BD3039" backColor="#0C2340">&nbsp;{art_num(art)}.{n}&nbsp;</font>'
                 story.append(Paragraph(f"{chip}&nbsp;&nbsp;{md(block[1])}", body))
             elif kind == "allocation":
                 story += [KeepTogether([alloc_table()]), Spacer(1, 7)]
             elif kind == "scoring":
-                left = simple_table(S.SKATERS, "Skaters", "Pts")
-                right_t = simple_table(S.GOALIES, "Goalies", "Pts")
+                left = simple_table(S.HITTING_TABLE, "Hitters", "Pts")
+                right_t = simple_table(S.PITCHING_TABLE, "Pitchers", "Pts")
                 two = Table([[left, right_t]], colWidths=[cw / 2, cw / 2])
                 two.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "TOP"), ("LEFTPADDING", (0, 0), (-1, -1), 0)]))
                 story += [two, Spacer(1, 7)]
