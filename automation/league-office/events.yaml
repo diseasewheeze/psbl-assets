@@ -189,7 +189,7 @@ events:
     starts_at: "2027-08-02T09:00:00"
     channel: commissioner-desk
     priority: normal
-    description: "No amendment vote before the Offseason after Season 2027 (20.1). Once the Season 2027 League Calendar is published, check amendment_votes_from in bot/config.yaml (now 2028-04-10) is the day after the Championship's final scoring period, and ask Claude to change it if not."
+    description: "No amendment vote before the Offseason after Season 2027 (20.1). Once the Season 2027 League Calendar is published, check amendment_votes_from in bot/config.yaml (now 2028-04-10) is the day after the Championship's final scoring period, and change it if not."
     reminders: [start]
 
   - id: commissioner-premium-renewal
