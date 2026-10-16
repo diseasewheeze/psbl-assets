@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T06:15:42.433617Z",
+  "updated_at": "2026-10-16T06:45:57.524036Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1164,6 +1164,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T06:15:42.407054Z"
+    },
+    {
+      "key": "a8dcabcf83b5d5dc9818f319",
+      "url": "https://www.mlb.com/news/dyk-nlcs-game-4-facts-and-stats",
+      "fingerprint": "0144bcd3b1adba43",
+      "title_norm": "fascinating facts and stats from brewers' comeback sweep",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T06:45:56.454125Z"
+    },
+    {
+      "key": "5f60df4caf5230a1956d4ae9",
+      "url": "https://www.mlb.com/news/tarik-skubal-free-agency-future-with-dodgers",
+      "fingerprint": "b3636e81f20565d1",
+      "title_norm": "will la target skubal in free agency? here are the questions facing dodgers this offseason",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T06:45:57.480365Z"
     }
   ],
   "known_sources": [
