@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T17:30:53.141344Z",
+  "updated_at": "2026-10-16T18:45:54.031761Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1294,6 +1294,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-16T17:30:53.114327Z"
+    },
+    {
+      "key": "d094c18590ef6fdda1c74333",
+      "url": "https://www.mlbtraderumors.com/2026/10/mariners-interested-in-rocco-baldelli-for-managerial-job.html",
+      "fingerprint": "1cfd1f0b483fae4d",
+      "title_norm": "mariners interested in rocco baldelli for managerial job",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T18:45:53.723931Z"
+    },
+    {
+      "key": "d6b668e4adebb361f6f982dc",
+      "url": "https://www.mlbtraderumors.com/2026/10/front-office-subscriber-chat-with-anthony-franco-today-at-200pm-central-87.html",
+      "fingerprint": "db4038a73194aef6",
+      "title_norm": "front office subscriber chat with anthony franco: today at 2:00pm central",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T18:45:54.000825Z"
     }
   ],
   "known_sources": [
