@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T05:01:01.743038Z",
+  "updated_at": "2026-10-16T06:15:42.433617Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1154,6 +1154,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T05:01:01.707584Z"
+    },
+    {
+      "key": "d937a6a5d885391e57bbb57d",
+      "url": "https://www.mlb.com/news/dodgers-lose-2026-nlcs-to-brewers",
+      "fingerprint": "9828996db6afc1a8",
+      "title_norm": "dodgers left to ponder state of team core as cracks emerge in nlcs sweep",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T06:15:42.407054Z"
     }
   ],
   "known_sources": [
