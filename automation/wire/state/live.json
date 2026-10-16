@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T17:01:08.686368Z",
+  "updated_at": "2026-10-16T17:30:53.141344Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1284,6 +1284,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T17:01:08.644847Z"
+    },
+    {
+      "key": "2994813b739e83fec312bcd4",
+      "url": "https://www.mlbtraderumors.com/2026/10/kbos-ssg-landers-extend-pedro-avila.html",
+      "fingerprint": "046edfffaac7f292",
+      "title_norm": "kbo's ssg landers extend pedro avila",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T17:30:53.114327Z"
     }
   ],
   "known_sources": [
