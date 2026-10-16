@@ -11,7 +11,7 @@
 - **Minors:** MLB rookie limits: no more than 130 career MLB at-bats and no more than 50 career MLB innings pitched. No age limit.
 - **FAAB:** $1,000 per season; no rollover; $0 bids allowed; hidden bids; daily processing; no FCFS.
 - **Acquisitions:** Maximum 5 per normal fantasy week; a longer scoring period allows 5 for each calendar week it spans.
-- **Pitcher starts:** Maximum 7 credited starts per normal fantasy week; 14 across the two-week championship.
+- **Pitcher starts:** Maximum 7 credited starts per seven days of a Week, from any pitching slot; 14 across the two-week championship.
 - **Trades:** Unlimited, no vote or veto. Deadline: Sunday 11:59 PM ET at the end of Week 20. Reopens the day after the World Series ends.
 - **Startup draft:** One combined slow snake draft of major-league players and prospects, 41 rounds, finished at least 7 days before Week 1.
 - **Annual draft:** 5 rounds, linear; held each January or February from the unowned minor-eligible pool.
@@ -118,7 +118,7 @@
 
 **5.1** The PSBL uses Head-to-Head Points scoring with daily lineups.
 
-**5.2** The regular season consists of 22 fantasy Weeks. Each franchise plays every other franchise twice. The league does not use divisions or conferences. Week 1 opens with MLB's Opening Night and may run longer than one calendar week. If Fantrax combines the All-Star break with an adjacent week, that scoring period counts as one Week. If Fantrax's MLB calendar cannot fit 22 regular-season Weeks and the four playoff Weeks, or MLB shortens its schedule, the Commissioner shortens the regular season to fit and announces it before Week 1 as a platform-conformance correction.
+**5.2** The regular season consists of 22 fantasy Weeks. Each franchise plays every other franchise twice. The league does not use divisions or conferences. Week 1 opens with MLB's Opening Night and may be shorter or longer than one calendar week. If Fantrax combines the All-Star break with an adjacent week, that scoring period counts as one Week. If Fantrax's MLB calendar cannot fit 22 regular-season Weeks and the four playoff Weeks, or MLB shortens its schedule, the Commissioner shortens the regular season to fit and announces it before Week 1 as a platform-conformance correction.
 
 **5.3** Individual players lock at approximately one minute before their MLB game begins, subject to Fantrax system behavior and the league's configured lineup settings.
 
@@ -134,7 +134,7 @@
 
 **5.9** The key dates and how each is set:
 
-• **Week 1:** Begins with the first Fantrax scoring period of the Season, which opens with MLB's Opening Night; it may run longer than one calendar week.
+• **Week 1:** Begins with the first Fantrax scoring period of the Season, which opens with MLB's Opening Night; it may be shorter or longer than one calendar week.
 • **Dues deadline:** Set by the Commissioner with at least 30 days' notice, and always before that Season's draft (Article III).
 • **Startup Draft:** Begins in late January before Season 2027, announced at least 30 days ahead, and ends at least 7 days before Week 1 (Article XIII).
 • **Annual Draft:** Begins between January 20 and February 10 of each Offseason, announced at least 30 days ahead (Article XIV).
@@ -153,9 +153,11 @@
 
 **6.2** Active positions are C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL, 5 SP, and 3 RP. An OF slot may be filled by any outfielder and a UTIL slot by any hitter. An SP slot takes a player Fantrax lists as a starting pitcher and an RP slot a player Fantrax lists as a relief pitcher. Fantrax's position eligibility controls.
 
-**6.3** Minor-league players do not count toward the normal 26-player roster limit. Players properly placed on IL do not count toward normal roster limitations while Fantrax recognizes them as IL-eligible.
+**6.3** A two-way player earns hitting points only in a hitting slot and pitching points only in a pitching slot, never both on the same day.
 
-**6.4** Managers are responsible for maintaining legal rosters. When a roster becomes illegal because of a transaction, eligibility change, or player activation, the manager must correct the violation within 24 hours of notice from Fantrax or the Commissioner, or within any shorter limit Fantrax enforces.
+**6.4** Minor-league players do not count toward the normal 26-player roster limit. Players properly placed on IL do not count toward normal roster limitations while Fantrax recognizes them as IL-eligible.
+
+**6.5** Managers are responsible for maintaining legal rosters. When a roster becomes illegal because of a transaction, eligibility change, or player activation, the manager must correct the violation within 24 hours of notice from Fantrax or the Commissioner, or within any shorter limit Fantrax enforces.
 
 ## Article VII — Minor-League Eligibility
 
@@ -171,42 +173,40 @@
 
 ## Article VIII — Scoring
 
-**8.1** The PSBL scoring system rewards what players control: getting on base, hitting for power, running, missing bats, and preventing runs. Categories not listed below are disabled unless this Constitution is formally amended.
+**8.1** PSBL scoring prices every play at its value in runs, using FanGraphs' linear weights at 10 points per run, and charges the pitcher the mirror price: a home run is worth 14 points to the hitter and costs the pitcher 14. Categories not listed below are disabled unless this Constitution is formally amended.
 
 **HITTERS**
-• Single (1B) — **+1.00**
-• Double (2B) — **+2.00**
-• Triple (3B) — **+3.00**
-• Home Run (HR) — **+4.00**
-• Run Scored (R) — **+1.00**
-• Run Batted In (RBI) — **+1.00**
-• Walk (BB) — **+1.00**
-• Hit by Pitch (HBP) — **+1.00**
+• At-Bat (AB) — **-1.00**
+• Hit (H) — **+5.60**
+• Double (2B), added — **+3.00**
+• Triple (3B), added — **+5.70**
+• Home Run (HR), added — **+9.40**
+• Walk (BB) — **+3.10**
+• Hit by Pitch (HBP) — **+3.30**
 • Stolen Base (SB) — **+2.00**
-• Caught Stealing (CS) — **-1.00**
-• Strikeout (K) — **-0.50**
+• Caught Stealing (CS) — **-4.10**
 
 **PITCHERS**
-• Inning Pitched (IP), +1 per out — **+3.00**
-• Strikeout (K) — **+1.25**
-• Hit Allowed (H) — **-1.00**
-• Walk Issued (BB) — **-1.00**
-• Hit Batter (HB) — **-1.00**
-• Earned Run (ER) — **-2.00**
-• Win (W) — **+2.00**
-• Loss (L) — **-1.00**
+• Inning Pitched, +2/out — **+6.00**
+• Strikeout (K) — **+2.00**
+• Hit Allowed (H) — **-2.60**
+• HR Allowed, added — **-11.40**
+• Walk Issued (BB) — **-3.10**
+• Hit Batter (HB) — **-3.30**
 • Save (SV) — **+6.00**
 • Hold (HLD) — **+4.00**
 
-**8.2** Partial innings score by the out: each out recorded is one point, so a full inning is three. Quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not separately scored. Fantrax's final stat corrections control.
+**8.2** Every at-bat costs 1 point and every hit earns 5.6, and doubles, triples and home runs add their value to the hit, so a single nets 4.6, a double 7.6, a triple 10.3 and a home run 14. A home run allowed costs the pitcher the hit and the home-run value together. Intentional walks count as walks. Partial innings score by the out: each out recorded is two points, so a full inning is six.
+
+**8.3** Runs, RBI, wins, losses, earned runs, quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not scored. Fantrax's final stat corrections control.
 
 ## Article IX — Lineups and Pitcher Starts
 
 **9.1** Lineups are set daily. Managers are responsible for maintaining legal, reasonably competitive active lineups throughout the Season.
 
-**9.2** A franchise may receive credit for a maximum of 7 pitcher starts during a normal fantasy Week. A start counts when a pitcher in an active lineup slot starts an MLB game.
+**9.2** A franchise may receive credit for a maximum of 7 pitcher starts during a normal fantasy Week. A start counts when a pitcher in any active pitching slot starts an MLB game. Once a franchise has reached the limit before a day begins, its starting pitchers (by Fantrax primary position) score no more points that Week; every start on the day the limit is reached counts.
 
-**9.3** The two-week PSBL Championship permits a maximum of 14 credited pitcher starts across the full championship period. Any other Week longer than one calendar week, such as Week 1 or a scoring period that includes the All-Star break, uses the same rule: 7 credited starts and 5 acquisitions for each calendar week it spans.
+**9.3** Fantrax prorates the start limit by the length of the Week: 7 starts for every seven days. The two-week PSBL Championship and a two-week Week that includes the All-Star break each permit 14; a shorter Week 1 permits proportionally fewer. Acquisitions are counted per calendar week, Monday through Sunday, so a Week that spans two calendar weeks permits 5 in each.
 
 **9.4** Fantrax enforcement settings govern the technical application of the pitcher-start limit. A manager may not intentionally exploit a platform timing or scoring behavior to obtain credit beyond the constitutional maximum.
 

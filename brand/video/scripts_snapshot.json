@@ -221,22 +221,22 @@
    [
     "0:04",
     "Card: HITTERS with every value",
-    "For hitters, a single is one point, a double two, a triple three, a homer four. Runs, RBIs, walks and hit-by-pitches are one each. Steals are two. Caught stealing costs one, a strikeout half a point."
+    "Every at-bat costs a point and every hit earns five point six. Doubles add three, triples five point seven, homers nine point four, so a homer nets fourteen. Walks are three point one, hit-by-pitches three point three. A steal is two, and getting caught costs four point one."
    ],
    [
     "0:20",
     "Card: PITCHERS with every value",
-    "Pitchers get a point per out, three an inning, and one and a quarter per strikeout. Hits, walks and hit batters cost one, earned runs two. Wins are two, losses minus one, saves six, holds four."
+    "Pitchers get two points an out, six an inning, and two per strikeout. A hit allowed costs two point six, and a homer eleven point four more. Walks cost three point one, hit batters three point three. Saves are six, holds four."
    ],
    [
     "0:35",
-    "Tiles: +16.50, +18.75, −11.50",
-    "So a two-homer night with three runs and four RBIs is sixteen-fifty. A six-inning win with seven strikeouts is eighteen seventy-five. And a starter knocked out in the fourth after six runs costs you eleven-fifty."
+    "Tiles: +16.60, +19.40, −27.80",
+    "So a homer and a single in four at-bats is sixteen-sixty. Six innings with seven strikeouts and one homer allowed is nineteen-forty. And a starter knocked out in the fourth after two homers costs you twenty-seven eighty."
    ],
    [
     "0:50",
     "Card: NOT SCORED",
-    "No points for quality starts, complete games, shutouts, blown saves or bonuses. Steals, holds and strikeouts add up fast."
+    "No points for runs, RBIs, wins, losses or earned runs, and none for quality starts, shutouts or blown saves. Every play is priced in runs."
    ],
    [
     "0:58",

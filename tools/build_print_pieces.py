@@ -363,12 +363,12 @@ def welcome_packet(art) -> Doc:
     header(b, pg, "03 • POINTS AND DOLLARS", "SCORING AND THE MONEY")
     b.T(pg, M, 128, COL, 370,
         ("H2", "HITTERS"),
-        (rows, "Single / double / triple / homer\t+1 / 2 / 3 / 4"), (rows, "Run • RBI • walk • HBP\t+1 each"),
-        (rows, "Stolen base\t+2"), (rows, "Caught stealing\t−1"), (rows, "Strikeout\t−0.5"),
+        (rows, "At-bat / hit\t−1 / +5.6"), (rows, "Double / triple / homer, added\t+3 / 5.7 / 9.4"),
+        (rows, "Walk • HBP\t+3.1 • +3.3"), (rows, "Stolen base / caught\t+2 / −4.1"),
         ("H2", "PITCHERS"),
-        (rows, "Inning pitched (1 per out)\t+3"), (rows, "Strikeout\t+1.25"), (rows, "Hit, walk or HBP allowed\t−1 each"),
-        (rows, "Earned run\t−2"), (rows, "Win / loss\t+2 / −1"), (rows, "Save / hold\t+6 / +4"),
-        ("Small", "Not scored: quality starts, complete games, shutouts, blown saves or bonuses."))
+        (rows, "Inning pitched (2 per out)\t+6"), (rows, "Strikeout\t+2"), (rows, "Hit allowed\t−2.6"),
+        (rows, "Homer allowed, added\t−11.4"), (rows, "Walk • HBP allowed\t−3.1 • −3.3"), (rows, "Save / hold\t+6 / +4"),
+        ("Small", "Not scored: runs, RBI, wins, losses, earned runs, quality starts, shutouts, blown saves or bonuses."))
     b.T(pg, COL2, 128, COL, 390,
         ("H2", "WHERE THE $2,400 GOES"),
         (rows, "PSBL Champion\t$850"), (rows, "Runner-Up\t$450"), (rows, "Third Place\t$200"),
@@ -388,10 +388,10 @@ def welcome_packet(art) -> Doc:
             "season first, or the whole trade is reversed (Article XII). Picks in rounds 3 to 5 need no prepayment.")
     b.T(pg, M, 604, CW, 18, ("H2", "SCORING IN ACTION"))
     tw = (CW - 36) / 4
-    for i, (big, label, note) in enumerate([("+16.50", "A BIG DAY", "2 homers, a single, a walk, 3 runs, 4 RBI, 1 K"),
-                                            ("+8.00", "TABLE SETTER", "Single, double, walk, steal and 2 runs"),
-                                            ("+18.75", "QUALITY START", "6 IP, 5 H, 2 ER, 1 BB, 7 K and a win"),
-                                            ("−8.25", "A ROUGH OUTING", "4 IP, 8 H, 6 ER, 3 BB, 3 K and a loss")]):
+    for i, (big, label, note) in enumerate([("+16.60", "A BIG DAY", "A homer and a single in 4 at-bats"),
+                                            ("+16.30", "TABLE SETTER", "Single, double, walk and a steal in 3 at-bats"),
+                                            ("+19.40", "QUALITY START", "6 IP, 5 H, 1 HR, 2 BB, 7 K"),
+                                            ("−27.80", "A ROUGH OUTING", "3 IP, 8 H, 2 HR, 2 BB, 2 K")]):
         tile(b, pg, M + i * (tw + 12), 626, tw, 100, big, label, note)
     footer(b, pg, foot, 5)
 
@@ -562,16 +562,16 @@ def draft_sheet(art) -> Doc:
         ("Small3", "Slots 1 and 12 pick back to back at the turns."))
     b.T(pg, c3, top, w3, 440,
         ("H2", "SCORING"),
-        (r3, "1B / 2B / 3B / HR\t1 / 2 / 3 / 4"), (r3, "R • RBI • BB • HBP\t+1"), (r3, "SB / CS\t+2 / −1"), (r3, "Hitter K\t−0.5"),
-        (r3, "Out pitched\t+1"), (r3, "Pitcher K\t+1.25"), (r3, "H, BB, HB allowed\t−1"), (r3, "Earned run\t−2"),
-        (r3, "W / L\t+2 / −1"), (r3, "SV / HLD\t+6 / +4"),
+        (r3, "AB / H\t−1 / +5.6"), (r3, "2B / 3B / HR, added\t3 / 5.7 / 9.4"), (r3, "BB • HBP\t3.1 • 3.3"), (r3, "SB / CS\t+2 / −4.1"),
+        (r3, "Out pitched\t+2"), (r3, "Pitcher K\t+2"), (r3, "H allowed\t−2.6"), (r3, "HR allowed, added\t−11.4"),
+        (r3, "BB / HB allowed\t−3.1 / −3.3"), (r3, "SV / HLD\t+6 / +4"),
         ("H2", "WHAT DRIVES VALUE"),
-        ("Bullet3", "A homer is worth at least 6: 4, plus the run and an RBI."),
-        ("Bullet3", "A walk counts the same as a single; a steal the same as a double."),
-        ("Bullet3", "An average start scores about 11. 6 IP, 2 ER, 7 K and a win: +18.75."),
-        ("Bullet3", "Closers and setup men both count: saves +6, holds +4."),
+        ("Bullet3", "A single nets 4.6, a double 7.6, a triple 10.3, a homer 14."),
+        ("Bullet3", "A walk is two-thirds of a single. Steals pay if you're safe 2 in 3."),
+        ("Bullet3", "A typical start scores about 20. 7 IP, 4 H, 10 K, 1 BB: +48.5."),
+        ("Bullet3", "Saves +6, holds +4. Relievers matter; aces matter more."),
         ("Bullet3", "Only 7 pitcher starts count a Week."),
-        ("Small3", "No quality starts, shutouts, blown saves or bonuses."))
+        ("Small3", "No runs, RBI, wins, earned runs, quality starts or blown saves."))
     callout(b, pg, M, 584, COL, 128, "PICKS AND TRADES",
             "Trade freely, no vetoes. To trade away a future 1st or 2nd, your dues must be paid through that pick's "
             "season first, or the trade is reversed. No conditional picks.", style="CalloutBody")

@@ -1,11 +1,11 @@
 # League-wide settings shared by every PSBL automation.
 #
-# When the real 2027-28 league is created on Fantrax, change league_id and
-# season_label here. Everything else (week dates, playoff weeks, number of
+# The Season 2027 Fantrax league. When the league renews for a new Season,
+# change season_label here. Everything else (week dates, playoff weeks, number of
 # playoff teams, the season calendar) is read from Fantrax automatically.
 
-league_id: w02cjakmmumb3lur
-season_label: "2026-27 TEST"
+league_id: jhzw6k51mvafuvw7
+season_label: "2027"
 timezone: America/New_York
 
 # PSBL league red accent used by Competition Desk posts.

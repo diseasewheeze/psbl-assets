@@ -42,10 +42,10 @@ var DATA = {
         {
             name: "How Scoring Works", length: 60, cards: [
                 { at: 0, kind: "title", eyebrow: "HEAD-TO-HEAD POINTS", title: "HOW SCORING WORKS", sub: "EVERY VALUE IS IN ARTICLE VIII" },
-                { at: 4, kind: "card", eyebrow: "HITTERS", title: "EVERY VALUE", lines: ["SINGLE  +1.00 • DOUBLE  +2.00", "TRIPLE  +3.00 • HOME RUN  +4.00", "RUN, RBI, WALK, HIT BY PITCH  +1.00 EACH", "STOLEN BASE  +2.00", "CAUGHT STEALING  -1.00", "STRIKEOUT  -0.50"] },
-                { at: 20, kind: "card", eyebrow: "PITCHERS", title: "EVERY VALUE", lines: ["EACH OUT  +1.00 (AN INNING  +3.00)", "STRIKEOUT  +1.25", "HIT, WALK OR HIT BATTER  -1.00 EACH", "EARNED RUN  -2.00", "WIN  +2.00 • LOSS  -1.00", "SAVE  +6.00 • HOLD  +4.00"] },
-                { at: 35, kind: "tiles", eyebrow: "WHAT A NIGHT LOOKS LIKE", title: "THREE NIGHTS", tiles: [["+16.50", "2 HR, SINGLE, WALK, 3 R, 4 RBI, K"], ["+18.75", "6 IP, 5 H, 2 ER, 1 BB, 7 K, A WIN"], ["-11.50", "3 IP, 8 H, 6 ER, 2 BB, 2 K, A LOSS"]] },
-                { at: 50, kind: "card", eyebrow: "NOT SCORED", title: "NO POINTS FOR", lines: ["QUALITY STARTS", "COMPLETE GAMES OR SHUTOUTS", "BLOWN SAVES", "BONUSES", "STEALS, HOLDS AND STRIKEOUTS ADD UP"] },
+                { at: 4, kind: "card", eyebrow: "HITTERS", title: "EVERY VALUE", lines: ["EVERY AT-BAT  -1.00 • HIT  +5.60", "DOUBLE  +3.00 MORE • TRIPLE  +5.70 MORE", "HOME RUN  +9.40 MORE (+14.00 IN ALL)", "WALK  +3.10 • HIT BY PITCH  +3.30", "STOLEN BASE  +2.00", "CAUGHT STEALING  -4.10"] },
+                { at: 20, kind: "card", eyebrow: "PITCHERS", title: "EVERY VALUE", lines: ["EACH OUT  +2.00 (AN INNING  +6.00)", "STRIKEOUT  +2.00", "HIT ALLOWED  -2.60", "HOME RUN  -11.40 MORE (-14.00 IN ALL)", "WALK  -3.10 • HIT BATTER  -3.30", "SAVE  +6.00 • HOLD  +4.00"] },
+                { at: 35, kind: "tiles", eyebrow: "WHAT A NIGHT LOOKS LIKE", title: "THREE NIGHTS", tiles: [["+16.60", "HOMER AND A SINGLE IN 4 AT-BATS"], ["+19.40", "6 IP, 5 H, A HOMER, 2 BB, 7 K"], ["-27.80", "3 IP, 8 H, 2 HOMERS, 2 BB, 2 K"]] },
+                { at: 50, kind: "card", eyebrow: "NOT SCORED", title: "NO POINTS FOR", lines: ["RUNS OR RBI", "WINS, LOSSES OR EARNED RUNS", "QUALITY STARTS OR SHUTOUTS", "BLOWN SAVES OR BONUSES", "EVERY PLAY IS PRICED IN RUNS"] },
                 { at: 58, kind: "end", title: "HOW SCORING WORKS", sub: "PITCH SLAPPED BASEBALL LEAGUE" }
             ]
         },

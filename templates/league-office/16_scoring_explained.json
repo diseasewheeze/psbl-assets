@@ -11,7 +11,7 @@
     },
     {
       "title": "HOW PSBL SCORING WORKS",
-      "description": "The PSBL scoring system has two goals: points should reward what a player does well, and every lineup slot should matter about as much as its share of your lineup. Each value was tested against every MLB player's 2024, 2025 and 2026 regular seasons, about 2,250 hitter seasons and 2,600 pitcher seasons, and the reasons are below.",
+      "description": "PSBL scoring prices every play at what it's worth in runs, using the linear weights FanGraphs publishes, at 10 points per run. A hitter earns the run value of what he does, and the pitcher pays the same price from the other side. The values match FanGraphs' figures for every season from 2021 to 2026, and the reasons are below.",
       "color": 12398649,
       "footer": {
         "text": "PSBL LEAGUE OFFICE"
@@ -19,42 +19,42 @@
       "fields": [
         {
           "name": "HITTERS",
-          "value": "Single **+1**\nDouble **+2**\nTriple **+3**\nHome Run **+4**\nRun **+1** • RBI **+1**\nWalk **+1** • Hit by Pitch **+1**\nStolen Base **+2** • Caught Stealing **−1**\nStrikeout **−0.5**",
+          "value": "Every At-Bat **−1**\nHit **+5.6**\nDouble **+3** more • Triple **+5.7** more\nHome Run **+9.4** more\nWalk **+3.1** • Hit by Pitch **+3.3**\nStolen Base **+2** • Caught Stealing **−4.1**",
           "inline": false
         },
         {
           "name": "PITCHERS",
-          "value": "Inning Pitched **+3** (+1 per out)\nStrikeout **+1.25**\nHit, Walk or Hit Batter **−1** each\nEarned Run **−2**\nWin **+2** • Loss **−1**\nSave **+6** • Hold **+4**",
+          "value": "Inning Pitched **+6** (+2 per out)\nStrikeout **+2**\nHit Allowed **−2.6**\nHome Run Allowed **−11.4** more\nWalk **−3.1** • Hit Batter **−3.3**\nSave **+6** • Hold **+4**",
           "inline": false
         },
         {
           "name": "**━━━ HITTING ━━━**",
-          "value": "**Familiar on purpose.** Total bases, runs, RBI and walks are the stats every owner already knows. Across the three seasons they split a hitter's points about evenly: singles, home runs, runs and RBI each about a fifth, walks about a seventh and steals about a twentieth. Power, on-base skill and speed each have a real path to value, and no single stat carries a hitter.\n\nSteals stay at 2. At 1.5, a hitter's points repeated less well from one season to the next, so the cut would have made results noisier without making them fairer.",
+          "value": "**Priced in runs.** With the at-bat counted, a single nets **+4.6**, a double **+7.6**, a triple **+10.3** and a home run **+14**, and an out costs **1**. That's what each is worth in runs: a home run is about three singles, and a walk about two-thirds of one.\n\n**No runs or RBI.** They depend on where a hitter bats and who's on base, and the hits behind them already count. A strikeout is an out like any other; the difference in runs is a tenth of a point.\n\n**Steals:** a steal adds about 0.2 runs and getting caught costs about 0.4, so a runner has to succeed about twice for every time he's caught to come out ahead.",
           "inline": false
         },
         {
-          "name": "**━━━ STARTING PITCHERS ━━━**",
-          "value": "**Paid for outs and strikeouts, charged for baserunners and runs.** An average MLB start in these seasons scored about **11 points**. An everyday hitter averaged about **2.6 points a game**, so over a week a starter's slot and a hitter's slot come out close: about 406 points a season for a league's 60 starting pitchers against 424 for its 120 starting hitters.\n\nStrikeouts are the most repeatable thing a pitcher does. At **1.25**, starters' points repeat better from season to season than at any lower value tested (a correlation of 0.54, against 0.45 under typical redraft values).",
+          "name": "**━━━ PITCHING ━━━**",
+          "value": "**What a pitcher controls counts in full.** Strikeouts, walks and home runs are mostly his own doing. Whether a ball in play falls for a hit depends a lot on the defense, the park and luck, so a hit allowed costs half its run value. Tested on every starter from 2021 to 2026, that mix matched a season's runs allowed almost as well as charging hits in full, and it predicted the next season's runs allowed better than a pitcher's actual runs allowed did.\n\n**No wins, losses or earned runs.** The offense, the bullpen and the scorer decide too much of them.",
           "inline": false
         },
         {
-          "name": "**━━━ WINS AND SAVES ━━━**",
-          "value": "**Counted, but kept small.** A win depends on the offense and the bullpen, so it's worth **+2** and a loss **−1**: about 2% of pitcher points, against about 8% when a win is worth 7.\n\nSaves (**+6**) and holds (**+4**) make relievers worth a roster spot without letting closers swamp the board. With a 7-point save and no holds, 4 to 6 relievers ranked among the 25 most valuable players each season; here it's 0 to 3. Holds give setup men value, so your three RP slots aren't only a closer hunt.",
+          "name": "**━━━ INNINGS AND RELIEVERS ━━━**",
+          "value": "**The inning (+6) is the one number that isn't a run value.** It sets what a start is worth, so the five SP slots carry their share of the lineup: about **28%** of the value above replacement, the same as their share of the 18 slots.\n\n**Saves (+6) and holds (+4)** pay relievers for pitching in the biggest spots. At these values the best closer in each season from 2021 to 2026 ranked between the 9th and 27th best starter: worth a roster spot, but not worth more than an ace.",
           "inline": false
         },
         {
           "name": "WHAT A GAME CAN LOOK LIKE",
-          "value": "Homer, single, walk, 2 runs, 3 RBI, a strikeout → **+10.5**\n0 for 4 with 2 strikeouts → **−1.0**\n6 IP, 5 H, 2 ER, 1 BB, 7 K, win → **+18.75**\n4 IP, 8 H, 6 ER, 3 BB, 3 K, loss → **−8.25**\nCloser: 1 IP, 1 H, 2 K, save → **+10.5**\nSetup man: 1 IP, 1 K, hold → **+8.25**",
+          "value": "Homer and a single in 4 at-bats → **+16.6**\n2 singles and a walk in 4 at-bats → **+10.3**\n0 for 4 → **−4**\n7 IP, 4 H, 1 BB, 10 K → **+48.5**\n6 IP, 5 H (a homer), 2 BB, 7 K → **+19.4**\n3 IP, 8 H (2 homers), 2 BB, 2 K → **−27.8**\nCloser: 1 IP, 2 K, save → **+16**\nSetup man: 1 IP, 1 H, 1 K, hold → **+9.4**",
           "inline": false
         },
         {
           "name": "**━━━ WHAT ISN'T SCORED ━━━**",
-          "value": "**Quality starts:** innings and earned runs already reward a long, clean start, so a bonus would count it twice.\n**Complete games, shutouts and no-hitters:** the same reason.\n**Blown saves:** the hits, runs and any loss already cost him.\n**Grand slams, cycles and walk-offs:** those hits and RBI already count; a bonus mostly rewards luck.",
+          "value": "**Runs and RBI:** the hits behind them already count.\n**Wins, losses and earned runs:** the offense, the bullpen and the defense decide too much of them.\n**Quality starts, complete games, shutouts and no-hitters:** innings, strikeouts and hits already reward them.\n**Blown saves:** the hits and walks behind them already cost the pitcher, and a closer's blown-save rate doesn't carry over from one season to the next.",
           "inline": false
         },
         {
           "name": "**━━━ FOR YOUR ROSTER ━━━**",
-          "value": "Over a season, hitters score about **58%** of a team's points, starters about **28%** and relievers about **15%**, close to their share of the 18 lineup slots (56%, 28% and 17%). The best seasons from 2024 to 2026 scored about 700 to 795 for a hitter, 630 to 650 for a starter and 500 to 530 for a reliever. Half and quarter points make an exact weekly tie very rare.",
+          "value": "From 2021 to 2026 a hitter in a league's lineup averaged about **5.5 points a game** and a starter about **20 points a start**. The best seasons ran about 1,300 to 1,570 for a hitter, 890 to 980 for a starter and 580 to 700 for a reliever. Hitters top the point totals because they play every day, so draft by value, not by raw points.",
           "inline": false
         }
       ],

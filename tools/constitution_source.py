@@ -84,7 +84,7 @@ def _points(value: float) -> str:
 
 HITTING_TABLE = [(sport.HITTING_LABELS[k], _points(v)) for k, v in sport.HITTING.items()]
 PITCHING_TABLE = [
-    ("Inning Pitched (IP), +1 per out" if k == "outs" else sport.PITCHING_LABELS[k],
+    (f"Inning Pitched, {v:+g}/out" if k == "outs" else sport.PITCHING_LABELS[k],
      _points(v * 3) if k == "outs" else _points(v))
     for k, v in sport.PITCHING.items()
 ]
@@ -104,7 +104,7 @@ QUICK_REFERENCE = [
     ("Minors", f"MLB rookie limits: no more than {sport.MINORS_MAX_AB} career MLB at-bats and no more than {_IP_LIMIT} career MLB innings pitched. No age limit."),
     ("FAAB", "$1,000 per season; no rollover; $0 bids allowed; hidden bids; daily processing; no FCFS."),
     ("Acquisitions", f"Maximum {_ADDS} per normal fantasy week; a longer scoring period allows {_ADDS} for each calendar week it spans."),
-    ("Pitcher starts", f"Maximum {_STARTS} credited starts per normal fantasy week; {_STARTS * 2} across the two-week championship."),
+    ("Pitcher starts", f"Maximum {_STARTS} credited starts per seven days of a Week, from any pitching slot; {_STARTS * 2} across the two-week championship."),
     ("Trades", "Unlimited, no vote or veto. Deadline: Sunday 11:59 PM ET at the end of Week 20. Reopens the day after the World Series ends."),
     ("Startup draft", f"One combined slow snake draft of major-league players and prospects, {_CONTROLLED} rounds, finished at least 7 days before Week 1."),
     ("Annual draft", "5 rounds, linear; held each January or February from the unowned minor-eligible pool."),
@@ -127,7 +127,7 @@ ALLOCATION_TOTAL = FRANCHISES * DUES
 assert sum(a for _, a in ALLOCATION) == ALLOCATION_TOTAL == 2400
 
 DATE_RULES = [
-    ("Week 1", "Begins with the first Fantrax scoring period of the Season, which opens with MLB's Opening Night; it may run longer than one calendar week."),
+    ("Week 1", "Begins with the first Fantrax scoring period of the Season, which opens with MLB's Opening Night; it may be shorter or longer than one calendar week."),
     ("Dues deadline", "Set by the Commissioner with at least 30 days' notice, and always before that Season's draft (Article III)."),
     ("Startup Draft", "Begins in late January before Season 2027, announced at least 30 days ahead, and ends at least 7 days before Week 1 (Article XIII)."),
     ("Annual Draft", "Begins between January 20 and February 10 of each Offseason, announced at least 30 days ahead (Article XIV)."),
@@ -206,7 +206,7 @@ ARTICLES = [
         "num": "V", "title": "Format, Schedule, and Calendar", "callout": None,
         "blocks": [
             ("p", "The PSBL uses Head-to-Head Points scoring with daily lineups."),
-            ("p", "The regular season consists of 22 fantasy Weeks. Each franchise plays every other franchise twice. The league does not use divisions or conferences. Week 1 opens with MLB's Opening Night and may run longer than one calendar week. If Fantrax combines the All-Star break with an adjacent week, that scoring period counts as one Week. If Fantrax's MLB calendar cannot fit 22 regular-season Weeks and the four playoff Weeks, or MLB shortens its schedule, the Commissioner shortens the regular season to fit and announces it before Week 1 as a platform-conformance correction."),
+            ("p", "The regular season consists of 22 fantasy Weeks. Each franchise plays every other franchise twice. The league does not use divisions or conferences. Week 1 opens with MLB's Opening Night and may be shorter or longer than one calendar week. If Fantrax combines the All-Star break with an adjacent week, that scoring period counts as one Week. If Fantrax's MLB calendar cannot fit 22 regular-season Weeks and the four playoff Weeks, or MLB shortens its schedule, the Commissioner shortens the regular season to fit and announces it before Week 1 as a platform-conformance correction."),
             ("p", "Individual players lock at approximately one minute before their MLB game begins, subject to Fantrax system behavior and the league's configured lineup settings."),
             ("p", "**Dates are set by formula.** MLB and Fantrax schedules change every Season, so this Constitution defines deadlines and key dates as an anchor event plus an offset rather than as fixed calendar dates. The League Calendar converts those formulas into exact dates and times each Season."),
             ("p", "**Publication.** The Commissioner publishes the League Calendar for each Season within 14 days after MLB releases its regular-season schedule, and keeps it current. For Season 2027 it is published before owners are invited."),
@@ -222,6 +222,7 @@ ARTICLES = [
         "blocks": [
             ("p", f"Normal roster limits are {_ACTIVE} active players and {sport.BENCH} reserves, for {_MAJORS} major-league roster spots, plus {sport.MINORS} minor-league spots and up to {sport.INJURED_LIST} IL spots. That is {_CONTROLLED} controlled roster spots excluding IL, or {_CONTROLLED + sport.INJURED_LIST} including IL."),
             ("p", f"Active positions are {_lineup_text()}. An OF slot may be filled by any outfielder and a UTIL slot by any hitter. An SP slot takes a player Fantrax lists as a starting pitcher and an RP slot a player Fantrax lists as a relief pitcher. Fantrax's position eligibility controls."),
+            ("p", "A two-way player earns hitting points only in a hitting slot and pitching points only in a pitching slot, never both on the same day."),
             ("p", f"Minor-league players do not count toward the normal {_MAJORS}-player roster limit. Players properly placed on IL do not count toward normal roster limitations while Fantrax recognizes them as IL-eligible."),
             ("p", "Managers are responsible for maintaining legal rosters. When a roster becomes illegal because of a transaction, eligibility change, or player activation, the manager must correct the violation within 24 hours of notice from Fantrax or the Commissioner, or within any shorter limit Fantrax enforces."),
         ],
@@ -239,17 +240,18 @@ ARTICLES = [
     {
         "num": "VIII", "title": "Scoring", "callout": None,
         "blocks": [
-            ("p", "The PSBL scoring system rewards what players control: getting on base, hitting for power, running, missing bats, and preventing runs. Categories not listed below are disabled unless this Constitution is formally amended."),
+            ("p", "PSBL scoring prices every play at its value in runs, using FanGraphs' linear weights at 10 points per run, and charges the pitcher the mirror price: a home run is worth 14 points to the hitter and costs the pitcher 14. Categories not listed below are disabled unless this Constitution is formally amended."),
             ("scoring",),
-            ("p", "Partial innings score by the out: each out recorded is one point, so a full inning is three. Quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not separately scored. Fantrax's final stat corrections control."),
+            ("p", f"Every at-bat costs 1 point and every hit earns 5.6, and doubles, triples and home runs add their value to the hit, so a single nets {sport.NET_HIT['single']:g}, a double {sport.NET_HIT['double']:g}, a triple {sport.NET_HIT['triple']:g} and a home run {sport.NET_HIT['home run']:g}. A home run allowed costs the pitcher the hit and the home-run value together. Intentional walks count as walks. Partial innings score by the out: each out recorded is two points, so a full inning is six."),
+            ("p", "Runs, RBI, wins, losses, earned runs, quality starts, complete games, shutouts, no-hitters, blown saves, cycles, grand slams, and other unlisted categories are not scored. Fantrax's final stat corrections control."),
         ],
     },
     {
         "num": "IX", "title": "Lineups and Pitcher Starts", "callout": None,
         "blocks": [
             ("p", "Lineups are set daily. Managers are responsible for maintaining legal, reasonably competitive active lineups throughout the Season."),
-            ("p", f"A franchise may receive credit for a maximum of {_STARTS} pitcher starts during a normal fantasy Week. A start counts when a pitcher in an active lineup slot starts an MLB game."),
-            ("p", f"The two-week PSBL Championship permits a maximum of {_STARTS * 2} credited pitcher starts across the full championship period. Any other Week longer than one calendar week, such as Week 1 or a scoring period that includes the All-Star break, uses the same rule: {_STARTS} credited starts and {_ADDS} acquisitions for each calendar week it spans."),
+            ("p", f"A franchise may receive credit for a maximum of {_STARTS} pitcher starts during a normal fantasy Week. A start counts when a pitcher in any active pitching slot starts an MLB game. Once a franchise has reached the limit before a day begins, its starting pitchers (by Fantrax primary position) score no more points that Week; every start on the day the limit is reached counts."),
+            ("p", f"Fantrax prorates the start limit by the length of the Week: {_STARTS} starts for every seven days. The two-week PSBL Championship and a two-week Week that includes the All-Star break each permit {_STARTS * 2}; a shorter Week 1 permits proportionally fewer. Acquisitions are counted per calendar week, Monday through Sunday, so a Week that spans two calendar weeks permits {_ADDS} in each."),
             ("p", "Fantrax enforcement settings govern the technical application of the pitcher-start limit. A manager may not intentionally exploit a platform timing or scoring behavior to obtain credit beyond the constitutional maximum."),
         ],
     },

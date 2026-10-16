@@ -41,9 +41,9 @@ The approved architecture is:
 
 ## League settings
 
-League-wide settings live in `automation/league.yaml` (Fantrax league ID, season label, report time, playoff race start week, the light and heavy day thresholds for the MLB games grid, opted-in owners for pings, webhook secret names). When the real Season 2027 Fantrax league is created, change `league_id` and `season_label` there; week dates, playoff weeks and playoff team count are read from Fantrax automatically.
+League-wide settings live in `automation/league.yaml` (Fantrax league ID, season label, report time, playoff race start week, the light and heavy day thresholds for the MLB games grid, opted-in owners for pings, webhook secret names). `league_id` points at the Season 2027 Fantrax league; when the league renews, change `season_label`. Week dates, playoff weeks and playoff team count are read from Fantrax automatically.
 
-The league's baseball rules live in `automation/core/sport.py`: the lineup (C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL, 5 SP, 3 RP), bench, IL and minors sizes, the weekly pitcher-start and acquisition limits, the minor-league limits (130 career MLB at-bats, 50 innings) and the scoring values. `research/scoring/` holds the 2024 to 2026 player data and the analysis the scoring values were set from.
+The league's baseball rules live in `automation/core/sport.py`: the lineup (C, 1B, 2B, 3B, SS, 3 OF, 2 UTIL, 5 SP, 3 RP), bench, IL and minors sizes, the weekly pitcher-start and acquisition limits, the minor-league limits (130 career MLB at-bats, 50 innings) and the scoring values. `research/scoring/` holds the 2021 to 2026 player data and the analysis behind the scoring values (run values from FanGraphs' linear weights, at 10 points per run).
 
 MLB data comes from MLB's public stats feed (statsapi.mlb.com, read-only): `automation/core/mlb.py` for the schedule, probable pitchers, scores and game content, and `automation/core/mlb_people.py` for players, career stats, game logs, 40-man rosters and transactions. Responses whose shape was not checked against a live response are marked in the code.
 

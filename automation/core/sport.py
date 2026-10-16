@@ -53,53 +53,60 @@ MINORS_MAX_OUTS = 150  # 50 innings pitched
 
 # --- Scoring (Constitution Article VIII) ----------------------------------------
 
-# Points per stat, by MLB Stats API field name. The values were set against every
-# MLB player's 2024-2026 regular seasons (research/scoring/): they make a
-# league's starters at each position worth about what their share of the lineup
-# is, and make each player's points as repeatable from season to season as the
-# stats allow (see the scoring explainer in tools/build_news_templates.py). "singles" is derived as
-# hits - doubles - triples - homeRuns. "outs" are outs recorded while
-# pitching (3 per inning), so 1 point per out is 3 points per inning.
+# Points per stat, by MLB Stats API field name, entered in Fantrax the same way.
+# Every event is priced at its run value from FanGraphs' linear weights for the
+# 2021-2026 seasons, at 10 points per run: an out is -1, a single nets +4.6
+# (at-bat -1, hit +5.6), a double +7.6, a triple +10.3 and a home run +14.0, and
+# the pitcher pays the mirror price. Hits allowed count at half weight, because
+# a pitcher only partly controls whether a ball in play falls in. The two values
+# that are not run values, the inning (+6, so +2 per out) and saves and holds,
+# were set against every MLB pitcher's 2021-2026 seasons so that a league's
+# starters carry their share of the lineup and no reliever outscores the aces
+# (research/scoring/). Intentional walks count as walks. "outs" are outs
+# recorded while pitching (3 per inning).
 HITTING: dict[str, float] = {
-    "singles": 1,
-    "doubles": 2,
-    "triples": 3,
-    "homeRuns": 4,
-    "runs": 1,
-    "rbi": 1,
-    "baseOnBalls": 1,
-    "hitByPitch": 1,
-    "stolenBases": 2,
-    "caughtStealing": -1,
-    "strikeOuts": -0.5,
+    "atBats": -1,
+    "hits": 5.6,
+    "doubles": 3.0,
+    "triples": 5.7,
+    "homeRuns": 9.4,
+    "baseOnBalls": 3.1,
+    "hitByPitch": 3.3,
+    "stolenBases": 2.0,
+    "caughtStealing": -4.1,
 }
 
 PITCHING: dict[str, float] = {
-    "outs": 1,
-    "strikeOuts": 1.25,
-    "hits": -1,
-    "baseOnBalls": -1,
-    "hitBatsmen": -1,
-    "earnedRuns": -2,
-    "wins": 2,
-    "losses": -1,
+    "outs": 2.0,
+    "strikeOuts": 2.0,
+    "hits": -2.6,
+    "homeRuns": -11.4,
+    "baseOnBalls": -3.1,
+    "hitBatsmen": -3.3,
     "saves": 6,
     "holds": 4,
 }
 
 # Display labels for each scored stat, in the order the Constitution lists them.
 HITTING_LABELS: dict[str, str] = {
-    "singles": "Single (1B)", "doubles": "Double (2B)", "triples": "Triple (3B)",
-    "homeRuns": "Home Run (HR)", "runs": "Run Scored (R)", "rbi": "Run Batted In (RBI)",
+    "atBats": "At-Bat (AB)", "hits": "Hit (H)", "doubles": "Double (2B), added",
+    "triples": "Triple (3B), added", "homeRuns": "Home Run (HR), added",
     "baseOnBalls": "Walk (BB)", "hitByPitch": "Hit by Pitch (HBP)",
     "stolenBases": "Stolen Base (SB)", "caughtStealing": "Caught Stealing (CS)",
-    "strikeOuts": "Strikeout (K)",
 }
 PITCHING_LABELS: dict[str, str] = {
-    "outs": "Out Recorded (3 per inning, IP)", "strikeOuts": "Strikeout (K)",
-    "hits": "Hit Allowed (H)", "baseOnBalls": "Walk Issued (BB)", "hitBatsmen": "Hit Batter (HB)",
-    "earnedRuns": "Earned Run (ER)", "wins": "Win (W)", "losses": "Loss (L)",
+    "outs": "Inning Pitched (IP)", "strikeOuts": "Strikeout (K)",
+    "hits": "Hit Allowed (H)", "homeRuns": "HR Allowed, added",
+    "baseOnBalls": "Walk Issued (BB)", "hitBatsmen": "Hit Batter (HB)",
     "saves": "Save (SV)", "holds": "Hold (HLD)",
+}
+
+# What each hit is worth in all, for explainers: (hit + bonus) - the at-bat.
+NET_HIT = {
+    "single": round(HITTING["hits"] + HITTING["atBats"], 2),
+    "double": round(HITTING["hits"] + HITTING["doubles"] + HITTING["atBats"], 2),
+    "triple": round(HITTING["hits"] + HITTING["triples"] + HITTING["atBats"], 2),
+    "home run": round(HITTING["hits"] + HITTING["homeRuns"] + HITTING["atBats"], 2),
 }
 
 

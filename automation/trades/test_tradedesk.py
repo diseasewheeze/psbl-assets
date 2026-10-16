@@ -376,12 +376,14 @@ class ScoringTests(unittest.TestCase):
     def test_values_come_from_the_rules_module(self):
         self.assertIs(tp.hitting_points, sport.hitting_points)
         self.assertIs(tp.pitching_points, sport.pitching_points)
-        line = {"hits": 1, "homeRuns": 1, "runs": 1, "rbi": 1, "strikeOuts": 1}
-        self.assertAlmostEqual(tp.hitting_points(line), sport.HITTING["homeRuns"] + sport.HITTING["runs"]
-                               + sport.HITTING["rbi"] + sport.HITTING["strikeOuts"])
-        start = {"inningsPitched": "6.2", "strikeOuts": 7, "earnedRuns": 3, "losses": 1}
+        line = {"atBats": 4, "hits": 1, "homeRuns": 1, "runs": 1, "rbi": 1, "strikeOuts": 1}
+        self.assertAlmostEqual(tp.hitting_points(line), 4 * sport.HITTING["atBats"] + sport.HITTING["hits"]
+                               + sport.HITTING["homeRuns"])
+        self.assertAlmostEqual(tp.hitting_points(line), 11.0)          # a homer nets 14, three outs cost 3
+        start = {"inningsPitched": "6.2", "strikeOuts": 7, "hits": 5, "homeRuns": 1, "baseOnBalls": 2,
+                 "earnedRuns": 3, "losses": 1}
         self.assertAlmostEqual(tp.pitching_points(start), 20 * sport.PITCHING["outs"] + 7 * sport.PITCHING["strikeOuts"]
-                               + 3 * sport.PITCHING["earnedRuns"] + sport.PITCHING["losses"])
+                               + 5 * sport.PITCHING["hits"] + sport.PITCHING["homeRuns"] + 2 * sport.PITCHING["baseOnBalls"])
 
     def test_mlb_seasons_are_calendar_years(self):
         self.assertEqual(tp.seasons_between(date(2027, 1, 15), date(2028, 1, 15)), [2027, 2028])
