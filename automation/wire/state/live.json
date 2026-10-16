@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T04:15:55.347195Z",
+  "updated_at": "2026-10-16T04:45:46.103065Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1134,6 +1134,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-16T04:15:55.314065Z"
+    },
+    {
+      "key": "2d9b7aaad02b1dcfe3b0045f",
+      "url": "https://www.mlb.com/news/2026-alcs-game-4-storylines",
+      "fingerprint": "5a50c5b23c936948",
+      "title_norm": "alcs game 4 storylines as rays, guards bid to face brewers in fall classic",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T04:45:46.077479Z"
     }
   ],
   "known_sources": [
