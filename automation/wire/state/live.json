@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T06:45:57.524036Z",
+  "updated_at": "2026-10-16T07:01:05.759258Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1184,6 +1184,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T06:45:57.480365Z"
+    },
+    {
+      "key": "54433a057c868b75e429bf01",
+      "url": "https://www.podtrac.com/pts/redirect.mp3/pdst.fm/e/serve.castfire.com/audio/8174778/8174778_2026-04-12-054518.192.mp3",
+      "fingerprint": "79e23bd4a719b982",
+      "title_norm": "players who just missed the 2027 first two rounds! (10/16 fantasy baseball podcast)",
+      "channel": "media",
+      "source_id": "pod_fantasy_baseball_today",
+      "tier": 2,
+      "seen_at": "2026-10-16T07:01:05.743392Z"
     }
   ],
   "known_sources": [
