@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T20:45:49.474919Z",
+  "updated_at": "2026-10-16T21:15:53.329869Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1344,6 +1344,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-16T20:45:49.449335Z"
+    },
+    {
+      "key": "3dae7b048a1680e11a01e4ef",
+      "url": "https://www.mlb.com/news/shohei-ohtani-planning-to-pitch-in-2027-mlb-season",
+      "fingerprint": "97f41fe6406c7477",
+      "title_norm": "ohtani says he 'definitely' plans to pitch in 2027",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T21:15:53.294521Z"
     }
   ],
   "known_sources": [
