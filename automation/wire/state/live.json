@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T10:15:54.242340Z",
+  "updated_at": "2026-10-16T14:45:58.802922Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1214,6 +1214,26 @@
       "source_id": "pod_prospects_live",
       "tier": 2,
       "seen_at": "2026-10-16T10:15:54.240999Z"
+    },
+    {
+      "key": "e103fee803361a8394886660",
+      "url": "https://www.mlbtraderumors.com/2026/10/brandon-woodruff-hopes-to-pitch-in-world-series.html",
+      "fingerprint": "e8b8d57499438b53",
+      "title_norm": "brandon woodruff hopes to pitch in world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T14:45:58.499994Z"
+    },
+    {
+      "key": "2057f05da11d87904b90fec6",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-brewers-advance-three-peat-halpin.html",
+      "fingerprint": "03d339cf0d7d529f",
+      "title_norm": "the opener: brewers advance, three-peat, halpin",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T14:45:58.763280Z"
     }
   ],
   "known_sources": [
