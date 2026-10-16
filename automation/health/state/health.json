@@ -1,40 +1,10 @@
 {
   "active_issues": {
-    "failed:competition-desk": {
-      "detail": "Open the workflow run and review the failed step/log output.",
-      "summary": "Latest completed live run ended with failure",
-      "url": "https://github.com/diseasewheeze/psbl-assets/actions/runs/38835139394",
-      "workflow": "PSBL Competition Desk"
-    },
     "failed:history-site": {
       "detail": "Open the workflow run and review the failed step/log output.",
       "summary": "Latest completed live run ended with failure",
       "url": "https://github.com/diseasewheeze/psbl-assets/actions/runs/38835154633",
       "workflow": "PSBL History Site"
-    },
-    "failed:morning-recap": {
-      "detail": "Open the workflow run and review the failed step/log output.",
-      "summary": "Latest completed live run ended with failure",
-      "url": "https://github.com/diseasewheeze/psbl-assets/actions/runs/38835144649",
-      "workflow": "PSBL Morning Recap"
-    },
-    "failed:probable-pitchers": {
-      "detail": "Open the workflow run and review the failed step/log output.",
-      "summary": "Latest completed live run ended with failure",
-      "url": "https://github.com/diseasewheeze/psbl-assets/actions/runs/38822471791",
-      "workflow": "PSBL Probable Pitchers"
-    },
-    "failed:scoreboard": {
-      "detail": "Open the workflow run and review the failed step/log output.",
-      "summary": "Latest completed live run ended with failure",
-      "url": "https://github.com/diseasewheeze/psbl-assets/actions/runs/38835141854",
-      "workflow": "PSBL Fantrax Scoreboard"
-    },
-    "wire-delivery": {
-      "detail": "The latest Wire run logged DELIVERY ERROR or NOT POSTED.",
-      "summary": "Discord delivery problem detected",
-      "url": "https://github.com/diseasewheeze/psbl-assets/actions/runs/38835134635",
-      "workflow": "PSBL Wire Engine"
     }
   }
 }
