@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T22:15:59.472784Z",
+  "updated_at": "2026-10-16T23:01:00.509013Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1384,6 +1384,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-16T22:15:59.434609Z"
+    },
+    {
+      "key": "585909dc2033d46d752622b4",
+      "url": "https://www.mlb.com/news/2026-mlb-playoff-and-world-series-schedule",
+      "fingerprint": "a977238bc4d620a2",
+      "title_norm": "world series game times announced",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T23:01:00.456899Z"
     }
   ],
   "known_sources": [
