@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T20:31:44.869287Z",
+  "updated_at": "2026-10-16T20:45:49.474919Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1334,6 +1334,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T20:31:44.829962Z"
+    },
+    {
+      "key": "3eb67fcbb118e7621c48d6ae",
+      "url": "https://www.mlbtraderumors.com/2026/10/tigers-to-hire-martin-maldonado-as-quality-control-coach.html",
+      "fingerprint": "5b46f38374f4eaa1",
+      "title_norm": "tigers to hire martín maldonado as quality control coach",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T20:45:49.449335Z"
     }
   ],
   "known_sources": [
