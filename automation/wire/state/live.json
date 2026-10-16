@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T16:15:51.716254Z",
+  "updated_at": "2026-10-16T17:01:08.686368Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1274,6 +1274,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-16T16:15:51.679257Z"
+    },
+    {
+      "key": "54ac6693cd0b4315aa15ab07",
+      "url": "https://www.mlb.com/news/padres-questions-to-address-this-offseason",
+      "fingerprint": "20754cb631b46f76",
+      "title_norm": "padres face series of questions this winter after latest postseason exit",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T17:01:08.644847Z"
     }
   ],
   "known_sources": [
