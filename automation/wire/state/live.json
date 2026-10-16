@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T18:45:54.031761Z",
+  "updated_at": "2026-10-16T19:00:55.866793Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1314,6 +1314,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-16T18:45:54.000825Z"
+    },
+    {
+      "key": "a10de40d1ef66f315ab1c3df",
+      "url": "https://www.mlb.com/news/the-brewers-have-gamers-but-do-they-have-hall-of-famers",
+      "fingerprint": "ca3079ab7b2ca824",
+      "title_norm": "the brewers have 'gamers' … and some potential hall of famers",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T19:00:55.832525Z"
     }
   ],
   "known_sources": [
