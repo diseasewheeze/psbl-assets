@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T16:01:05.306779Z",
+  "updated_at": "2026-10-16T16:15:51.716254Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1254,6 +1254,26 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-16T16:01:05.303345Z"
+    },
+    {
+      "key": "170b1819f5b55a189474ef98",
+      "url": "https://www.mlbtraderumors.com/2026/10/shohei-ohtani-plans-to-pitch-next-year-hard-to-tell-on-offseason-surgery.html",
+      "fingerprint": "534cea8d7d2c468b",
+      "title_norm": "shohei ohtani plans to pitch next year, “hard to tell” on offseason surgery",
+      "channel": "injury-report",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T16:15:51.489015Z"
+    },
+    {
+      "key": "b4b6c653fe314aa3ddc0aac3",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-atlanta-braves-15.html",
+      "fingerprint": "171808bf51df92b3",
+      "title_norm": "offseason outlook: atlanta braves",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T16:15:51.679257Z"
     }
   ],
   "known_sources": [
