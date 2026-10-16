@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T22:00:58.496266Z",
+  "updated_at": "2026-10-16T22:15:59.472784Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1364,6 +1364,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T22:00:58.459919Z"
+    },
+    {
+      "key": "e572d7c3c36e51133c2f3c22",
+      "url": "https://www.mlb.com/news/brewers-celebrate-world-series-berth-with-custom-champagne-bottles",
+      "fingerprint": "bbc9cb937dbdb414",
+      "title_norm": "a bottle of cooper pratt to go with that? brewers customize champagne for clincher",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T22:15:59.224963Z"
+    },
+    {
+      "key": "50c621feac7a07ac55d8c79f",
+      "url": "https://www.mlbtraderumors.com/2026/10/orioles-could-pursue-catching-help.html",
+      "fingerprint": "736eeb968ea94643",
+      "title_norm": "orioles could pursue catching help",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T22:15:59.434609Z"
     }
   ],
   "known_sources": [
