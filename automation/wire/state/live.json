@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T03:15:47.033716Z",
+  "updated_at": "2026-10-16T03:45:55.579909Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1094,6 +1094,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T03:15:46.992680Z"
+    },
+    {
+      "key": "9252ec2165dc7241281f3855",
+      "url": "https://www.mlb.com/news/jake-bauers-wins-2026-nlcs-mvp",
+      "fingerprint": "8d124af8d270195c",
+      "title_norm": "bauers takes home nlcs mvp after series filled with signature moments",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T03:45:55.274719Z"
+    },
+    {
+      "key": "3069a3d12a7933568e880fd7",
+      "url": "https://www.mlb.com/news/brewers-sweep-dodgers-in-nlcs-to-reach-2026-world-series",
+      "fingerprint": "53e43e240c1ca596",
+      "title_norm": "milwaukee, you have a world series! brewers sweep dodgers to end 44-year wait",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T03:45:55.526234Z"
     }
   ],
   "known_sources": [
