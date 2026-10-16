@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T21:15:53.329869Z",
+  "updated_at": "2026-10-16T22:00:58.496266Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1354,6 +1354,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T21:15:53.294521Z"
+    },
+    {
+      "key": "0fa5e74e3495bc532c9ff4fd",
+      "url": "https://www.mlb.com/news/shoki-oda-to-skip-npb-draft-to-pursue-mlb-dreams",
+      "fingerprint": "3e7c16884f5ec0cb",
+      "title_norm": "top japanese prospect shoki oda announces plans to forego npb for future mlb career",
+      "channel": "prospect-wire",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T22:00:58.459919Z"
     }
   ],
   "known_sources": [
