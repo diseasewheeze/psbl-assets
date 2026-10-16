@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T03:45:55.579909Z",
+  "updated_at": "2026-10-16T04:15:55.347195Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1114,6 +1114,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T03:45:55.526234Z"
+    },
+    {
+      "key": "c79ade38223b113dd9ed5314",
+      "url": "https://www.mlbtraderumors.com/2026/10/miguel-rojas-announces-retirement.html",
+      "fingerprint": "7353925c364ed34d",
+      "title_norm": "miguel rojas announces retirement",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T04:15:55.125585Z"
+    },
+    {
+      "key": "1a36f559e46d8da16438f8b9",
+      "url": "https://www.mlbtraderumors.com/2026/10/kona-takahashi-could-explore-mlb-opportunities-this-offseason.html",
+      "fingerprint": "3c46da94cc292bd0",
+      "title_norm": "kona takahashi could explore mlb opportunities this offseason",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T04:15:55.314065Z"
     }
   ],
   "known_sources": [
