@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T02:41:24.088781Z",
+  "updated_at": "2026-10-16T03:15:47.033716Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1084,6 +1084,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-16T02:41:23.735136Z"
+    },
+    {
+      "key": "6786fdaf020527dfa4ea4618",
+      "url": "https://www.mlb.com/news/brewers-win-nlcs-2026",
+      "fingerprint": "0c7066204fc3e5e3",
+      "title_norm": "brewers sweep champs, reach world series for first time in 44 years",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T03:15:46.992680Z"
     }
   ],
   "known_sources": [
