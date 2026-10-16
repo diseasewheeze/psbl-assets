@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T07:15:57.590706Z",
+  "updated_at": "2026-10-16T10:15:54.242340Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1204,6 +1204,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T07:15:57.550012Z"
+    },
+    {
+      "key": "2a09ab7c0f746308831aeac0",
+      "url": "https://www.spreaker.com/episode/dynasty-podcast-episode-150-tigers-and-royals-dynasty-outlook--75816987",
+      "fingerprint": "f6671efbbdf918c0",
+      "title_norm": "dynasty podcast episode _150 - tigers and royals dynasty outlook",
+      "channel": "media",
+      "source_id": "pod_prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-16T10:15:54.240999Z"
     }
   ],
   "known_sources": [
