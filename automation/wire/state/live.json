@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T07:01:05.759258Z",
+  "updated_at": "2026-10-16T07:15:57.590706Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1194,6 +1194,16 @@
       "source_id": "pod_fantasy_baseball_today",
       "tier": 2,
       "seen_at": "2026-10-16T07:01:05.743392Z"
+    },
+    {
+      "key": "472b628d9928ddbb81508a77",
+      "url": "https://www.mlb.com/news/garrett-mitchell-hits-go-ahead-homer-to-send-brewers-to-world-series",
+      "fingerprint": "40fdaa9028831074",
+      "title_norm": "mitchell keeps proving doubters wrong -- all the way to the world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T07:15:57.550012Z"
     }
   ],
   "known_sources": [
