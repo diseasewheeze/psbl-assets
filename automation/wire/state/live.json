@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-15T23:15:46.473280Z",
+  "updated_at": "2026-10-16T02:41:24.088781Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1014,6 +1014,76 @@
       "source_id": "pod_prospects_live",
       "tier": 2,
       "seen_at": "2026-10-15T23:15:46.473179Z"
+    },
+    {
+      "key": "2dada79606e31d3b70868e01",
+      "url": "https://www.mlb.com/news/jackson-chourio-notices-praying-mantis-on-his-shoulder",
+      "fingerprint": "0ecec35afd2e1462",
+      "title_norm": "good luck charm? praying mantis pays chourio a visit",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T02:41:22.768482Z"
+    },
+    {
+      "key": "ebe3adcc2e364b53057702c2",
+      "url": "https://www.mlb.com/news/cade-smith-four-out-save-guardians-game-3-alcs-win",
+      "fingerprint": "3856c39062d47036",
+      "title_norm": "smith tosses latest round of calm perfection with 4-out save in game 3",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T02:41:23.013964Z"
+    },
+    {
+      "key": "90fe87dbe235855bf7eb8e10",
+      "url": "https://www.mlb.com/news/rays-and-guardians-pitching-plans-for-alcs-game-4",
+      "fingerprint": "c333c1a616134367",
+      "title_norm": "with rain in forecast friday, how might alcs game 4 pitching plans shape up?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T02:41:23.717875Z"
+    },
+    {
+      "key": "021432f876ecb179ab494b5c",
+      "url": "https://www.mlb.com/news/when-is-rays-vs-guardians-alcs-game-4-date-time-and-lineups",
+      "fingerprint": "d2a26156414bb8c7",
+      "title_norm": "rays-guardians alcs game 4 lineups, faq (6 et fri., tbs/hbo max)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-16T02:41:23.722993Z"
+    },
+    {
+      "key": "7f0821779e096ea247007ebf",
+      "url": "https://www.mlbtraderumors.com/2026/10/braves-select-brett-wisely.html",
+      "fingerprint": "e134fe1b965dbb96",
+      "title_norm": "braves select brett wisely",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T02:41:23.725832Z"
+    },
+    {
+      "key": "93ec5a3385a6d74e07423bef",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-chicago-white-sox-16.html",
+      "fingerprint": "f43cad1774638f7d",
+      "title_norm": "offseason outlook: chicago white sox",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T02:41:23.729433Z"
+    },
+    {
+      "key": "60cd186be631f58acac5329e",
+      "url": "https://www.mlbtraderumors.com/2026/10/yankees-only-expected-to-issue-qualifying-offer-to-david-bednar.html",
+      "fingerprint": "e896c0751cff1fea",
+      "title_norm": "yankees only expected to issue qualifying offer to david bednar",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-16T02:41:23.735136Z"
     }
   ],
   "known_sources": [
