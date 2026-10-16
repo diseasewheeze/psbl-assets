@@ -71,14 +71,15 @@ competition:
   #   reward       optional; default "🎯 Bounty Hunter role for the Season"
   #
   # Default thresholds are estimates from the scoring values (Article VIII,
-  # automation/core/sport.py): 10 hitter slots filled about 6 days a week at
-  # roughly 3 points a game (rostered hitters are above average) is about 195,
-  # 7 credited starts at about 13 points is about 90, and 3 relief slots add
-  # about 50, so a typical team week is about 300 to 370 points (week to week
-  # about +/-45) and a season, with the long Week 1, about 7,500 to 8,000:
-  #   450 in a week    claimed in roughly three Seasons of four
+  # automation/core/sport.py) and every MLB player's 2021-2026 seasons
+  # (research/scoring): 10 hitter slots filled about 6 days a week at about
+  # 5.5 points a game is about 330, 7 credited starts at about 20 points is
+  # about 140, and 3 relief slots add about 50, so a typical team week is about
+  # 470 to 520 points (week to week about +/-65) and a 22-week regular season
+  # (a short Week 1, a two-week All-Star Week) about 10,500 to 11,500:
+  #   650 in a week    claimed in roughly three Seasons of four
   #   6 straight wins  claimed in ~95% of seasons, typically around Week 8
-  #   8,000 points     the front-runner gets there around Week 21
+  #   11,500 points    the front-runner gets there around Week 21
   #   multi-homer game usually within the first few days
   # Check them against real weekly scores after a few weeks of Season 2027
   # and adjust before anyone is close (ids stay the same within a Season).
@@ -89,11 +90,11 @@ competition:
       type: player_multi_homer
       threshold: 2
       reward: "🎯 Bounty Hunter role for the Season"
-    - id: big-week-450
-      title: "The 450 Club"
-      description: "First franchise to score 450 points in a single week."
+    - id: big-week-650
+      title: "The 650 Club"
+      description: "First franchise to score 650 points in a single week."
       type: team_week_points
-      threshold: 450
+      threshold: 650
       reward: "🎯 Bounty Hunter role for the Season"
     - id: hot-streak-6
       title: "Six Straight"
@@ -101,11 +102,11 @@ competition:
       type: team_win_streak
       threshold: 6
       reward: "🎯 Bounty Hunter role for the Season"
-    - id: season-8000
-      title: "Eight Thousand"
-      description: "First franchise to reach 8,000 season points."
+    - id: season-11500
+      title: "The 11,500 Mark"
+      description: "First franchise to reach 11,500 season points."
       type: team_season_points
-      threshold: 8000
+      threshold: 11500
       reward: "🎯 Bounty Hunter role for the Season"
 
   # GitHub Actions secret holding each channel's Discord webhook URL.
@@ -261,7 +262,7 @@ draft_center:
 #
 # Example:
 #   rivals:
-#     - ["rink-rats", "north-stars"]
+#     - ["sandlot-kings", "dugout-dogs"]
 #     - ["Test 4", "Test 7"]
 rivals: []
 

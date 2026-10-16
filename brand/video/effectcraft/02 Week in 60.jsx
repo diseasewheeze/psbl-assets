@@ -23,9 +23,9 @@ var DATA = {
     upset: { winner: "TEAM G", winnerPoints: 301.00, loser: "TEAM H", loserPoints: 297.75 },
 
     // The League Bot's Weekly Awards
-    firstStar: ["TEAM C", 402.75],
-    secondStar: ["TEAM D", 377.00],
-    thirdStar: ["TEAM E", 368.25],
+    topScore: ["TEAM C", 402.75],
+    runnerUp: ["TEAM D", 377.00],
+    thirdBest: ["TEAM E", 368.25],
     toughLuck: { team: "TEAM D", points: 377.00, lostTo: "TEAM C" },
     luckyWin: { team: "TEAM K", points: 262.50, beat: "TEAM L" },
 
@@ -90,9 +90,9 @@ PSBL.run("02 Week in 60", function () {
     B.blinkIn(ul.concat(us), 23.2);
     B.during(stamp.concat(uw, ul, us), 22, 28);
 
-    // ---- 0:28 three stars: third, second, then first
-    section(28, 38, "WEEK " + D.week + " \u2022 WEEKLY AWARDS", "THREE STARS");
-    var stars = [["THIRD STAR", D.thirdStar, 28.4, 120], ["SECOND STAR", D.secondStar, 31.0, 690], ["FIRST STAR", D.firstStar, 33.6, 1260]];
+    // ---- 0:28 top three scores: third, second, then first
+    section(28, 38, "WEEK " + D.week + " \u2022 WEEKLY AWARDS", "TOP THREE SCORES");
+    var stars = [["THIRD BEST", D.thirdBest, 28.4, 120], ["RUNNER-UP", D.runnerUp, 31.0, 690], ["TOP SCORE", D.topScore, 33.6, 1260]];
     for (var j = 0; j < 3; j++) {
         var st = stars[j], x = st[3], first = j === 2;
         var p = B.panel(c, st[0], x, 360, 540, 420, first ? "charcoal" : "charDark", first ? "gold" : "steel", first ? 8 : 4);

@@ -107,9 +107,8 @@ TEAMS: dict[int, tuple[str, str]] = {
 CODES = frozenset(code for code, _ in TEAMS.values())
 _BY_NAME = {name.lower(): code for code, name in TEAMS.values()}
 # Other spellings of the same clubs: MLB's own teamCode/fileCode values (checked
-# live) and common fantasy-site codes. Fantrax's MLB team codes are NOT checked
-# yet (the Fantrax test league is a hockey league); check them with
-# tools/fantrax_probe.py once the MLB league exists and add any missing here.
+# live) and common fantasy-site codes. All 30 of Fantrax's MLB team codes
+# (getPlayerIds, October 2026) are MLB codes or listed here (CHW, ARI).
 ALIASES = {
     "ARI": "AZ", "ANA": "LAA", "CHW": "CWS", "CHA": "CWS", "CHN": "CHC", "KCA": "KC", "KCR": "KC",
     "LA": "LAD", "LAN": "LAD", "NYA": "NYY", "NYN": "NYM", "OAK": "ATH", "SAC": "ATH", "SDN": "SD",

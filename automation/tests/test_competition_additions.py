@@ -265,9 +265,9 @@ class AwardTests(unittest.TestCase):
     def test_awards_post(self) -> None:
         body = render.awards(CTX, season.period(INFO, 2), weekly.weekly_awards(W2))
         fields = {f["name"]: f["value"] for f in body["embeds"][0]["fields"]}
-        self.assertEqual(list(fields), ["First Star", "Second Star", "Third Star", "Tough Luck", "Lucky Win",
+        self.assertEqual(list(fields), ["Top Score", "Runner-Up", "Third Best", "Tough Luck", "Lucky Win",
                                         "Closest Game", "Biggest Blowout"])
-        self.assertEqual(fields["First Star"], "**Team B** — 130.00 pts")
+        self.assertEqual(fields["Top Score"], "**Team B** — 130.00 pts")
         self.assertEqual(fields["Tough Luck"], "**Team A** — 80.00 pts in a loss to Team C (110.00)")
         self.assertEqual(fields["Lucky Win"], "**Team C** — 110.00 pts in a win over Team A (80.00)")
         self.assertEqual(fields["Biggest Blowout"], "**Team B** 130.00 – Team D 70.00 • 60.00-point margin")

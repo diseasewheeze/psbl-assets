@@ -94,8 +94,8 @@ def _payload(
 # --- Scoreboard ---------------------------------------------------------------
 
 # Fantrax's matchup category for games started by pitchers. The MLB short name
-# is not checked yet (the Fantrax test league is a hockey league, where GS is
-# goalie starts); check it with tools/fantrax_probe.py once the MLB league exists.
+# is not checked yet: Fantrax only lists matchup categories once games are
+# scored, so check it with tools/fantrax_probe.py during Week 1.
 STARTS_CATEGORY = "GS"
 
 
@@ -253,7 +253,7 @@ def awards(ctx: Context, p: Period, result: Any) -> dict[str, Any] | None:
         return None
     fields = [
         {"name": label, "value": _team_score(team), "inline": False}
-        for label, team in zip(("First Star", "Second Star", "Third Star"), result.stars)
+        for label, team in zip(("Top Score", "Runner-Up", "Third Best"), result.stars)
     ]
     if result.tough_luck:
         r = result.tough_luck
@@ -274,7 +274,7 @@ def awards(ctx: Context, p: Period, result: Any) -> dict[str, Any] | None:
     if result.blowout:
         fields.append({"name": "Biggest Blowout", "value": _game(result.blowout), "inline": False})
     note = (
-        "*From this week's final Fantrax scores. Stars are the top three scores; Tough Luck is the "
+        "*From this week's final Fantrax scores. Top Score, Runner-Up and Third Best are the week's three highest scores; Tough Luck is the "
         "highest score in a loss and Lucky Win the lowest score in a win.*"
     )
     return _payload(ctx, f"PSBL Week {p.number} Awards", f"{_header(ctx, p)}\n\n{note}", fields, "WEEKLY AWARDS")

@@ -12,7 +12,7 @@ any owner can check it by hand:
   wins xW = the sum over weeks of each week's all-play win share (teams
   outscored / 11, an equal score counting half); Luck = actual H2H wins - xW,
   a tie counting half a win. Across the league Luck adds up to 0.
-- Weekly Awards: three stars (top three scores), Tough Luck (highest score in
+- Weekly Awards: Top Score, Runner-Up and Third Best (the three highest scores), Tough Luck (highest score in
   a loss), Lucky Win (lowest winning score), Closest Game, Biggest Blowout.
 
 Weeks where every team scored 0 (placeholder weeks, such as a test league with

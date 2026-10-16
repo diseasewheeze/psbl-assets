@@ -21,7 +21,7 @@ league's name comes from brand/identity.json.
 Type: three pixel fonts. Jersey 10 for display, Silkscreen for labels, and
 Pixelify Sans for body copy and the Constitution.
 
-Pages use clean addresses (/seasons/2027/, /franchises/north-stars/), so they
+Pages use clean addresses (/seasons/2027/, /franchises/dugout-dogs/), so they
 are served from the root of the site's domain.
 
 Usage: python tools/build_site.py [--archive PATH] [--out site]

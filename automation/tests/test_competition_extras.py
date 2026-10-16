@@ -759,7 +759,7 @@ class MultiHomerTests(unittest.TestCase):
         self.assertEqual(bounties.nights_to_check(MLB_INFO, ET, fx.et(2027, 9, 5, 8), 22, "2027-08-29"), [])
 
 
-def big_week(w: int, score: float = 460.0) -> list[dict]:
+def big_week(w: int, score: float = 660.0) -> list[dict]:
     rows = synthetic_week(w, MLB_INFO)
     rows[0]["away"]["score"] = score
     return rows
@@ -779,20 +779,20 @@ class BountyDeskTests(DeskBase):
 
     def test_team_bounty_announced_once(self) -> None:
         self.state_path.write_text(json.dumps(self.base_state()))
-        weeks = {2: big_week(2), 3: big_week(3, 480.0)}
+        weeks = {2: big_week(2), 3: big_week(3, 680.0)}
         sent, out = self.live(self.make(self.fantrax(2, weeks)), self.MON_WEEK2)
-        self.assertIn(("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Bounty Claimed — The 450 Club"), sent)
+        self.assertIn(("LEAGUE_WEBHOOK_WEEKLY_RECAP", "PSBL Bounty Claimed — The 650 Club"), sent)
         titles = [t for _, t in sent]
         self.assertLess(titles.index("PSBL Power Rankings — After Week 2"),
-                        titles.index("PSBL Bounty Claimed — The 450 Club"))
+                        titles.index("PSBL Bounty Claimed — The 650 Club"))
         state = self.state()
-        claim = state["bounties"]["claimed"]["big-week-450"]
-        self.assertEqual((claim["week"], claim["detail"]), (2, "460.00 points in Week 2"))
+        claim = state["bounties"]["claimed"]["big-week-650"]
+        self.assertEqual((claim["week"], claim["detail"]), (2, "660.00 points in Week 2"))
         self.assertEqual(state["bounties_week"], 2)
         # Week 3 has a bigger week: the bounty is already claimed, nothing new is announced.
         sent, _ = self.live(self.make(self.fantrax(3, weeks), state), fx.et(2027, 4, 19, 8))
         self.assertFalse(any("Bount" in t for _, t in sent))
-        self.assertEqual(self.state()["bounties"]["claimed"]["big-week-450"]["week"], 2)
+        self.assertEqual(self.state()["bounties"]["claimed"]["big-week-650"]["week"], 2)
 
     def test_claim_post(self) -> None:
         self.state_path.write_text(json.dumps(self.base_state()))
@@ -800,12 +800,12 @@ class BountyDeskTests(DeskBase):
         d.mode, d.live_state = "live", self.base_state()
         embed = d.build("bounties", 2, self.MON_WEEK2)["embeds"][0]
         name = synthetic_week(2, MLB_INFO)[0]["away"]["teamName"]
-        self.assertEqual(embed["fields"][0]["name"], "The 450 Club")
+        self.assertEqual(embed["fields"][0]["name"], "The 650 Club")
         self.assertEqual(embed["fields"][0]["value"],
-                         f"**{name}** — 460.00 points in Week 2\nFirst franchise to score 450 points in a single "
+                         f"**{name}** — 660.00 points in Week 2\nFirst franchise to score 650 points in a single "
                          "week.\n**Reward:** 🎯 Bounty Hunter role for the Season. The Commissioner assigns it.")
         self.assertEqual(embed["fields"][-1]["name"], "Still Open")
-        self.assertIn("**Eight Thousand** — First franchise to reach 8,000 season points.\nLeader: ",
+        self.assertIn("**The 11,500 Mark** — First franchise to reach 11,500 season points.\nLeader: ",
                       embed["fields"][-1]["value"])
         self.assertEqual(embed["footer"]["text"], "BOUNTIES • FANTRAX READ-ONLY DATA")
 
@@ -874,7 +874,7 @@ class BountyDeskTests(DeskBase):
         embed = body["embeds"][0]
         self.assertEqual(embed["title"], "PSBL Bounty Board")
         board = embed["fields"][0]["value"]
-        for title in ("First Multi-Homer Game", "The 450 Club", "Six Straight", "Eight Thousand"):
+        for title in ("First Multi-Homer Game", "The 650 Club", "Six Straight", "The 11,500 Mark"):
             self.assertIn(f"**{title}**", board)
         self.assertIn("Leader: **", board)
         self.assertFalse(self.state_path.exists())

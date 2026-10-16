@@ -844,8 +844,8 @@
    ],
    [
     "0:28",
-    "Three Stars panel",
-    "Your three stars. Third star, [team], [points]. Second star, [team], [points]. And the first star of the week, [team], with [points]."
+    "Top three scores panel",
+    "The week's top three scores. Third best, [team], [points]. Runner-up, [team], [points]. And the top score of the week, [team], with [points]."
    ],
    [
     "0:38",

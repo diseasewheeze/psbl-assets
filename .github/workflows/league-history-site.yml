@@ -90,8 +90,10 @@ jobs:
         shell: bash
         run: |
           if [[ -z "$CLOUDFLARE_API_TOKEN" || -z "$CLOUDFLARE_ACCOUNT_ID" ]]; then
-            echo "::error::Add the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets first (README, History website)."
-            exit 1
+            # The website is set up later (to-do list); until then the daily
+            # run builds the site and skips publishing instead of failing.
+            echo "::notice::Not published: add the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID repository secrets to switch the website on (README, History website)."
+            exit 0
           fi
           PROJECT=$(python -c "import sys; sys.path.insert(0, 'automation'); from core.league import load_league; print((load_league().get('history_site') or {}).get('cloudflare_project') or 'psbl-history')")
           echo "Cloudflare Pages project: $PROJECT"

@@ -261,7 +261,7 @@ card("league-competition/02_standings_channel_intro.json", "PSBL STANDINGS",
       ("OFFICIAL RESULTS", "Fantrax is the authoritative record. These posts are a convenient copy of it.")])
 card("league-competition/04_weekly_recap_channel_intro.json", "PSBL WEEKLY RECAP",
      "The results of every completed matchup, posted after each fantasy week ends, normally on Monday morning.", COMP,
-     [("POSTED HERE", "Completed matchup results for the week • Weekly Awards (the three stars, tough luck, lucky win, closest game, biggest blowout) • Power Rankings • All-play records"),
+     [("POSTED HERE", "Completed matchup results for the week • Weekly Awards (top three scores, tough luck, lucky win, closest game, biggest blowout) • Power Rankings • All-play records"),
       ("POWER RANKINGS", "Results only: 50% season points, 30% points over the last three Weeks, 20% all-play record. All-play is each team's record if it had played every other team every Week."),
       ("MONTHLY AWARDS", "Manager of the Month and the other Monthly Awards after each month, plus a post whenever a franchise claims a Season bounty. Recognition only: a role and a mention, never FAAB or picks."),
       ("OFFICIAL RESULTS", "Results are pulled directly from Fantrax. Questions about a score go to the Commissioner's Office."),
