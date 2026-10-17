@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T16:01:00.615018Z",
+  "updated_at": "2026-10-17T18:00:54.149736Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1514,6 +1514,16 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-17T16:01:00.610177Z"
+    },
+    {
+      "key": "271415e090c7391963fedcbe",
+      "url": "https://www.mlbtraderumors.com/2026/10/mlbtr-live-chat-922.html",
+      "fingerprint": "c4ef8ebe211eae49",
+      "title_norm": "mlbtr live chat",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-17T18:00:54.120211Z"
     }
   ],
   "known_sources": [
