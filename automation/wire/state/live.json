@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T15:30:57.381022Z",
+  "updated_at": "2026-10-17T16:01:00.615018Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1504,6 +1504,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-17T15:30:57.343451Z"
+    },
+    {
+      "key": "da66dae7c6fa1accfdc846a8",
+      "url": "https://www.prospectslive.com/2026-athletics-org-prospect-team",
+      "fingerprint": "322c8833a45b2836",
+      "title_norm": "2026 athletics org prospect team",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-17T16:01:00.610177Z"
     }
   ],
   "known_sources": [
