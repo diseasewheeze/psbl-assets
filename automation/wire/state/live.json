@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T03:15:57.454537Z",
+  "updated_at": "2026-10-17T03:45:58.505164Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1444,6 +1444,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-17T03:15:57.406789Z"
+    },
+    {
+      "key": "6d5891f5e8e3410d97b0f0f7",
+      "url": "https://www.mlb.com/news/guardians-pitching-plans-game-4-alcs-postponed",
+      "fingerprint": "0682eacdf7d573ab",
+      "title_norm": "how friday's postponement impacts guardians' alcs pitching plans",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-17T03:45:58.448484Z"
     }
   ],
   "known_sources": [
