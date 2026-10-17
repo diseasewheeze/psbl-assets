@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-16T23:01:00.509013Z",
+  "updated_at": "2026-10-17T01:00:58.854739Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1394,6 +1394,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-16T23:01:00.456899Z"
+    },
+    {
+      "key": "cf7fd37cfd61419bb0cd588d",
+      "url": "https://www.mlb.com/news/dodgers-brewers-had-exact-match-in-stats-in-2025-and-2026-nlcs",
+      "fingerprint": "a3809c6571fbeb4b",
+      "title_norm": "this can't be real, right? matching nlcs stats will blow your mind",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-17T01:00:58.809170Z"
     }
   ],
   "known_sources": [
