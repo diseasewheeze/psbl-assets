@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T21:15:46.285341Z",
+  "updated_at": "2026-10-17T23:30:52.943012Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1544,6 +1544,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-17T21:15:46.256840Z"
+    },
+    {
+      "key": "2d1f932b146d33d339b6edb0",
+      "url": "https://www.mlbtraderumors.com/2026/10/yankees-have-shown-past-interest-in-jacob-young.html",
+      "fingerprint": "5dbd0d7837551abb",
+      "title_norm": "yankees have shown past interest in jacob young",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-17T23:30:52.926653Z"
     }
   ],
   "known_sources": [
