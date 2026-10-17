@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T18:00:54.149736Z",
+  "updated_at": "2026-10-17T21:15:46.285341Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1524,6 +1524,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-17T18:00:54.120211Z"
+    },
+    {
+      "key": "4df28cf4131b42b3e75b642a",
+      "url": "https://www.mlbtraderumors.com/2026/10/pirates-re-sign-kyler-fedko-to-minors-deal.html",
+      "fingerprint": "60ef29bd681c51df",
+      "title_norm": "pirates re-sign kyler fedko to minors deal",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-17T21:15:46.256324Z"
+    },
+    {
+      "key": "cab089f52cd9a0df98657c29",
+      "url": "https://www.mlbtraderumors.com/2026/10/tigers-sign-nick-raquet-to-minors-contract.html",
+      "fingerprint": "dfedcb7341c4c8cc",
+      "title_norm": "tigers sign nick raquet to minors contract",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-17T21:15:46.256840Z"
     }
   ],
   "known_sources": [
