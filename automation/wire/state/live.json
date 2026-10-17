@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T14:16:00.545994Z",
+  "updated_at": "2026-10-17T15:15:58.712435Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1484,6 +1484,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-17T14:16:00.508665Z"
+    },
+    {
+      "key": "03d258ab05f09b2cc4a708a4",
+      "url": "https://www.mlb.com/news/brewers-viral-song-theme-clubhouse-2026-world-series",
+      "fingerprint": "26d298da1b7dd693",
+      "title_norm": "this catchy, viral song has become the theme of the world series-bound brewers",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-17T15:15:58.669938Z"
     }
   ],
   "known_sources": [
