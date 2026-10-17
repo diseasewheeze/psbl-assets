@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T01:30:59.398596Z",
+  "updated_at": "2026-10-17T02:45:43.881448Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1414,6 +1414,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-17T01:30:59.343276Z"
+    },
+    {
+      "key": "06582298a7e6229938693d88",
+      "url": "https://www.mlbtraderumors.com/2026/10/taylor-smith-in-lead-for-as-gm-job.html",
+      "fingerprint": "45df1e349a91c258",
+      "title_norm": "taylor smith in lead for a's gm job?",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-17T02:45:43.860109Z"
     }
   ],
   "known_sources": [
