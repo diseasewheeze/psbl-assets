@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T02:45:43.881448Z",
+  "updated_at": "2026-10-17T03:15:57.454537Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1424,6 +1424,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-17T02:45:43.860109Z"
+    },
+    {
+      "key": "926b0c2920fca0e496f36d0f",
+      "url": "https://www.mlb.com/news/rays-nick-martinez-alcs-game-4-starter-rainout-2026",
+      "fingerprint": "c13d0e9457f5a068",
+      "title_norm": "rainout gives rays options, but they're sticking with martinez for g4",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-17T03:15:57.044269Z"
+    },
+    {
+      "key": "fb5e298f2275b202707ea7d2",
+      "url": "https://www.mlb.com/news/chandler-simpson-discusses-being-2026-al-gold-glove-award-finalist",
+      "fingerprint": "64d28190998b2c9a",
+      "title_norm": "gold glove finalist nod rewards simpson's 180 on 'd.' here's how he did it",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-17T03:15:57.406789Z"
     }
   ],
   "known_sources": [
