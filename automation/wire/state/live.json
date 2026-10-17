@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T05:15:54.775006Z",
+  "updated_at": "2026-10-17T14:16:00.545994Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1474,6 +1474,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-17T05:15:54.735037Z"
+    },
+    {
+      "key": "176f9c771e703c352e5084e1",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-game-4-woodruff-mariners.html",
+      "fingerprint": "4bdc7516c37cdd62",
+      "title_norm": "the opener: game 4, woodruff, mariners",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-17T14:16:00.508665Z"
     }
   ],
   "known_sources": [
