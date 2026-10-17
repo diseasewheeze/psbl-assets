@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T01:00:58.854739Z",
+  "updated_at": "2026-10-17T01:30:59.398596Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1404,6 +1404,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-17T01:00:58.809170Z"
+    },
+    {
+      "key": "c26b05ba18e35cd57215e99f",
+      "url": "https://www.mlb.com/news/alcs-game-4-moved-from-friday",
+      "fingerprint": "c405e608d3db719b",
+      "title_norm": "alcs game 4 postponed, moved to saturday (8 p.m. et); game 5 sunday (5 p.m. et)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-17T01:30:59.343276Z"
     }
   ],
   "known_sources": [
