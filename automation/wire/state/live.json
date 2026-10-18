@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T04:00:59.265094Z",
+  "updated_at": "2026-10-18T05:15:39.926769Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1624,6 +1624,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-18T04:00:59.246351Z"
+    },
+    {
+      "key": "9f4f5dea9c5dda06540ce7fc",
+      "url": "https://www.mlb.com/news/2026-alcs-game-5-storylines",
+      "fingerprint": "1f2ad580b039cb1d",
+      "title_norm": "3 storylines to watch in tonight's pivotal alcs game 5",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T05:15:39.909770Z"
     }
   ],
   "known_sources": [
