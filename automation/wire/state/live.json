@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T21:45:20.000719Z",
+  "updated_at": "2026-10-18T22:30:57.068560Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1794,6 +1794,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-18T21:45:19.990104Z"
+    },
+    {
+      "key": "69d16828c7ab742fe5bd713e",
+      "url": "https://www.mlb.com/news/cooper-pratt-s-childhood-hard-work-translating-to-2026-postseason-results",
+      "fingerprint": "003e52edfd3a5dd4",
+      "title_norm": "why pratt's dream postseason run has been more than 'frickin' fun'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T22:30:57.023980Z"
     }
   ],
   "known_sources": [
