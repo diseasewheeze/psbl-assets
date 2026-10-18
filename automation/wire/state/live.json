@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T18:45:53.694141Z",
+  "updated_at": "2026-10-18T19:45:54.642313Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1754,6 +1754,16 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-18T18:45:53.691462Z"
+    },
+    {
+      "key": "a03ae61bb76b58c0c6fe6c6f",
+      "url": "https://www.mlbtraderumors.com/2026/10/trade-candidate-shea-langeliers.html",
+      "fingerprint": "f09fdc9e48f72085",
+      "title_norm": "trade candidate: shea langeliers",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-18T19:45:54.624691Z"
     }
   ],
   "known_sources": [
