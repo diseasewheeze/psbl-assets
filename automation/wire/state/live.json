@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T01:00:59.888119Z",
+  "updated_at": "2026-10-18T01:45:46.324366Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1574,6 +1574,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T01:00:59.860508Z"
+    },
+    {
+      "key": "fd4043f3741541ff565f4c22",
+      "url": "https://www.mlbtraderumors.com/2026/10/phillies-to-reduce-j-t-realmutos-catching-workload.html",
+      "fingerprint": "fd9942fef017a803",
+      "title_norm": "phillies to reduce j.t. realmuto's catching workload",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-18T01:45:46.315782Z"
     }
   ],
   "known_sources": [
