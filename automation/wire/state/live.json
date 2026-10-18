@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T20:15:50.995645Z",
+  "updated_at": "2026-10-18T20:45:56.898550Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1774,6 +1774,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T20:15:50.972602Z"
+    },
+    {
+      "key": "cc6a4ed05ae09176938c9e95",
+      "url": "https://www.mlb.com/news/patrick-bailey-parker-messick-guardians-lineup-game-5-2026-alcs",
+      "fingerprint": "f0f2c95c0951a064",
+      "title_norm": "guardians pair messick with bailey to keep catcher's hot bat in game 5 lineup",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T20:45:56.869866Z"
     }
   ],
   "known_sources": [
