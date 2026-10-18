@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T22:45:49.458456Z",
+  "updated_at": "2026-10-18T23:15:41.553214Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1814,6 +1814,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T22:45:49.424486Z"
+    },
+    {
+      "key": "c08e56e60b41720edd90df55",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-astros-face-an-isaac-paredes-decision.html",
+      "fingerprint": "fdb0f81109aa6a98",
+      "title_norm": "the astros face an isaac paredes decision",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-18T23:15:41.541073Z"
     }
   ],
   "known_sources": [
