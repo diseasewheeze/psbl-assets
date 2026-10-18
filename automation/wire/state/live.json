@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T03:45:50.025825Z",
+  "updated_at": "2026-10-18T04:00:59.265094Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1614,6 +1614,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T03:45:49.996154Z"
+    },
+    {
+      "key": "34b325ec1adf1203fe42c4c3",
+      "url": "https://www.mlbtraderumors.com/2026/10/preller-discusses-ethan-salas-padres-catchers.html",
+      "fingerprint": "16f43acb7bec0d56",
+      "title_norm": "preller discusses ethan salas, padres' catchers",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-18T04:00:59.246351Z"
     }
   ],
   "known_sources": [
