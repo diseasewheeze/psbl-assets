@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-17T23:30:52.943012Z",
+  "updated_at": "2026-10-18T00:30:49.119955Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1554,6 +1554,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-17T23:30:52.926653Z"
+    },
+    {
+      "key": "36f4b8a0b84ea65f6909adf9",
+      "url": "https://www.mlbtraderumors.com/2026/10/on-the-yankees-third-base-dilemma.html",
+      "fingerprint": "22c2d7a07922d029",
+      "title_norm": "on the yankees' third base dilemma",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-18T00:30:49.107933Z"
     }
   ],
   "known_sources": [
