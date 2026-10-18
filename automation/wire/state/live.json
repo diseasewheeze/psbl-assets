@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T06:45:53.752789Z",
+  "updated_at": "2026-10-18T07:00:50.431441Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1674,6 +1674,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T06:45:53.725087Z"
+    },
+    {
+      "key": "6dcebe1fe815385d4c23b9a1",
+      "url": "https://www.mlb.com/news/takeaways-after-rays-tie-alcs-at-2-with-guardians",
+      "fingerprint": "5c7520d8d5865d7a",
+      "title_norm": "here's where rays, guards stand as alcs resets after game 4",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T07:00:50.224680Z"
+    },
+    {
+      "key": "0fbaf7ddb2fc448eb6ab1f1a",
+      "url": "https://www.mlb.com/news/guardians-lose-game-4-2026-alcs-rays",
+      "fingerprint": "9f2aae7d8c938def",
+      "title_norm": "with alcs evened, guardians look to flush game 4 and hand ball to messick",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T07:00:50.408406Z"
     }
   ],
   "known_sources": [
