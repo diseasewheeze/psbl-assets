@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T02:30:54.758012Z",
+  "updated_at": "2026-10-18T03:30:57.952792Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1594,6 +1594,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T02:30:54.721342Z"
+    },
+    {
+      "key": "c44ea781401c0128891c578f",
+      "url": "https://www.mlb.com/news/rays-win-alcs-game-4-2026",
+      "fingerprint": "e6d054e57b4a3216",
+      "title_norm": "rays slip past guards in game 4 to knot up alcs",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T03:30:57.918262Z"
     }
   ],
   "known_sources": [
