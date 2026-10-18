@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T20:45:56.898550Z",
+  "updated_at": "2026-10-18T21:45:20.000719Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1784,6 +1784,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T20:45:56.869866Z"
+    },
+    {
+      "key": "981b6feac2b643eb936a3ea6",
+      "url": "https://www.mlbtraderumors.com/2026/10/yankees-had-past-interest-in-jeremiah-estrada.html",
+      "fingerprint": "a1ce78ac2eab8af8",
+      "title_norm": "yankees had past interest in jeremiah estrada",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-18T21:45:19.990104Z"
     }
   ],
   "known_sources": [
