@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T00:30:49.119955Z",
+  "updated_at": "2026-10-18T01:00:59.888119Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1564,6 +1564,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-18T00:30:49.107933Z"
+    },
+    {
+      "key": "4e40de072de565eb3bf5c50a",
+      "url": "https://www.mlb.com/news/impact-of-extra-rest-before-world-series",
+      "fingerprint": "fa948b1eb82f5eb9",
+      "title_norm": "will extra rest help or hurt brewers in world series?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T01:00:59.860508Z"
     }
   ],
   "known_sources": [
