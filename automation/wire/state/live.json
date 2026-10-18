@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T06:00:57.094488Z",
+  "updated_at": "2026-10-18T06:45:53.752789Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1664,6 +1664,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T06:00:57.065334Z"
+    },
+    {
+      "key": "533c69619034f0c1b3818803",
+      "url": "https://www.mlb.com/news/rays-vs-guardians-alcs-game-5-starting-lineups-and-pitching-matchup",
+      "fingerprint": "2ad88fdb2d9f2522",
+      "title_norm": "rays-guardians alcs game 5 (5 et on tbs/hbo max)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T06:45:53.725087Z"
     }
   ],
   "known_sources": [
