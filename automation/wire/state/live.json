@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T13:45:52.558263Z",
+  "updated_at": "2026-10-18T15:30:59.531989Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1704,6 +1704,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-18T13:45:52.537543Z"
+    },
+    {
+      "key": "f3949fcf2515aca400c88183",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-blue-jays-unexpected-deadline-sparkplug.html",
+      "fingerprint": "137e655731c0d85d",
+      "title_norm": "the blue jays' unexpected deadline sparkplug",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-18T15:30:59.513456Z"
     }
   ],
   "known_sources": [
