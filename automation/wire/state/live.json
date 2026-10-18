@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T05:30:46.012686Z",
+  "updated_at": "2026-10-18T05:45:55.419478Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1644,6 +1644,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T05:30:45.995213Z"
+    },
+    {
+      "key": "1bf9d463cd2de260e0a9f04f",
+      "url": "https://www.mlb.com/news/guardians-browns-and-buckeyes-all-play-in-big-ohio-sports-weekend",
+      "fingerprint": "7cae5774709a94ce",
+      "title_norm": "guardians just one part of huge weekend for ohio sports",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T05:45:55.388747Z"
     }
   ],
   "known_sources": [
