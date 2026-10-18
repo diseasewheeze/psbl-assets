@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T22:30:57.068560Z",
+  "updated_at": "2026-10-18T22:45:49.458456Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1804,6 +1804,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T22:30:57.023980Z"
+    },
+    {
+      "key": "9fa1a6eca84b70cdd3b34be3",
+      "url": "https://www.mlb.com/news/parker-messick-two-innings-guardians-game-5-alcs",
+      "fingerprint": "ef457ae6512050e0",
+      "title_norm": "messick struggles with command as game 5 becomes shortest start of career",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T22:45:49.424486Z"
     }
   ],
   "known_sources": [
