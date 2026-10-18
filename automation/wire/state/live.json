@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T19:45:54.642313Z",
+  "updated_at": "2026-10-18T20:15:50.995645Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1764,6 +1764,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-18T19:45:54.624691Z"
+    },
+    {
+      "key": "5f7ca3798e6275cd72f53d0f",
+      "url": "https://www.mlb.com/news/brewers-owner-mark-attanasio-on-world-series-berth",
+      "fingerprint": "f3ce401198608e38",
+      "title_norm": "'we did it': after 22-year journey, attanasio brings world series back to milwaukee",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T20:15:50.972602Z"
     }
   ],
   "known_sources": [
