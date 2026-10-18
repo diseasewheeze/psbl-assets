@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-18T05:45:55.419478Z",
+  "updated_at": "2026-10-18T06:00:57.094488Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1654,6 +1654,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-18T05:45:55.388747Z"
+    },
+    {
+      "key": "11dc6fad32dcc7780927ca62",
+      "url": "https://www.mlb.com/news/freddy-peralta-relief-appearance-rays-alcs-game-4-2026",
+      "fingerprint": "28994f32bd053b7b",
+      "title_norm": "'just a reliever'? peralta's two huge outs help rays even alcs",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-18T06:00:57.065334Z"
     }
   ],
   "known_sources": [
