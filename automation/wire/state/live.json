@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T11:15:44.984573Z",
+  "updated_at": "2026-10-19T13:30:59.656687Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1944,6 +1944,16 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-19T11:15:44.982516Z"
+    },
+    {
+      "key": "ba2199f1d02c8a6058609959",
+      "url": "https://www.mlbtraderumors.com/2026/10/orioles-to-hire-jared-banner-as-general-manager.html",
+      "fingerprint": "3c6b1e9bf21b18a1",
+      "title_norm": "orioles to hire jared banner as general manager",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T13:30:59.636895Z"
     }
   ],
   "known_sources": [
