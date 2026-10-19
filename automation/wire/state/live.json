@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T17:01:07.233249Z",
+  "updated_at": "2026-10-19T18:31:03.186424Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2004,6 +2004,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-19T17:01:07.197594Z"
+    },
+    {
+      "key": "74851c85e4eac2ee3076d345",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-american-league-rawlings-gold-glove-award-finalists-sponsored.html",
+      "fingerprint": "f0a88bdeec4ff783",
+      "title_norm": "the american league rawlings gold glove award finalists! (sponsored)",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T18:31:02.858889Z"
+    },
+    {
+      "key": "0b4a499350fde0356433ae9a",
+      "url": "https://www.mlbtraderumors.com/2026/10/submit-your-questions-for-this-weeks-episode-of-the-mlbtr-podcast-52.html",
+      "fingerprint": "a972be9e2f3883e3",
+      "title_norm": "submit your questions for this week's episode of the mlbtr podcast",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T18:31:03.165612Z"
     }
   ],
   "known_sources": [
