@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T01:45:56.041381Z",
+  "updated_at": "2026-10-19T02:15:57.065702Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1864,6 +1864,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-19T01:45:56.017480Z"
+    },
+    {
+      "key": "de55308f0c25bf114121cc47",
+      "url": "https://www.mlb.com/news/rays-all-around-effort-alcs-game-5-win-2026",
+      "fingerprint": "ac894ffce007d68c",
+      "title_norm": "rays' winning formula on full display in game 5",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T02:15:56.479248Z"
+    },
+    {
+      "key": "f5f4a7791dabe71c33b2be7d",
+      "url": "https://www.mlb.com/news/guardians-vs-rays-alcs-game-6-starting-lineups-pitching-matchup",
+      "fingerprint": "379c2e12cb908713",
+      "title_norm": "guardians-rays alcs game 6 faq (mon., 8 et on tbs/hbo max)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T02:15:57.026486Z"
     }
   ],
   "known_sources": [
