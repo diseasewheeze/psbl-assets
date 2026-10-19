@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T02:15:57.065702Z",
+  "updated_at": "2026-10-19T02:45:57.216967Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1884,6 +1884,36 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-19T02:15:57.026486Z"
+    },
+    {
+      "key": "66a005bf6feaccd221ee9532",
+      "url": "https://www.mlb.com/news/2026-alcs-game-6-storylines",
+      "fingerprint": "967d6df9d84b2f1f",
+      "title_norm": "3 storylines to watch as guards-rays clash in alcs game 6",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T02:45:56.630719Z"
+    },
+    {
+      "key": "05713169db33d529f4c4593d",
+      "url": "https://www.mlb.com/news/steven-kwan-makes-great-throw-catch-in-alcs-game-5",
+      "fingerprint": "5cc359e074667ac3",
+      "title_norm": "thought kwan's first play was good? gold glover comes back with another gem",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T02:45:56.828022Z"
+    },
+    {
+      "key": "0b0a8ec015f0b4ad95a75c70",
+      "url": "https://www.mlb.com/news/rays-all-around-efficiency-powering-postseason-run",
+      "fingerprint": "dfba0c12bff7d402",
+      "title_norm": "rays' ruthless efficiency powering postseason run -- and perhaps al pennant",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T02:45:57.182586Z"
     }
   ],
   "known_sources": [
