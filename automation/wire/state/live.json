@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T02:45:57.216967Z",
+  "updated_at": "2026-10-19T03:45:52.928890Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1914,6 +1914,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-19T02:45:57.182586Z"
+    },
+    {
+      "key": "7db07b1ba475c9ceb77efc8e",
+      "url": "https://www.mlbtraderumors.com/2026/10/mariners-had-interest-in-carlos-mendoza-for-managerial-opening.html",
+      "fingerprint": "2a8f3ea7b1ab49bd",
+      "title_norm": "mariners had interest in carlos mendoza for managerial opening",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T03:45:52.904677Z"
     }
   ],
   "known_sources": [
