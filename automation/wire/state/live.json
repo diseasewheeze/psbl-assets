@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T03:45:52.928890Z",
+  "updated_at": "2026-10-19T05:30:42.847155Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1924,6 +1924,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-19T03:45:52.904677Z"
+    },
+    {
+      "key": "a7782018aa459b8b3d62922a",
+      "url": "https://www.mlbtraderumors.com/2026/10/how-paul-blackburn-became-an-elite-reliever.html",
+      "fingerprint": "7ed0835b29aa4a80",
+      "title_norm": "how paul blackburn became an elite reliever",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T05:30:42.834050Z"
     }
   ],
   "known_sources": [
