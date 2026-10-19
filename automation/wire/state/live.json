@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T16:30:46.205853Z",
+  "updated_at": "2026-10-19T17:01:07.233249Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1994,6 +1994,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-19T16:30:46.193952Z"
+    },
+    {
+      "key": "805aae7f1042b759f2ad8fe0",
+      "url": "https://www.mlb.com/news/brewers-fans-share-what-world-series-appearance-means-to-them",
+      "fingerprint": "3d91703d56fa2e6f",
+      "title_norm": "brewers fans share what the world series means to them",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T17:01:07.197594Z"
     }
   ],
   "known_sources": [
