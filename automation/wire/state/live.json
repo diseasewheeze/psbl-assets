@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T22:00:47.986369Z",
+  "updated_at": "2026-10-19T22:30:56.674747Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2064,6 +2064,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-19T22:00:47.978336Z"
+    },
+    {
+      "key": "b78a92ac9344e29bccedeb11",
+      "url": "https://www.mlb.com/news/aaron-boone-return-yankees-manager-2027",
+      "fingerprint": "073bc8ab7d372bfd",
+      "title_norm": "boone to return as yankees manager in '27, final year of his contract (source)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T22:30:56.649010Z"
     }
   ],
   "known_sources": [
