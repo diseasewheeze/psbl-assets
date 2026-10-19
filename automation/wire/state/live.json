@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T20:15:48.468207Z",
+  "updated_at": "2026-10-19T22:00:47.986369Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2044,6 +2044,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-19T20:15:48.454026Z"
+    },
+    {
+      "key": "af22c6e17bcae547cf071efd",
+      "url": "https://www.mlbtraderumors.com/2026/10/aaron-boone-to-return-as-yankees-manager-in-2027.html",
+      "fingerprint": "c1d64bc98ca7642a",
+      "title_norm": "aaron boone to return as yankees' manager in 2027",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T22:00:47.978024Z"
+    },
+    {
+      "key": "f045d074f5c2eff6ad70df8b",
+      "url": "https://www.mlbtraderumors.com/2026/10/hanshin-tigers-agree-to-post-teruaki-sato.html",
+      "fingerprint": "f67937f164f27696",
+      "title_norm": "hanshin tigers agree to post teruaki sato",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T22:00:47.978336Z"
     }
   ],
   "known_sources": [
