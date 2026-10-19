@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T00:15:55.870141Z",
+  "updated_at": "2026-10-19T01:45:56.041381Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -1844,6 +1844,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-19T00:15:55.825363Z"
+    },
+    {
+      "key": "ac9387d855ae8c6e5101c98f",
+      "url": "https://www.mlb.com/news/yandy-diaz-declares-rays-will-win-game-6-of-2026-alcs",
+      "fingerprint": "0184c6e0f7488585",
+      "title_norm": "yandy declares the alcs over: 'we're going to win tomorrow'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T01:45:55.713447Z"
+    },
+    {
+      "key": "cf7dfc4df96dfbf79fb7689e",
+      "url": "https://www.mlbtraderumors.com/2026/10/what-went-wrong-for-framber-valdez.html",
+      "fingerprint": "2490917e7b36069a",
+      "title_norm": "what went wrong for framber valdez?",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T01:45:56.017480Z"
     }
   ],
   "known_sources": [
