@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T18:31:03.186424Z",
+  "updated_at": "2026-10-19T20:15:48.468207Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2024,6 +2024,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-19T18:31:03.165612Z"
+    },
+    {
+      "key": "7865ea0380b5da3253615d39",
+      "url": "https://www.mlb.com/news/shohei-ohtani-2026-injury-timeline-dodgers-lessons",
+      "fingerprint": "de19da9cc12ecb3f",
+      "title_norm": "what dodgers can learn from ohtani's injury-plagued 2026",
+      "channel": "injury-report",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-19T20:15:48.199371Z"
+    },
+    {
+      "key": "56df3fb5ae6803dd51bf7e97",
+      "url": "https://www.mlbtraderumors.com/2026/10/josh-bell-keeps-getting-it-done.html",
+      "fingerprint": "3039503828f1bbaa",
+      "title_norm": "josh bell keeps getting it done",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-19T20:15:48.454026Z"
     }
   ],
   "known_sources": [
