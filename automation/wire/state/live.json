@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T15:31:00.151398Z",
+  "updated_at": "2026-10-20T15:45:58.228985Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2354,6 +2354,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T15:31:00.101984Z"
+    },
+    {
+      "key": "5d3745a55a72c59ff890d8fa",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-rays-advance-guardians-go-home-world-series-set.html",
+      "fingerprint": "f3fcef5aa7e744fb",
+      "title_norm": "the opener: rays advance, guardians go home, world series set",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T15:45:58.191412Z"
     }
   ],
   "known_sources": [
