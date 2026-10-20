@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T14:46:05.158858Z",
+  "updated_at": "2026-10-20T15:31:00.151398Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2344,6 +2344,16 @@
       "source_id": "fangraphs_prospects",
       "tier": 2,
       "seen_at": "2026-10-20T14:46:05.142464Z"
+    },
+    {
+      "key": "0d54dfe5b3385640251ff8e2",
+      "url": "https://www.mlb.com/news/anthony-volpe-s-role-with-2027-yankees",
+      "fingerprint": "982fd94afd05a005",
+      "title_norm": "is volpe the yankees' no. 1 option for 2b in 2027?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T15:31:00.101984Z"
     }
   ],
   "known_sources": [
