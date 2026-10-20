@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T06:00:47.429723Z",
+  "updated_at": "2026-10-20T07:01:02.586885Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2264,6 +2264,36 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T06:00:47.410506Z"
+    },
+    {
+      "key": "e35213f67905fc4bba96eb75",
+      "url": "https://www.mlb.com/news/yandy-diaz-homers-backs-up-prediction-in-rays-alcs-game-6-win",
+      "fingerprint": "de21b09e48763e8f",
+      "title_norm": "yandy makes good on prediction, delivers knockout blow in pennant clincher",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T07:01:01.866382Z"
+    },
+    {
+      "key": "c54cb2658f47549b8930f404",
+      "url": "https://www.mlb.com/news/interesting-facts-about-rays-brewers-world-series-matchup",
+      "fingerprint": "7b647c10a668ac50",
+      "title_norm": "why this world series is unlike any we've seen in some time",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T07:01:02.303711Z"
+    },
+    {
+      "key": "fda9db734bf5d7968a1ffe26",
+      "url": "https://www.podtrac.com/pts/redirect.mp3/pdst.fm/e/serve.castfire.com/audio/8174944/8174944_2026-04-12-052244.192.mp3",
+      "fingerprint": "9a758c0a231be59d",
+      "title_norm": "2026 catcher recap! preseason adp, top-12 finishes & more! (10/20 fantasy baseball podcast)",
+      "channel": "media",
+      "source_id": "pod_fantasy_baseball_today",
+      "tier": 2,
+      "seen_at": "2026-10-20T07:01:02.576284Z"
     }
   ],
   "known_sources": [
