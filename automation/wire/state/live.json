@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T03:30:56.820480Z",
+  "updated_at": "2026-10-20T03:45:53.422915Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2204,6 +2204,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T03:30:56.789849Z"
+    },
+    {
+      "key": "93e07c5e8fa2241e35c90faf",
+      "url": "https://www.mlb.com/news/brewers-vs-rays-world-series-preview",
+      "fingerprint": "abc9170701c19175",
+      "title_norm": "how to sound smart when discussing the world series matchup",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T03:45:53.383650Z"
     }
   ],
   "known_sources": [
