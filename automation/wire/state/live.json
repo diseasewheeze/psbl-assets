@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T05:30:47.827541Z",
+  "updated_at": "2026-10-20T06:00:47.429723Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2254,6 +2254,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T05:30:47.799711Z"
+    },
+    {
+      "key": "03fc01357c698f9e97316907",
+      "url": "https://www.mlb.com/news/travis-bazzana-chase-delauter-guardians-young-talent-2026-alcs-loss",
+      "fingerprint": "16c0a689c2ad58f7",
+      "title_norm": "despite alcs heartbreak, young cornerstones have guardians believing 'we'll be back'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T06:00:47.410506Z"
     }
   ],
   "known_sources": [
