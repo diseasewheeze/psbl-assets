@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T01:31:02.546557Z",
+  "updated_at": "2026-10-20T02:15:57.634072Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2134,6 +2134,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-20T01:31:02.309304Z"
+    },
+    {
+      "key": "1870ec75f6a7c31704448f68",
+      "url": "https://www.mlb.com/news/tyler-glasnow-randy-arozarena-attend-2026-alcs-game-6-at-trop",
+      "fingerprint": "b524e7e975e898be",
+      "title_norm": "look who's back! glasnow, arozarena among game 6 attendees at trop",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T02:15:57.313356Z"
+    },
+    {
+      "key": "81584f31df15a07547c6f882",
+      "url": "https://www.mlb.com/news/jackson-chourio-is-a-special-brewers-top-prospect",
+      "fingerprint": "0aaf420c49a71ffb",
+      "title_norm": "brewers prospect jackson chourio is 'something special'",
+      "channel": "prospect-wire",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T02:15:57.606014Z"
     }
   ],
   "known_sources": [
