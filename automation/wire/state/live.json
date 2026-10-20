@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T19:45:53.617224Z",
+  "updated_at": "2026-10-20T20:16:01.761440Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2434,6 +2434,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T19:45:53.582997Z"
+    },
+    {
+      "key": "3097d5faffd3724690a35803",
+      "url": "https://www.mlbtraderumors.com/2026/10/orioles-sign-jayvien-sandridge-to-minor-league-deal.html",
+      "fingerprint": "c0dec534be78d25c",
+      "title_norm": "orioles sign jayvien sandridge to minor league deal",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T20:16:01.731725Z"
     }
   ],
   "known_sources": [
