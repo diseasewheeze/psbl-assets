@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T18:16:00.367068Z",
+  "updated_at": "2026-10-20T18:30:46.729252Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2414,6 +2414,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T18:16:00.329607Z"
+    },
+    {
+      "key": "9b236975c130287dabf5259a",
+      "url": "https://www.mlbtraderumors.com/2026/10/matt-kleine-among-the-candidates-for-astros-gm-job.html",
+      "fingerprint": "936c5198a4c22641",
+      "title_norm": "matt kleine among the candidates for astros' gm job",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T18:30:46.711434Z"
     }
   ],
   "known_sources": [
