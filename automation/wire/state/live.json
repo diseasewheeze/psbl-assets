@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T02:15:57.634072Z",
+  "updated_at": "2026-10-20T02:30:59.987288Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2154,6 +2154,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T02:15:57.606014Z"
+    },
+    {
+      "key": "8a057dcc9cb88f8d4960482b",
+      "url": "https://www.spreaker.com/episode/plive-pro-side-podcast-ep-21-afl-standouts-and-the-rays-and-brewers-find-new-ways-to-win--75867702",
+      "fingerprint": "1e031ae3671f8bae",
+      "title_norm": "plive pro side podcast ep. 21: afl standouts and the rays and brewers \"find\" new ways to win",
+      "channel": "media",
+      "source_id": "pod_prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-20T02:30:59.986193Z"
     }
   ],
   "known_sources": [
