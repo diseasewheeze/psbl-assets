@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T18:30:46.729252Z",
+  "updated_at": "2026-10-20T19:45:53.617224Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2424,6 +2424,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-20T18:30:46.711434Z"
+    },
+    {
+      "key": "abca4beffde7b942061e6409",
+      "url": "https://www.mlb.com/news/how-the-seattle-pilots-became-the-milwaukee-brewers",
+      "fingerprint": "a6907e46ee00527f",
+      "title_norm": "3 hofers, a game 163 and a future commissioner: the wild story of the brewers' 1st season -- in seattle",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T19:45:53.582997Z"
     }
   ],
   "known_sources": [
