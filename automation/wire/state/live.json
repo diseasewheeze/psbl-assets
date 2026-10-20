@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T20:45:59.380625Z",
+  "updated_at": "2026-10-20T21:45:59.312881Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2454,6 +2454,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T20:45:59.340470Z"
+    },
+    {
+      "key": "ca5180ee7e58ac6a8db3216c",
+      "url": "https://www.mlbtraderumors.com/2026/10/astros-gm-rumors-josh-barfield-white-sox-randy-flores-cardinals.html",
+      "fingerprint": "918fbd70a4223b4d",
+      "title_norm": "astros have spoken to josh barfield, randy flores about gm vacancy",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T21:45:59.281165Z"
     }
   ],
   "known_sources": [
