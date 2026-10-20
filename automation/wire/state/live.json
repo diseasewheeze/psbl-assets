@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T07:15:55.242003Z",
+  "updated_at": "2026-10-20T07:30:44.279059Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2304,6 +2304,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T07:15:55.203217Z"
+    },
+    {
+      "key": "b15e6d0e565b1f2c37de2365",
+      "url": "https://www.mlb.com/news/rays-celebrate-berth-in-2026-world-series",
+      "fingerprint": "4d47b59ea7b8c20a",
+      "title_norm": "'we've got one more bite!' rays celebrate pennant, aim to keep good times going",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T07:30:44.258490Z"
     }
   ],
   "known_sources": [
