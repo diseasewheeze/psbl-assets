@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T04:01:03.179447Z",
+  "updated_at": "2026-10-20T04:15:51.196695Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2224,6 +2224,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T04:01:03.137537Z"
+    },
+    {
+      "key": "38a4c0724b30397e4baa3205",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-rangers-roster-bind.html",
+      "fingerprint": "f6bd7f7f11c1a912",
+      "title_norm": "the rangers' roster bind",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T04:15:51.175466Z"
     }
   ],
   "known_sources": [
