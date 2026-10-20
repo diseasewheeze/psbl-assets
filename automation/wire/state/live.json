@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T17:01:04.052681Z",
+  "updated_at": "2026-10-20T18:16:00.367068Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2384,6 +2384,36 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-20T17:01:04.017965Z"
+    },
+    {
+      "key": "e9d1464ba36212b67bf61fc2",
+      "url": "https://www.mlb.com/news/brewers-seeking-unique-history-across-north-american-sports",
+      "fingerprint": "0ba95e2eff0ec399",
+      "title_norm": "brewers chasing rare feat in quest for 1st ws title",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T18:15:57.467971Z"
+    },
+    {
+      "key": "b85eafd75c3cd60479688ad9",
+      "url": "https://www.mlb.com/news/can-jacob-misiorowski-find-his-whiffs-in-world-series",
+      "fingerprint": "4a43b859ebcab8b9",
+      "title_norm": "can the miz get his groove -- and his whiffs -- back?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T18:16:00.044212Z"
+    },
+    {
+      "key": "7140200b3b90b59e00a802a7",
+      "url": "https://www.mlb.com/news/rays-brewers-2026-world-series-position-by-position-breakdown",
+      "fingerprint": "f7e087c220b6a64e",
+      "title_norm": "rays-brewers world series position-by-position breakdown",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T18:16:00.329607Z"
     }
   ],
   "known_sources": [
