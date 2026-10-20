@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T03:15:52.707108Z",
+  "updated_at": "2026-10-20T03:30:56.820480Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2184,6 +2184,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T03:15:52.669249Z"
+    },
+    {
+      "key": "22fdeba437f95fc5f4664b7a",
+      "url": "https://www.mlb.com/news/freddy-peralta-wins-2026-alcs-mvp",
+      "fingerprint": "7166c05de87afc3a",
+      "title_norm": "alcs mvp 'fastball freddy' pitches rays to world series, where his old team awaits",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T03:30:56.509634Z"
+    },
+    {
+      "key": "4fe8a7b36d8bc2c8ae36e9e7",
+      "url": "https://www.mlb.com/news/junior-caminero-hits-first-postseason-hr-in-2026-alcs-game-6",
+      "fingerprint": "7ad5aeac843b03e0",
+      "title_norm": "take your time, junior! caminero savors clutch first hr of postseason",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T03:30:56.789849Z"
     }
   ],
   "known_sources": [
