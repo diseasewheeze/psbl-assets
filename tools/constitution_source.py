@@ -109,7 +109,7 @@ QUICK_REFERENCE = [
     ("Startup draft", f"One combined slow snake draft of major-league players and prospects, {_CONTROLLED} rounds, finished at least 7 days before Week 1."),
     ("Annual draft", "5 rounds, linear; held each January or February from the unowned minor-eligible pool."),
     ("Playoffs", "6 teams; top 2 byes; reseeding; 1-week quarterfinals and semifinals; 2-week cumulative championship. Non-playoff teams play a consolation bracket."),
-    ("Dues", f"${DUES} per franchise per season, due before that season's draft."),
+    ("Dues", f"${DUES} per franchise per season, every league fee included, due before that season's draft."),
     ("Future picks", "Future 1st- and 2nd-round picks cannot be traded until all required future-season dues are paid and confirmed through the pick's season."),
     ("Dates", "Defined by formula in this Constitution; exact dates are published each season on the League Calendar."),
 ]
@@ -175,7 +175,7 @@ ARTICLES = [
     {
         "num": "III", "title": "Ownership, Dues, and Prizes", "callout": None,
         "blocks": [
-            ("p", f"Annual dues are **${DUES} per franchise**. A franchise is one dues obligation even when co-owners are present. The Commissioner pays the same annual franchise dues as every other franchise."),
+            ("p", f"Annual dues are **${DUES} per franchise**, and they are the only payment an owner makes for a Season: every fee and cost in this Constitution, including the League Services Allocation and the League Operating Reserve, is paid from them. A franchise is one dues obligation even when co-owners are present. The Commissioner pays the same annual franchise dues as every other franchise."),
             ("p", "The dues deadline for each Season is published on the League Calendar with at least 30 days' notice and falls before that Season's draft: the Startup Draft for Season 2027 and the Annual Draft for later Seasons. A franchise must be fully paid by that deadline to participate in the draft or begin the Season, unless the Commissioner has announced a league-wide alternative payment schedule."),
             ("p", "The Commissioner announces the accepted payment methods. A payment counts only when the Commissioner has confirmed it and recorded it in the League Ledger."),
             ("p", "If a franchise is not fully paid by the deadline, the Commissioner gives written notice in Discord and by direct message. If payment is still not confirmed 7 days after the deadline, the franchise may be treated as orphaned under Article XVIII, including replacement of the owner."),
