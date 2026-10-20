@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T16:01:04.114072Z",
+  "updated_at": "2026-10-20T17:01:04.052681Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2374,6 +2374,16 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-20T16:01:04.109880Z"
+    },
+    {
+      "key": "ba8161c80a2deb1666a04063",
+      "url": "https://www.mlbtraderumors.com/2026/10/cubs-to-retain-both-pitching-coaches.html",
+      "fingerprint": "117a95d097c05507",
+      "title_norm": "cubs to retain both pitching coaches",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T17:01:04.017965Z"
     }
   ],
   "known_sources": [
