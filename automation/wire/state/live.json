@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-19T22:30:56.674747Z",
+  "updated_at": "2026-10-20T00:30:45.523105Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2074,6 +2074,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-19T22:30:56.649010Z"
+    },
+    {
+      "key": "4d4460a8c6bacfbcf13ad506",
+      "url": "https://www.mlb.com/news/best-game-6-s-in-lcs-history-c299343340",
+      "fingerprint": "eb422eee7fae4ed7",
+      "title_norm": "here are the greatest lcs game 6s of all time",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T00:30:45.512877Z"
     }
   ],
   "known_sources": [
