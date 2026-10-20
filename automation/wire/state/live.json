@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T02:30:59.987288Z",
+  "updated_at": "2026-10-20T03:15:52.707108Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2164,6 +2164,26 @@
       "source_id": "pod_prospects_live",
       "tier": 2,
       "seen_at": "2026-10-20T02:30:59.986193Z"
+    },
+    {
+      "key": "06d14e773726a0a9749067d8",
+      "url": "https://www.mlb.com/news/rays-win-alcs-2026",
+      "fingerprint": "ddba27f87a8341b5",
+      "title_norm": "rays finish off guards to set up world series clash vs. crew",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T03:15:52.400032Z"
+    },
+    {
+      "key": "d7d1a2113f1ab749cc739264",
+      "url": "https://www.mlb.com/news/the-slowest-home-run-trots-on-record",
+      "fingerprint": "f4ac402d6145f135",
+      "title_norm": "caminero's game 6 hr trot second only ... to one of his own",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T03:15:52.669249Z"
     }
   ],
   "known_sources": [
