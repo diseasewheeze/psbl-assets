@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T07:01:02.586885Z",
+  "updated_at": "2026-10-20T07:15:55.242003Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2294,6 +2294,16 @@
       "source_id": "pod_fantasy_baseball_today",
       "tier": 2,
       "seen_at": "2026-10-20T07:01:02.576284Z"
+    },
+    {
+      "key": "29ca041ef78c019904d2045a",
+      "url": "https://www.mlb.com/news/guardians-lose-2026-alcs-to-rays",
+      "fingerprint": "63e12f0af1cb3b7b",
+      "title_norm": "'it hurts': guards' incredible run ends 2 wins shy of world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T07:15:55.203217Z"
     }
   ],
   "known_sources": [
