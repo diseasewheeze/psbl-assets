@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T00:30:45.523105Z",
+  "updated_at": "2026-10-20T01:31:02.546557Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2084,6 +2084,56 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T00:30:45.512877Z"
+    },
+    {
+      "key": "d16c76703917d42fcc6bcf7a",
+      "url": "https://www.mlb.com/news/jared-banner-named-orioles-general-manager",
+      "fingerprint": "823ff01c74f88ac0",
+      "title_norm": "o's tab longtime exec jared banner as new general manager",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T01:31:01.673339Z"
+    },
+    {
+      "key": "124cbcf893774070b9356595",
+      "url": "https://www.mlb.com/news/taylor-smith-named-a-s-president-of-baseball-operations",
+      "fingerprint": "19f9ef9fc3728cda",
+      "title_norm": "a's bring in taylor smith to run baseball operations",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-20T01:31:02.020981Z"
+    },
+    {
+      "key": "0753e56e150567866d2561f9",
+      "url": "https://www.mlbtraderumors.com/2026/10/mets-to-interview-kevin-long-about-coaching-job.html",
+      "fingerprint": "607e62fb4db26353",
+      "title_norm": "mets to interview kevin long about coaching job",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T01:31:02.300424Z"
+    },
+    {
+      "key": "5b42fd3d2b848c0e2d58a287",
+      "url": "https://www.mlbtraderumors.com/2026/10/trade-candidate-ketel-marte.html",
+      "fingerprint": "083edc2de674c202",
+      "title_norm": "trade candidate: ketel marte",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T01:31:02.304822Z"
+    },
+    {
+      "key": "1c293b6c0663c9b778f6648f",
+      "url": "https://www.mlbtraderumors.com/2026/10/2026-27-offseason-outlook-series.html",
+      "fingerprint": "24722de4a25962a7",
+      "title_norm": "2026-27 offseason outlook series",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-20T01:31:02.309304Z"
     }
   ],
   "known_sources": [
