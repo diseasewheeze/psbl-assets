@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T07:30:44.279059Z",
+  "updated_at": "2026-10-20T10:01:02.608474Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2314,6 +2314,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-20T07:30:44.258490Z"
+    },
+    {
+      "key": "faaaa80ed7e469f7a66f4b45",
+      "url": "https://www.prospectslive.com/2027-dynasty-outlooks-new-york-mets",
+      "fingerprint": "3e5de9242336b0a3",
+      "title_norm": "2027 dynasty outlooks: new york mets",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-20T10:01:02.604242Z"
     }
   ],
   "known_sources": [
