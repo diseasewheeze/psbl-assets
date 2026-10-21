@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T17:01:06.060733Z",
+  "updated_at": "2026-10-21T17:16:01.103446Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2664,6 +2664,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T17:01:06.020687Z"
+    },
+    {
+      "key": "819c013cf6c18f12c2f1f696",
+      "url": "https://www.mlb.com/news/who-will-challenge-in-first-abs-world-series",
+      "fingerprint": "15202ee9b75ed6be",
+      "title_norm": "in the first world series with abs, will any hitters challenge?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T17:16:00.558345Z"
+    },
+    {
+      "key": "b1fc6cb0f91a58ded43bf70c",
+      "url": "https://www.mlbtraderumors.com/2026/10/cubs-to-make-international-scouting-hire.html",
+      "fingerprint": "6e4dd89a1bd10003",
+      "title_norm": "cubs to make international scouting hire",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T17:16:01.072136Z"
     }
   ],
   "known_sources": [
