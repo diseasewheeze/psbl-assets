@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T18:59:02.801289Z",
+  "updated_at": "2026-10-21T19:15:58.716255Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2714,6 +2714,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T18:59:02.777272Z"
+    },
+    {
+      "key": "91ee1c25295101f7ed45e14f",
+      "url": "https://www.mlb.com/news/pat-murphy-leads-brewers-to-nl-pennant-world-series-berth",
+      "fingerprint": "54d1fd273b442236",
+      "title_norm": "brewers have been mlb's best team under pat murphy. can he lead them to a world series win?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T19:15:58.447291Z"
+    },
+    {
+      "key": "f0cea4fdabf82e813d5ef37e",
+      "url": "https://www.mlb.com/news/mlb-pitch-hit-run-finals-to-take-place-at-2026-world-series",
+      "fingerprint": "ee00d9297bc5806f",
+      "title_norm": "40 kids to compete in finals of mlb's pitch, hit & run at 2026 world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T19:15:58.683039Z"
     }
   ],
   "known_sources": [
