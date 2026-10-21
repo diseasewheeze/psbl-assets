@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T01:45:40.961125Z",
+  "updated_at": "2026-10-21T02:15:54.760490Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2514,6 +2514,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T01:45:40.943876Z"
+    },
+    {
+      "key": "eda23cac4b4c4b45ee586030",
+      "url": "https://www.mlbtraderumors.com/2026/10/ben-sestanovich-scott-sharp-candidates-for-astros-gm-job.html",
+      "fingerprint": "c9f4ad80493af0af",
+      "title_norm": "ben sestanovich, scott sharp candidates for astros' gm job",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T02:15:54.522061Z"
+    },
+    {
+      "key": "43404fd8b9a7723b5f93f3f9",
+      "url": "https://www.prospectslive.com/daily-sheet-10-19-2026-sorry-to-debarge-in",
+      "fingerprint": "e522c74fc9982f0e",
+      "title_norm": "daily sheet 10/19/2026: sorry to debarge in",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-21T02:15:54.756588Z"
     }
   ],
   "known_sources": [
