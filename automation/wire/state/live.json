@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T04:15:56.200650Z",
+  "updated_at": "2026-10-21T05:16:04.100638Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2554,6 +2554,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T04:15:56.164034Z"
+    },
+    {
+      "key": "dfbbfe7a57271fd71a49edc8",
+      "url": "https://www.mlbtraderumors.com/2026/10/latest-on-brandon-woodruff-2.html",
+      "fingerprint": "b34f7ee167214c6e",
+      "title_norm": "latest on brandon woodruff",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T05:16:04.071143Z"
     }
   ],
   "known_sources": [
