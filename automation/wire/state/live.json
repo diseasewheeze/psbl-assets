@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T16:15:57.876446Z",
+  "updated_at": "2026-10-21T17:01:06.060733Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2644,6 +2644,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T16:15:57.843804Z"
+    },
+    {
+      "key": "46c833569781341a88d66f00",
+      "url": "https://www.mlb.com/news/brewers-rays-2026-world-series-bullpen-breakdown",
+      "fingerprint": "dde75145a4042d4a",
+      "title_norm": "rays and brewers have effective, yet completely different bullpens. here's how",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T17:01:05.813232Z"
+    },
+    {
+      "key": "cfd24996a9f092e22d84a504",
+      "url": "https://www.mlb.com/news/richie-palacios-taylor-walls-talk-basketball-inspired-celebration",
+      "fingerprint": "fc900689b4df5e1f",
+      "title_norm": "how did this high-flying victory celebration come to be? 'we both wish we could dunk'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T17:01:06.020687Z"
     }
   ],
   "known_sources": [
