@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T05:16:04.100638Z",
+  "updated_at": "2026-10-21T07:00:57.498566Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2564,6 +2564,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-21T05:16:04.071143Z"
+    },
+    {
+      "key": "dba762b5b0316b1c63162c5e",
+      "url": "https://www.podtrac.com/pts/redirect.mp3/pdst.fm/e/serve.castfire.com/audio/8174777/8174777_2026-04-12-054417.192.mp3",
+      "fingerprint": "008347e8c65384a4",
+      "title_norm": "early 2027 catcher rankings! hunter goodman or drake baldwin? (10/21 fantasy baseball podcast)",
+      "channel": "media",
+      "source_id": "pod_fantasy_baseball_today",
+      "tier": 2,
+      "seen_at": "2026-10-21T07:00:57.486589Z"
     }
   ],
   "known_sources": [
