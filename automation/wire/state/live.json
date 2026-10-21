@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T14:00:56.637975Z",
+  "updated_at": "2026-10-21T15:01:00.151218Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2594,6 +2594,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-21T14:00:56.618041Z"
+    },
+    {
+      "key": "f25d57cf473c2167510b83b5",
+      "url": "https://blogs.fangraphs.com/reds-prospect-luke-holman-has-been-one-of-the-best-pitchers-in-the-afl",
+      "fingerprint": "1cc45eb1959feca4",
+      "title_norm": "reds prospect luke holman has been one of the best pitchers in the afl",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-21T15:01:00.137614Z"
     }
   ],
   "known_sources": [
