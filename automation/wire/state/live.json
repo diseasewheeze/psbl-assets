@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T18:30:59.905763Z",
+  "updated_at": "2026-10-21T18:46:02.014872Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2694,6 +2694,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T18:30:59.866159Z"
+    },
+    {
+      "key": "1de51acf48e2af5a57121b18",
+      "url": "https://www.mlbtraderumors.com/2026/10/angels-decline-option-manager-kurt-suzuki.html",
+      "fingerprint": "eab2a871ff972d01",
+      "title_norm": "angels decline 2027 option on manager kurt suzuki",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T18:46:01.983909Z"
     }
   ],
   "known_sources": [
