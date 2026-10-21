@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T21:45:57.149491Z",
+  "updated_at": "2026-10-21T22:30:49.919110Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2784,6 +2784,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T21:45:57.115262Z"
+    },
+    {
+      "key": "905a911b0756804ce909decd",
+      "url": "https://www.mlb.com/news/shohei-ohtani-health-updates-2026-offseason",
+      "fingerprint": "7eea78d80ab3bdba",
+      "title_norm": "ohtani won't need surgery, expects to return to 2-way form. how that looks is up in the air",
+      "channel": "injury-report",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T22:30:49.553645Z"
+    },
+    {
+      "key": "f1f1f35fd5bb53fc52e276fd",
+      "url": "https://www.mlbtraderumors.com/2026/10/dalton-rushing-to-undergo-elbow-surgery.html",
+      "fingerprint": "2ec738e6816ebf7c",
+      "title_norm": "dalton rushing to undergo elbow surgery",
+      "channel": "injury-report",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T22:30:49.896837Z"
     }
   ],
   "known_sources": [
