@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T16:01:00.346370Z",
+  "updated_at": "2026-10-21T16:15:57.876446Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2624,6 +2624,26 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-21T16:01:00.342623Z"
+    },
+    {
+      "key": "788836701f9bf9088e3a04d6",
+      "url": "https://www.mlb.com/news/brian-cashman-returning-as-yankees-general-manager",
+      "fingerprint": "5a2643510e0f9110",
+      "title_norm": "cashman returning for 30th season as yankees gm",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T16:15:57.581944Z"
+    },
+    {
+      "key": "a2fdcc9d01692e9e093ee02c",
+      "url": "https://www.mlb.com/news/tarik-skubal-2026-free-agent-profile",
+      "fingerprint": "717520328ac63237",
+      "title_norm": "everything to know about the tarik skubal free agency frenzy",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T16:15:57.843804Z"
     }
   ],
   "known_sources": [
