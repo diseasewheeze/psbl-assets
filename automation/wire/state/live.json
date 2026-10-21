@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T20:30:59.352420Z",
+  "updated_at": "2026-10-21T21:30:50.415490Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2744,6 +2744,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-21T20:30:59.320811Z"
+    },
+    {
+      "key": "6d77dbc3358f0cd8b9967c5b",
+      "url": "https://www.mlbtraderumors.com/2026/10/mitch-garver-retires.html",
+      "fingerprint": "289cfd90b56c338e",
+      "title_norm": "mitch garver retires",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T21:30:50.113503Z"
+    },
+    {
+      "key": "cef67bc107d8fff49c6db263",
+      "url": "https://www.mlbtraderumors.com/2026/10/mariners-interested-in-jason-kanzler-for-managerial-vacancy.html",
+      "fingerprint": "af313b442eb20ff2",
+      "title_norm": "mariners interested in jason kanzler for managerial vacancy",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T21:30:50.398379Z"
     }
   ],
   "known_sources": [
