@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T00:30:57.858856Z",
+  "updated_at": "2026-10-21T01:01:06.193753Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2474,6 +2474,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-21T00:30:57.824033Z"
+    },
+    {
+      "key": "1b82c5bff87d1be79619a02e",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-san-diego-padres-17.html",
+      "fingerprint": "23f24ef775ce3eb5",
+      "title_norm": "offseason outlook: san diego padres",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T01:01:05.812905Z"
+    },
+    {
+      "key": "72134bb9f292f3f14b4a239a",
+      "url": "https://www.mlbtraderumors.com/2026/10/mets-interested-in-john-mallee-for-coaching-job.html",
+      "fingerprint": "d3bbd4ddd30283dd",
+      "title_norm": "mets interested in john mallee for coaching job",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T01:01:06.165036Z"
     }
   ],
   "known_sources": [
