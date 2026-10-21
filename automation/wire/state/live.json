@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T17:16:01.103446Z",
+  "updated_at": "2026-10-21T18:30:59.905763Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2684,6 +2684,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-21T17:16:01.072136Z"
+    },
+    {
+      "key": "da4d6ba174786ec2aba08969",
+      "url": "https://www.mlb.com/news/chandler-simpson-bunt-singles-vs-junior-caminero-home-run-trot",
+      "fingerprint": "006b389863e2a607",
+      "title_norm": "how many simpson sprints can you fit into one caminero trot?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T18:30:59.866159Z"
     }
   ],
   "known_sources": [
