@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T02:15:54.760490Z",
+  "updated_at": "2026-10-21T04:15:56.200650Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2534,6 +2534,26 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-21T02:15:54.756588Z"
+    },
+    {
+      "key": "b6d21341c33ad9133ad36737",
+      "url": "https://www.mlb.com/news/how-teams-are-pitching-to-junior-caminero-in-the-postseason",
+      "fingerprint": "2bcac875d9e8eb67",
+      "title_norm": "how the brewers might pitch to caminero in the world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T04:15:55.942474Z"
+    },
+    {
+      "key": "3b7978655bb66c91f96d2dd8",
+      "url": "https://www.mlb.com/news/offseason-questions-for-eliminated-mlb-postseason-teams",
+      "fingerprint": "f25a6b023b8b673f",
+      "title_norm": "1 big offseason question for each eliminated postseason team",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T04:15:56.164034Z"
     }
   ],
   "known_sources": [
