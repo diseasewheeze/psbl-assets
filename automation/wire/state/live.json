@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T18:46:02.014872Z",
+  "updated_at": "2026-10-21T18:59:02.801289Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2704,6 +2704,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-21T18:46:01.983909Z"
+    },
+    {
+      "key": "9d4ee2190a0ed8e9a9b94db0",
+      "url": "https://www.mlb.com/news/angels-decline-manager-kurt-suzuki-contract-option",
+      "fingerprint": "8cdc5e36d7a921d3",
+      "title_norm": "angels decline suzuki's option, will seek new manager",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T18:59:02.777272Z"
     }
   ],
   "known_sources": [
