@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-20T21:45:59.312881Z",
+  "updated_at": "2026-10-21T00:30:57.858856Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2464,6 +2464,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-20T21:45:59.281165Z"
+    },
+    {
+      "key": "4f3c77e9440328acce43d853",
+      "url": "https://www.mlb.com/news/how-the-world-series-teams-were-built-2026",
+      "fingerprint": "f80ace684fba2b45",
+      "title_norm": "savvy trades, sharp scouting key to construction of this year's world series rosters",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-21T00:30:57.824033Z"
     }
   ],
   "known_sources": [
