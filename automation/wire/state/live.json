@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-21T11:45:41.927371Z",
+  "updated_at": "2026-10-21T14:00:56.637975Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2584,6 +2584,16 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-21T11:45:41.925140Z"
+    },
+    {
+      "key": "e159ed9fe7eb5cefa3c57f8f",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-peralta-brewers-bauers-rays-g1-starter.html",
+      "fingerprint": "70ed6ca36b7b55c5",
+      "title_norm": "the opener: peralta/brewers, bauers/rays, g1 starter",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-21T14:00:56.618041Z"
     }
   ],
   "known_sources": [
