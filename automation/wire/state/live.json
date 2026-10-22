@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T15:46:01.339944Z",
+  "updated_at": "2026-10-22T16:00:57.344196Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2944,6 +2944,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-22T15:46:01.315571Z"
+    },
+    {
+      "key": "c472898bd5e32f54c51efd79",
+      "url": "https://www.prospectslive.com/2026-boston-red-sox-org-prospect-team",
+      "fingerprint": "103183c41f303633",
+      "title_norm": "2026 boston red sox org prospect team",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-22T16:00:57.341393Z"
     }
   ],
   "known_sources": [
