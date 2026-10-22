@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T14:45:53.179344Z",
+  "updated_at": "2026-10-22T15:46:01.339944Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2924,6 +2924,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-22T14:45:53.165968Z"
+    },
+    {
+      "key": "160b5e68d6624c8442d87984",
+      "url": "https://www.mlb.com/news/jacob-misiorowski-background-hobbies",
+      "fingerprint": "9f664ec339adb002",
+      "title_norm": "5 fun miz facts: get to know the man behind the triple-digit heat",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T15:46:00.614696Z"
+    },
+    {
+      "key": "17a435c6ed8d11b4016388fc",
+      "url": "https://www.mlbtraderumors.com/2026/10/nationals-to-keep-coaching-staff.html",
+      "fingerprint": "36918cb9a98850d4",
+      "title_norm": "nationals to keep coaching staff",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T15:46:01.315571Z"
     }
   ],
   "known_sources": [
