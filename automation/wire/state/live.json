@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T18:15:47.907790Z",
+  "updated_at": "2026-10-22T19:45:57.051455Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2988,6 +2988,36 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-22T18:15:47.882528Z"
+    },
+    {
+      "key": "28386776bf5804db3a4ef1e4",
+      "url": "https://www.mlb.com/news/world-series-2026-correspondents",
+      "fingerprint": "bc7887f5f17b772d",
+      "title_norm": "tolle, rojas, clement to serve as world series correspondents",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T19:45:56.450688Z"
+    },
+    {
+      "key": "7f8f560d578fc79600c5e4ee",
+      "url": "https://www.mlb.com/news/fielding-bible-award-winners-for-2026",
+      "fingerprint": "7a129e556be1264d",
+      "title_norm": "winners of the 2026 fielding bible awards announced",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T19:45:56.745889Z"
+    },
+    {
+      "key": "9b269869a67e5b3e1c48a289",
+      "url": "https://www.mlbtraderumors.com/2026/10/rangers-putting-sebastian-walcott-through-outfield-drills.html",
+      "fingerprint": "395ddf500cc65adf",
+      "title_norm": "rangers putting sebastian walcott through outfield drills",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T19:45:57.022447Z"
     }
   ],
   "known_sources": [
