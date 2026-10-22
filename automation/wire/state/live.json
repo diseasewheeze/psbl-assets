@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T00:42:59.169852Z",
+  "updated_at": "2026-10-22T02:45:39.796777Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2854,6 +2854,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-22T00:42:59.140233Z"
+    },
+    {
+      "key": "9e0a5e598477812535065283",
+      "url": "https://www.mlbtraderumors.com/2026/10/friedman-dodgers-offseason-business-as-usual.html",
+      "fingerprint": "dcafc13defef8b12",
+      "title_norm": "friedman: dodgers offseason “business as usual”",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T02:45:39.456457Z"
+    },
+    {
+      "key": "258b85a78ea016038e04b9dd",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-boston-red-sox-16.html",
+      "fingerprint": "102215c68659f6fa",
+      "title_norm": "offseason outlook: boston red sox",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T02:45:39.783763Z"
     }
   ],
   "known_sources": [
