@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T22:30:59.516653Z",
+  "updated_at": "2026-10-22T23:31:22.295394Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3118,6 +3118,26 @@
       "seen_at": "2026-10-22T22:30:58.906116Z",
       "structured": true,
       "player": "Alex Lange"
+    },
+    {
+      "key": "9cf64eca03bcf9c2ff54a43d",
+      "url": "https://www.mlb.com/news/brandon-woodruff-brewers-2026-world-series-roster",
+      "fingerprint": "8cea708a013280c3",
+      "title_norm": "as deadline nears, odds of woodruff making crew's ws roster 'literally a 50-50 tossup'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T23:31:21.985358Z"
+    },
+    {
+      "key": "e2757b52334f450ec0c9dcf5",
+      "url": "https://www.mlb.com/news/brewers-unveil-special-ballpark-menu-for-world-series",
+      "fingerprint": "163da4c32eed024e",
+      "title_norm": "ribs, brat rangoon and, of course, beer: brewers bringing 'flair' with world series menu",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T23:31:22.270062Z"
     }
   ],
   "known_sources": [
