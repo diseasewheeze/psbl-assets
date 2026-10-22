@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T19:45:57.051455Z",
+  "updated_at": "2026-10-22T20:31:09.404795Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3018,6 +3018,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-22T19:45:57.022447Z"
+    },
+    {
+      "key": "ba6fa6fb96e45e294e653e38",
+      "url": "https://www.mlbtraderumors.com/2026/10/red-sox-sign-riley-adams-catcher.html",
+      "fingerprint": "3fec4f6f91bf3b70",
+      "title_norm": "red sox, riley adams agree to minor league deal",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T20:31:09.377094Z"
     }
   ],
   "known_sources": [
