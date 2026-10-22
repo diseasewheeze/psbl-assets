@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T16:00:57.344196Z",
+  "updated_at": "2026-10-22T17:30:58.312722Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2954,6 +2954,30 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-22T16:00:57.341393Z"
+    },
+    {
+      "key": "f09980e923a04a7d132fc644",
+      "url": "https://www.mlb.com/player/845056",
+      "fingerprint": "40a2d7a0f8906309",
+      "title_norm": "san diego padres signed free agent rhp alexis medina to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-22T17:30:58.283372Z",
+      "structured": true,
+      "player": "Alexis Medina"
+    },
+    {
+      "key": "929d78360dd89310669da97f",
+      "url": "https://www.mlb.com/player/845055",
+      "fingerprint": "c3b5e6cbba8ecd00",
+      "title_norm": "san diego padres signed free agent of lenyert rios to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-22T17:30:58.283430Z",
+      "structured": true,
+      "player": "Lenyert Rios"
     }
   ],
   "known_sources": [
