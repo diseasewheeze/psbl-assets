@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T17:30:58.312722Z",
+  "updated_at": "2026-10-22T18:15:47.907790Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2978,6 +2978,16 @@
       "seen_at": "2026-10-22T17:30:58.283430Z",
       "structured": true,
       "player": "Lenyert Rios"
+    },
+    {
+      "key": "3b1f36f9671df39b790bd910",
+      "url": "https://www.mlb.com/news/jacob-misiorowski-junior-caminero-matchup-world-series-game-1",
+      "fingerprint": "4660b832fb230fb5",
+      "title_norm": "it's baseball's fastest bat vs. fastest arm in the world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T18:15:47.882528Z"
     }
   ],
   "known_sources": [
