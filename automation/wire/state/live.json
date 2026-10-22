@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T02:45:39.796777Z",
+  "updated_at": "2026-10-22T04:15:57.015734Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2874,6 +2874,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-22T02:45:39.783763Z"
+    },
+    {
+      "key": "16d06d548397fa3b91455c2e",
+      "url": "https://www.mlb.com/news/world-series-2026-brewers-rays-speed-stolen-bases-matchup",
+      "fingerprint": "69f9f5bb1536043a",
+      "title_norm": "world series could turn into a track meet. can either team slow the other down?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T04:15:56.766422Z"
+    },
+    {
+      "key": "ecc86aa0eb00191541bba9b9",
+      "url": "https://www.mlbtraderumors.com/2026/10/as-considering-hiring-gm-under-taylor-smith.html",
+      "fingerprint": "1a0c7a7a928ef900",
+      "title_norm": "a's considering hiring gm under taylor smith",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T04:15:56.991518Z"
     }
   ],
   "known_sources": [
