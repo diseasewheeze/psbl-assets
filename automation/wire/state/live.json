@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T20:45:53.288565Z",
+  "updated_at": "2026-10-22T21:45:53.512633Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3038,6 +3038,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-22T20:45:53.258879Z"
+    },
+    {
+      "key": "8e3ff9c8c73ff2e81233ef73",
+      "url": "https://www.mlb.com/news/jacob-misiorowski-reacts-to-young-fan-interviewed-after-brewers-nlcs-win",
+      "fingerprint": "a73c3fbff3311d49",
+      "title_norm": "yes, misiorowski also teared up watching that viral interview of young fan after nlcs win",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T21:45:53.470277Z"
     }
   ],
   "known_sources": [
