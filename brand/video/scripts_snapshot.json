@@ -275,7 +275,7 @@
    [
     "0:30",
     "Card: RESERVE AND LEAGUE SERVICES",
-    "Two hundred covers Fantrax Premium and League Bot hosting, and whatever's left joins the Dynasty Pot. The last hundred and fifty is the Commissioner's allocation for running the league."
+    "Two hundred covers Fantrax Premium and League Bot hosting, and whatever's left stays in the reserve for future costs. The last hundred and fifty is the Commissioner's allocation for running the league."
    ],
    [
     "0:40",
@@ -1332,7 +1332,7 @@
    [
     "0:04",
     "Card: $[BALANCE]",
-    "It's at [balance]. Three hundred dollars goes in every season, plus whatever the operating reserve didn't spend."
+    "It's at [balance]. Three hundred dollars goes in every season."
    ],
    [
     "0:12",

@@ -374,8 +374,8 @@ def welcome_packet(art) -> Doc:
         (rows, "PSBL Champion\t$850"), (rows, "Runner-Up\t$450"), (rows, "Third Place\t$200"),
         (rows, "Presidents' Trophy\t$250"), (rows, "Dynasty Pot\t$300"), (rows, "Operating Reserve\t$200"),
         (rows, "League Services\t$150"), (rows_b, "12 franchises × $200\t$2,400"),
-        ("Small", "The Operating Reserve pays for Fantrax Premium, League Bot hosting and other approved costs, and whatever is left joins the "
-                  "Dynasty Pot. League Services is the Commissioner's allocation for running the league (3.6)."),
+        ("Small", "The Operating Reserve pays for Fantrax Premium, League Bot hosting and other approved costs, and whatever is left stays in the "
+                  "reserve for future costs. League Services is the Commissioner's allocation for running the league (3.6)."),
         ("H2", "DUES"),
         ("Body", "$200 per franchise, due before each season's draft, paid through Fantrax Treasurer. A payment counts once "
                  "the Commissioner confirms it in the League Ledger. Prizes are paid within 30 days after the Championship, "

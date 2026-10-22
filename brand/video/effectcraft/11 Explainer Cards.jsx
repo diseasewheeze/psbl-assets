@@ -54,7 +54,7 @@ var DATA = {
                 { at: 0, kind: "title", eyebrow: "$200 X 12 FRANCHISES", title: "WHERE THE MONEY GOES", sub: "$2,400 A SEASON, EVERY DOLLAR ACCOUNTED FOR" },
                 { at: 8, kind: "card", eyebrow: "PRIZES", title: "WHO GETS PAID", lines: ["PSBL CHAMPION  $850", "RUNNER-UP  $450", "THIRD PLACE  $200", "PRESIDENTS' TROPHY  $250"], big: "$1,750", bigLabel: "IN PRIZES" },
                 { at: 20, kind: "card", eyebrow: "THE LONG GAME", title: "DYNASTY POT", lines: ["$300 GOES IN EVERY SEASON", "FIRST TO 3 TITLES IN A CYCLE TAKES IT ALL"], big: "$300", bigLabel: "A SEASON" },
-                { at: 30, kind: "card", eyebrow: "RUNNING THE LEAGUE", title: "RESERVE AND LEAGUE SERVICES", lines: ["$200: FANTRAX PREMIUM AND LEAGUE BOT HOSTING", "WHAT'S LEFT JOINS THE DYNASTY POT", "$150: THE COMMISSIONER'S ALLOCATION"] },
+                { at: 30, kind: "card", eyebrow: "RUNNING THE LEAGUE", title: "RESERVE AND LEAGUE SERVICES", lines: ["$200: FANTRAX PREMIUM AND LEAGUE BOT HOSTING", "WHAT'S LEFT STAYS IN THE RESERVE", "$150: THE COMMISSIONER'S ALLOCATION"] },
                 { at: 40, kind: "card", eyebrow: "EVERY DOLLAR", title: "THE LEDGER", lines: ["POSTED AFTER EACH SEASON", "IN THE LEAGUE LEDGER CHANNEL"] }
             ]
         },
@@ -74,7 +74,7 @@ var DATA = {
         {
             name: "Dynasty Pot Update", length: 30, cards: [
                 { at: 0, kind: "title", eyebrow: "AFTER THE [YEAR] SEASON", title: "THE DYNASTY POT", sub: "FIRST TO THREE TITLES TAKES IT ALL" },
-                { at: 4, kind: "card", eyebrow: "THE BALANCE", title: "IN THE POT", lines: ["$300 GOES IN EVERY SEASON", "PLUS WHAT THE RESERVE DIDN'T SPEND"], big: "$[BALANCE]", bigLabel: "AND GROWING" },
+                { at: 4, kind: "card", eyebrow: "THE BALANCE", title: "IN THE POT", lines: ["$300 GOES IN EVERY SEASON", "FIRST TO 3 TITLES TAKES IT ALL"], big: "$[BALANCE]", bigLabel: "AND GROWING" },
                 { at: 12, kind: "card", eyebrow: "THIS CYCLE", title: "CHAMPIONSHIPS", lines: ["[TEAM]: [NUMBER]", "[TEAM]: [NUMBER]"] },
                 { at: 20, kind: "big", title: "FIRST TO 3 TAKES IT ALL", sub: "THEY DON'T HAVE TO BE IN A ROW" },
                 { at: 27, kind: "end", title: "WHO'S NEXT?", sub: "PITCH SLAPPED BASEBALL LEAGUE" }

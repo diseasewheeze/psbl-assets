@@ -86,11 +86,11 @@
 
 **3.6** The League Services Allocation is the league service fee. It is paid to the Commissioner for recurring league administration, setup, records, Discord infrastructure, automation maintenance, league communications, and related management duties. Any increase to the League Services Allocation is a Material Amendment. On any vote that changes the League Services Allocation, the Commissioner's franchise does not vote and approval requires at least 8 of the other 11 franchises.
 
-**3.7** The League Operating Reserve may be used only for Fantrax Premium, League Bot hosting, and other disclosed, authorized league operating costs. Any portion of the $200 reserve remaining after the Season's authorized expenses are settled is added to the Dynasty Pot.
+**3.7** The League Operating Reserve may be used only for Fantrax Premium, League Bot hosting, and other disclosed, authorized league operating costs. Any portion of the reserve not spent in a Season stays in the reserve and carries forward to cover future operating costs. The reserve is never added to the Dynasty Pot or to prizes.
 
 **3.8** Guaranteed competitive prizes will not be reduced during an Active Season to cover an unanticipated operating overage. Any additional assessment or material change to the annual allocation requires league approval under this Constitution.
 
-**3.9** Prizes are paid after the competition that earns them is final, and no later than 30 days after the PSBL Championship concludes. Within the same period the Commissioner publishes a Season Ledger in the League Ledger channel showing dues received, prizes paid, operating reserve spending, the League Services Allocation, and the Dynasty Pot balance.
+**3.9** Prizes are paid after the competition that earns them is final, and no later than 30 days after the PSBL Championship concludes. Within the same period the Commissioner publishes a Season Ledger in the League Ledger channel showing dues received, prizes paid, operating reserve spending and balance, the League Services Allocation, and the Dynasty Pot balance.
 
 **3.10** Annual dues are non-refundable once the Annual Draft has begun (the Startup Draft for Season 2027), except that if the league dissolves before the Season, Article XX requires a distribution or refund. Future-season prepayments attached to a franchise are non-refundable if an owner voluntarily leaves the league.
 
@@ -100,7 +100,7 @@
 
 **4.1** The PSBL maintains a rolling Dynasty Pot designed to reward sustained championship success across multiple Seasons. The first Dynasty Pot cycle begins with Season 2027.
 
-**4.2** At least $300 from each Season's dues is added to the Dynasty Pot. Any unused portion of the annual League Operating Reserve is also added to the Dynasty Pot after the Season's authorized expenses are settled.
+**4.2** $300 from each Season's dues is added to the Dynasty Pot. Nothing else is added to it.
 
 **4.3** The first franchise to win three PSBL Championships during the same active Dynasty Pot cycle wins the entire accumulated Dynasty Pot. Championships do not need to be consecutive.
 
@@ -372,7 +372,7 @@
 
 **20.6** **Records.** Official amendment results, effective dates, championship history, Presidents' Trophy winners, Dynasty Pot status, dues status, and other permanent league records are maintained in Discord and/or the league's designated archival system. Each adopted text of this Constitution is dated and posted, and prior texts are archived.
 
-**20.7** **Dissolution.** If the PSBL permanently dissolves, authorized outstanding league expenses are settled first. Remaining prize funds or other Season-specific funds are distributed according to the results already earned where reasonably possible. Any remaining Dynasty Pot balance is distributed equally among active, fully paid franchises as provided in Article IV. If the PSBL dissolves before a Season's first lineup lock, that Season's dues not yet spent on authorized expenses are refunded to the franchises that paid them.
+**20.7** **Dissolution.** If the PSBL permanently dissolves, authorized outstanding league expenses are settled first. Remaining prize funds or other Season-specific funds are distributed according to the results already earned where reasonably possible. Any remaining Dynasty Pot balance is distributed equally among active, fully paid franchises as provided in Article IV, and any remaining League Operating Reserve balance is distributed the same way. If the PSBL dissolves before a Season's first lineup lock, that Season's dues not yet spent on authorized expenses are refunded to the franchises that paid them.
 
 **20.8** The latest published text of this Constitution is the controlling league document. Upon adoption of the Charter, all prior working drafts are superseded except as historical records.
 
