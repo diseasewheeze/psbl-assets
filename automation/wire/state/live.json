@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T22:15:52.113156Z",
+  "updated_at": "2026-10-22T22:30:59.516653Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3058,6 +3058,66 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-22T22:15:52.086241Z"
+    },
+    {
+      "key": "cad65f53503eebac280871ce",
+      "url": "https://www.mlb.com/player/679525",
+      "fingerprint": "6a3ed90de577255e",
+      "title_norm": "kansas city royals sent rhp alec marsh outright to omaha storm chasers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-22T22:30:58.336073Z",
+      "structured": true,
+      "player": "Alec Marsh"
+    },
+    {
+      "key": "9917278ce336605d681a70b9",
+      "url": "https://www.mlb.com/player/668834",
+      "fingerprint": "57e8fafcd77a9b28",
+      "title_norm": "kansas city royals sent rhp easton mcgee outright to omaha storm chasers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-22T22:30:58.578029Z",
+      "structured": true,
+      "player": "Easton McGee"
+    },
+    {
+      "key": "ee21653e06f857d1afb1e91a",
+      "url": "https://www.mlb.com/player/657756",
+      "fingerprint": "949f376a07c0a01f",
+      "title_norm": "kansas city royals sent rhp connor seabold outright to omaha storm chasers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-22T22:30:58.905938Z",
+      "structured": true,
+      "player": "Connor Seabold"
+    },
+    {
+      "key": "7922138757fac0986ff28c87",
+      "url": "https://www.mlb.com/player/696131",
+      "fingerprint": "54e456738e2d1e72",
+      "title_norm": "kansas city royals sent rhp mason black outright to omaha storm chasers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-22T22:30:58.906055Z",
+      "structured": true,
+      "player": "Mason Black"
+    },
+    {
+      "key": "c11da08c5240d2a89806cd11",
+      "url": "https://www.mlb.com/player/656638",
+      "fingerprint": "3bdadf65e1f1389b",
+      "title_norm": "kansas city royals sent rhp alex lange outright to omaha storm chasers.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-22T22:30:58.906116Z",
+      "structured": true,
+      "player": "Alex Lange"
     }
   ],
   "known_sources": [
