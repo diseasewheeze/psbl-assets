@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T21:45:53.512633Z",
+  "updated_at": "2026-10-22T22:15:52.113156Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3048,6 +3048,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-22T21:45:53.470277Z"
+    },
+    {
+      "key": "899d743c35b6a4971d5a5f98",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-cleveland-guardians-5.html",
+      "fingerprint": "b89504d893d74635",
+      "title_norm": "offseason outlook: cleveland guardians",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T22:15:52.086241Z"
     }
   ],
   "known_sources": [
