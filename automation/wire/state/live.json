@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T00:30:46.114288Z",
+  "updated_at": "2026-10-22T00:42:59.169852Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2834,6 +2834,26 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-22T00:30:46.111806Z"
+    },
+    {
+      "key": "781371988f897b7ec50dd3dc",
+      "url": "https://www.mlbtraderumors.com/2026/10/charles-cook-gavin-dickey-interview-for-astros-gm-job.html",
+      "fingerprint": "5162dea66952ba89",
+      "title_norm": "charles cook, gavin dickey interview for astros gm job",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T00:42:58.870702Z"
+    },
+    {
+      "key": "c87851476f9203de26cbde97",
+      "url": "https://www.mlbtraderumors.com/2026/10/angels-to-hire-general-manager-for-2027-season.html",
+      "fingerprint": "36082461b21f300c",
+      "title_norm": "angels to hire general manager for 2027 season",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-22T00:42:59.140233Z"
     }
   ],
   "known_sources": [
