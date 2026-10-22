@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T00:15:42.656882Z",
+  "updated_at": "2026-10-22T00:30:46.114288Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -2814,6 +2814,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-22T00:15:42.634370Z"
+    },
+    {
+      "key": "a0a72a58c8cbbb93367cd664",
+      "url": "https://www.mlb.com/news/2026-draft-top-performer-for-each-team",
+      "fingerprint": "a670f8d4241a4fc3",
+      "title_norm": "each team's top performer from the 2026 draft",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-22T00:30:45.835648Z"
+    },
+    {
+      "key": "bb7d86c509a8caaecc8e86a6",
+      "url": "https://www.prospectslive.com/daily-sheet-10-20-2026-take-it-to-the-banks",
+      "fingerprint": "b87a2daf8d462c3c",
+      "title_norm": "daily sheet 10/20/2026: take it to the banks",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-22T00:30:46.111806Z"
     }
   ],
   "known_sources": [
