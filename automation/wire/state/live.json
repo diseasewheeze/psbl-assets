@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T16:31:02.351396Z",
+  "updated_at": "2026-10-23T16:45:44.259916Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3412,6 +3412,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-23T16:31:02.318529Z"
+    },
+    {
+      "key": "223948d0defd853d0656c56a",
+      "url": "https://www.mlb.com/news/2026-world-series-players-ranked-as-prospects",
+      "fingerprint": "4f474f0364bd5d35",
+      "title_norm": "how the former top 100 prospects in this year's world series stack up",
+      "channel": "prospect-wire",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-23T16:45:44.018742Z"
+    },
+    {
+      "key": "42c08eca56525df87187d0eb",
+      "url": "https://www.mlbtraderumors.com/2026/10/brewers-rays-announce-world-series-rosters.html",
+      "fingerprint": "d28a037dbe6f5899",
+      "title_norm": "brewers, rays announce world series rosters",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-23T16:45:44.243022Z"
     }
   ],
   "known_sources": [
