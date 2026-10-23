@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T18:01:04.019197Z",
+  "updated_at": "2026-10-23T19:46:00.473224Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3442,6 +3442,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-23T18:01:03.991053Z"
+    },
+    {
+      "key": "1cc34b259a3e00b08364f922",
+      "url": "https://www.mlbtraderumors.com/2026/10/front-office-subscriber-chat-with-anthony-franco-today-at-200pm-central-88.html",
+      "fingerprint": "7f8e6bfd77d9bfef",
+      "title_norm": "front office subscriber chat with anthony franco",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-23T19:46:00.118195Z"
+    },
+    {
+      "key": "cc87cd57eadee6a4a67ec271",
+      "url": "https://www.mlbtraderumors.com/2026/10/cardinals-hitting-coach-brant-brown-part-ways.html",
+      "fingerprint": "4bf53731ef8a0558",
+      "title_norm": "cardinals, hitting coach brant brown part ways",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-23T19:46:00.443997Z"
     }
   ],
   "known_sources": [
