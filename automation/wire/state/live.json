@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T15:45:59.895320Z",
+  "updated_at": "2026-10-23T16:01:05.405628Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3358,6 +3358,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-23T15:45:59.847443Z"
+    },
+    {
+      "key": "bf8cfe1167873f15e059d490",
+      "url": "https://www.mlb.com/news/brewers-2026-world-series-roster",
+      "fingerprint": "32e5c21675b23ee2",
+      "title_norm": "he's in: woodruff added to crew's world series roster",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-23T16:01:04.963363Z"
+    },
+    {
+      "key": "668a5cadc20362518485b863",
+      "url": "https://www.prospectslive.com/2026-chicago-cubs-org-prospect-team",
+      "fingerprint": "f702f6343ffea599",
+      "title_norm": "2026 chicago cubs org prospect team",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-23T16:01:05.402901Z"
     }
   ],
   "known_sources": [
