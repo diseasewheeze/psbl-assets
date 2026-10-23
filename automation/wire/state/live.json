@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T10:15:46.769117Z",
+  "updated_at": "2026-10-23T11:15:45.193093Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3288,6 +3288,16 @@
       "source_id": "pod_prospects_live",
       "tier": 2,
       "seen_at": "2026-10-23T10:15:46.768312Z"
+    },
+    {
+      "key": "4af9afb298a1ddb0394b87ef",
+      "url": "https://www.prospectslive.com/dynasty-podcast-episode-151-mets-and-nationals-dynasty-outlooks",
+      "fingerprint": "0aae247b1a6b0577",
+      "title_norm": "dynasty podcast episode #151 - mets and nationals dynasty outlooks",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-23T11:15:45.191411Z"
     }
   ],
   "known_sources": [
