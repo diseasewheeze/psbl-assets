@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T21:01:00.856539Z",
+  "updated_at": "2026-10-23T22:46:01.563322Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3494,6 +3494,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-23T21:01:00.825572Z"
+    },
+    {
+      "key": "d2f831eec2e8b6bb090b667b",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-new-york-yankees-15.html",
+      "fingerprint": "17cc6239adc52991",
+      "title_norm": "offseason outlook: new york yankees",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-23T22:46:01.534003Z"
     }
   ],
   "known_sources": [
