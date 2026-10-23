@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T03:45:40.829804Z",
+  "updated_at": "2026-10-23T07:00:55.918335Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3268,6 +3268,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-23T03:45:40.814101Z"
+    },
+    {
+      "key": "4e8798fc483970d57fb4de36",
+      "url": "https://www.podtrac.com/pts/redirect.mp3/pdst.fm/e/serve.castfire.com/audio/8174776/8174776_2026-04-12-054316.192.mp3",
+      "fingerprint": "9c1599a865cb27b2",
+      "title_norm": "early 2027 first base rankings! nick kurtz remains at the top! (10/23 fantasy baseball podcast)",
+      "channel": "media",
+      "source_id": "pod_fantasy_baseball_today",
+      "tier": 2,
+      "seen_at": "2026-10-23T07:00:55.908080Z"
     }
   ],
   "known_sources": [
