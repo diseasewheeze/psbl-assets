@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T20:00:56.264869Z",
+  "updated_at": "2026-10-23T20:30:56.102352Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3472,6 +3472,18 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-23T20:00:56.229852Z"
+    },
+    {
+      "key": "22bfae6be7fdb28b3207bd31",
+      "url": "https://www.mlb.com/player/605540",
+      "fingerprint": "a22dbf9709d34220",
+      "title_norm": "milwaukee brewers activated rhp brandon woodruff from the 60-day injured list.",
+      "channel": "injury-report",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-23T20:30:56.062370Z",
+      "structured": true,
+      "player": "Brandon Woodruff"
     }
   ],
   "known_sources": [
