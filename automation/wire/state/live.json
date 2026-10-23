@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T00:31:03.682640Z",
+  "updated_at": "2026-10-23T00:45:42.109152Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3148,6 +3148,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-23T00:31:03.641330Z"
+    },
+    {
+      "key": "8f2ddceba922de6a3221aa67",
+      "url": "https://www.mlbtraderumors.com/2026/10/manager-stephen-vogt-staying-with-guardians.html",
+      "fingerprint": "cb17e2c1ff971f76",
+      "title_norm": "manager stephen vogt staying with guardians",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-23T00:45:42.091575Z"
     }
   ],
   "known_sources": [
