@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T13:31:00.480475Z",
+  "updated_at": "2026-10-23T14:16:01.101340Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3328,6 +3328,16 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-23T13:31:00.477481Z"
+    },
+    {
+      "key": "52d4e76b74b28ebbc80f25bd",
+      "url": "https://blogs.fangraphs.com/rangers-prospect-sebastian-walcott-projects-to-wallop-baseballs-in-the-bigs",
+      "fingerprint": "6ed8d0954ed1c952",
+      "title_norm": "rangers prospect sebastian walcott projects to wallop baseballs in the bigs",
+      "channel": "prospect-wire",
+      "source_id": "fangraphs_prospects",
+      "tier": 2,
+      "seen_at": "2026-10-23T14:16:01.080646Z"
     }
   ],
   "known_sources": [
