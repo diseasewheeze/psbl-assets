@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T22:46:01.563322Z",
+  "updated_at": "2026-10-23T23:00:50.227044Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3504,6 +3504,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-23T22:46:01.534003Z"
+    },
+    {
+      "key": "1e2f82adfca5c06127988962",
+      "url": "https://www.mlb.com/news/pat-murphy-gets-facetime-call-from-bruce-springsteen",
+      "fingerprint": "761d64385a6b6942",
+      "title_norm": "'last man standing': murphy gets facetime call from idol springsteen",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-23T23:00:50.204795Z"
     }
   ],
   "known_sources": [
