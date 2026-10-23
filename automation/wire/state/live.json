@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T11:15:45.193093Z",
+  "updated_at": "2026-10-23T13:31:00.480475Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3298,6 +3298,36 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-23T11:15:45.191411Z"
+    },
+    {
+      "key": "187df4a32b49b573c7acb9b0",
+      "url": "https://www.mlb.com/news/hideki-matsui-named-manager-of-yomiuri-giants",
+      "fingerprint": "66e0d6620a0e5fd1",
+      "title_norm": "'09 world series mvp matsui named manager of npb's giants",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-23T13:30:59.937100Z"
+    },
+    {
+      "key": "7779d103220d7287cc4e157b",
+      "url": "https://www.prospectslive.com/2027-mlb-draft-top-50-ncaa-prospects",
+      "fingerprint": "588dbb19fb2db5c9",
+      "title_norm": "2027 mlb draft: top 50 ncaa prospects",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-23T13:31:00.240356Z"
+    },
+    {
+      "key": "86d5cf391dfb18864ac28138",
+      "url": "https://www.prospectslive.com/team-gripes-2027-draft-top-50-ncaa-players",
+      "fingerprint": "d645353a16884ffb",
+      "title_norm": "team gripes: 2027 draft top 50 ncaa players",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-23T13:31:00.477481Z"
     }
   ],
   "known_sources": [
