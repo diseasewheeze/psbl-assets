@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-22T23:31:22.295394Z",
+  "updated_at": "2026-10-23T00:31:03.682640Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3138,6 +3138,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-22T23:31:22.270062Z"
+    },
+    {
+      "key": "340b851fc2b54da85c973647",
+      "url": "https://www.mlb.com/news/ground-rules-for-roofs-rays-brewers-world-series",
+      "fingerprint": "991399c86fe0fa72",
+      "title_norm": "meet the true x-factors in this world series: the roofs",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-23T00:31:03.641330Z"
     }
   ],
   "known_sources": [
