@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T15:16:01.202525Z",
+  "updated_at": "2026-10-23T15:45:59.895320Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3348,6 +3348,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-23T15:16:01.172678Z"
+    },
+    {
+      "key": "d00905b68cd0759cf84f1ee1",
+      "url": "https://www.mlb.com/news/rays-2026-world-series-roster",
+      "fingerprint": "2c74ecae1dd2510f",
+      "title_norm": "cleavinger back on rays' world series roster",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-23T15:45:59.847443Z"
     }
   ],
   "known_sources": [
