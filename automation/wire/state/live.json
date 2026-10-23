@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T16:45:44.259916Z",
+  "updated_at": "2026-10-23T18:01:04.019197Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3432,6 +3432,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-23T16:45:44.243022Z"
+    },
+    {
+      "key": "c124bbe79b50dcdd94b9fe1d",
+      "url": "https://www.mlbtraderumors.com/2026/10/yankees-to-retain-pitching-coach-matt-blake.html",
+      "fingerprint": "cbffc0226a1d4e23",
+      "title_norm": "yankees to retain pitching coach matt blake",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-23T18:01:03.991053Z"
     }
   ],
   "known_sources": [
