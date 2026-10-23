@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T16:01:05.405628Z",
+  "updated_at": "2026-10-23T16:31:02.351396Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3378,6 +3378,40 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-23T16:01:05.402901Z"
+    },
+    {
+      "key": "6b4d7fbd5cf398cadf881129",
+      "url": "https://www.mlb.com/player/845058",
+      "fingerprint": "af80f03ed6fedd19",
+      "title_norm": "tampa bay rays signed free agent lhp zair tromp to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-23T16:31:02.034732Z",
+      "structured": true,
+      "player": "Zair Tromp"
+    },
+    {
+      "key": "b0b79793cdbf61d7c51a70b8",
+      "url": "https://www.mlb.com/player/838136",
+      "fingerprint": "368cc8459bcf32c4",
+      "title_norm": "kansas city royals signed free agent if tomas rivas to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-23T16:31:02.034794Z",
+      "structured": true,
+      "player": "Tomas Rivas"
+    },
+    {
+      "key": "1da9aeaeb57263a7d3f39c77",
+      "url": "https://www.mlb.com/news/junior-caminero-damages-american-family-field-videoboard-before-world-series-game-1",
+      "fingerprint": "3f6d1b6e973e484f",
+      "title_norm": "caminero damages videoboard with bp homer before world series game 1",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-23T16:31:02.318529Z"
     }
   ],
   "known_sources": [
