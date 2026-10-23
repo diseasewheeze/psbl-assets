@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T02:45:47.977103Z",
+  "updated_at": "2026-10-23T03:45:40.829804Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3258,6 +3258,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-23T02:45:47.949394Z"
+    },
+    {
+      "key": "4bb3976d85afbc2fe8d01216",
+      "url": "https://www.mlbtraderumors.com/2026/10/two-pitchers-elect-free-agency.html",
+      "fingerprint": "281e46eeccc3e252",
+      "title_norm": "two pitchers elect free agency",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-23T03:45:40.814101Z"
     }
   ],
   "known_sources": [
