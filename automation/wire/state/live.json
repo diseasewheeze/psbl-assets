@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T04:45:40.907442Z",
+  "updated_at": "2026-10-24T06:30:57.600461Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3604,6 +3604,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T04:45:40.883151Z"
+    },
+    {
+      "key": "6ba5029fbeeea92b0775fd1e",
+      "url": "https://www.mlb.com/news/brewers-bullpen-seals-2026-world-series-game-1-win",
+      "fingerprint": "3f49bb182b7ef9ac",
+      "title_norm": "crew 'pen adds a little late drama, then gets back to its lockdown ways",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T06:30:57.306207Z"
+    },
+    {
+      "key": "c9cae35c6c69e28accf16150",
+      "url": "https://www.mlb.com/news/rays-brewers-world-series-game-2-starting-lineups-and-pitching-matchup",
+      "fingerprint": "1ebc2a229950383f",
+      "title_norm": "rays-brewers world series game 2 faq (8 p.m. et, fox/fox deportes/fox one)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T06:30:57.558295Z"
     }
   ],
   "known_sources": [
