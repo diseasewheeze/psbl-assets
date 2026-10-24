@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T01:45:44.134093Z",
+  "updated_at": "2026-10-24T03:45:47.562496Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3564,6 +3564,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-24T01:45:44.115131Z"
+    },
+    {
+      "key": "3933a039bcfd988b8de362e9",
+      "url": "https://www.mlb.com/news/brewers-win-world-series-game-1-2026",
+      "fingerprint": "566099b983f85cee",
+      "title_norm": "crew strikes early, hangs on to take game 1 in front of raucous fans",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T03:45:47.520187Z"
     }
   ],
   "known_sources": [
