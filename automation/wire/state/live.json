@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T13:00:50.874954Z",
+  "updated_at": "2026-10-24T16:01:14.117576Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3674,6 +3674,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-24T13:00:50.845108Z"
+    },
+    {
+      "key": "c383ed556e05e3de9a2db653",
+      "url": "https://www.prospectslive.com/2026-chicago-white-sox-org-prospect-team",
+      "fingerprint": "8854e57568be3a44",
+      "title_norm": "2026 chicago white sox org prospect team",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-24T16:01:14.113469Z"
     }
   ],
   "known_sources": [
