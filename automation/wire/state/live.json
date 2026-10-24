@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T16:15:45.030473Z",
+  "updated_at": "2026-10-24T20:16:01.032328Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3704,6 +3704,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-24T16:15:45.005156Z"
+    },
+    {
+      "key": "f7b231938427af98009fa8b5",
+      "url": "https://www.mlb.com/news/danny-jackson-immaculate-inning-in-1985-world-series",
+      "fingerprint": "4089e1165a1dd207",
+      "title_norm": "he threw the only immaculate inning in postseason history ... and didn't know until 30 years later",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T20:16:00.996150Z"
     }
   ],
   "known_sources": [
