@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T22:15:42.665110Z",
+  "updated_at": "2026-10-24T22:30:54.242625Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3724,6 +3724,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T22:15:42.643597Z"
+    },
+    {
+      "key": "607f7437e137c921a23833e2",
+      "url": "https://www.prospectslive.com/final-warning-the-89-plive-fall-classic-ends-with-the-world-series",
+      "fingerprint": "4089c15c4b511a7d",
+      "title_norm": "final warning: the $89 plive fall classic ends with the world series",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-24T22:30:54.238577Z"
     }
   ],
   "known_sources": [
