@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T01:00:53.928024Z",
+  "updated_at": "2026-10-24T01:15:49.949701Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3534,6 +3534,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T01:00:53.910871Z"
+    },
+    {
+      "key": "568d8ba5f371fe58bc375b82",
+      "url": "https://www.mlb.com/news/jacob-misiorowski-makes-world-series-history-in-game-1",
+      "fingerprint": "cbec3c57bcb2212a",
+      "title_norm": "it took all of 1 pitch for a world series record",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T01:15:49.692239Z"
+    },
+    {
+      "key": "0b3b4e1819f8851e76810b45",
+      "url": "https://www.mlb.com/news/avengers-doomsday-game-1-of-the-2026-world-series",
+      "fingerprint": "0f4db16849fa35d1",
+      "title_norm": "miz, caminero and other players in 'avengers: doomsday'? take a sneak peek at it",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T01:15:49.914245Z"
     }
   ],
   "known_sources": [
