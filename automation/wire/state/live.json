@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T06:45:52.268238Z",
+  "updated_at": "2026-10-24T07:01:03.740834Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3634,6 +3634,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T06:45:52.219198Z"
+    },
+    {
+      "key": "718fbbf720c9cb15610eab29",
+      "url": "https://www.mlb.com/news/christian-yelich-brewers-world-series-game-1-2026",
+      "fingerprint": "527bac53e17cb90a",
+      "title_norm": "captain sets tone for crew: yelich's rbi triple has teammates 'pumped'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T07:01:03.692138Z"
+    },
+    {
+      "key": "e44f1692f4a71b74c1d923bb",
+      "url": "https://www.mlb.com/news/william-contreras-catches-two-rays-stealing-in-game-1-of-2026-world-series",
+      "fingerprint": "a24682adcbb96021",
+      "title_norm": "rays were perfect on postseason sbs -- until contreras put up a stop sign",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T07:01:03.695380Z"
     }
   ],
   "known_sources": [
