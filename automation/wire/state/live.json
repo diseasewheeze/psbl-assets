@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T20:16:01.032328Z",
+  "updated_at": "2026-10-24T22:15:42.665110Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3714,6 +3714,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T20:16:00.996150Z"
+    },
+    {
+      "key": "5263269bbb710266565dd397",
+      "url": "https://www.mlb.com/news/brewers-fan-walks-to-every-home-game-including-world-series",
+      "fingerprint": "1fdde11d2a6bf4fa",
+      "title_norm": "this lifelong brewers fan walks to every home game (yes, even the world series)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T22:15:42.643597Z"
     }
   ],
   "known_sources": [
