@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T07:01:03.740834Z",
+  "updated_at": "2026-10-24T07:15:55.870127Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3654,6 +3654,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T07:01:03.695380Z"
+    },
+    {
+      "key": "b88fca93456ff2bb4902e6c3",
+      "url": "https://www.mlb.com/news/rays-bullpen-management-game-1-world-series-loss",
+      "fingerprint": "fef22d79329a1830",
+      "title_norm": "none of rays' best relievers pitched in game 1 -- and that could be a good thing",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T07:15:55.826358Z"
     }
   ],
   "known_sources": [
