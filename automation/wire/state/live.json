@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T07:15:55.870127Z",
+  "updated_at": "2026-10-24T13:00:50.874954Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3664,6 +3664,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T07:15:55.826358Z"
+    },
+    {
+      "key": "4b487c215b0a070f2ca06843",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-world-series-begins-late-game-drama-game-2.html",
+      "fingerprint": "8e6dadb7cd82efce",
+      "title_norm": "the opener: world series begins, late-game drama, game 2",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-24T13:00:50.845108Z"
     }
   ],
   "known_sources": [
