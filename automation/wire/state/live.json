@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T01:15:49.949701Z",
+  "updated_at": "2026-10-24T01:45:44.134093Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3554,6 +3554,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T01:15:49.914245Z"
+    },
+    {
+      "key": "957a7990885cd80efc33dd24",
+      "url": "https://www.mlbtraderumors.com/2026/10/mlbpa-withdrew-revenue-sharing-grievance-against-rays-last-year.html",
+      "fingerprint": "1a84dce5a7efd505",
+      "title_norm": "mlbpa withdrew revenue sharing grievance against rays last year",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-24T01:45:44.115131Z"
     }
   ],
   "known_sources": [
