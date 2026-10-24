@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-23T23:00:50.227044Z",
+  "updated_at": "2026-10-24T01:00:53.928024Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3514,6 +3514,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-23T23:00:50.204795Z"
+    },
+    {
+      "key": "c9c563765013f31f9c994c48",
+      "url": "https://www.mlb.com/news/brewers-announcers-wearing-bob-uecker-jackets-during-2026-world-series-game-1",
+      "fingerprint": "d1623ec4ac2b9e37",
+      "title_norm": "brewers broadcasters to sport bob uecker's jackets during world series game 1",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T01:00:53.678850Z"
+    },
+    {
+      "key": "3d74b52a3c68daebf70b8bcd",
+      "url": "https://www.mlb.com/news/drew-rasmussen-to-face-former-team-in-game-2-of-2026-world-series",
+      "fingerprint": "18e567f90eab0774",
+      "title_norm": "for rasmussen's g2 start, he'll face team he'd otherwise be rooting for",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T01:00:53.910871Z"
     }
   ],
   "known_sources": [
