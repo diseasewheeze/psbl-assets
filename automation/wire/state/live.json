@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T06:30:57.600461Z",
+  "updated_at": "2026-10-24T06:45:52.268238Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3624,6 +3624,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T06:30:57.558295Z"
+    },
+    {
+      "key": "4653478ade69eac6e609935a",
+      "url": "https://www.mlb.com/news/rays-lose-game-1-of-2026-world-series",
+      "fingerprint": "11976bd0d715faff",
+      "title_norm": "rays' best-laid game 1 plans undone by brewers' airtight arms",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T06:45:52.219198Z"
     }
   ],
   "known_sources": [
