@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T03:45:47.562496Z",
+  "updated_at": "2026-10-24T04:15:59.853844Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3574,6 +3574,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-24T03:45:47.520187Z"
+    },
+    {
+      "key": "6702d7ca87819bb034431689",
+      "url": "https://www.mlb.com/news/brewers-game-ending-double-play-overturned-world-series-game-1",
+      "fingerprint": "8f17cd0cda8b6d56",
+      "title_norm": "brewers won their first world series game in 44 years. and then they won it again",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T04:15:59.561576Z"
+    },
+    {
+      "key": "798d7a249f83da8046df110e",
+      "url": "https://www.mlb.com/news/key-takeaways-from-world-series-game-1-2026",
+      "fingerprint": "dd892b22ae0d5dd5",
+      "title_norm": "4 key takeaways after brewers win a thriller to start world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T04:15:59.797241Z"
     }
   ],
   "known_sources": [
