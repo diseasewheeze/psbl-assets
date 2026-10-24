@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T22:30:54.242625Z",
+  "updated_at": "2026-10-24T23:01:05.047359Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3734,6 +3734,26 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-24T22:30:54.238577Z"
+    },
+    {
+      "key": "b8d21a5d2d7de46ccd0114ec",
+      "url": "https://www.mlb.com/news/mlb-app-launches-for-iphone-duo",
+      "fingerprint": "5c263662cb0b1fa4",
+      "title_norm": "mlb app launches for iphone duo just in time for world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-24T23:01:04.621393Z"
+    },
+    {
+      "key": "f5842b09fc03dc6dd4255e54",
+      "url": "https://www.mlbtraderumors.com/2026/10/pablo-lopez-on-track-in-tommy-john-recovery.html",
+      "fingerprint": "66bb32d15750e0bb",
+      "title_norm": "pablo lopez on track in tommy john recovery",
+      "channel": "injury-report",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-24T23:01:05.012936Z"
     }
   ],
   "known_sources": [
