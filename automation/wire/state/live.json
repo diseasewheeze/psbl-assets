@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T07:30:59.895916Z",
+  "updated_at": "2026-10-25T14:45:57.996260Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3904,6 +3904,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T07:30:59.849045Z"
+    },
+    {
+      "key": "04b805afb688d0b81b6fdd9d",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-brewers-2-0-series-lead-historic-first-inning-ashby.html",
+      "fingerprint": "869dd37f8a0f92bb",
+      "title_norm": "the opener: brewers' 2-0 series lead, historic first inning, ashby",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-25T14:45:57.964978Z"
     }
   ],
   "known_sources": [
