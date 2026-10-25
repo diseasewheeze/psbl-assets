@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T01:01:03.016580Z",
+  "updated_at": "2026-10-25T01:15:49.744597Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3794,6 +3794,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T01:01:02.970423Z"
+    },
+    {
+      "key": "7af80d76a773e3b145c11304",
+      "url": "https://www.mlb.com/news/quinn-priester-uncle-to-captain-brewers-team-flight-to-florida-for-game-3",
+      "fingerprint": "5d643b23b9d3f402",
+      "title_norm": "family affair: priester's uncle, cousin to fly crew's team plane to game 3",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T01:15:49.704328Z"
     }
   ],
   "known_sources": [
