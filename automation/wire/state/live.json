@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T18:46:01.080821Z",
+  "updated_at": "2026-10-25T20:15:44.398951Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3984,6 +3984,46 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T18:46:01.057150Z"
+    },
+    {
+      "key": "c187e04530f1ad79f5e4ce91",
+      "url": "https://www.mlb.com/news/freddy-peralta-velocity-increase-2026-postseason",
+      "fingerprint": "8d30a6a5739e76a8",
+      "title_norm": "'fastball freddy' benefiting from historic velo bump this postseason",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T20:15:43.075776Z"
+    },
+    {
+      "key": "fb78aba59e4e22c4c5e7d3d1",
+      "url": "https://www.mlb.com/news/brewers-rays-scouting-investment-world-series-2026",
+      "fingerprint": "5ffb13ffc1d8bdd6",
+      "title_norm": "brewers, rays prove there's still room for old-school scouting",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T20:15:43.270277Z"
+    },
+    {
+      "key": "43d5813468905e779ae1a053",
+      "url": "https://www.mlb.com/news/world-series-returns-to-tropicana-field-for-first-time-since-2008",
+      "fingerprint": "cc7ffb189a1f1aa7",
+      "title_norm": "in tatters 2 years ago, rejuvenated trop will host first world series since '08",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T20:15:43.820224Z"
+    },
+    {
+      "key": "fe2e602a24d9d25fb969b501",
+      "url": "https://www.mlbtraderumors.com/2026/10/francisco-lindor-will-be-just-fine-in-2027.html",
+      "fingerprint": "6fb27e1b9e740218",
+      "title_norm": "francisco lindor will be just fine in 2027",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-25T20:15:43.824893Z"
     }
   ],
   "known_sources": [
