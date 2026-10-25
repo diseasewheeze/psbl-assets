@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T14:45:57.996260Z",
+  "updated_at": "2026-10-25T15:15:57.210957Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3914,6 +3914,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T14:45:57.964978Z"
+    },
+    {
+      "key": "df5624a8dfe0c5b49dbe85ed",
+      "url": "https://www.mlb.com/news/chandler-simpson-home-run-breakdown",
+      "fingerprint": "3375f2eba289dd2e",
+      "title_norm": "ever wonder what a chandler simpson homer would look like? we'll show you",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T15:15:57.172743Z"
     }
   ],
   "known_sources": [
