@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T04:30:43.840786Z",
+  "updated_at": "2026-10-25T06:01:10.338365Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3854,6 +3854,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T04:30:43.814094Z"
+    },
+    {
+      "key": "06b19135bd2579f574ff0fee",
+      "url": "https://www.mlb.com/news/junior-caminero-rays-miscues-2026-world-series-game-2",
+      "fingerprint": "e243ead84da0a585",
+      "title_norm": "fiery caminero airs frustrations about rays' miscues as focus shifts to game 3",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T06:01:10.294349Z"
     }
   ],
   "known_sources": [
