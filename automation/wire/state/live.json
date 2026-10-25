@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T06:45:59.415030Z",
+  "updated_at": "2026-10-25T07:00:58.346471Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3884,6 +3884,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T06:45:59.371970Z"
+    },
+    {
+      "key": "c476da5770772d8b291d6f21",
+      "url": "https://www.mlb.com/news/rays-blow-4-0-lead-lose-game-2-of-2026-world-series",
+      "fingerprint": "929032ad230d898a",
+      "title_norm": "a 4-run lead with ras on mound; what could go wrong? as it turns out ... plenty",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T07:00:58.303625Z"
     }
   ],
   "known_sources": [
