@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T22:00:49.242279Z",
+  "updated_at": "2026-10-25T23:15:40.779611Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4044,6 +4044,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T22:00:49.214820Z"
+    },
+    {
+      "key": "2315b21e8a3a02fa3c9981ae",
+      "url": "https://www.mlbtraderumors.com/2026/10/trade-candidate-teoscar-hernandez.html",
+      "fingerprint": "b51e152e6b9f0c3a",
+      "title_norm": "trade candidate: teoscar hernandez",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-25T23:15:40.766548Z"
     }
   ],
   "known_sources": [
