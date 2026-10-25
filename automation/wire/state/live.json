@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-24T23:01:05.047359Z",
+  "updated_at": "2026-10-25T00:15:49.638950Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3754,6 +3754,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-24T23:01:05.012936Z"
+    },
+    {
+      "key": "26330c6ce216d217df752813",
+      "url": "https://www.mlb.com/news/jennie-finch-empowerment-award-recipients-honored-at-2026-world-series",
+      "fingerprint": "2b3041559efb0af1",
+      "title_norm": "jennie finch empowerment award recipients take center stage at world series",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T00:15:49.599663Z"
     }
   ],
   "known_sources": [
