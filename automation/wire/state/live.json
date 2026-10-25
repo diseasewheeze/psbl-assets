@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T06:30:53.763646Z",
+  "updated_at": "2026-10-25T06:45:59.415030Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3874,6 +3874,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T06:30:53.726436Z"
+    },
+    {
+      "key": "634536698444cb6902236a08",
+      "url": "https://www.mlb.com/news/rays-struggle-with-fundamentals-in-2026-world-series-game-2",
+      "fingerprint": "f0dc420ae17ced99",
+      "title_norm": "club built on doing little things right is suddenly getting them wrong",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T06:45:59.371970Z"
     }
   ],
   "known_sources": [
