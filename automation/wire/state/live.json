@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T17:30:56.990502Z",
+  "updated_at": "2026-10-25T18:46:01.080821Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3954,6 +3954,36 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T17:30:56.964575Z"
+    },
+    {
+      "key": "b2555e1f166df5d04b019032",
+      "url": "https://www.mlb.com/news/taylor-walls-great-defense-for-rays-in-2026-mlb-season",
+      "fingerprint": "721197981b388000",
+      "title_norm": "what makes walls such a great shortstop? for one, 'he cheats' (kind of)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T18:46:00.574638Z"
+    },
+    {
+      "key": "bc9ed760220fc7116b6cc98f",
+      "url": "https://www.mlb.com/news/brice-turang-s-surprising-pitch-to-brewers-for-first-pro-contract",
+      "fingerprint": "8dc2c9e733f910f8",
+      "title_norm": "turang made shocking pitch to brewers to land 1st pro contract ... or did he?",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T18:46:00.777788Z"
+    },
+    {
+      "key": "116c19d21bd23486b260c645",
+      "url": "https://www.mlbtraderumors.com/2026/10/a-look-at-jacob-latzs-breakout-season.html",
+      "fingerprint": "292fb177777b1cae",
+      "title_norm": "a look at jacob latz's breakout season",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-25T18:46:01.057150Z"
     }
   ],
   "known_sources": [
