@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T03:15:54.866718Z",
+  "updated_at": "2026-10-25T04:01:01.754552Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3824,6 +3824,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T03:15:54.828251Z"
+    },
+    {
+      "key": "f7400801c6786b3e6b1ac314",
+      "url": "https://www.mlb.com/news/brewers-win-world-series-game-2-2026",
+      "fingerprint": "51cc5fc62c86d3d7",
+      "title_norm": "methodical brewers erase 4-run deficit, pick apart rays to seize 2-0 lead",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T04:01:01.383480Z"
+    },
+    {
+      "key": "b920dae85d037a0d34b5c6b4",
+      "url": "https://www.mlbtraderumors.com/2026/10/eugenio-suarez-could-be-a-bargain.html",
+      "fingerprint": "b7bf9d62aa97dd86",
+      "title_norm": "eugenio suarez could be a bargain",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-25T04:01:01.722134Z"
     }
   ],
   "known_sources": [
