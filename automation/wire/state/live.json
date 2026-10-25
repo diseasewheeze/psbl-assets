@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T00:45:46.936180Z",
+  "updated_at": "2026-10-25T01:01:03.016580Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3774,6 +3774,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T00:45:46.917683Z"
+    },
+    {
+      "key": "50af5f77bf292e1453c77f8b",
+      "url": "https://www.mlb.com/news/rays-score-4-runs-in-first-inning-of-2026-world-series-game-2",
+      "fingerprint": "a2923c1b1432e11f",
+      "title_norm": "first world series hr comes from hicks, capping 4-run first",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T01:01:02.428061Z"
+    },
+    {
+      "key": "abfdfd321f14f23a4bd15bf9",
+      "url": "https://www.mlb.com/news/mlb-youth-baseball-players-ceremony-game-2-2026-world-series",
+      "fingerprint": "bf16dbe1d854b038",
+      "title_norm": "players from mlb's nine youth academies honored before game 2",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T01:01:02.970423Z"
     }
   ],
   "known_sources": [
