@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T03:01:02.125613Z",
+  "updated_at": "2026-10-25T03:15:54.866718Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3814,6 +3814,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T03:01:02.091047Z"
+    },
+    {
+      "key": "bc6bae3552bb74179124e4e1",
+      "url": "https://www.mlb.com/news/sal-frelick-game-tying-home-run-2026-world-series-game-2",
+      "fingerprint": "241ad98d6cdc1d05",
+      "title_norm": "frelick's clutch left-on-left blast helps crew erase yet another playoff deficit",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T03:15:54.828251Z"
     }
   ],
   "known_sources": [
