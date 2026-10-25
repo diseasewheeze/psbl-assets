@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T16:15:44.250651Z",
+  "updated_at": "2026-10-25T17:15:55.062837Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3934,6 +3934,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T16:15:44.235047Z"
+    },
+    {
+      "key": "ab89e2919632333846d14d3b",
+      "url": "https://www.mlb.com/news/rays-keys-to-extending-world-series-vs-brewers-after-game-2",
+      "fingerprint": "a8203f8bcdb40bf5",
+      "title_norm": "how the rays can send the world series back to milwaukee",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T17:15:55.027541Z"
     }
   ],
   "known_sources": [
