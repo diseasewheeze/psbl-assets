@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T07:00:58.346471Z",
+  "updated_at": "2026-10-25T07:30:59.895916Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -3894,6 +3894,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-25T07:00:58.303625Z"
+    },
+    {
+      "key": "16decb919e46831df0ee3d54",
+      "url": "https://www.mlb.com/news/brewers-erase-four-run-deficit-win-2026-world-series-game-2",
+      "fingerprint": "c25c1faafaafa897",
+      "title_norm": "comeback crew has been must-see all october -- and '82 squad loves every minute",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T07:30:59.849045Z"
     }
   ],
   "known_sources": [
