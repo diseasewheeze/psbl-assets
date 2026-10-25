@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T21:45:42.987740Z",
+  "updated_at": "2026-10-25T22:00:49.242279Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4034,6 +4034,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T21:45:42.972839Z"
+    },
+    {
+      "key": "8daa1e49065d87497ab26fa1",
+      "url": "https://www.mlb.com/news/rays-glove-buccaneers-quarterback-baker-mayfield",
+      "fingerprint": "c9d133d67e71d7eb",
+      "title_norm": "rays lend a helping hand (literally) to fellow member of 'champa bay'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-25T22:00:49.214820Z"
     }
   ],
   "known_sources": [
