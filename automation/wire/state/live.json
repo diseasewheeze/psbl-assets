@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T20:45:56.387257Z",
+  "updated_at": "2026-10-26T22:01:04.750182Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4258,6 +4258,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-26T20:45:56.359759Z"
+    },
+    {
+      "key": "3c5f4d5361b30322722ce69a",
+      "url": "https://www.mlb.com/news/mlb-rays-partner-on-boys-and-girls-club-event-in-tampa-bay",
+      "fingerprint": "38283062435cc68a",
+      "title_norm": "former ray -- and 2020 world series hero -- gives back to cause near and dear to him",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T22:01:04.717349Z"
     }
   ],
   "known_sources": [
