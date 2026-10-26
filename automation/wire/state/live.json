@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T10:00:50.233979Z",
+  "updated_at": "2026-10-26T13:15:59.966629Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4134,6 +4134,16 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-26T10:00:50.232019Z"
+    },
+    {
+      "key": "e545cad8c4a8d539efc0899b",
+      "url": "https://www.mlb.com/news/francisco-lindor-2026-clemente-award",
+      "fingerprint": "c4fa01ffefc46a3a",
+      "title_norm": "lindor wins 2026 clemente award, in spirit of his idol and countryman",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T13:15:59.937982Z"
     }
   ],
   "known_sources": [
