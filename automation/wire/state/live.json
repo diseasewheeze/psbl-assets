@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T18:46:05.323553Z",
+  "updated_at": "2026-10-26T19:30:58.570978Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4238,6 +4238,16 @@
       "source_id": "fangraphs_prospects",
       "tier": 2,
       "seen_at": "2026-10-26T18:46:05.309150Z"
+    },
+    {
+      "key": "4c9c125d7d1b62e8bdf6547f",
+      "url": "https://www.mlbtraderumors.com/2026/10/trade-rumors-front-office-subscriber-chat-today-230pm-ct-4.html",
+      "fingerprint": "e72ab866d5c73903",
+      "title_norm": "trade rumors front office subscriber chat, today 2:30pm ct",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-26T19:30:58.541586Z"
     }
   ],
   "known_sources": [
