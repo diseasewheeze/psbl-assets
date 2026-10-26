@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T16:35:24.902214Z",
+  "updated_at": "2026-10-26T18:31:23.200189Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4208,6 +4208,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-26T16:35:24.876075Z"
+    },
+    {
+      "key": "015601eaa6a0931052ab6611",
+      "url": "https://www.mlbtraderumors.com/2026/10/did-anyone-win-the-caleb-durbin-trade.html",
+      "fingerprint": "0084a0af31ce877e",
+      "title_norm": "did anyone win the caleb durbin trade?",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-26T18:31:22.800026Z"
+    },
+    {
+      "key": "e6e1dc58f9696747b27de7be",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-sports-equinox-2026-when-mlb-nba-nhl-and-nfl-come-together-sponsored.html",
+      "fingerprint": "2411d970122d3440",
+      "title_norm": "the sports equinox 2026: when mlb, nba, nhl and nfl come together (sponsored)",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-26T18:31:23.170187Z"
     }
   ],
   "known_sources": [
