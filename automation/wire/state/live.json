@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T19:30:58.570978Z",
+  "updated_at": "2026-10-26T20:45:56.387257Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4248,6 +4248,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-26T19:30:58.541586Z"
+    },
+    {
+      "key": "5e7d986998ba2ff86e6760e5",
+      "url": "https://www.mlbtraderumors.com/2026/10/astros-to-interview-mike-rizzo-for-gm-vacancy.html",
+      "fingerprint": "ab6af7be82dadf8c",
+      "title_norm": "astros to interview mike rizzo for gm vacancy",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-26T20:45:56.359759Z"
     }
   ],
   "known_sources": [
