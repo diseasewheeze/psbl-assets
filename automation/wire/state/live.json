@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T03:45:46.244746Z",
+  "updated_at": "2026-10-26T10:00:50.233979Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4124,6 +4124,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-26T03:45:46.222717Z"
+    },
+    {
+      "key": "93f1301931f6048783f8c191",
+      "url": "https://www.prospectslive.com/minnesota-twins-2029-lineup",
+      "fingerprint": "1fe3210a1aac2073",
+      "title_norm": "minnesota twins 2029 lineup",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-26T10:00:50.232019Z"
     }
   ],
   "known_sources": [
