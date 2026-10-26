@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T02:01:01.276615Z",
+  "updated_at": "2026-10-26T03:16:01.152424Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4104,6 +4104,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-26T02:01:01.245682Z"
+    },
+    {
+      "key": "28ec603a22e05857d26758b5",
+      "url": "https://www.mlb.com/news/freddy-peralta-ready-to-face-old-team-in-2026-world-series",
+      "fingerprint": "1d6f068486fde250",
+      "title_norm": "peralta set to meet old friends -- and new foes -- in fall classic",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T03:16:01.111335Z"
     }
   ],
   "known_sources": [
