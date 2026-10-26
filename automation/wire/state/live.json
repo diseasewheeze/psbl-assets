@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T14:45:51.106108Z",
+  "updated_at": "2026-10-26T15:16:04.457414Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4154,6 +4154,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-26T14:45:51.075562Z"
+    },
+    {
+      "key": "4453fdb90bb0b4347ab53982",
+      "url": "https://www.mlb.com/news/brewers-practice-plays-off-tropicana-field-roof",
+      "fingerprint": "0dd245b34f3087c4",
+      "title_norm": "brewers prep for potential 'roof ball' as world series shifts to tampa bay",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T15:16:03.915471Z"
+    },
+    {
+      "key": "457be1352f8aef17cdc0310d",
+      "url": "https://www.mlb.com/news/20261026-joe-maddon-first-pitch-rays",
+      "fingerprint": "fd72da4285b64a55",
+      "title_norm": "maddon to return to trop to throw out game 3 1st pitch",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T15:16:04.431794Z"
     }
   ],
   "known_sources": [
