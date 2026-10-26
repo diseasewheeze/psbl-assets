@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-25T23:15:40.779611Z",
+  "updated_at": "2026-10-26T00:30:59.021621Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4054,6 +4054,26 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-25T23:15:40.766548Z"
+    },
+    {
+      "key": "d3c9d830d77591ca545ef6d8",
+      "url": "https://www.mlb.com/news/pat-murphy-draws-out-starting-lineups-on-napkins",
+      "fingerprint": "a29353c711b1cbf9",
+      "title_norm": "a pen, a napkin and a ninja: how murphy draws up the crew's winning lineups",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T00:30:58.803417Z"
+    },
+    {
+      "key": "84e0636d4cb99d77811b30cd",
+      "url": "https://www.prospectslive.com/daily-sheet-10-24-2026-taking-off-like-a-jett-plane",
+      "fingerprint": "ab50885e845c6f22",
+      "title_norm": "daily sheet 10/24/2026: taking off like a jett plane",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-26T00:30:59.018285Z"
     }
   ],
   "known_sources": [
