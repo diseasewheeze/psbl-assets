@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T22:01:04.750182Z",
+  "updated_at": "2026-10-26T22:15:52.637075Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4268,6 +4268,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-26T22:01:04.717349Z"
+    },
+    {
+      "key": "29f0f0e99827dfc6f916d2eb",
+      "url": "https://www.mlbtraderumors.com/2026/10/phillies-to-hire-peter-fatse-as-hitting-coach.html",
+      "fingerprint": "92cb6b262f6e4219",
+      "title_norm": "phillies to hire peter fatse as hitting coach",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-26T22:15:52.611337Z"
     }
   ],
   "known_sources": [
