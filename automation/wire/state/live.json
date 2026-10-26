@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T00:30:59.021621Z",
+  "updated_at": "2026-10-26T02:01:01.276615Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4074,6 +4074,36 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-26T00:30:59.018285Z"
+    },
+    {
+      "key": "2366a066a5f86c565d0b19d1",
+      "url": "https://www.mlb.com/news/2026-world-series-game-3-storylines-brewers-vs-rays",
+      "fingerprint": "d2c21787d5334c26",
+      "title_norm": "3 pressing questions for world series game 3",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T02:01:00.624354Z"
+    },
+    {
+      "key": "bff63c321492c0659a9d131b",
+      "url": "https://www.mlb.com/news/robert-gasser-living-his-dream-dad-s-in-2026-world-series",
+      "fingerprint": "77e4ae80594251ad",
+      "title_norm": "with world series start, gasser is living his dream -- and his dad's",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T02:01:00.949471Z"
+    },
+    {
+      "key": "640e68ca69e8cbe82cfe684f",
+      "url": "https://www.mlb.com/news/brewers-rays-world-series-game-3-starting-lineups-and-pitching-matchup",
+      "fingerprint": "1f396c6312066b05",
+      "title_norm": "brewers-rays world series game 3 faq (monday, 8 et, fox/fox one)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-26T02:01:01.245682Z"
     }
   ],
   "known_sources": [
