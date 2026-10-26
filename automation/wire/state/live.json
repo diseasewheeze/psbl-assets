@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T15:16:04.457414Z",
+  "updated_at": "2026-10-26T16:35:24.902214Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4174,6 +4174,40 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-26T15:16:04.431794Z"
+    },
+    {
+      "key": "a0757e1ac13a2b670b3245aa",
+      "url": "https://www.mlb.com/player/845064",
+      "fingerprint": "2a48d3518e4a0681",
+      "title_norm": "pittsburgh pirates signed free agent lhp rogner betancourt to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-26T16:35:24.860977Z",
+      "structured": true,
+      "player": "Rogner Betancourt"
+    },
+    {
+      "key": "537f6044a5918afd0ee2ab19",
+      "url": "https://www.mlb.com/player/845060",
+      "fingerprint": "e97493511d676ce4",
+      "title_norm": "pittsburgh pirates signed free agent rhp martin gonzalez to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-26T16:35:24.861067Z",
+      "structured": true,
+      "player": "Martin Gonzalez"
+    },
+    {
+      "key": "f8f9923ffd06b4b3b4489fc7",
+      "url": "https://www.mlbtraderumors.com/2026/10/royals-release-jorge-alfaro.html",
+      "fingerprint": "a7cb18d79dbc55e4",
+      "title_norm": "royals release jorge alfaro",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-26T16:35:24.876075Z"
     }
   ],
   "known_sources": [
