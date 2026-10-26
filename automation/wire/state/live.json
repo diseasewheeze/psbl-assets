@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T13:15:59.966629Z",
+  "updated_at": "2026-10-26T14:45:51.106108Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4144,6 +4144,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-26T13:15:59.937982Z"
+    },
+    {
+      "key": "f17e9e5745eb68f5f8611cc8",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-gasser-peralta-rays-lineup.html",
+      "fingerprint": "fb6113639c511560",
+      "title_norm": "the opener: gasser, peralta, rays' lineup",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-26T14:45:51.075562Z"
     }
   ],
   "known_sources": [
