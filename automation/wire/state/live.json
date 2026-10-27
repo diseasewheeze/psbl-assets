@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T21:01:07.262403Z",
+  "updated_at": "2026-10-27T22:46:03.950172Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4604,6 +4604,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-27T21:01:07.234862Z"
+    },
+    {
+      "key": "e9b48352669faa3bccde8de0",
+      "url": "https://www.mlbtraderumors.com/2026/10/joe-espada-jason-kanzler-reportedly-finalists-for-mariners-managerial-job.html",
+      "fingerprint": "470a040eff4b6031",
+      "title_norm": "joe espada, jason kanzler reportedly finalists for mariners managerial job",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T22:46:03.924338Z"
     }
   ],
   "known_sources": [
