@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T14:15:56.119601Z",
+  "updated_at": "2026-10-27T15:31:06.619643Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4524,6 +4524,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-27T14:15:56.088969Z"
+    },
+    {
+      "key": "944f91eee5faff9f26f286c9",
+      "url": "https://www.mlb.com/news/william-contreras-showing-mastery-of-abs-challenge-system-in-postseason",
+      "fingerprint": "93fd469301e26f25",
+      "title_norm": "here's one more way 'wild bill' is dominating during brewers' postseason run",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T15:31:06.582596Z"
     }
   ],
   "known_sources": [
