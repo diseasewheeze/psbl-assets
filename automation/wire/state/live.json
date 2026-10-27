@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T19:15:57.895671Z",
+  "updated_at": "2026-10-27T20:30:53.456971Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4584,6 +4584,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-27T19:15:57.866223Z"
+    },
+    {
+      "key": "3b82abb9e0c28b6104d609c0",
+      "url": "https://www.mlb.com/news/brewers-rays-world-series-game-4-starting-lineups-and-pitching-matchup",
+      "fingerprint": "2011e7792e342747",
+      "title_norm": "brewers-rays world series game 4 lineups, faq (8 et, fox/fox one)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T20:30:53.423218Z"
     }
   ],
   "known_sources": [
