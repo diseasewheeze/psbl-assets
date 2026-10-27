@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T07:01:00.045326Z",
+  "updated_at": "2026-10-27T10:01:01.717382Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4468,6 +4468,16 @@
       "source_id": "pod_fantasy_baseball_today",
       "tier": 2,
       "seen_at": "2026-10-27T07:01:00.036518Z"
+    },
+    {
+      "key": "99de008213657d922d46af85",
+      "url": "https://www.prospectslive.com/2027-dynasty-outlooks-minnesota-twins",
+      "fingerprint": "587cabff6bf3eae1",
+      "title_norm": "2027 dynasty outlooks: minnesota twins",
+      "channel": "prospect-wire",
+      "source_id": "prospects_live",
+      "tier": 2,
+      "seen_at": "2026-10-27T10:01:01.713779Z"
     }
   ],
   "known_sources": [
