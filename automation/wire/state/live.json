@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T06:00:52.462620Z",
+  "updated_at": "2026-10-27T06:15:52.967533Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4408,6 +4408,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-27T06:00:52.442582Z"
+    },
+    {
+      "key": "94251d91c672a03958be2560",
+      "url": "https://www.mlb.com/news/brewers-win-world-series-game-3-historic-inning",
+      "fingerprint": "d1abd4726dcd5107",
+      "title_norm": "eight runs with two outs in 5th? brewers' 'drag 'em' approach on full display",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T06:15:52.925755Z"
     }
   ],
   "known_sources": [
