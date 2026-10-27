@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T01:30:57.406203Z",
+  "updated_at": "2026-10-27T02:00:59.194837Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4298,6 +4298,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-27T01:30:57.369397Z"
+    },
+    {
+      "key": "cc95be5accc936bc2d799643",
+      "url": "https://www.mlb.com/news/rays-unveil-world-series-food-options-at-tropicana-field",
+      "fingerprint": "e296686e6017e759",
+      "title_norm": "from crab claws to tomahawks, world series fans can get fancy at the trop",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T02:00:59.158019Z"
     }
   ],
   "known_sources": [
