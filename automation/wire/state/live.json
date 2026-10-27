@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T02:15:55.954425Z",
+  "updated_at": "2026-10-27T02:45:47.948212Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4328,6 +4328,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-27T02:15:55.928080Z"
+    },
+    {
+      "key": "319ccb1189467bac8c60549c",
+      "url": "https://www.mlb.com/news/rays-allow-eight-runs-to-brewers-in-fifth-inning-of-world-series-game-3",
+      "fingerprint": "97d552dd181f8ad9",
+      "title_norm": "game 3 unravels for rays with brewers' historic 8-run 5th",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T02:45:47.912849Z"
     }
   ],
   "known_sources": [
