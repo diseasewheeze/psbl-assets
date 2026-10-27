@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T02:00:59.194837Z",
+  "updated_at": "2026-10-27T02:15:55.954425Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4308,6 +4308,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-27T02:00:59.158019Z"
+    },
+    {
+      "key": "9fd80e04e9f3d6d7056eb474",
+      "url": "https://www.mlbtraderumors.com/2026/10/joey-loperfido-undergoes-hip-surgery-wont-be-ready-for-spring-training.html",
+      "fingerprint": "ae5fe81493e31f02",
+      "title_norm": "joey loperfido undergoes hip surgery; won't be ready for spring training",
+      "channel": "injury-report",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T02:15:55.755548Z"
+    },
+    {
+      "key": "982e0a478a0254f082e06647",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-philadelphia-phillies-16.html",
+      "fingerprint": "05eee8c627acff37",
+      "title_norm": "offseason outlook: philadelphia phillies",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T02:15:55.928080Z"
     }
   ],
   "known_sources": [
