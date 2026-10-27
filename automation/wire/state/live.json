@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T16:00:57.699972Z",
+  "updated_at": "2026-10-27T17:30:49.997275Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4544,6 +4544,36 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-27T16:00:57.696594Z"
+    },
+    {
+      "key": "e5e09d572d3296406a71610b",
+      "url": "https://www.mlb.com/postseason/mvp-vote",
+      "fingerprint": "29d17d7a5f52563d",
+      "title_norm": "vote tonight for the world series mvp award",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T17:30:49.708337Z"
+    },
+    {
+      "key": "bbc1844bf6e9d5deea8d205c",
+      "url": "https://www.mlbtraderumors.com/2026/10/astros-release-nelson-velazquez.html",
+      "fingerprint": "b9ae6248e7d9d124",
+      "title_norm": "astros release nelson velazquez",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T17:30:49.709433Z"
+    },
+    {
+      "key": "69f04f763de3719b438c9c2e",
+      "url": "https://www.mlbtraderumors.com/2026/10/nationals-to-hire-david-besky-as-pitching-strategist.html",
+      "fingerprint": "6e8313f014bc51a8",
+      "title_norm": "nationals to hire david besky as pitching strategist",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T17:30:49.982088Z"
     }
   ],
   "known_sources": [
