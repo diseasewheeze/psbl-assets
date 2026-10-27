@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T04:30:58.681135Z",
+  "updated_at": "2026-10-27T06:00:52.462620Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4378,6 +4378,36 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-27T04:30:58.653592Z"
+    },
+    {
+      "key": "80ff4c7463bfb810e9c60952",
+      "url": "https://www.mlb.com/news/rays-lose-game-3-of-2026-world-series",
+      "fingerprint": "b394105acc54b7d3",
+      "title_norm": "after two 1-run losses, blowout at trop puts rays' season on brink",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T06:00:51.884848Z"
+    },
+    {
+      "key": "a24ddd4b763e34e9793800be",
+      "url": "https://www.mlb.com/news/2026-world-series-game-4-storylines-brewers-rays",
+      "fingerprint": "aced3e58caf9b4ae",
+      "title_norm": "3 big questions for a world series game 4 that could seal brewers' first title",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T06:00:52.153295Z"
+    },
+    {
+      "key": "145a774ef65d8f3d89df116f",
+      "url": "https://www.mlb.com/news/evan-longoria-to-throw-first-pitch-at-world-series-game-4-2026",
+      "fingerprint": "5183cd97f206ef06",
+      "title_norm": "longoria tapped for first pitch ahead of rays' must-win game 4",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T06:00:52.442582Z"
     }
   ],
   "known_sources": [
