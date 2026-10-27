@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T20:30:53.456971Z",
+  "updated_at": "2026-10-27T21:01:07.262403Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4594,6 +4594,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-27T20:30:53.423218Z"
+    },
+    {
+      "key": "63a1ded17b15e6afadba7d3f",
+      "url": "https://www.mlbtraderumors.com/2026/10/jeff-hoffman-undergoes-elbow-surgery-expected-to-be-ready-for-next-season.html",
+      "fingerprint": "a1c880218da44c44",
+      "title_norm": "jeff hoffman undergoes elbow surgery; expected to be ready for next season",
+      "channel": "injury-report",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T21:01:07.234862Z"
     }
   ],
   "known_sources": [
