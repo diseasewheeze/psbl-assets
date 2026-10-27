@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T03:45:58.071592Z",
+  "updated_at": "2026-10-27T04:30:58.681135Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4358,6 +4358,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-27T03:45:58.026560Z"
+    },
+    {
+      "key": "1ad9eee926a206f1f3dc90a9",
+      "url": "https://www.mlb.com/news/phillies-hire-peter-fatse-as-new-hitting-coach",
+      "fingerprint": "3e58c785e9602600",
+      "title_norm": "phillies hire fatse to be new hitting coach (source)",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T04:30:58.471036Z"
+    },
+    {
+      "key": "0aa2a98e0213c5be2c6bafe7",
+      "url": "https://www.mlbtraderumors.com/2026/10/as-max-muncy-undergoes-knee-debridement.html",
+      "fingerprint": "42559329352b7271",
+      "title_norm": "a's max muncy undergoes knee debridement",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T04:30:58.653592Z"
     }
   ],
   "known_sources": [
