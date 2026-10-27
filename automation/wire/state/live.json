@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T17:30:49.997275Z",
+  "updated_at": "2026-10-27T19:15:57.895671Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4574,6 +4574,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-27T17:30:49.982088Z"
+    },
+    {
+      "key": "124de02094979fa7bb682df0",
+      "url": "https://www.mlbtraderumors.com/2026/10/offseason-outlook-washington-nationals-15.html",
+      "fingerprint": "909ae0001e451c5f",
+      "title_norm": "offseason outlook: washington nationals",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T19:15:57.866223Z"
     }
   ],
   "known_sources": [
