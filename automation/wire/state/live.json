@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T10:01:01.717382Z",
+  "updated_at": "2026-10-27T14:15:56.119601Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4478,6 +4478,52 @@
       "source_id": "prospects_live",
       "tier": 2,
       "seen_at": "2026-10-27T10:01:01.713779Z"
+    },
+    {
+      "key": "592ad081345b43e5741945fc",
+      "url": "https://www.mlb.com/player/845087",
+      "fingerprint": "7c476c6bd2b6434e",
+      "title_norm": "boston red sox signed free agent rhp obel encarnacion to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-27T14:15:55.679358Z",
+      "structured": true,
+      "player": "Obel Encarnacion"
+    },
+    {
+      "key": "2dcf1759b52e5cdf8eacb95d",
+      "url": "https://www.mlb.com/player/845086",
+      "fingerprint": "a5e856b174c5bb4e",
+      "title_norm": "boston red sox signed free agent rhp franklin diaz to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-27T14:15:55.679425Z",
+      "structured": true,
+      "player": "Franklin Diaz"
+    },
+    {
+      "key": "7273c15d8ff93dc13d7926f5",
+      "url": "https://www.mlb.com/player/825722",
+      "fingerprint": "63f13c38dc4d8979",
+      "title_norm": "boston red sox signed free agent ss brayan cordero to a minor league contract.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-27T14:15:55.679478Z",
+      "structured": true,
+      "player": "Brayan Cordero"
+    },
+    {
+      "key": "f7065008148ffb8a7b0f10e8",
+      "url": "https://www.mlbtraderumors.com/2026/10/the-opener-brewers-dominate-rays-on-brink-lindor-wins-clemente-award.html",
+      "fingerprint": "2e72244878eb20de",
+      "title_norm": "the opener: brewers dominate, rays on brink, lindor wins clemente award",
+      "channel": "mlb-news",
+      "source_id": "mlb_trade_rumors",
+      "tier": 1,
+      "seen_at": "2026-10-27T14:15:56.088969Z"
     }
   ],
   "known_sources": [
