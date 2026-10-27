@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T06:30:54.329859Z",
+  "updated_at": "2026-10-27T06:45:49.856245Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4428,6 +4428,26 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-27T06:30:54.291659Z"
+    },
+    {
+      "key": "d46a432e1c0acc8ef9e96659",
+      "url": "https://www.mlb.com/news/jackson-chourio-historic-impact-on-world-series-at-age-22",
+      "fingerprint": "02d2dcef78b06e14",
+      "title_norm": "chourio the youngest with 4-hit game in series since garagiola ... 80 years ago!",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T06:45:49.521934Z"
+    },
+    {
+      "key": "c2dc04a8f90763437bfeafa5",
+      "url": "https://www.mlb.com/news/brandon-woodruff-gets-final-out-in-2026-world-series-game-3",
+      "fingerprint": "55d2889778aa9ad2",
+      "title_norm": "'i want it right now': woodruff seizes chance to finish off crew's game 3 win",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T06:45:49.821237Z"
     }
   ],
   "known_sources": [
