@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-26T23:45:45.627913Z",
+  "updated_at": "2026-10-27T01:30:57.406203Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4288,6 +4288,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-26T23:45:45.611944Z"
+    },
+    {
+      "key": "970f0318e8dda06e9cbf48b5",
+      "url": "https://www.mlb.com/news/chandler-simpson-makes-great-running-catch-in-2026-world-series-game-3",
+      "fingerprint": "cea3dd51d5b6c67e",
+      "title_norm": "simpson's speed actually costs him sb -- then enables spectacular catch",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-27T01:30:57.369397Z"
     }
   ],
   "known_sources": [
