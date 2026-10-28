@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-28T02:00:54.500924Z",
+  "updated_at": "2026-10-28T02:46:00.719129Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4646,6 +4646,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-28T02:00:54.478622Z"
+    },
+    {
+      "key": "c336011f3b8cf983f658a47b",
+      "url": "https://www.mlb.com/news/stand-up-to-cancer-at-world-series-game-4-2026",
+      "fingerprint": "9195476621fca2f0",
+      "title_norm": "crew honors ueck as world series pauses for powerful stand up to cancer moment",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-28T02:46:00.676081Z"
     }
   ],
   "known_sources": [
