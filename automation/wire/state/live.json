@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-27T22:46:03.950172Z",
+  "updated_at": "2026-10-28T00:00:51.206701Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4614,6 +4614,16 @@
       "source_id": "mlb_trade_rumors",
       "tier": 1,
       "seen_at": "2026-10-27T22:46:03.924338Z"
+    },
+    {
+      "key": "1928d0cd1e6869ae9c2c72b6",
+      "url": "https://www.mlb.com/news/ausl-champion-utah-talons-honored-at-world-series-game-4",
+      "fingerprint": "a9ee2b67b62ef141",
+      "title_norm": "ausl champ talons celebrated ahead of ws g4: 'it's such an honor'",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-28T00:00:51.186465Z"
     }
   ],
   "known_sources": [
