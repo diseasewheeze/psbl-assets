@@ -40,7 +40,7 @@ sys.path.insert(0, str(ROOT.parent))
 
 from core.schedule import SCHEDULE_PATH as CONFIG_PATH  # noqa: E402
 from core import github_api  # noqa: E402
-from core.schedule import current_phase, job_active, load_schedule, paced  # noqa: E402
+from core.schedule import current_phase, job_active, load_schedule, paced, pause_end  # noqa: E402
 
 # Runs that ended this way did no work, so they do not count as the job having
 # run. Failed runs DO count: retrying a failing job every 15 minutes would only
@@ -217,6 +217,10 @@ def main() -> int:
         f"PSBL SCHEDULER now={now.astimezone(tz).strftime('%Y-%m-%d %H:%M %Z')} "
         f"season={phase_text} dry_run={args.dry_run} ref={ref}"
     )
+    until = pause_end(cfg)
+    if until and now < until:
+        keep = ", ".join(str(k) for k in cfg.get("run_while_paused") or []) or "none"
+        print(f"PAUSED  until {until.astimezone(tz).strftime('%Y-%m-%d %H:%M %Z')}; still running: {keep}")
     started = errors = retries = checked = 0
     for job in cfg["jobs"]:
         active, why = job_active(job, phase, now)

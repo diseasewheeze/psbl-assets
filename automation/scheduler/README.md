@@ -49,6 +49,28 @@ Manual runs from the Actions tab still work exactly as before and still
 default to preview/shadow. Only runs named `… — live` count as the job having
 run, so testing never delays the real schedule.
 
+## Pausing the automation
+
+`paused_until` in `schedule.yaml` switches off every job except those in
+`run_while_paused` until that local date and time, then everything resumes by
+itself. The jobs kept running post nothing routine to Discord: the archive, the
+history site build and the Dormancy Guard (which posts only if GitHub has
+switched a workflow off, and keeps the repository active so that can't happen).
+
+- The scheduler still runs every 15 minutes and still checks in with
+  Healthchecks, so no outside alarm goes off. Its log starts with a `PAUSED`
+  line, and each paused job shows `OFF ... paused until`.
+- Automation Health is paused too. When the pause ends it gives each job its
+  normal time to complete a first run before calling it stale.
+- The Wire, back after more than 3 days without a run, records what is in its
+  feeds as already seen instead of posting a backlog.
+- League Office reminders that came due during the pause are not posted late
+  (the 24-hour catch-up window). The Draft Center posts only its latest due
+  countdown.
+
+To resume early, delete the `paused_until` line or set an earlier time and
+push. Manual runs from the Actions tab still work during a pause.
+
 ## One-time setup: the external timer
 
 You need two things: a GitHub token that can only start workflows in this

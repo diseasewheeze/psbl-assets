@@ -39,6 +39,9 @@ ROOT = Path(__file__).resolve().parent
 CONFIG = ROOT / "sources.yaml"
 STATE_DIR = ROOT / "state"
 STATE_TTL_HOURS = 24 * 30
+# After this long without a live run (the automation was paused, or down), the
+# stories in the feeds are old news: record them as seen instead of posting.
+REBASELINE_AFTER = timedelta(days=3)
 FUZZY_DEDUPE_WINDOW_HOURS = 48
 # MLB's transaction log posts each injured-list move with the player's name.
 # Another source's injury story about the same player within this window
@@ -169,6 +172,12 @@ def parse_seen_time(value: str) -> datetime | None:
         return datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(timezone.utc)
     except Exception:
         return None
+
+
+def needs_rebaseline(state: dict, now: datetime) -> bool:
+    """True when a live state hasn't been saved for REBASELINE_AFTER (a pause or long outage)."""
+    last = parse_seen_time(str(state.get("updated_at") or ""))
+    return bool(state.get("initialized")) and last is not None and now - last > REBASELINE_AFTER
 
 
 def prune_state(state: dict) -> None:
@@ -636,6 +645,11 @@ def main() -> int:
     if args.reset_state:
         state = empty_state()
         print(f"STATE RESET requested for {args.mode}")
+
+    if args.mode == "live" and needs_rebaseline(state, now_utc()):
+        print(f"LIVE RE-BASELINE: no Wire run since {state.get('updated_at')}; "
+              "current feed items are recorded as seen, not posted.")
+        state["initialized"] = False
 
     prune_state(state)
     candidates = fetch_candidates(cfg, include_discovery=args.include_discovery)

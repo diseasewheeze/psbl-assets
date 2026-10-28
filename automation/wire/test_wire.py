@@ -6,7 +6,7 @@ from __future__ import annotations
 import json
 import sys
 import unittest
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -517,6 +517,14 @@ class WireSourceConfigTests(unittest.TestCase):
         self.assertEqual(state["known_sources"], ["pod_a"])
         later = engine.baseline_new_sources([self.cand("pod_a", "3")], cfg, state)
         self.assertEqual([c["key"] for c in later], ["3"])
+
+    def test_long_gap_records_the_feeds_instead_of_posting_a_backlog(self) -> None:
+        now = datetime(2027, 1, 1, 5, 15, tzinfo=timezone.utc)
+        paused = {"initialized": True, "updated_at": "2026-10-28T12:00:00+00:00", "seen": []}
+        recent = {"initialized": True, "updated_at": "2026-12-31T23:00:00+00:00", "seen": []}
+        self.assertTrue(engine.needs_rebaseline(paused, now))
+        self.assertFalse(engine.needs_rebaseline(recent, now))
+        self.assertFalse(engine.needs_rebaseline({"initialized": False, "updated_at": "", "seen": []}, now))
 
     def test_every_live_source_starts_with_a_baseline(self) -> None:
         live = [s for s in self.cfg["sources"] if s.get("enabled") and not s.get("discovery_only")]

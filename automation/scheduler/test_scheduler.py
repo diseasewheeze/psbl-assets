@@ -170,6 +170,48 @@ class ConfigTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     load_schedule(path)
 
+    def test_pause_switches_jobs_off_until_the_end_time(self) -> None:
+        import tempfile
+        from pathlib import Path
+
+        from core.schedule import job_active, load_schedule, resumed_at
+
+        text = ("timezone: America/New_York\npaused_until: '2027-01-01T00:00:00'\nrun_while_paused: [archive]\n"
+                "jobs:\n  - id: wire\n    workflow: w.yml\n    every_minutes: 15\n"
+                "  - id: archive\n    workflow: a.yml\n    daily_at: ['05:30']\n")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "s.yaml"
+            path.write_text(text, encoding="utf-8")
+            jobs = {j["id"]: j for j in load_schedule(path)["jobs"]}
+        before, after = utc("2027-01-01T04:59:00"), utc("2027-01-01T05:00:00")  # midnight ET = 05:00 UTC
+        active, why = job_active(jobs["wire"], None, before)
+        self.assertFalse(active)
+        self.assertIn("paused until Jan 01 2027 00:00 EST", why)
+        self.assertTrue(job_active(jobs["archive"], None, before)[0])
+        self.assertTrue(job_active(jobs["wire"], None, after)[0])
+        self.assertIsNone(resumed_at(jobs["wire"], before))
+        self.assertEqual(resumed_at(jobs["wire"], after), after)
+        self.assertIsNone(resumed_at(jobs["archive"], after))
+
+    def test_pause_settings_must_be_valid(self) -> None:
+        import tempfile
+        from pathlib import Path
+
+        from core.schedule import load_schedule
+
+        job = "jobs:\n  - id: x\n    workflow: x.yml\n    daily_at: ['08:00']\n"
+        bad = ["paused_until: next spring\n" + job, "paused_until: '2027-01-01T00:00:00'\nrun_while_paused: [nope]\n" + job]
+        with tempfile.TemporaryDirectory() as tmp:
+            for i, text in enumerate(bad):
+                path = Path(tmp) / f"p{i}.yaml"
+                path.write_text(text, encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    load_schedule(path)
+
+    def test_jobs_kept_during_a_pause_post_nothing_routine_to_discord(self) -> None:
+        cfg = scheduler.load_config()
+        self.assertTrue(set(cfg.get("run_while_paused") or []) <= {"archive", "history-site", "dormancy-guard"})
+
     def test_faster_job_uses_its_short_interval_only_while_the_condition_holds(self) -> None:
         from unittest.mock import patch
 

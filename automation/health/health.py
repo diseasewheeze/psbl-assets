@@ -30,7 +30,7 @@ if str(AUTOMATION_ROOT) not in sys.path:
 
 from discord_webhook import post_discord_webhook
 from core import github_api
-from core.schedule import condition_started_at, current_season, job_active, load_schedule
+from core.schedule import condition_started_at, current_season, job_active, load_schedule, resumed_at
 
 CONFIG_PATH = ROOT / "health_config.yaml"
 STATE_PATH = ROOT / "state" / "health.json"
@@ -320,6 +320,10 @@ def collect_issues(cfg: dict[str, Any]) -> dict[str, dict[str, Any]]:
         opened = condition_started_at(job, current) if job.get("when") else None
         if opened and (current - opened).total_seconds() < max_age * 60:
             print(f"HEALTH SKIP [{workflow_id}]: just became active; allowing first run")
+            continue
+        resumed = resumed_at(job, current)
+        if resumed and (current - resumed).total_seconds() < max_age * 60:
+            print(f"HEALTH SKIP [{workflow_id}]: automation resumed recently; allowing first run")
             continue
 
         try:

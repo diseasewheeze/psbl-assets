@@ -37,7 +37,40 @@ def load_schedule(path: Path = SCHEDULE_PATH) -> dict[str, Any]:
                 raise ValueError(f"job {job.get('id')}: faster needs a known 'when' condition")
             if not 0 < int(faster.get("every_minutes") or 0) < int(job["every_minutes"]):
                 raise ValueError(f"job {job.get('id')}: faster every_minutes must be shorter than the job's")
+    apply_pause(data)
     return data
+
+
+def pause_end(data: dict[str, Any]) -> datetime | None:
+    """``paused_until`` as an aware UTC datetime (local wall-clock time in the schedule's timezone), or None."""
+    raw = data.get("paused_until")
+    if raw in (None, ""):
+        return None
+    try:
+        when = raw if isinstance(raw, datetime) else datetime.fromisoformat(str(raw))
+    except ValueError as exc:
+        raise ValueError(f"paused_until must be a date and time like 2027-01-01T00:00:00, not {raw!r}") from exc
+    if when.tzinfo is None:
+        from zoneinfo import ZoneInfo
+
+        when = when.replace(tzinfo=ZoneInfo(str(data.get("timezone") or "America/New_York")))
+    return when.astimezone(timezone.utc)
+
+
+def apply_pause(data: dict[str, Any]) -> None:
+    """Mark every job except run_while_paused with the pause end, so job_active
+    can switch it off until then (scheduler and health monitor alike)."""
+    until = pause_end(data)
+    keep = [str(k) for k in (data.get("run_while_paused") or [])]
+    ids = {str(job.get("id")) for job in data["jobs"]}
+    unknown = sorted(set(keep) - ids)
+    if unknown:
+        raise ValueError(f"run_while_paused lists unknown job ids: {', '.join(unknown)}")
+    for job in data["jobs"]:
+        if until is not None and str(job.get("id")) not in keep:
+            job["paused_until"] = until
+        else:
+            job.pop("paused_until", None)
 
 
 def current_season(now: datetime | None = None) -> tuple[str | None, str, datetime | None]:
@@ -153,6 +186,19 @@ def paced(job: dict[str, Any], now: datetime | None = None) -> tuple[dict[str, A
     return {**job, "every_minutes": int(faster["every_minutes"])}, f"{faster.get('when')}: every {faster['every_minutes']} minutes"
 
 
+def resumed_at(job: dict[str, Any], now: datetime | None = None) -> datetime | None:
+    """When a pause on this job ended (None if it was never paused or is still paused)."""
+    until = job.get("paused_until")
+    now = now or datetime.now(timezone.utc)
+    return until if isinstance(until, datetime) and until <= now else None
+
+
+def _local_tz():
+    from zoneinfo import ZoneInfo
+
+    return ZoneInfo("America/New_York")
+
+
 def condition_started_at(job: dict[str, Any], now: datetime | None = None) -> datetime | None:
     entry = CONDITIONS.get(str(job.get("when") or ""))
     if not entry:
@@ -164,7 +210,10 @@ def condition_started_at(job: dict[str, Any], now: datetime | None = None) -> da
 
 
 def job_active(job: dict[str, Any], phase: str | None, now: datetime | None = None) -> tuple[bool, str]:
-    """Whether a job should run now (season phase and any extra condition)."""
+    """Whether a job should run now (pause, season phase and any extra condition)."""
+    until = job.get("paused_until")
+    if isinstance(until, datetime) and (now or datetime.now(timezone.utc)) < until:
+        return False, f"paused until {until.astimezone(_local_tz()).strftime('%b %d %Y %H:%M %Z')}"
     allowed = job.get("phases")
     if allowed and phase is not None and phase not in allowed:
         return False, f"not active in {phase} (runs in {', '.join(allowed)})"

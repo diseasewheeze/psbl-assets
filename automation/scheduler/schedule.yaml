@@ -34,6 +34,18 @@
 
 timezone: America/New_York
 
+# Pause: until paused_until (local time, America/New_York) the scheduler starts
+# only the jobs listed in run_while_paused, none of which post to Discord: the
+# archive, the history site build and the Dormancy Guard (which only posts if
+# GitHub has switched a workflow off). Automation Health is paused too, and
+# gives each job time for its first run once the pause ends. The Wire records
+# what is in its feeds after a long gap instead of posting a backlog.
+# The scheduler itself keeps running every 15 minutes, so the outside
+# check-in (healthchecks.io) stays green. To resume early, delete the
+# paused_until line (or set it to an earlier time) and push.
+paused_until: "2027-01-01T00:00:00"
+run_while_paused: [archive, history-site, dormancy-guard]
+
 # Allow a job to start a few minutes early relative to every_minutes. Without
 # this, small timer jitter would push a 15-minute job to every 30 minutes.
 interval_tolerance_minutes: 5
