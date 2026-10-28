@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-28T00:00:51.206701Z",
+  "updated_at": "2026-10-28T00:15:58.508348Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4624,6 +4624,18 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-28T00:00:51.186465Z"
+    },
+    {
+      "key": "d7e039b1f149e482df082428",
+      "url": "https://www.mlb.com/player/676369",
+      "fingerprint": "1190256f8c93b7cc",
+      "title_norm": "houston astros released lf nelson velázquez.",
+      "channel": "mlb-transactions",
+      "source_id": "mlb_transactions",
+      "tier": 0,
+      "seen_at": "2026-10-28T00:15:58.465140Z",
+      "structured": true,
+      "player": "Nelson Velázquez"
     }
   ],
   "known_sources": [
