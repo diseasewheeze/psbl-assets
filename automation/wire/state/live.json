@@ -1,7 +1,7 @@
 {
   "version": 1,
   "initialized": true,
-  "updated_at": "2026-10-28T02:46:00.719129Z",
+  "updated_at": "2026-10-28T03:45:58.143980Z",
   "seen": [
     {
       "key": "d8e20acd0af4b2f8bbca9fdd",
@@ -4656,6 +4656,16 @@
       "source_id": "mlb_news",
       "tier": 0,
       "seen_at": "2026-10-28T02:46:00.676081Z"
+    },
+    {
+      "key": "aee9381200a15ee232c08d8a",
+      "url": "https://www.mlb.com/news/aaron-ashby-postseason-consecutive-scoreless-innings-reliever-record",
+      "fingerprint": "312aadf37f561a96",
+      "title_norm": "ashby makes history with record scoreless streak for reliever in postseason",
+      "channel": "mlb-news",
+      "source_id": "mlb_news",
+      "tier": 0,
+      "seen_at": "2026-10-28T03:45:58.098366Z"
     }
   ],
   "known_sources": [
