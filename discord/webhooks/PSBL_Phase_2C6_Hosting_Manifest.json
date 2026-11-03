@@ -1,7 +1,7 @@
 {
   "phase": "2C.6-frozen",
   "style": "8-bit arcade",
-  "asset_version": "8bit-sox-1",
+  "asset_version": "8bit-psbl-2",
   "header_dimensions": "1600x533",
   "header_grid": "200x67 pixels at 8 px",
   "header_embed_color": "#0C2340",

@@ -28,7 +28,7 @@ NAMES = {A: "Fantrax North", B: "Fantrax South", C: "Fantrax East", D: "Fantrax 
 HISTORY = {
     "franchises": {
         "north": {"name": "North Stars", "owner": "Avery", "founded": 2027, "colors": ["#1D4E89", "#F4EFE4"],
-                  "logo": "brand/primary/psbl-b-mark.png", "team_ids": [A]},
+                  "logo": "brand/primary/psbl-emblem.png", "team_ids": [A]},
         "south": {"name": "South Shore", "owner": "Blake", "founded": 2027, "colors": ["#C8102E"], "team_ids": [B]},
         "east": {"name": "East Enders", "owner": "Casey", "founded": 2027, "team_ids": [C]},
         "west": {"name": "West Coast", "owner": "Drew", "founded": 2027, "team_ids": [D]},

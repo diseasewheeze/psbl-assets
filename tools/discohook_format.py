@@ -45,7 +45,7 @@ FOOTER_BASE_URL = BASE + "shared/psbl-footer-divider-1600x90.png"
 # Cache-busting version for the hosted artwork. Discord caches images by URL, so bump
 # ASSET_VERSION whenever tools/build_discord_assets.py changes the art, then run
 # tools/normalize_discohook_templates.py.
-ASSET_VERSION = "8bit-sox-1"
+ASSET_VERSION = "8bit-psbl-2"
 FOOTER_URL = FOOTER_BASE_URL + "?v=" + ASSET_VERSION
 HEADER_VERSION = "?v=" + ASSET_VERSION
 HEADER_COLOR = int("0C2340", 16)

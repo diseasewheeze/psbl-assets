@@ -46,7 +46,7 @@ PSBL.run("10 Awards Night", function () {
 
     // ---- title
     var c = B.comp(folder, "Awards Night - Title", 8);
-    B.background(c, "arena");
+    B.background(c, "ballpark");
     var eb = B.text(c, "SEASON " + D.season, { face: "silk", k: 6, color: "gold", x: 960, y: 330, align: "center" });
     var ebp = B.plateFor(c, "Eyebrow plate", eb, 24, 14, "black");
     var a = B.text(c, "AWARDS", { face: "jersey", k: 18, color: "cream", x: 960, y: 420, align: "center", shadow: "black" });
@@ -60,7 +60,7 @@ PSBL.run("10 Awards Night", function () {
     for (var i = 0; i < D.honors.length; i++) {
         var h = D.honors[i], champ = h.label === "PSBL CHAMPION";
         var hc = B.comp(folder, "Honor - " + h.label, 8);
-        B.background(hc, champ ? "arena" : "dots");
+        B.background(hc, champ ? "ballpark" : "dots");
         B.awardCard(hc, 0, 8, h.label, h.team, h.prize, { y: champ ? 360 : 300, k: champ ? 14 : 12 });
         if (champ) {
             var cup = B.image(hc, "trophy.png", 960, 250, { center: true, scale: 100 });

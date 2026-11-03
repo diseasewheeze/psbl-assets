@@ -63,7 +63,7 @@ def art_path(name: str) -> Path:
 def make_art() -> dict[str, Path]:
     art = {}
     splash = px.enlarge(px.bg_splash(240, 135), 8, (1920, 1080))          # the ballpark title screen
-    art["splash"] = pk.png_with_dpi(splash.convert("RGB"), art_path("packet-cover-rink.png"), 630)
+    art["splash"] = pk.png_with_dpi(splash.convert("RGB"), art_path("packet-cover-field.png"), 630)
 
     a = px.art(208, 44, px.NAVY)
     px.grain(a, [px.NAVY_HI, px.NAVY_LO], .02, 41)
@@ -74,14 +74,14 @@ def make_art() -> dict[str, Path]:
     art["band"] = pk.png_with_dpi(px.enlarge(a, 8, (1664, 352)).convert("RGB"), art_path("draft-header-band.png"), 630)
 
     banner = px.enlarge(px.bg_banner(138, 210), 10, (1380, 2100))
-    art["arena"] = pk.png_with_dpi(banner.convert("RGB"), art_path("awards-cover-arena.png"), 414)
+    art["arena"] = pk.png_with_dpi(banner.convert("RGB"), art_path("awards-cover-ballpark.png"), 414)
 
     seal = px.seal(dark=True, k=2)
     art["seal"] = pk.png_with_dpi(seal, art_path("psbl-seal-dark.png"), 120)
     mark = px.lockup(36, 6, "paper")
-    art["logo"] = pk.png_with_dpi(mark, art_path("psbl-wordmark-cream.png"), 220)
+    art["logo"] = pk.png_with_dpi(mark, art_path("psbl-wordmark-paper.png"), 220)
     art["logo_size"] = (220, 220 * mark.height / mark.width)
-    art["bmark"] = px.ROOT / "brand" / "primary" / "psbl-b-mark.png"
+    art["bmark"] = px.ROOT / "brand" / "primary" / "psbl-emblem.png"
     return art
 
 

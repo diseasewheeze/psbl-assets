@@ -71,8 +71,8 @@ PSBL.run("01 Brand Kit", function () {
     // ---- Title card (full screen)
     d = DATA.titleCard;
     c = B.comp(folder, "Title Card - " + d.title, d.seconds);
-    B.background(c, "charcoal");
-    var mark = B.image(c, "b-mark-12.png", 1464, 276);
+    B.background(c, "navy");
+    var mark = B.image(c, "ball-12.png", 1464, 276);
     var h = B.header(c, d.eyebrow, d.title, B.f(6), { x: 156, y: 330, k: 12, maxW: 1200 });
     var sub = B.text(c, d.sub, { face: "silk", k: 5, color: "muted", x: 156, y: 540, maxW: 1200, name: "Sub" });
     B.signoff(c);
@@ -85,7 +85,7 @@ PSBL.run("01 Brand Kit", function () {
     // ---- End card (full screen)
     d = DATA.endCard;
     c = B.comp(folder, "End Card", d.seconds);
-    B.background(c, "charcoal");
+    B.background(c, "navy");
     var wm = B.image(c, "wordmark.png", 960, 330, { center: true });
     var l1 = B.text(c, d.line1, { face: "jersey", k: 8, color: "cream", x: 960, y: 640, align: "center", maxW: 1680, shadow: "black", name: "Line 1" });
     var l2 = B.text(c, d.line2, { face: "jersey", k: 6, color: "gold", x: 960, y: 760, align: "center", maxW: 1680, name: "Line 2" });
@@ -101,7 +101,7 @@ PSBL.run("01 Brand Kit", function () {
     // ---- Corner bug (alpha)
     d = DATA.cornerBug;
     c = B.comp(folder, "Corner Bug", d.seconds);
-    var bug = B.image(c, "b-small-6.png", B.W - 96 - 84, B.H - 60 - 84, { name: "B" });
+    var bug = B.image(c, "ball-small-6.png", B.W - 96 - 84, B.H - 60 - 84, { name: "Ball" });
     if (bug.length) B.opacity(B.main(bug)).setValue(85);
     B.blinkIn(bug, 0);
 });

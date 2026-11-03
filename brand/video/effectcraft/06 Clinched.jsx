@@ -17,7 +17,7 @@ PSBL.run("06 Clinched", function () {
     var KINDS = {
         playoff: ["CLINCHED", "A PLAYOFF SPOT", "stamp-green.png", "green"],
         bye: ["CLINCHED", "A FIRST-ROUND BYE", "stamp-green.png", "green"],
-        presidents: ["CLINCHED", "THE PRESIDENTS' TROPHY", "stamp-gold.png", "gold"],
+        presidents: ["CLINCHED", "THE PRESIDENTS' TROPHY", "stamp-sky.png", "gold"],
         eliminated: ["ELIMINATED", "FROM PLAYOFF CONTENTION", "stamp-red.png", "red"]
     };
     var k = KINDS[D.kind];

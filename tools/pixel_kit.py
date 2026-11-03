@@ -41,6 +41,9 @@ LEAGUE_SHORT = IDENTITY["short_name"]                      # PSBL
 LEAGUE_EST = str(IDENTITY["established"])                  # 2026
 LEAGUE_TAGLINE = f"{LEAGUE_NAME} • Est. {LEAGUE_EST}"
 LEAGUE_LINE = f"{LEAGUE_NAME.upper()} • EST. {LEAGUE_EST}"  # sign-off line on headers and cards
+LEAGUE_DESCRIPTOR = str(IDENTITY.get("descriptor") or "")     # Dynasty Fantasy Baseball
+# Sign-off for a header or banner whose title is already the league name (so the name is not shown twice)
+DESCRIPTOR_LINE = f"{LEAGUE_DESCRIPTOR.upper()} • EST. {LEAGUE_EST}" if LEAGUE_DESCRIPTOR else f"EST. {LEAGUE_EST}"
 
 # ---------------------------------------------------------------- palette
 # Navy, red and white. Everything else is a one-step shade of those three or a neutral grey.
@@ -678,22 +681,37 @@ def splash(size=(1920, 1080), b=5):
 HEADER_W, HEADER_H, HEADER_K = 200, 67, 8
 
 
-def header(title: str, kicker: str, seed: int = 7) -> Image.Image:
-    """1600 x 533 channel header on a 200 x 67 art grid: red eyebrow, big title, the baseball on the right."""
+def header(title: str, kicker: str, seed: int = 7, line: str | None = None, k: int = HEADER_K) -> Image.Image:
+    """Channel header on a 200 x 67 art grid: red eyebrow, big title, the baseball on the right.
+
+    k=8 is the 1600 x 533 Discord header, k=6 the 1200 x 400 email banner. The
+    sign-off line defaults to the league name and year; when the title already is
+    the league name, the descriptor line is used instead so the name isn't repeated.
+    """
     a = art(HEADER_W, HEADER_H, NAVY)
     grain(a, [NAVY_HI, NAVY_LO], .02, seed * 31)
     dither(a, 0, 56, HEADER_W, 9, STANDS)
     rect(a, 9, 10, 2, 47, RED)
     put(a, EMBLEM48(), 141, 9)
     rect(a, 0, 65, HEADER_W, 2, RED)
-    img = enlarge(a, HEADER_K, (1600, 533), offset=(0, 1))
-    x = 16 * HEADER_K
-    draw_text(img, kicker, "silk", 4, x, 100, RED_LT)
-    avail = 116 * HEADER_K
-    fp = next(s for s in (8, 6, 4, 3) if font("jersey").width(title, s) + s <= avail)
-    draw_text(img, title, "jersey", fp, x, 236 - 5 * fp, WHITE, shadow=NAVY_DK)
-    draw_text(img, LEAGUE_LINE, "silk", 4, x, 372, MUTED)
+    W, H = HEADER_W * k, HEADER_H * k - (3 if k == HEADER_K else 2)
+    img = enlarge(a, k, (W, H), offset=(0, 1))
+    if line is None:
+        line = DESCRIPTOR_LINE if title.upper() == LEAGUE_NAME.upper() else LEAGUE_LINE
+    small = k // 2                       # eyebrow and sign-off: 4 at k=8, 3 at k=6
+    x = 16 * k
+    draw_text(img, kicker, "silk", small, x, 100 * k // 8, RED_LT)
+    avail = 116 * k
+    sizes = (8, 6, 4, 3) if k == HEADER_K else (6, 4, 3)
+    fp = next(s for s in sizes if font("jersey").width(title, s) + s <= avail)
+    draw_text(img, title, "jersey", fp, x, 236 * k // 8 - 5 * fp, WHITE, shadow=NAVY_DK)
+    draw_text(img, line, "silk", small, x, 372 * k // 8, MUTED)
     return img
+
+
+def email_banner() -> Image.Image:
+    """1200 x 400 email banner: the generic header drawn at 6 px per art pixel."""
+    return header(LEAGUE_NAME.upper(), f"OFFICIAL {LEAGUE_SHORT}", seed=20, k=6)
 
 
 def footer_divider() -> Image.Image:

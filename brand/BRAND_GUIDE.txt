@@ -1,6 +1,7 @@
 LEAGUE BRAND GUIDE: 8-BIT ARCADE
 ================================
-The league's name, short name and founding year live in brand/identity.json;
+The league's name, short name, founding year and descriptor ("Dynasty Fantasy
+Baseball") live in brand/identity.json;
 every generator reads them from there, so a rename is one edit plus a rebuild.
 Every league graphic is pixel art: drawn on a small grid of square pixels and
 enlarged by whole numbers with hard edges. The files in brand/kit are generated
@@ -86,6 +87,13 @@ LOGOS
   name, then EST. year between two red rules.
   On light grounds: navy letters with a white (or off-white) keyline then red.
   Emblem: the pixel baseball (white, red, navy).
+
+  Sign-off line: headers and cards end with the league name and EST. year. When the title
+  already is the league name (the generic header, the email banner), the line is the
+  descriptor and year instead (DYNASTY FANTASY BASEBALL • EST. 2026), so the name never
+  appears twice.
+  Email: brand/kit/07_email has the 1200 x 400 banner for the Gmail templates (the generic
+  header drawn at 6 px per art pixel).
 
   Clear space: keep empty space of at least one quarter of the letter height on every side
   of the lockup, and one quarter of the ball's width around the ball.

@@ -17,7 +17,7 @@ var DATA = {
 PSBL.run("08 Champion Banner", function () {
     var B = PSBL, D = DATA;
     var c = B.comp(B.folder("Playoffs"), "Champion Banner - " + D.year, 12);
-    B.background(c, "arena");
+    B.background(c, "ballpark");
 
     var eb = B.text(c, "THE PSBL CHAMPIONSHIP \u2022 " + D.year, { face: "silk", k: 6, color: "gold", x: 960, y: 60, align: "center" });
     var ebPlate = B.plateFor(c, "Eyebrow plate", eb, 24, 14, "black");

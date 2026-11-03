@@ -19,11 +19,10 @@ emblem, a pixel baseball (white ball, red seams and stitches, red then navy keyl
 04_channel_headers       1600x533 (3:1) headers for every channel category + welcome + generic
 05_dividers              Footer divider (transparent), thin rule, red bar
 06_seals_stamps          Round official seal (navy/paper) and status stamps (transparent PNG)
+07_email                 Email banner (1200x400) for the Gmail templates
 
-File names are kept from the first kit so existing links keep working. The color
-words in some names are the old ones: "black" files are deep navy, "charcoal"
-files are navy, "cream" files are off-white paper, "gold" files are red, and the
-"b-mark" / "b-icon" / "emoji-b" files show the baseball emblem.
+File names say what each file shows: "navy", "deep-navy", "paper" (off-white)
+and "red" name the ground or colorway, and "emblem" or "ball" is the pixel baseball.
 
 Discord notes
 - Embed images display at ~400px wide; headers are 3:1 so text stays readable.

@@ -68,7 +68,7 @@ def bayer_mask(level: float, cell: int = 8) -> Image.Image:
 # ---------------------------------------------------------------- backgrounds (also used by EffectCraft)
 def bg_navy() -> Image.Image:
     """The channel-header ground at 1920x1080: textured navy, bleachers dither, red bar at the bottom.
-    (Saved as bg-charcoal.png, the name the EffectCraft scripts use.)"""
+    (Saved as bg-navy.png.)"""
     a = art(240, 135, NAVY)
     grain(a, [NAVY_HI, NAVY_LO], .02, 911)
     dither(a, 0, 112, 240, 20, STANDS)
@@ -88,7 +88,7 @@ def bg_dots() -> Image.Image:
     return enlarge(a, 4, (W, H))
 
 
-def bg_arena() -> Image.Image:
+def bg_ballpark() -> Image.Image:
     """The ballpark: red rails, the bleachers fading into navy, a dithered fade to deep navy."""
     return enlarge(px.bg_banner(240, 135, bars=1), 8, (W, H))
 
@@ -99,7 +99,7 @@ def bg_black() -> Image.Image:
 
 # ---------------------------------------------------------------- art pieces for EffectCraft
 def emblem(k: int) -> Image.Image:
-    """The league baseball, 32 x 32 art at k px per pixel (saved under the b-mark-* names)."""
+    """The league baseball, 32 x 32 art at k px per pixel (saved as ball-*.png)."""
     return sprite(EMBLEM32(), k)
 
 
@@ -319,15 +319,15 @@ def build(media: Path, ec_images: Path) -> dict[str, str]:
     write_movie(media / "Transitions" / "psbl-pixel-wipe.mov", wipe_frames(), 20, alpha=True)
     save_png(media / "Overlays" / "psbl-corner-bug.png", corner_bug())
     images = {
-        "bg-charcoal.png": bg_navy(), "bg-dots.png": bg_dots(), "bg-arena.png": bg_arena(), "bg-black.png": bg_black(),
-        "b-mark-12.png": emblem(12), "b-mark-8.png": emblem(8), "b-mark-4.png": emblem(4), "b-small-6.png": small_ball(6),
+        "bg-navy.png": bg_navy(), "bg-dots.png": bg_dots(), "bg-ballpark.png": bg_ballpark(), "bg-deep-navy.png": bg_black(),
+        "ball-12.png": emblem(12), "ball-8.png": emblem(8), "ball-4.png": emblem(4), "ball-small-6.png": small_ball(6),
         "wordmark.png": lockup(30, 5), "wordmark-small.png": lockup(18, 3), "banner.png": banner_art(),
         "trophy.png": trophy(8), "stamp-green.png": stamp_frame(GREEN), "stamp-red.png": stamp_frame(RED),
-        "stamp-gold.png": stamp_frame(SKY),
+        "stamp-sky.png": stamp_frame(SKY),
     }
     for name, img in images.items():
         save_png(ec_images / name, img)
         out[name] = str(ec_images / name)
-    save_png(media / "Backgrounds" / "psbl-bg-charcoal.png", images["bg-charcoal.png"])
-    save_png(media / "Backgrounds" / "psbl-bg-arena.png", images["bg-arena.png"])
+    save_png(media / "Backgrounds" / "psbl-bg-navy.png", images["bg-navy.png"])
+    save_png(media / "Backgrounds" / "psbl-bg-ballpark.png", images["bg-ballpark.png"])
     return out

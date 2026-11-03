@@ -26,7 +26,7 @@ SECTIONS = {
     "clubhouse": "AROUND THE CLUBHOUSE",
     "spotlight": "OWNER SPOTLIGHT",
     "prospects": "PROSPECT WATCH",
-    "nhl": "AROUND THE MAJORS",          # file name kept for existing links
+    "majors": "AROUND THE MAJORS",
     "corner": "THE DUGOUT",
     "commissioner": "FROM THE COMMISSIONER",
 }

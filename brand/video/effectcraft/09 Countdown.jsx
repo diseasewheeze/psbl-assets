@@ -18,7 +18,7 @@ var DATA = {
 PSBL.run("09 Countdown", function () {
     var B = PSBL, D = DATA;
     var c = B.comp(B.folder("Countdowns"), "Countdown - " + D.event, 8);
-    B.background(c, "arena");
+    B.background(c, "ballpark");
 
     var plate = B.text(c, "COUNTDOWN TO", { face: "silk", k: 6, color: "gold", x: 960, y: 120, align: "center" });
     var platePlate = B.plateFor(c, "Eyebrow plate", plate, 24, 14, "black");

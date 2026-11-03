@@ -53,7 +53,7 @@ PSBL.run("02 Week in 60", function () {
     }
 
     // ---- 0:00 open (the WEEK slam lands with the intro sting's hit at 0.5 s)
-    var mark = B.image(c, "b-mark-8.png", 960, 300, { center: true });
+    var mark = B.image(c, "ball-8.png", 960, 300, { center: true });
     var eb = B.text(c, "PSBL WEEK IN 60", { face: "silk", k: 6, color: "gold", x: 960, y: 470, align: "center" });
     var big = B.text(c, "WEEK " + D.week, { face: "jersey", k: 18, color: "cream", x: 960, y: 540, align: "center", shadow: "black" });
     var dates = B.text(c, D.dates, { face: "silk", k: 6, color: "cream", x: 960, y: 760, align: "center" });
@@ -81,7 +81,7 @@ PSBL.run("02 Week in 60", function () {
 
     // ---- 0:22 upset of the week
     section(22, 28, "WEEK " + D.week, "UPSET OF THE WEEK");
-    var stamp = B.image(c, "stamp-gold.png", 960, 560, { center: true });
+    var stamp = B.image(c, "stamp-sky.png", 960, 560, { center: true });
     var uw = B.text(c, D.upset.winner, { face: "jersey", k: 9, color: "cream", x: 960, y: 440, align: "center", maxW: 680, shadow: "black" });
     var ul = B.text(c, "OVER " + D.upset.loser, { face: "silk", k: 5, color: "gold", x: 960, y: 556, align: "center", maxW: 680 });
     var us = B.text(c, B.pts(D.upset.winnerPoints) + " - " + B.pts(D.upset.loserPoints), { face: "jersey", k: 5, color: "muted", x: 960, y: 604, align: "center" });

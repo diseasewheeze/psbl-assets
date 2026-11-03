@@ -225,7 +225,7 @@ var PSBL = (function () {
     B.pts = function (n) { return Number(n).toFixed(2); };
 
     B.background = function (comp, kind) {
-        var piece = B.image(comp, "bg-" + (kind || "charcoal") + ".png", 0, 0, { name: "Background" });
+        var piece = B.image(comp, "bg-" + (kind || "navy") + ".png", 0, 0, { name: "Background" });
         if (!piece.length) piece = B.box(comp, "Background", 0, 0, B.W, B.H, kind === "black" ? "black" : "charcoal");
         return piece;
     };

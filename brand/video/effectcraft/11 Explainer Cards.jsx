@@ -163,10 +163,10 @@ PSBL.run("11 Explainer Cards", function () {
 
     function card(c, cd, t0, t1, ownBg) {
         var all = [];
-        if (ownBg) all = all.concat(B.background(c, "charcoal"));
+        if (ownBg) all = all.concat(B.background(c, "navy"));
         var k = cd.kind || "card";
         if (k === "title") {
-            var mark = B.image(c, "b-mark-12.png", 1464, 300);
+            var mark = B.image(c, "ball-12.png", 1464, 300);
             var title = String(cd.title || "");
             if (title.length > 16) title = B.twoLines(title);
             var h = B.header(c, cd.eyebrow || "", title, t0 + B.f(4), { x: 156, y: title.indexOf("\n") > 0 ? 270 : 330, k: 12, maxW: 1200 });
@@ -241,7 +241,7 @@ PSBL.run("11 Explainer Cards", function () {
             continue;
         }
         var c = B.comp(folder, set.name + (set.alpha ? " (alpha)" : ""), set.length);
-        if (!set.alpha) B.background(c, "charcoal");
+        if (!set.alpha) B.background(c, "navy");
         for (var i = 0; i < cards.length; i++) {
             var t0 = cards[i].at, t1 = cards[i].until || (i + 1 < cards.length ? cards[i + 1].at : set.length);
             card(c, cards[i], t0, t1, set.alpha);

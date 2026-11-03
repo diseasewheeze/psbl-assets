@@ -86,7 +86,7 @@ PSBL.run("07 Playoff Bracket", function () {
     // ---------------- Bracket Reveal (60 s)
     var c = B.comp(folder, "Bracket Reveal - " + D.year, 60);
     B.background(c, "dots");
-    var mark = B.image(c, "b-mark-8.png", 960, 300, { center: true });
+    var mark = B.image(c, "ball-8.png", 960, 300, { center: true });
     var eb = B.text(c, D.year + " POSTSEASON", { face: "silk", k: 6, color: "gold", x: 960, y: 470, align: "center" });
     var tt = B.text(c, "THE PSBL PLAYOFFS", { face: "jersey", k: 14, color: "cream", x: 960, y: 540, align: "center", maxW: 1700, shadow: "black" });
     B.pop(mark, B.f(3));

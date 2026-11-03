@@ -1,24 +1,24 @@
 {
   "01_logos": [
     "psbl-wordmark-white-transparent.png",
-    "psbl-wordmark-black-transparent.png",
-    "psbl-wordmark-textured-cream.png",
-    "psbl-wordmark-on-charcoal-1920x1080.png",
-    "psbl-wordmark-on-black-1920x1080.png",
+    "psbl-wordmark-navy-transparent.png",
+    "psbl-wordmark-textured-paper.png",
+    "psbl-wordmark-on-navy-1920x1080.png",
+    "psbl-wordmark-on-deep-navy-1920x1080.png",
     "psbl-wordmark-on-white-1920x1080.png",
-    "psbl-b-mark-transparent-1024.png",
-    "psbl-b-icon-black-1024.png",
-    "psbl-b-icon-charcoal-1024.png",
-    "psbl-b-icon-cream-1024.png",
-    "psbl-b-icon-gold-1024.png"
+    "psbl-emblem-transparent-1024.png",
+    "psbl-emblem-on-deep-navy-1024.png",
+    "psbl-emblem-on-navy-1024.png",
+    "psbl-emblem-on-paper-1024.png",
+    "psbl-emblem-on-red-1024.png"
   ],
   "02_avatars_icons": [
     "psbl-server-icon-1024.png",
     "psbl-webhook-avatar-512.png",
     "psbl-bot-avatar-round-512.png",
     "psbl-profile-picture-400.png",
-    "psbl-emoji-b-128.png",
-    "psbl-emoji-b-64.png",
+    "psbl-emoji-ball-128.png",
+    "psbl-emoji-ball-64.png",
     "psbl-favicon-256.png"
   ],
   "03_server_social_banners": [
@@ -53,11 +53,11 @@
   "05_dividers": [
     "psbl-footer-divider-1600x180.png",
     "psbl-thin-rule-1600x40.png",
-    "psbl-gold-bar-1600x24.png"
+    "psbl-red-bar-1600x24.png"
   ],
   "06_seals_stamps": [
-    "psbl-official-seal-dark-1024.png",
-    "psbl-official-seal-cream-1024.png",
+    "psbl-official-seal-navy-1024.png",
+    "psbl-official-seal-paper-1024.png",
     "psbl-official-seal-256.png",
     "psbl-stamp-official.png",
     "psbl-stamp-approved.png",
@@ -72,5 +72,8 @@
     "psbl-stamp-paid-in-full.png",
     "psbl-stamp-dues-outstanding.png",
     "psbl-stamp-urgent-deadline.png"
+  ],
+  "07_email": [
+    "psbl-email-banner-1200x400.png"
   ]
 }

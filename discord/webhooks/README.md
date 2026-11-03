@@ -11,6 +11,6 @@ tools/build_discord_assets.py (shared drawing code in tools/pixel_kit.py).
   small red text on navy uses #D9545C. Status green #3FA34D is for stamps only.
 - Type: Jersey 10 for titles and Silkscreen for eyebrows and labels (brand/fonts).
 - The right side of every header carries the league emblem, a pixel baseball.
-- Image URLs carry a cache-busting version (?v=8bit-sox-1 on headers, ?v=8bit-sox-1 on the footer),
+- Image URLs carry a cache-busting version (?v=8bit-psbl-2 on headers, ?v=8bit-psbl-2 on the footer),
   set in tools/discohook_format.py. Bump it whenever the artwork changes, then run
   tools/normalize_discohook_templates.py.

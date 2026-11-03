@@ -60,7 +60,7 @@ KIT = ROOT / "brand" / "kit"
 # (output name, source, width to shrink to)
 IMAGES = [
     ("favicon.png", KIT / "02_avatars_icons" / "psbl-favicon-256.png", 64),
-    ("apple-touch-icon.png", KIT / "01_logos" / "psbl-b-icon-charcoal-1024.png", 180),
+    ("apple-touch-icon.png", KIT / "01_logos" / "psbl-emblem-on-navy-1024.png", 180),
 ]
 # served name -> source (subset WOFF files built from the OFL fonts in brand/fonts)
 FONT_FILES = {

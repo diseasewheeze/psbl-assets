@@ -62,7 +62,7 @@ PSBL.run("04 Franchise Cards", function () {
 
     if (cards.length > 1) {
         var reel = B.comp(folder, "Franchise Cards - All", 4 + cards.length * 8);
-        B.background(reel, "charcoal");
+        B.background(reel, "navy");
         var t = B.text(reel, DATA.reelTitle, { face: "jersey", k: 12, color: "cream", x: 960, y: 420, align: "center", maxW: 1700, shadow: "black" });
         var s = B.text(reel, "PITCH SLAPPED BASEBALL LEAGUE \u2022 EST. 2026", { face: "silk", k: 5, color: "gold", x: 960, y: 600, align: "center" });
         B.pop(t, 0.3);
